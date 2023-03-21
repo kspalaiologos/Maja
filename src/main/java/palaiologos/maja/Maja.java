@@ -1020,6 +1020,105 @@ public class Maja {
     }
 
     /**
+     * Compute the value of x^z where x is a double precision
+     * floating point number and z is an integer.
+     * @param x
+     * @param z
+     * @return x^z.
+     */
+    public static double pow(double x, int z) {
+        int n, e, sign, asign, lx;
+        double w, y, s;
+        if (x == 0.0) {
+            if (z == 0)
+                return (1.0);
+            else if (z < 0)
+                return Double.POSITIVE_INFINITY;
+            else
+                return (0.0);
+        }
+        if (z == 0)
+            return (1.0);
+        if (x < 0.0) {
+            asign = -1;
+            x = -x;
+        } else
+            asign = 0;
+        if (z < 0) {
+            sign = -1;
+            n = -z;
+        } else {
+            sign = 1;
+            n = z;
+        }
+
+        if (Double.isNaN(x) || x + x == x || Double.isInfinite(x)) {
+            lx = 0;
+            s = x;
+        } else {
+            long bits = Double.doubleToLongBits(x);
+            boolean neg = (bits < 0);
+            int exponent = (int) ((bits >> 52) & 0x7ffL);
+            long mantissa = bits & 0xfffffffffffffL;
+
+            if (exponent == 0) {
+                exponent++;
+            } else {
+                mantissa = mantissa | (1L << 52);
+            }
+
+            exponent -= 1075;
+            double realMant = mantissa;
+
+            while (realMant > 1.0) {
+                mantissa >>= 1;
+                realMant /= 2.;
+                exponent++;
+            }
+
+            if (neg) {
+                realMant = realMant * -1;
+            }
+
+            lx = exponent;
+            s = realMant;
+        }
+
+        e = (lx - 1) * n;
+        if ((e == 0) || (e > 64) || (e < -64)) {
+            s = (s - 7.0710678118654752e-1) / (s + 7.0710678118654752e-1);
+            s = (2.9142135623730950 * s - 0.5 + lx) * z * 1.4426950408889634073599;
+        } else {
+            s = 1.4426950408889634073599 * e;
+        }
+
+        if (s > 7.09782712893383996843E2) {
+            throw new ArithmeticException("pow: overflow");
+        }
+        if (s < -7.09782712893383996843E2)
+            return (0.0);
+        if ((n & 1) != 0)
+            y = x;
+        else {
+            y = 1.0;
+            asign = 0;
+        }
+        w = x;
+        n >>= 1;
+        while (n != 0) {
+            w = w * w;
+            if ((n & 1) != 0)
+                y *= w;
+            n >>= 1;
+        }
+        if (asign != 0)
+            y = -y;
+        if (sign < 0)
+            y = 1.0 / y;
+        return (y);
+    }
+
+    /**
      * Map the specified monadic function over an array.
      * @param f
      * @param tab
@@ -1244,5 +1343,43 @@ public class Maja {
      */
     public static double beta(double x, double y) {
         return Gamma.gamma(x) * Gamma.gamma(y) / Gamma.gamma(x + y);
+    }
+
+    /**
+     * Return the factorial of n. n must be positive.
+     * Faster than using the gamma function.
+     * @param n
+     * @return n!
+     */
+    public static double factorial(int n) {
+        return Gamma.factorial(n);
+    }
+
+    /**
+     * Compute the dilogarithm (the value of the Spence function at 1-x) of x.
+     * @param n
+     * @return dilog(x)
+     */
+    public static double dilog(double n) {
+        return Spence.dilog(n);
+    }
+
+    /**
+     * Compute the Spence function of x.
+     * @param n
+     * @return Spence(x)
+     */
+    public static double spence(double n) {
+        return Spence.spence(n);
+    }
+
+    /**
+     * Compute the polylogarithm of x.
+     * @param n
+     * @param x
+     * @return Li_n(x)
+     */
+    public static double polylog(int n, double x) {
+        return Spence.polylog(n, x);
     }
 }
