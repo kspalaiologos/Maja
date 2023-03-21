@@ -804,4 +804,79 @@ public class Maja {
     public static float fastCos(float x) {
         return FastTrigonometry.cos(x);
     }
+
+    /**
+     * Return the integer cube root of a number.
+     * If x < 0, -cbrt(-x) is returned.
+     * @param x
+     * @return floor(cbrt(x))
+     */
+    public static int icbrt(int x) {
+        int s, y = 0, b, y2 = 0;
+
+        if(x < 0) return -icbrt(-x);
+
+        for (s = 30; s >= 0; s = s - 3) {
+            y2 = 4 * y2;
+            y = 2 * y;
+            b = (3 * (y2 + y) + 1) << s;
+            if (x >= b) {
+                x = x - b;
+                y2 = y2 + 2 * y + 1;
+                y = y + 1;
+            }
+        }
+
+        return y;
+    }
+
+    /**
+     * Return the long integer cube root of a number.
+     * If x < 0, -cbrt(-x) is returned.
+     * @param x
+     * @return floor(cbrt(x))
+     */
+    public static long icbrt(long x) {
+        long s, y = 0, b, y2 = 0;
+
+        if(x < 0) return -icbrt(-x);
+
+        for (s = 60; s >= 0; s = s - 3) {
+            y2 = 4 * y2;
+            y = 2 * y;
+            b = (3 * (y2 + y) + 1) << s;
+            if (x >= b) {
+                x = x - b;
+                y2 = y2 + 2 * y + 1;
+                y = y + 1;
+            }
+        }
+
+        return y;
+    }
+
+    /**
+     * Return the short integer cube root of a number.
+     * If a < 0, -cbrt(-a) is returned.
+     * @param a
+     * @return floor(cbrt(a))
+     */
+    public static short icbrt(short a) {
+        int s, y = 0, b, y2 = 0, x = a;
+
+        if(x < 0) return (short) -icbrt(-x);
+
+        for (s = 15; s >= 0; s = s - 3) {
+            y2 = 4 * y2;
+            y = 2 * y;
+            b = (3 * (y2 + y) + 1) << s;
+            if (x >= b) {
+                x = x - b;
+                y2 = y2 + 2 * y + 1;
+                y = y + 1;
+            }
+        }
+
+        return (short) y;
+    }
 }
