@@ -1,2 +1,5 @@
-package palaiologos.maja;public class MonadicFunction {
+package palaiologos.maja;
+
+public interface MonadicFunction {
+    double apply(double x);
 }
