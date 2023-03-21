@@ -1196,4 +1196,13 @@ public class Maja {
     public static double pochhammer(double x, double n) {
         return Gamma.gamma(x + n) / Gamma.gamma(x);
     }
+
+    /**
+     * Compute the value of the exponential integral at x.
+     * @param x
+     * @return Ei(x)
+     */
+    public static double expint(double x) {
+        return Ei.expint(x);
+    }
 }

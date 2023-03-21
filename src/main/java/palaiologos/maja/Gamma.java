@@ -164,7 +164,7 @@ class Gamma {
 
     public static double lowerIncomplete(double a, double x) {
         if (a == 0)
-            return /* -expint(-x); */ 0;
+            return -Ei.expint(-x);
         return regularizedGammaP(a, x) * gamma(a);
     }
 
