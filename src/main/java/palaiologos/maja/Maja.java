@@ -1025,6 +1025,12 @@ public class Maja {
         }
     }
 
+    /**
+     * Map the specified monadic function over an array.
+     * @param f
+     * @param tab
+     * @return the result of the mapping
+     */
     public static double[] map(MonadicFunction f, double[] tab) {
         double[] res = new double[tab.length];
         for (int i = 0; i < tab.length; i++) {
@@ -1033,6 +1039,14 @@ public class Maja {
         return res;
     }
 
+    /**
+     * Map the specified monadic function over an array, specifying the output array,
+     * which may be the same as the input to perform an in-place operation.
+     * @param f
+     * @param tab
+     * @param res
+     * @return the result of the mapping
+     */
     public static double[] map(MonadicFunction f, double[] tab, double[] res) {
         for (int i = 0; i < tab.length; i++) {
             res[i] = f.apply(tab[i]);
@@ -1040,6 +1054,13 @@ public class Maja {
         return res;
     }
 
+    /**
+     * Reduce the specified array using the specified dyadic function.
+     * The array must have at least one element.
+     * @param f
+     * @param tab
+     * @return the result of the reduction
+     */
     public static double reduce(DyadicFunction f, double[] tab) {
         double res = tab[0];
         for (int i = 1; i < tab.length; i++) {
@@ -1048,10 +1069,52 @@ public class Maja {
         return res;
     }
 
+    /**
+     * Reduce the specified array using the specified dyadic function.
+     * @param f
+     * @param id identity element
+     * @param tab
+     * @return the result of the reduction
+     */
     public static double reduce(DyadicFunction f, double id, double[] tab) {
         double res = id;
         for (double v : tab) {
             res = f.apply(res, v);
+        }
+        return res;
+    }
+
+    /**
+     * Map the specified dyadic function over two arrays.
+     * If the arrays are of differing lengths, the result length is the same as
+     * of the shroter array.
+     * @param f
+     * @param tab
+     * @return the result of the mapping
+     */
+    public static double[] map(DyadicFunction f, double[] tab, double[] tab1) {
+        int len = Math.min(tab.length, tab1.length);
+        double[] res = new double[len];
+        for (int i = 0; i < len; i++) {
+            res[i] = f.apply(tab[i], tab1[i]);
+        }
+        return res;
+    }
+
+    /**
+     * Map the specified dyadic function over two arrays specifying the output array,
+     * which may be the same as the input to perform an in-place operation.
+     * If the arrays are of differing lengths, the resultant array is filled up to
+     * the length of the shorter array.
+     * @param f
+     * @param tab
+     * @param res
+     * @return the result of the mapping
+     */
+    public static double[] map(DyadicFunction f, double[] tab, double[] tab1, double[] res) {
+        int len = Math.min(tab.length, tab1.length);
+        for (int i = 0; i < len; i++) {
+            res[i] = f.apply(tab[i], tab1[i]);
         }
         return res;
     }
