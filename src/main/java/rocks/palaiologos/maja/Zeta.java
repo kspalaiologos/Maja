@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Zeta {
     private static final double[] zetBernCoefs = new double[]

@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 /**
  * Loosely based on Raven's implementations of sin/cos.

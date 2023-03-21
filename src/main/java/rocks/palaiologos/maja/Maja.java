@@ -1,7 +1,11 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 import java.util.Random;
 
+/**
+ * A slick numerics-oriented Mathematical library for Java.
+ * @author Palaiologos
+ */
 public class Maja {
     /**
      * The value of ln(2).
@@ -388,7 +392,7 @@ public class Maja {
      * Returns the sign of a double precision number.
      *
      * @param x
-     * @return -1 if x < 0, 0 if x == 0, 1 if x > 0
+     * @return -1 if x &lt; 0, 0 if x == 0, 1 if x &gt; 0
      * @see java.lang.Math#signum(double)
      */
     public static double signum(double x) {
@@ -607,44 +611,44 @@ public class Maja {
     }
 
     /**
-     * Return true if x < y.
+     * Return true if x &lt; y.
      *
      * @param x
      * @param y
-     * @return x < y
+     * @return x &lt; y
      */
     public static boolean lt(double x, double y) {
         return x < y;
     }
 
     /**
-     * Return true if x <= y.
+     * Return true if x &lt;= y.
      *
      * @param x
      * @param y
-     * @return x <= y
+     * @return x &lt;= y
      */
     public static boolean le(double x, double y) {
         return x <= y;
     }
 
     /**
-     * Return true if x > y.
+     * Return true if x &gt; y.
      *
      * @param x
      * @param y
-     * @return x > y
+     * @return x &gt; y
      */
     public static boolean gt(double x, double y) {
         return x > y;
     }
 
     /**
-     * Return true if x >= y.
+     * Return true if x &gt;= y.
      *
      * @param x
      * @param y
-     * @return x >= y
+     * @return x &gt;= y
      */
     public static boolean ge(double x, double y) {
         return x >= y;
@@ -666,10 +670,27 @@ public class Maja {
      *
      * @param x
      * @param y
-     * @return
+     * @return x != y
      */
     public static boolean ne(double x, double y) {
         return x != y;
+    }
+
+    /**
+     * Compare two double precision numbers.
+     *
+     * @param x
+     * @param y
+     * @return 1 if x &gt; y, 0 if x == y, -1 if x &lt; y
+     */
+    public static int compare(double x, double y) {
+        if(x == y) {
+            return 0;
+        } else if(x < y) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -678,7 +699,7 @@ public class Maja {
      * @param x
      * @param y
      * @param tol
-     * @return abs(x - y) <= tol
+     * @return abs(x - y) &lt;= tol
      */
     public static boolean eq(double x, double y, double tol) {
         return Math.abs(x - y) <= tol;
@@ -739,7 +760,7 @@ public class Maja {
      * @param value
      * @param min
      * @param max
-     * @return min if value < min, max if value > max, value otherwise
+     * @return min if value &lt; min, max if value &gt; max, value otherwise
      */
     public static double clamp(double value, double min, double max) {
         if (value < min) return min;
@@ -806,10 +827,10 @@ public class Maja {
 
     /**
      * Return the integer cube root of a number.
-     * If x < 0, -cbrt(-x) is returned.
+     * If x &lt; 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt ( x))
+     * @return floor(cbrt(x))
      */
     public static int icbrt(int x) {
         long s, y = 0, b, y2 = 0;
@@ -832,10 +853,10 @@ public class Maja {
 
     /**
      * Return the long integer cube root of a number.
-     * If x < 0, -cbrt(-x) is returned.
+     * If x &lt; 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt ( x))
+     * @return floor(cbrt(x))
      */
     public static long icbrt(long x) {
         long s, y = 0, b, y2 = 0;
@@ -858,10 +879,10 @@ public class Maja {
 
     /**
      * Return the short integer cube root of a number.
-     * If a < 0, -cbrt(-a) is returned.
+     * If a &lt; 0, -cbrt(-a) is returned.
      *
      * @param a
-     * @return floor(cbrt ( a))
+     * @return floor(cbrt(a))
      */
     public static short icbrt(short a) {
         long s, y = 0, b, y2 = 0, x = a;
@@ -884,10 +905,10 @@ public class Maja {
 
     /**
      * Compute the integer square root of a number.
-     * If x < 0, -isqrt(-x) is returned.
+     * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt ( x))
+     * @return floor(sqrt(x))
      */
     public static int isqrt(int x) {
         long m = 0x40000000, y = 0, b, t;
@@ -908,10 +929,10 @@ public class Maja {
 
     /**
      * Compute the integer square root of a number.
-     * If x < 0, -isqrt(-x) is returned.
+     * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt ( x))
+     * @return floor(sqrt(x))
      */
     public static int isqrt(long x) {
         long m = 0x4000000000000000L, y = 0, b, t;
@@ -932,10 +953,10 @@ public class Maja {
 
     /**
      * Compute the integer square root of a number.
-     * If x < 0, -isqrt(-x) is returned.
+     * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt ( x))
+     * @return floor(sqrt(x))
      */
     public static int isqrt(short x) {
         long m = 0x4000, y = 0, b, t;

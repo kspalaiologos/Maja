@@ -1,6 +1,4 @@
-package palaiologos.maja;
-
-import java.util.List;
+package rocks.palaiologos.maja;
 
 class Fresnel {
     static final double sqrt_2pi = 2.506628274631000502415765284811045253006;

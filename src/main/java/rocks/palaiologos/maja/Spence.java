@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Spence {
     private final static double[] A = {

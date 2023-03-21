@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Erf {
     private static double w_im_y100(double x) {

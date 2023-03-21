@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class TrigonometricIntegral {
     private static final double[] S1 = {

@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Bessel {
     protected static final double[] A_i0 = {

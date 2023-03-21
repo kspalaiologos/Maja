@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Gamma {
     // It's more efficient to simply tabulate all factorials.

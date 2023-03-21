@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Ei {
     private static double __expint_E1_series(double __x) {

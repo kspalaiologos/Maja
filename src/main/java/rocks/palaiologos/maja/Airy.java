@@ -1,4 +1,4 @@
-package palaiologos.maja;
+package rocks.palaiologos.maja;
 
 class Airy {
     private static final double[] xtmp = new double[26];
