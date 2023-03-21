@@ -1809,4 +1809,106 @@ public class Maja {
     public static double fresnelS(double x) {
         return Fresnel.fresnelS(x);
     }
+
+    /**
+     * Compute the bessel Y0 function at x.
+     * @param x
+     * @return Y0(x)
+     */
+    public static double besselY0(double x) {
+        return Bessel.y0(x);
+    }
+
+    /**
+     * Compute the bessel Y1 function at x.
+     * @param x
+     * @return Y1(x)
+     */
+    public static double besselY1(double x) {
+        return Bessel.y1(x);
+    }
+
+    /**
+     * Compute the bessel Yn function at x.
+     * @param n
+     * @param x
+     * @return Yn(x)
+     */
+    public static double besselYn(int n, double x) {
+        return Bessel.yn(n, x);
+    }
+
+    /**
+     * Compute the bessel J0 function at x.
+     * @param x
+     * @return J0(x)
+     */
+    public static double besselJ0(double x) {
+        return Bessel.bessel0(x);
+    }
+
+    /**
+     * Compute the bessel J1 function at x.
+     * @param x
+     * @return J1(x)
+     */
+    public static double besselJ1(double x) {
+        return Bessel.bessel1(x);
+    }
+
+    /**
+     * Compute the bessel Jn function at x.
+     * @param n
+     * @param x
+     * @return Jn(x)
+     */
+    public static double besselJn(int n, double x) {
+        return Bessel.bessel(n, x);
+    }
+
+    /**
+     * Compute the bessel I0 function at x.
+     * @param x
+     * @return I0(x)
+     */
+    public static double besselI0(double x) {
+        return Bessel.i0(x);
+    }
+
+    /**
+     * Compute the bessel I1 function at x.
+     * @param x
+     * @return I1(x)
+     */
+    public static double besselI1(double x) {
+        return Bessel.i1(x);
+    }
+
+    /**
+     * Compute the bessel K0 function at x.
+     * @param x
+     * @return K0(x)
+     */
+    public static double besselK0(double x) {
+        return Bessel.k0(x);
+    }
+
+    /**
+     * Compute the bessel K1 function at x.
+     * @param x
+     * @return K1(x)
+     */
+    public static double besselK1(double x) {
+        return Bessel.k1(x);
+    }
+
+    /**
+     * Compute the bessel Kn function at x.
+     * @param n
+     * @param x
+     * @return Kn(x)
+     */
+    public static double besselKn(int n, double x) {
+        return Bessel.kn(n, x);
+    }
 }
