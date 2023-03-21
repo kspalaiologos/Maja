@@ -1616,4 +1616,15 @@ public class Maja {
     public static double lambertWm1(double x) {
         return Lambert.lambertn1(x);
     }
+
+    /**
+     * Compute the value of the Lerch transcendent function at s, a, z.
+     * @param s
+     * @param a
+     * @param z
+     * @return Lerch(s, a, z)
+     */
+    public static double lerchPhi(double s, double a, double z) {
+        return Zeta.lerch_phi(s, a, z);
+    }
 }
