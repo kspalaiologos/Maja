@@ -83,6 +83,13 @@ public class Maja {
      * Khinchin's constant.
      */
     public static final double KHINCHIN_CONSTANT = 2.6854520010653064453097148354817956938203822939944629530511523455;
+    /**
+     * The random number generator used by this class.
+     */
+    private static final Random random = new Random();
+
+    private Maja() {
+    }
 
     /**
      * Adds two double precision numbers together.
@@ -570,11 +577,6 @@ public class Maja {
     }
 
     /**
-     * The random number generator used by this class.
-     */
-    private static final Random random = new Random();
-
-    /**
      * Returns a random double precision number in range [0, 1).
      *
      * @return random()
@@ -807,7 +809,7 @@ public class Maja {
      * If x < 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt(x))
+     * @return floor(cbrt ( x))
      */
     public static int icbrt(int x) {
         long s, y = 0, b, y2 = 0;
@@ -833,7 +835,7 @@ public class Maja {
      * If x < 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt(x))
+     * @return floor(cbrt ( x))
      */
     public static long icbrt(long x) {
         long s, y = 0, b, y2 = 0;
@@ -859,7 +861,7 @@ public class Maja {
      * If a < 0, -cbrt(-a) is returned.
      *
      * @param a
-     * @return floor(cbrt(a))
+     * @return floor(cbrt ( a))
      */
     public static short icbrt(short a) {
         long s, y = 0, b, y2 = 0, x = a;
@@ -885,7 +887,7 @@ public class Maja {
      * If x < 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(int x) {
         long m = 0x40000000, y = 0, b, t;
@@ -909,7 +911,7 @@ public class Maja {
      * If x < 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(long x) {
         long m = 0x4000000000000000L, y = 0, b, t;
@@ -933,7 +935,7 @@ public class Maja {
      * If x < 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(short x) {
         long m = 0x4000, y = 0, b, t;
@@ -954,8 +956,9 @@ public class Maja {
 
     /**
      * Compute the value of the integer logarithm in base 10 of a number
+     *
      * @param x
-     * @return floor(log10(x))
+     * @return floor(log10 ( x))
      */
     public static int ilog10(int x) {
         int y;
@@ -967,13 +970,14 @@ public class Maja {
 
     /**
      * Compute the value of integer x^n.
+     *
      * @param x
      * @param n
      * @return x^n.
      */
     public static int iexp(int x, int n) {
         int p = x, y = 1;
-        while(true) {
+        while (true) {
             if ((n & 1) != 0)
                 y = p * y;
             n = n >> 1;
@@ -985,13 +989,14 @@ public class Maja {
 
     /**
      * Compute the value of integer x^n.
+     *
      * @param x
      * @param n
      * @return x^n.
      */
     public static long iexp(long x, long n) {
         long p = x, y = 1;
-        while(true) {
+        while (true) {
             if ((n & 1) != 0)
                 y = p * y;
             n = n >> 1;
@@ -1003,13 +1008,14 @@ public class Maja {
 
     /**
      * Compute the value of integer x^n.
+     *
      * @param x
      * @param n
      * @return x^n.
      */
     public static short iexp(short x, short n) {
         int p = x, y = 1;
-        while(true) {
+        while (true) {
             if ((n & 1) != 0)
                 y = p * y;
             n >>= 1;
@@ -1022,6 +1028,7 @@ public class Maja {
     /**
      * Compute the value of x^z where x is a double precision
      * floating point number and z is an integer.
+     *
      * @param x
      * @param z
      * @return x^z.
@@ -1120,6 +1127,7 @@ public class Maja {
 
     /**
      * Map the specified monadic function over an array.
+     *
      * @param f
      * @param tab
      * @return the result of the mapping
@@ -1135,6 +1143,7 @@ public class Maja {
     /**
      * Map the specified monadic function over an array, specifying the output array,
      * which may be the same as the input to perform an in-place operation.
+     *
      * @param f
      * @param tab
      * @param res
@@ -1150,6 +1159,7 @@ public class Maja {
     /**
      * Reduce the specified array using the specified dyadic function.
      * The array must have at least one element.
+     *
      * @param f
      * @param tab
      * @return the result of the reduction
@@ -1164,8 +1174,9 @@ public class Maja {
 
     /**
      * Reduce the specified array using the specified dyadic function.
+     *
      * @param f
-     * @param id identity element
+     * @param id  identity element
      * @param tab
      * @return the result of the reduction
      */
@@ -1181,6 +1192,7 @@ public class Maja {
      * Map the specified dyadic function over two arrays.
      * If the arrays are of differing lengths, the result length is the same as
      * of the shroter array.
+     *
      * @param f
      * @param tab
      * @return the result of the mapping
@@ -1199,6 +1211,7 @@ public class Maja {
      * which may be the same as the input to perform an in-place operation.
      * If the arrays are of differing lengths, the resultant array is filled up to
      * the length of the shorter array.
+     *
      * @param f
      * @param tab
      * @param res
@@ -1214,6 +1227,7 @@ public class Maja {
 
     /**
      * Compute the value of the Airy Ai function at the specified point.
+     *
      * @param x
      * @return Ai(x)
      */
@@ -1223,6 +1237,7 @@ public class Maja {
 
     /**
      * Compute the value of the Airy Ai function's first derivative at the specified point.
+     *
      * @param x
      * @return Ai'(x)
      */
@@ -1232,6 +1247,7 @@ public class Maja {
 
     /**
      * Compute the gamma function of x.
+     *
      * @param x
      * @return gamma(x)
      */
@@ -1241,8 +1257,9 @@ public class Maja {
 
     /**
      * Compute the logarithm of the gamma function of x.
+     *
      * @param x
-     * @return log(gamma(x))
+     * @return log(gamma ( x))
      */
     public static double loggamma(double x) {
         return Gamma.loggamma(x);
@@ -1250,6 +1267,7 @@ public class Maja {
 
     /**
      * Compute the digamma function of x.
+     *
      * @param x
      * @return digamma(x)
      */
@@ -1259,6 +1277,7 @@ public class Maja {
 
     /**
      * Compute the trigamma function of x.
+     *
      * @param x
      * @return trigamma(x)
      */
@@ -1268,6 +1287,7 @@ public class Maja {
 
     /**
      * Compute the value of the upper incomplete gamma function.
+     *
      * @param a
      * @param x
      * @return gamma_u(a, x)
@@ -1278,6 +1298,7 @@ public class Maja {
 
     /**
      * Compute the value of the lower incomplete gamma function.
+     *
      * @param a
      * @param x
      * @return gamma_l(a, x)
@@ -1288,6 +1309,7 @@ public class Maja {
 
     /**
      * Compute the Pochhammer symbol (x)_n.
+     *
      * @param x
      * @param n
      * @return (x)_n
@@ -1298,6 +1320,7 @@ public class Maja {
 
     /**
      * Compute the value of the exponential integral at x.
+     *
      * @param x
      * @return Ei(x)
      */
@@ -1307,6 +1330,7 @@ public class Maja {
 
     /**
      * Compute the value of the Riemann zeta function at x.
+     *
      * @param x
      * @return zeta(x)
      */
@@ -1316,6 +1340,7 @@ public class Maja {
 
     /**
      * Compute the value of the Hurwitz zeta function at x.
+     *
      * @param x
      * @param a
      * @return zeta(x, a)
@@ -1326,6 +1351,7 @@ public class Maja {
 
     /**
      * Compute the value of the n-th polygamma function at x.
+     *
      * @param n
      * @param x
      * @return polygamma(n, x)
@@ -1337,6 +1363,7 @@ public class Maja {
 
     /**
      * Compute the beta function of two values.
+     *
      * @param x
      * @param y
      * @return beta(x, y)
@@ -1348,6 +1375,7 @@ public class Maja {
     /**
      * Return the factorial of n. n must be positive.
      * Faster than using the gamma function.
+     *
      * @param n
      * @return n!
      */
@@ -1357,6 +1385,7 @@ public class Maja {
 
     /**
      * Compute the dilogarithm (the value of the Spence function at 1-x) of x.
+     *
      * @param n
      * @return dilog(x)
      */
@@ -1366,6 +1395,7 @@ public class Maja {
 
     /**
      * Compute the Spence function of x.
+     *
      * @param n
      * @return Spence(x)
      */
@@ -1375,11 +1405,197 @@ public class Maja {
 
     /**
      * Compute the polylogarithm of x.
+     *
      * @param n
      * @param x
      * @return Li_n(x)
      */
     public static double polylog(int n, double x) {
         return Spence.polylog(n, x);
+    }
+
+    /**
+     * Compute the value of the secant (1 / cos(x)) function at x.
+     *
+     * @param x
+     * @return sec(x)
+     */
+    public static double sec(double x) {
+        return 1.0 / Math.cos(x);
+    }
+
+    /**
+     * Compute the value of the cosecant (1 / sin(x)) function at x.
+     *
+     * @param x
+     * @return csc(x)
+     */
+    public static double csc(double x) {
+        return 1.0 / Math.sin(x);
+    }
+
+    /**
+     * Compute the value of the cotangent (1 / tan(x)) function at x.
+     *
+     * @param x
+     * @return cot(x)
+     */
+    public static double cot(double x) {
+        return 1.0 / Math.tan(x);
+    }
+
+    /**
+     * Compute the value of the hyperbolic secant (1 / cosh(x)) function at x.
+     *
+     * @param x
+     * @return sech(x)
+     */
+    public static double sech(double x) {
+        return 1.0 / Math.cosh(x);
+    }
+
+    /**
+     * Compute the value of the hyperbolic cosecant (1 / sinh(x)) function at x.
+     *
+     * @param x
+     * @return csch(x)
+     */
+    public static double csch(double x) {
+        return 1.0 / Math.sinh(x);
+    }
+
+    /**
+     * Compute the value of the hyperbolic cotangent (1 / tanh(x)) function at x.
+     *
+     * @param x
+     * @return coth(x)
+     */
+    public static double coth(double x) {
+        return 1.0 / Math.tanh(x);
+    }
+
+    /**
+     * Compute the value of the inverse secant (1 / acos(x)) function at x.
+     *
+     * @param x
+     * @return asec(x)
+     */
+    public static double asec(double x) {
+        return Math.acos(1.0 / x);
+    }
+
+    /**
+     * Compute the value of the inverse cosecant (1 / asin(x)) function at x.
+     *
+     * @param x
+     * @return acsc(x)
+     */
+    public static double acsc(double x) {
+        return Math.asin(1.0 / x);
+    }
+
+    /**
+     * Compute the value of the inverse cotangent (1 / atan(x)) function at x.
+     *
+     * @param x
+     * @return acot(x)
+     */
+    public static double acot(double x) {
+        return Math.atan(1.0 / x);
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic sine function at x.
+     *
+     * @param a
+     * @return asinh(a)
+     */
+    public static double asinh(double a) {
+        final double sign;
+
+        if (Double.doubleToRawLongBits(a) < 0) {
+            a = Math.abs(a);
+            sign = -1.0d;
+        } else {
+            sign = 1.0d;
+        }
+
+        return sign * Math.log(Math.sqrt(a * a + 1.0d) + a);
+    }
+
+    private static double safeLog(double x) {
+        if (x == 0.0D) {
+            return 0.0D;
+        } else {
+            return Math.log(x);
+        }
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic cosine function at x.
+     *
+     * @param x
+     * @return acosh(x)
+     */
+    public static double acosh(double x) {
+        double ans;
+
+        if (Double.isNaN(x) || (x < 1)) {
+            ans = Double.NaN;
+        } else if (x < 94906265.62) {
+            ans = safeLog(x + Math.sqrt(x * x - 1.0D));
+        } else {
+            ans = 0.69314718055994530941723212145818D + safeLog(x);
+        }
+
+        return ans;
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic tangent function at x.
+     *
+     * @param a
+     * @return atanh(a)
+     */
+    public static double atanh(double a) {
+        final double mult;
+
+        if (Double.doubleToRawLongBits(a) < 0) {
+            a = Math.abs(a);
+            mult = -0.5d;
+        } else {
+            mult = 0.5d;
+        }
+        return mult * Math.log((1.0d + a) / (1.0d - a));
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic secant (1 / acosh(x)) function at x.
+     *
+     * @param x
+     * @return asech(x)
+     */
+    public static double asech(double x) {
+        return acosh(1.0 / x);
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic cosecant (1 / asinh(x)) function at x.
+     *
+     * @param x
+     * @return acsch(x)
+     */
+    public static double acsch(double x) {
+        return asinh(1.0 / x);
+    }
+
+    /**
+     * Compute the value of the inverse hyperbolic cotangent (1 / atanh(x)) function at x.
+     *
+     * @param x
+     * @return acoth(x)
+     */
+    public static double acoth(double x) {
+        return atanh(1.0 / x);
     }
 }
