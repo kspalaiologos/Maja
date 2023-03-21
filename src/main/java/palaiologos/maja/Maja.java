@@ -1627,4 +1627,85 @@ public class Maja {
     public static double lerchPhi(double s, double a, double z) {
         return Zeta.lerch_phi(s, a, z);
     }
+
+    /**
+     * Return the value of the inverse error function at x.
+     * @param x
+     * @return erf^(-1) (x)
+     */
+    public static double erfInv(double x) {
+        return Erf.inverfc(1.0 - x);
+    }
+
+    /**
+     * Return the value of the inverse complementary error function at x.
+     * @param x
+     * @return erfc^(-1) (x)
+     */
+    public static double erfcInv(double x) {
+        return Erf.inverfc(x);
+    }
+
+    /**
+     * Compute the value of the Dawson function (D+) at x.
+     * @param x
+     * @return D+(x)
+     */
+    public static double dawsonPlus(double x) {
+        return Erf.dawson(x);
+    }
+
+    /**
+     * Compute the value of the Dawson function (D-) at x.
+     * @param x
+     * @return D-(x)
+     */
+    public static double dawsonMinus(double x) {
+        return Erf.dawsonm(x);
+    }
+
+    /**
+     * Compute the value of the error function at x.
+     * @param x
+     * @return erf(x)
+     */
+    public static double erf(double x) {
+        return Erf.erf(x);
+    }
+
+    /**
+     * Compute the value of the complementary error function at x.
+     * @param x
+     * @return erfc(x)
+     */
+    public static double erfc(double x) {
+        return Erf.erfc(x);
+    }
+
+    /**
+     * Compute the value of the imaginary error function at x.
+     * @param x
+     * @return erfi(x)
+     */
+    public static double erfi(double x) {
+        return Erf.erfi(x);
+    }
+    
+    /**
+     * Compute the value of the inverse of the logistic sigmoid "squash" function at x.
+     * @param x
+     * @return stretch(x)
+     */
+    public static double stretch(double x) {
+        return Math.log(x / (1.0 - x));
+    }
+
+    /**
+     * Compute the value of the logistic sigmoid "squash" function at x.
+     * @param x
+     * @return squash(x)
+     */
+    public static double squash(double x) {
+        return 1.0 / (1.0 + Math.exp(-x));
+    }
 }
