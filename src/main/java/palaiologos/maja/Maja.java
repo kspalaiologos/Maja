@@ -1205,4 +1205,44 @@ public class Maja {
     public static double expint(double x) {
         return Ei.expint(x);
     }
+
+    /**
+     * Compute the value of the Riemann zeta function at x.
+     * @param x
+     * @return zeta(x)
+     */
+    public static double zeta(double x) {
+        return Zeta.riemann_zeta(x);
+    }
+
+    /**
+     * Compute the value of the Hurwitz zeta function at x.
+     * @param x
+     * @param a
+     * @return zeta(x, a)
+     */
+    public static double hurwitzZeta(double x, double a) {
+        return Zeta.hurwitz_zeta(x, a);
+    }
+
+    /**
+     * Compute the value of the n-th polygamma function at x.
+     * @param n
+     * @param x
+     * @return polygamma(n, x)
+     */
+    public static double polygamma(double n, double x) {
+        // Polygamma[n, x] = (-1)^(n+1) * Gamma[n + 1] * HurwitzZeta[n + 1, x]
+        return Math.pow(-1, n + 1) * gamma(n + 1) * Zeta.hurwitz_zeta(n + 1, x);
+    }
+
+    /**
+     * Compute the beta function of two values.
+     * @param x
+     * @param y
+     * @return beta(x, y)
+     */
+    public static double beta(double x, double y) {
+        return Gamma.gamma(x) * Gamma.gamma(y) / Gamma.gamma(x + y);
+    }
 }
