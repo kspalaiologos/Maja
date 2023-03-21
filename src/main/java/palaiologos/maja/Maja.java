@@ -1598,4 +1598,22 @@ public class Maja {
     public static double acoth(double x) {
         return atanh(1.0 / x);
     }
+
+    /**
+     * Compute Lambert W_0 (x).
+     * @param x
+     * @return W_0(x)
+     */
+    public static double lambertW0(double x) {
+        return Lambert.lambert0(x);
+    }
+
+    /**
+     * Compute Lambert W_(-1) (x).
+     * @param x
+     * @return W_(-1) (x)
+     */
+    public static double lambertWm1(double x) {
+        return Lambert.lambertn1(x);
+    }
 }
