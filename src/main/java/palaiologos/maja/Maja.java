@@ -1024,4 +1024,35 @@ public class Maja {
             p = p * p;
         }
     }
+
+    public static double[] map(MonadicFunction f, double[] tab) {
+        double[] res = new double[tab.length];
+        for (int i = 0; i < tab.length; i++) {
+            res[i] = f.apply(tab[i]);
+        }
+        return res;
+    }
+
+    public static double[] map(MonadicFunction f, double[] tab, double[] res) {
+        for (int i = 0; i < tab.length; i++) {
+            res[i] = f.apply(tab[i]);
+        }
+        return res;
+    }
+
+    public static double reduce(DyadicFunction f, double[] tab) {
+        double res = tab[0];
+        for (int i = 1; i < tab.length; i++) {
+            res = f.apply(res, tab[i]);
+        }
+        return res;
+    }
+
+    public static double reduce(DyadicFunction f, double id, double[] tab) {
+        double res = id;
+        for (double v : tab) {
+            res = f.apply(res, v);
+        }
+        return res;
+    }
 }
