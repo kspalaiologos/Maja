@@ -3,8 +3,6 @@ package palaiologos.maja;
 import java.util.Random;
 
 public class Maja {
-    // Pt 1: Arithmetics (useful in place of lambda functions in code, akin to std::plus, etc...)
-
     /**
      * The value of ln(2).
      */
@@ -29,7 +27,6 @@ public class Maja {
      * The value of pi/4.
      */
     public static final double PI_4 = 0.7853981633974483096156608458198757210492923498437764552437361480;
-    // Pt 2: Things moved over from java.lang.Math
     /**
      * The value of 2*PI.
      */
@@ -379,7 +376,6 @@ public class Maja {
     public static double pow(double x, double y) {
         return Math.pow(x, y);
     }
-    // Pt 3. Constants
 
     /**
      * Returns the sign of a double precision number.
@@ -607,7 +603,6 @@ public class Maja {
     public static double random(double max) {
         return max * Math.random();
     }
-    // Pt 4. Comparisons
 
     /**
      * Return true if x < y.
@@ -687,7 +682,6 @@ public class Maja {
         return Math.abs(x - y) <= tol;
     }
 
-    // Pt 5. Custom functions
 
     /**
      * Determine whether a number is a perfect square.
