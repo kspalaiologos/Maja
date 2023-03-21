@@ -1186,4 +1186,14 @@ public class Maja {
     public static double liGamma(double a, double x) {
         return Gamma.lowerIncomplete(a, x);
     }
+
+    /**
+     * Compute the Pochhammer symbol (x)_n.
+     * @param x
+     * @param n
+     * @return (x)_n
+     */
+    public static double pochhammer(double x, double n) {
+        return Gamma.gamma(x + n) / Gamma.gamma(x);
+    }
 }
