@@ -1130,4 +1130,60 @@ public class Maja {
     public static double airyDerivative(double x) {
         return Airy.airyDerivative(x);
     }
+
+    /**
+     * Compute the gamma function of x.
+     * @param x
+     * @return gamma(x)
+     */
+    public static double gamma(double x) {
+        return Gamma.gamma(x);
+    }
+
+    /**
+     * Compute the logarithm of the gamma function of x.
+     * @param x
+     * @return log(gamma(x))
+     */
+    public static double loggamma(double x) {
+        return Gamma.loggamma(x);
+    }
+
+    /**
+     * Compute the digamma function of x.
+     * @param x
+     * @return digamma(x)
+     */
+    public static double digamma(double x) {
+        return Gamma.digamma(x);
+    }
+
+    /**
+     * Compute the trigamma function of x.
+     * @param x
+     * @return trigamma(x)
+     */
+    public static double trigamma(double x) {
+        return Gamma.trigamma(x);
+    }
+
+    /**
+     * Compute the value of the upper incomplete gamma function.
+     * @param a
+     * @param x
+     * @return gamma_u(a, x)
+     */
+    public static double uiGamma(double a, double x) {
+        return Gamma.upperIncomplete(a, x);
+    }
+
+    /**
+     * Compute the value of the lower incomplete gamma function.
+     * @param a
+     * @param x
+     * @return gamma_l(a, x)
+     */
+    public static double liGamma(double a, double x) {
+        return Gamma.lowerIncomplete(a, x);
+    }
 }
