@@ -1112,4 +1112,22 @@ public class Maja {
         }
         return res;
     }
+
+    /**
+     * Compute the value of the Airy Ai function at the specified point.
+     * @param x
+     * @return Ai(x)
+     */
+    public static double airy(double x) {
+        return Airy.airy(x);
+    }
+
+    /**
+     * Compute the value of the Airy Ai function's first derivative at the specified point.
+     * @param x
+     * @return Ai'(x)
+     */
+    public static double airyDerivative(double x) {
+        return Airy.airyDerivative(x);
+    }
 }
