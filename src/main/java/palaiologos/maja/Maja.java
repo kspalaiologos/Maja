@@ -781,6 +781,7 @@ public class Maja {
 
     /**
      * Return a random sign (-1 or 1).
+     *
      * @return -1 or 1
      */
     public static long randomSign() {
@@ -789,6 +790,7 @@ public class Maja {
 
     /**
      * Return a cached value of sin(x) using Raven's method. The cache is 65KB large.
+     *
      * @param x angle in radians, between -2*pi and 2*pi inclusive.
      * @return sin(x)
      */
@@ -798,6 +800,7 @@ public class Maja {
 
     /**
      * Return a cached value of cos(x) using Raven's method. The cache is 65KB large.
+     *
      * @param x angle in radians, between -2*pi and 2*pi inclusive.
      * @return cos(x)
      */
@@ -808,13 +811,14 @@ public class Maja {
     /**
      * Return the integer cube root of a number.
      * If x < 0, -cbrt(-x) is returned.
+     *
      * @param x
      * @return floor(cbrt(x))
      */
     public static int icbrt(int x) {
         long s, y = 0, b, y2 = 0;
 
-        if(x < 0) return -icbrt(-x);
+        if (x < 0) return -icbrt(-x);
 
         for (s = 30; s >= 0; s = s - 3) {
             y2 = 4 * y2;
@@ -833,13 +837,14 @@ public class Maja {
     /**
      * Return the long integer cube root of a number.
      * If x < 0, -cbrt(-x) is returned.
+     *
      * @param x
      * @return floor(cbrt(x))
      */
     public static long icbrt(long x) {
         long s, y = 0, b, y2 = 0;
 
-        if(x < 0) return -icbrt(-x);
+        if (x < 0) return -icbrt(-x);
 
         for (s = 60; s >= 0; s = s - 3) {
             y2 = 4 * y2;
@@ -858,13 +863,14 @@ public class Maja {
     /**
      * Return the short integer cube root of a number.
      * If a < 0, -cbrt(-a) is returned.
+     *
      * @param a
      * @return floor(cbrt(a))
      */
     public static short icbrt(short a) {
         long s, y = 0, b, y2 = 0, x = a;
 
-        if(x < 0) return (short) -icbrt(-x);
+        if (x < 0) return (short) -icbrt(-x);
 
         for (s = 15; s >= 0; s = s - 3) {
             y2 = 4 * y2;
@@ -883,15 +889,16 @@ public class Maja {
     /**
      * Compute the integer square root of a number.
      * If x < 0, -isqrt(-x) is returned.
+     *
      * @param x
      * @return floor(sqrt(x))
      */
     public static int isqrt(int x) {
         long m = 0x40000000, y = 0, b, t;
 
-        if(x < 0) return -isqrt(-x);
+        if (x < 0) return -isqrt(-x);
 
-        while(m != 0) {
+        while (m != 0) {
             b = y | m;
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
@@ -906,15 +913,16 @@ public class Maja {
     /**
      * Compute the integer square root of a number.
      * If x < 0, -isqrt(-x) is returned.
+     *
      * @param x
      * @return floor(sqrt(x))
      */
     public static int isqrt(long x) {
         long m = 0x4000000000000000L, y = 0, b, t;
 
-        if(x < 0) return -isqrt(-x);
+        if (x < 0) return -isqrt(-x);
 
-        while(m != 0) {
+        while (m != 0) {
             b = y | m;
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
@@ -929,15 +937,16 @@ public class Maja {
     /**
      * Compute the integer square root of a number.
      * If x < 0, -isqrt(-x) is returned.
+     *
      * @param x
      * @return floor(sqrt(x))
      */
     public static int isqrt(short x) {
         long m = 0x4000, y = 0, b, t;
 
-        if(x < 0) return -isqrt(-x);
+        if (x < 0) return -isqrt(-x);
 
-        while(m != 0) {
+        while (m != 0) {
             b = y | m;
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
@@ -949,4 +958,70 @@ public class Maja {
         return (int) y;
     }
 
+    /**
+     * Compute the value of the integer logarithm in base 10 of a number
+     * @param x
+     * @return floor(log10(x))
+     */
+    public static int ilog10(int x) {
+        int y;
+        final int[] table = {0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999, 0xFFFFFFFF};
+        y = (19 * (31 - Integer.numberOfLeadingZeros(x))) >> 6;
+        y = y + ((table[y + 1] - x) >>> 31);
+        return y;
+    }
+
+    /**
+     * Compute the value of integer x^n.
+     * @param x
+     * @param n
+     * @return x^n.
+     */
+    public static int iexp(int x, int n) {
+        int p = x, y = 1;
+        while(true) {
+            if ((n & 1) != 0)
+                y = p * y;
+            n = n >> 1;
+            if (n == 0)
+                return y;
+            p = p * p;
+        }
+    }
+
+    /**
+     * Compute the value of integer x^n.
+     * @param x
+     * @param n
+     * @return x^n.
+     */
+    public static long iexp(long x, long n) {
+        long p = x, y = 1;
+        while(true) {
+            if ((n & 1) != 0)
+                y = p * y;
+            n = n >> 1;
+            if (n == 0)
+                return y;
+            p = p * p;
+        }
+    }
+
+    /**
+     * Compute the value of integer x^n.
+     * @param x
+     * @param n
+     * @return x^n.
+     */
+    public static short iexp(short x, short n) {
+        int p = x, y = 1;
+        while(true) {
+            if ((n & 1) != 0)
+                y = p * y;
+            n >>= 1;
+            if (n == 0)
+                return (short) y;
+            p = p * p;
+        }
+    }
 }
