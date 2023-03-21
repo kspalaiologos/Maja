@@ -812,7 +812,7 @@ public class Maja {
      * @return floor(cbrt(x))
      */
     public static int icbrt(int x) {
-        int s, y = 0, b, y2 = 0;
+        long s, y = 0, b, y2 = 0;
 
         if(x < 0) return -icbrt(-x);
 
@@ -821,13 +821,13 @@ public class Maja {
             y = 2 * y;
             b = (3 * (y2 + y) + 1) << s;
             if (x >= b) {
-                x = x - b;
+                x = (int) (x - b);
                 y2 = y2 + 2 * y + 1;
                 y = y + 1;
             }
         }
 
-        return y;
+        return (int) y;
     }
 
     /**
@@ -862,7 +862,7 @@ public class Maja {
      * @return floor(cbrt(a))
      */
     public static short icbrt(short a) {
-        int s, y = 0, b, y2 = 0, x = a;
+        long s, y = 0, b, y2 = 0, x = a;
 
         if(x < 0) return (short) -icbrt(-x);
 
@@ -879,4 +879,74 @@ public class Maja {
 
         return (short) y;
     }
+
+    /**
+     * Compute the integer square root of a number.
+     * If x < 0, -isqrt(-x) is returned.
+     * @param x
+     * @return floor(sqrt(x))
+     */
+    public static int isqrt(int x) {
+        long m = 0x40000000, y = 0, b, t;
+
+        if(x < 0) return -isqrt(-x);
+
+        while(m != 0) {
+            b = y | m;
+            y = y >> 1;
+            t = (int) (x | ~(x - b)) >> 31;
+            x = (int) (x - (b & t));
+            y = y | (m & t);
+            m = m >> 2;
+        }
+
+        return (int) y;
+    }
+
+    /**
+     * Compute the integer square root of a number.
+     * If x < 0, -isqrt(-x) is returned.
+     * @param x
+     * @return floor(sqrt(x))
+     */
+    public static int isqrt(long x) {
+        long m = 0x4000000000000000L, y = 0, b, t;
+
+        if(x < 0) return -isqrt(-x);
+
+        while(m != 0) {
+            b = y | m;
+            y = y >> 1;
+            t = (int) (x | ~(x - b)) >> 31;
+            x = (int) (x - (b & t));
+            y = y | (m & t);
+            m = m >> 2;
+        }
+
+        return (int) y;
+    }
+
+    /**
+     * Compute the integer square root of a number.
+     * If x < 0, -isqrt(-x) is returned.
+     * @param x
+     * @return floor(sqrt(x))
+     */
+    public static int isqrt(short x) {
+        long m = 0x4000, y = 0, b, t;
+
+        if(x < 0) return -isqrt(-x);
+
+        while(m != 0) {
+            b = y | m;
+            y = y >> 1;
+            t = (int) (x | ~(x - b)) >> 31;
+            x = (short) (x - (b & t));
+            y = y | (m & t);
+            m = m >> 2;
+        }
+
+        return (int) y;
+    }
+
 }
