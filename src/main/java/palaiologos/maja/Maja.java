@@ -1690,7 +1690,7 @@ public class Maja {
     public static double erfi(double x) {
         return Erf.erfi(x);
     }
-    
+
     /**
      * Compute the value of the inverse of the logistic sigmoid "squash" function at x.
      * @param x
@@ -1707,5 +1707,69 @@ public class Maja {
      */
     public static double squash(double x) {
         return 1.0 / (1.0 + Math.exp(-x));
+    }
+
+    /**
+     * Compute the value of the sine integral function at x.
+     * @param x
+     * @return Si(x)
+     */
+    public static double Si(double x) {
+        return TrigonometricIntegral.Si(x);
+    }
+
+    /**
+     * Compute the value of the cosine integral function at x.
+     * @param x
+     * @return Ci(x)
+     */
+    public static double Ci(double x) {
+        return TrigonometricIntegral.Ci(x);
+    }
+
+    /**
+     * Compute the value of the hyperbolic sine integral function at x.
+     * @param x
+     * @return
+     */
+    public static double Shi(double x) {
+        return TrigonometricIntegral.Shi(x);
+    }
+
+    /**
+     * Compute the value of the hyperbolic cosine integral function at x.
+     * @param x
+     * @return Chi(x)
+     */
+    public static double Chi(double x) {
+        return TrigonometricIntegral.Chi(x);
+    }
+
+    /**
+     * Compute the value of the sine integral function at x.
+     * @param x
+     * @return si(x)
+     */
+    public static double si(double x) {
+        return TrigonometricIntegral.si(x);
+    }
+
+    /**
+     * Compute the value of the cosine integral function at x.
+     * @param x
+     * @return Cin(x)
+     */
+    public static double Cin(double x) {
+        return TrigonometricIntegral.Cin(x);
+    }
+
+    /**
+     * Compute both the hyperbolic sine and cosine integral at x.
+     * Return the results in a two-element double precision array.
+     * @param x
+     * @return {Shi(x), Chi(x)}
+     */
+    public static double[] ShiChi(double x) {
+        return TrigonometricIntegral.ShiChi(x);
     }
 }
