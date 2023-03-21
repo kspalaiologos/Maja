@@ -1601,6 +1601,7 @@ public class Maja {
 
     /**
      * Compute Lambert W_0 (x).
+     *
      * @param x
      * @return W_0(x)
      */
@@ -1610,8 +1611,9 @@ public class Maja {
 
     /**
      * Compute Lambert W_(-1) (x).
+     *
      * @param x
-     * @return W_(-1) (x)
+     * @return W_(- 1) (x)
      */
     public static double lambertWm1(double x) {
         return Lambert.lambertn1(x);
@@ -1619,6 +1621,7 @@ public class Maja {
 
     /**
      * Compute the value of the Lerch transcendent function at s, a, z.
+     *
      * @param s
      * @param a
      * @param z
@@ -1630,6 +1633,7 @@ public class Maja {
 
     /**
      * Return the value of the inverse error function at x.
+     *
      * @param x
      * @return erf^(-1) (x)
      */
@@ -1639,6 +1643,7 @@ public class Maja {
 
     /**
      * Return the value of the inverse complementary error function at x.
+     *
      * @param x
      * @return erfc^(-1) (x)
      */
@@ -1648,6 +1653,7 @@ public class Maja {
 
     /**
      * Compute the value of the Dawson function (D+) at x.
+     *
      * @param x
      * @return D+(x)
      */
@@ -1657,6 +1663,7 @@ public class Maja {
 
     /**
      * Compute the value of the Dawson function (D-) at x.
+     *
      * @param x
      * @return D-(x)
      */
@@ -1666,6 +1673,7 @@ public class Maja {
 
     /**
      * Compute the value of the error function at x.
+     *
      * @param x
      * @return erf(x)
      */
@@ -1675,6 +1683,7 @@ public class Maja {
 
     /**
      * Compute the value of the complementary error function at x.
+     *
      * @param x
      * @return erfc(x)
      */
@@ -1684,6 +1693,7 @@ public class Maja {
 
     /**
      * Compute the value of the imaginary error function at x.
+     *
      * @param x
      * @return erfi(x)
      */
@@ -1693,6 +1703,7 @@ public class Maja {
 
     /**
      * Compute the value of the inverse of the logistic sigmoid "squash" function at x.
+     *
      * @param x
      * @return stretch(x)
      */
@@ -1702,6 +1713,7 @@ public class Maja {
 
     /**
      * Compute the value of the logistic sigmoid "squash" function at x.
+     *
      * @param x
      * @return squash(x)
      */
@@ -1711,6 +1723,7 @@ public class Maja {
 
     /**
      * Compute the value of the sine integral function at x.
+     *
      * @param x
      * @return Si(x)
      */
@@ -1720,6 +1733,7 @@ public class Maja {
 
     /**
      * Compute the value of the cosine integral function at x.
+     *
      * @param x
      * @return Ci(x)
      */
@@ -1729,6 +1743,7 @@ public class Maja {
 
     /**
      * Compute the value of the hyperbolic sine integral function at x.
+     *
      * @param x
      * @return
      */
@@ -1738,6 +1753,7 @@ public class Maja {
 
     /**
      * Compute the value of the hyperbolic cosine integral function at x.
+     *
      * @param x
      * @return Chi(x)
      */
@@ -1747,6 +1763,7 @@ public class Maja {
 
     /**
      * Compute the value of the sine integral function at x.
+     *
      * @param x
      * @return si(x)
      */
@@ -1756,6 +1773,7 @@ public class Maja {
 
     /**
      * Compute the value of the cosine integral function at x.
+     *
      * @param x
      * @return Cin(x)
      */
@@ -1766,6 +1784,7 @@ public class Maja {
     /**
      * Compute both the hyperbolic sine and cosine integral at x.
      * Return the results in a two-element double precision array.
+     *
      * @param x
      * @return {Shi(x), Chi(x)}
      */

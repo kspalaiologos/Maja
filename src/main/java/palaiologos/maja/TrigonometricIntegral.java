@@ -278,7 +278,7 @@ class TrigonometricIntegral {
             sign = 0;
 
         if (x == 0.0) {
-            return new double[] { 0.0, Double.NEGATIVE_INFINITY };
+            return new double[]{0.0, Double.NEGATIVE_INFINITY};
         }
 
         if (x < 8.0) {
@@ -305,7 +305,7 @@ class TrigonometricIntegral {
                 s = -s;
             si = s;
             ci = Maja.EULER_GAMMA + Math.log(x) + c;
-            return new double[] { si, ci };
+            return new double[]{si, ci};
         }
 
         if (x < 18.0) {
@@ -317,7 +317,7 @@ class TrigonometricIntegral {
                 s = -s;
             si = s;
             ci = Maja.EULER_GAMMA + Math.log(x) + c;
-            return new double[] { si, ci };
+            return new double[]{si, ci};
         }
 
         if (x <= 88.0) {
@@ -336,6 +336,6 @@ class TrigonometricIntegral {
                 si = Double.POSITIVE_INFINITY;
             ci = Double.POSITIVE_INFINITY;
         }
-        return new double[] { si, ci };
+        return new double[]{si, ci};
     }
 }
