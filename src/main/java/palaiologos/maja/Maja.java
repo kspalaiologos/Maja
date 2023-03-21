@@ -1791,4 +1791,22 @@ public class Maja {
     public static double[] ShiChi(double x) {
         return TrigonometricIntegral.ShiChi(x);
     }
+
+    /**
+     * Compute the Fresnel integral C(x).
+     * @param x
+     * @return C(x)
+     */
+    public static double fresnelC(double x) {
+        return Fresnel.fresnelC(x);
+    }
+
+    /**
+     * Compute the Fresnel integral S(x).
+     * @param x
+     * @return S(x)
+     */
+    public static double fresnelS(double x) {
+        return Fresnel.fresnelS(x);
+    }
 }
