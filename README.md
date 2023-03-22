@@ -8,7 +8,7 @@ Constants:
 - Apery, Catalan, E, Euler-Mascheroni, Feigenbaum, Glaisher, Golden ratio, Golomb-Dickman, Khinchin, Mills, various standard logarithms and precise values of 1/pi, pi, pi/2, pi/4, 2*pi.
 
 Functions:
-- Elementary (abs, add, cbrt, ceil, clamp, compare, copySign, div, eq, exp, expm1, floor, fma, ge, getExponent, gt, hypot, icbrt, iexp, ilog10, isPerfectSquare, isPowerOfTwo, isqrt, le, log, log10, log1p, log2, lt, amx, min, mod, mul, ne, nextAfter, nextDown, nextPowerOfTwo, nextUp, pow, rem, round, scalb, signum, sqrt, sub, ulp)
+- Elementary (abs, add, cbrt, ceil, clamp, compare, copySign, div, eq, exp, expm1, fib, floor, fma, ge, getExponent, gt, hypot, icbrt, iexp, ilog10, isPerfectSquare, isPowerOfTwo, isqrt, le, log, log10, log1p, log2, lt, amx, min, mod, mul, ne, nextAfter, nextDown, nextPowerOfTwo, nextUp, pow, rem, round, scalb, signum, sqrt, sub, ulp)
 - Interpolation (linearInterpolate, linearMap, linearNorm)
 - Random number generation.
 - Sigmoid (logistic) functions (squash, stretch)
@@ -25,6 +25,7 @@ Functions:
 - Fresnel integrals (fresnelC, fresnelS)
 - Zeta family (Hurwitz Zeta, Lerch Transcendent, Riemann Zeta)
 - Lambert W (W0, W-1)
+- Hypergeometric function (2F1).
 
 
 ## License
