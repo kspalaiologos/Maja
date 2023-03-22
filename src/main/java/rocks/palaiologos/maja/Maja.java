@@ -1979,7 +1979,25 @@ public class Maja {
         return Math.round((pow(phi, a) - pow(psi, a)) / sqrt5);
     }
 
+    /**
+     * Computes the Gaussian hypergeometric function (2F1) of four arguments.
+     * @param a
+     * @param b
+     * @param c
+     * @param x
+     * @return (2F1)(a, b, c, x)
+     */
     public static double hypergeo2F1(double a, double b, double c, double x) {
         return Hypergeometric.hyp2f1(a, b, c, x);
+    }
+
+    /**
+     * Computes the logarithm of the absolute value of the gamma function of x.
+     * @see Maja#loggamma(double)
+     * @param x
+     * @return { log(|Gamma(x)|), sign(Gamma(x)) }
+     */
+    public static double[] logabsgamma(double x) {
+        return Gamma.lgam(x);
     }
 }

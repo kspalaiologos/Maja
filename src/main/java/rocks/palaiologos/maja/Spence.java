@@ -51,7 +51,7 @@ class Spence {
             4.784036597230791011855E-25,
     };
 
-    private static double polevl(double x, double[] p, int N) {
+    static double polevl(double x, double[] p, int N) {
         int i = N, dx = 0;
         double ans = p[dx++];
 
@@ -62,7 +62,7 @@ class Spence {
         return ans;
     }
 
-    private static double p1evl(double x, double[] p, int N) {
+    static double p1evl(double x, double[] p, int N) {
         int i = N - 1, dx = 0;
         double ans = x + p[dx++];
 

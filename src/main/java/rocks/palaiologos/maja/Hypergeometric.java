@@ -298,12 +298,6 @@ class Hypergeometric {
         return (s);
     }
 
-    private static double[] lgam(double a) {
-        double r = Gamma.gamma(a);
-        double la = Math.log(Math.abs(r));
-        return new double[] { la, Math.signum(r) };
-    }
-
     public static double hyt2f1(double a, double b, double c, double x, DoublePtr loss) {
         double p, q, r, s, t, y, w, d;
         DoublePtr err = new DoublePtr();
@@ -352,25 +346,25 @@ class Hypergeometric {
                 q = hys2f1(a, b, 1.0 - d, s, err);
                 sign = 1;
                 double[] result;
-                result = lgam(d);
+                result = Gamma.lgam(d);
                 w = result[0];
                 sign *= result[1];
-                result = lgam(c-a);
+                result = Gamma.lgam(c-a);
                 w -= result[0];
                 sign *= result[1];
-                result = lgam(c-b);
+                result = Gamma.lgam(c-b);
                 w -= result[0];
                 sign *= result[1];
                 q *= sign * Math.exp(w);
                 r = Math.pow(s, d) * hys2f1(c - a, c - b, d + 1.0, s, err1);
                 sign = 1;
-                result = lgam(-d);
+                result = Gamma.lgam(-d);
                 w = result[0];
                 sign *= result[1];
-                result = lgam(a);
+                result = Gamma.lgam(a);
                 w -= result[0];
                 sign *= result[1];
-                result = lgam(b);
+                result = Gamma.lgam(b);
                 w -= result[0];
                 sign *= result[1];
                 r *= sign * Math.exp(w);

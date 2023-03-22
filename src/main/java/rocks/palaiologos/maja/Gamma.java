@@ -291,4 +291,113 @@ class Gamma {
         }
         return factorialTab[n];
     }
+
+    private static final double[] A = new double[] {
+            0.00081161416747050849,
+            -0.00059506190428430144,
+            0.00079365034045771694,
+            -0.00277777777730099694,
+            0.08333333333333318993,
+            0.00000000000000000000
+    };
+
+    private static final double[] B = new double[] {
+            -1378.25152569120859880059,
+            -38801.63151346378435846418,
+            -331612.99273887119488790631,
+            -1162370.97492762305773794651,
+            -1721737.00820839661173522472,
+            -853555.66424576542340219021
+    };
+
+    private static final double[] C = new double[] {
+            -351.81570143652345450391,
+            -17064.21066518811494461261,
+            -220528.59055385444662533700,
+            -1139334.44367982516996562481,
+            -2532523.07177582941949367523,
+            -2018891.41433532768860459328
+    };
+
+    public static double[] lgam(double x)
+    {
+        double p, q, u, w, z;
+        int i;
+
+        double sgngam = 1.0;
+
+        if (!Double.isFinite(x))
+            return new double[] { x, sgngam };
+
+        if (x < -34.0) {
+            q = -x;
+            double[] res = lgam(q);
+            w = res[0];
+            sgngam = res[1];
+            p = Math.floor(q);
+            if (p == q) {
+                return new double[] { Double.POSITIVE_INFINITY, sgngam };
+            }
+            i = (int) p;
+            if ((i & 1) == 0)
+                sgngam = -1;
+            else
+                sgngam = 1;
+            z = q - p;
+            if (z > 0.5) {
+                p += 1.0;
+                z = p - q;
+            }
+            z = q * Math.sin(Math.PI * z);
+            if (z == 0.0)
+                return new double[] { Double.POSITIVE_INFINITY, sgngam };
+            z = 1.1447298858494001741434273513530587116472948129153115715136230714 - Math.log(z) - w;
+            return new double[] { z, sgngam };
+        }
+
+        if (x < 13.0) {
+            z = 1.0;
+            p = 0.0;
+            u = x;
+            while (u >= 3.0) {
+                p -= 1.0;
+                u = x + p;
+                z *= u;
+            }
+            while (u < 2.0) {
+                if (u == 0.0)
+                    return new double[] { Double.POSITIVE_INFINITY, sgngam };
+                z /= u;
+                p += 1.0;
+                u = x + p;
+            }
+            if (z < 0.0) {
+                sgngam = -1;
+                z = -z;
+            }
+            if (u == 2.0)
+                return new double[] { Math.log(z), sgngam };
+            p -= 2.0;
+            x = x + p;
+            p = x * Spence.polevl(x, B, 5) / Spence.p1evl(x, C, 6);
+            return new double[] { Math.log(z) + p, sgngam };
+        }
+
+        if (x > 2.556348e305) {
+            return new double[] { Double.POSITIVE_INFINITY, 1.0 };
+        }
+
+        q = (x - 0.5) * Math.log(x) - x + 0.9189385332046727417803297364056176398613974736377834128171515404;
+        if (x > 1.0e8)
+            return new double[] { q, sgngam };
+
+        p = 1.0 / (x * x);
+        if (x >= 1000.0)
+            q += ((7.9365079365079365079365e-4 * p
+                    - 2.7777777777777777777778e-3) * p
+                    + 0.0833333333333333333333) / x;
+        else
+            q += Spence.polevl(p, A, 4) / x;
+        return new double[] { q, sgngam };
+    }
 }
