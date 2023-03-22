@@ -87,4 +87,19 @@ public class TestArithmetic {
         assertThat(Maja.sqrt(182.35)).isEqualTo(13.503703195790404);
         assertThat(Maja.sqrt(12345.6789)).isEqualTo(111.11111060555555);
     }
+
+    @Test
+    public void testISqrt() {
+        assertThat(Maja.isqrt(0)).isEqualTo(0);
+        assertThat(Maja.isqrt(1)).isEqualTo(1);
+        assertThat(Maja.isqrt(-1)).isEqualTo(-1);
+        assertThat(Maja.isqrt(8)).isEqualTo(2);
+        assertThat(Maja.isqrt(-8)).isEqualTo(-2);
+
+        // Try out some more sophisticated results:
+        assertThat(Maja.isqrt(27)).isEqualTo(5);
+        assertThat(Maja.isqrt(64)).isEqualTo(8);
+        assertThat(Maja.isqrt(182)).isEqualTo(13);
+        assertThat(Maja.isqrt(12345)).isEqualTo(111);
+    }
 }
