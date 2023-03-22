@@ -1966,4 +1966,20 @@ public class Maja {
     public static long lcm(long a, long b) {
         return a * b / gcd(a, b);
     }
+
+    /**
+     * Compute the n-th Fibonacci number using Binet's formula.
+     * @param a
+     * @return fib(a)
+     */
+    public static long fib(int a) {
+        double phi = 1.6180339887498948482045868343656381177203091798057628621354486227;
+        double psi = -0.618033988749894848204586834365638117720309179805762862135448622;
+        double sqrt5 = 2.2360679774997896964091736687312762354406183596115257242708972454;
+        return Math.round((pow(phi, a) - pow(psi, a)) / sqrt5);
+    }
+
+    public static double hypergeo2F1(double a, double b, double c, double x) {
+        return Hypergeometric.hyp2f1(a, b, c, x);
+    }
 }

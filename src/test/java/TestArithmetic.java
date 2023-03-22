@@ -69,4 +69,22 @@ public class TestArithmetic {
         assertThat(Maja.cbrt(182.35)).isEqualTo(5.6706815069811505);
         assertThat(Maja.cbrt(12345.6789)).isEqualTo(23.112042408247962);
     }
+
+    @Test
+    public void testSqrt() {
+        assertThat(Maja.sqrt(0)).isEqualTo(0);
+        assertThat(Maja.sqrt(1)).isEqualTo(1);
+        assertThat(Maja.sqrt(-1)).isNaN();
+        assertThat(Maja.sqrt(8)).isEqualTo(2.8284271247461903);
+        assertThat(Maja.sqrt(-8)).isNaN();
+        assertTrue(Double.isNaN(Maja.sqrt(Double.NaN)));
+        assertThat(Maja.sqrt(Double.POSITIVE_INFINITY)).isEqualTo(Double.POSITIVE_INFINITY);
+        assertThat(Maja.sqrt(Double.NEGATIVE_INFINITY)).isNaN();
+
+        // Try out some more sophisticated results:
+        assertThat(Maja.sqrt(27)).isEqualTo(5.196152422706632);
+        assertThat(Maja.sqrt(64)).isEqualTo(8);
+        assertThat(Maja.sqrt(182.35)).isEqualTo(13.503703195790404);
+        assertThat(Maja.sqrt(12345.6789)).isEqualTo(111.11111060555555);
+    }
 }
