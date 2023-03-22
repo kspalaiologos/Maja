@@ -1969,6 +1969,8 @@ public class Maja {
 
     /**
      * Compute the n-th Fibonacci number using Binet's formula.
+     * Due to floating point precision issues, this method is only
+     * accurate for n <= 75.
      * @param a
      * @return fib(a)
      */
