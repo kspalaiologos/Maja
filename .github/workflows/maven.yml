@@ -18,9 +18,9 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v3.1.1
     - name: Deploy JavaDoc
-        uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: javadoc
-          java-version: 19
-          target-folder: javadoc 
+      uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        javadoc-branch: javadoc
+        java-version: 19
+        target-folder: javadoc 
