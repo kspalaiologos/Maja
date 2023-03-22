@@ -1932,4 +1932,38 @@ public class Maja {
     public static double besselKn(int n, double x) {
         return Bessel.kn(n, x);
     }
+
+    /**
+     * Compute the greatest common divisor of two integers.
+     * @param a
+     * @param b
+     * @return gcd(a, b)
+     */
+    public static long gcd(long a, long b) {
+        long result;
+        if (a == 0) {
+            result = b;
+        } else if (b == 0) {
+            result = a;
+        } else {
+            long r = a % b;
+            while (r != 0) {
+                a = b;
+                b = r;
+                r = a % b;
+            }
+            result = b;
+        }
+        return result;
+    }
+
+    /**
+     * Compute the least common multiple of two integers.
+     * @param a
+     * @param b
+     * @return lcm(a, b)
+     */
+    public static long lcm(long a, long b) {
+        return a * b / gcd(a, b);
+    }
 }
