@@ -61,6 +61,10 @@ class Airy {
     }
 
     public static double airy(double x) {
+        if(Double.isNaN(x))
+            return Double.NaN;
+        if(x == Double.NEGATIVE_INFINITY || x == Double.POSITIVE_INFINITY)
+            return 0;
         int n, l;
         double s, t, u, v, uc, vc, k1, k2, c, xt, si, co, expxt;
         double sqrtx, wwl, pl, pl1, pl2, zzz, ai;
