@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Maja;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestArithmetic {
@@ -116,5 +117,25 @@ public class TestArithmetic {
         assertThat(Maja.icbrt(64)).isEqualTo(4);
         assertThat(Maja.icbrt(182)).isEqualTo(5);
         assertThat(Maja.icbrt(12345)).isEqualTo(23);
+    }
+
+    @Test
+    public void testIsSquare() {
+        // Negative numbers are not perfect squares.
+        assertFalse(Maja.isPerfectSquare(-5));
+        assertFalse(Maja.isPerfectSquare(-2));
+        // Zero is a perfect square.
+        assertTrue(Maja.isPerfectSquare(0));
+        // (x & 10b) != 0 => not perfect square.
+        assertFalse(Maja.isPerfectSquare(2));
+        assertFalse(Maja.isPerfectSquare(6));
+        assertFalse(Maja.isPerfectSquare(10));
+        // (x & 7) == 5 => not a perfect square.
+        assertFalse(Maja.isPerfectSquare(13));
+        // (x & 0b1011) == 0b1000 => not a perfect square.
+        assertFalse(Maja.isPerfectSquare(0b1100));
+        assertFalse(Maja.isPerfectSquare(0b1000));
+        assertTrue(Maja.isPerfectSquare(65536));
+        assertTrue(Maja.isPerfectSquare(17 * 17));
     }
 }
