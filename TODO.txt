@@ -5,3 +5,4 @@ Functions:
 - Simpson rule.
 - Elliptic functions / integrals.
 - Struve function
+- Airy Bi, Bi'
