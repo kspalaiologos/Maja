@@ -33,4 +33,20 @@ public class TestZeta {
         assertThat(Maja.hurwitzZeta(10.123,1.111)).isEqualTo(0.34506754462671935);
         assertThat(Maja.hurwitzZeta(-10.123,9.9)).isEqualTo(-5.685551437279248E9);
     }
+
+    @Test
+    public void testLerchPhi() {
+        assertThat(Maja.lerchPhi(1.0,0.5,1.0)).isEqualTo(-1.460354508809582);
+        assertThat(Maja.lerchPhi(1.0,0.5,2.0)).isEqualTo(-2.4603830608559094);
+        assertThat(Maja.lerchPhi(0.33,0.5,1.0)).isEqualTo(1.321795598173777);
+        assertThat(Maja.lerchPhi(0.0,1.0,12.3)).isEqualTo(0.08130081300813008);
+        assertThat(Maja.lerchPhi(1.0,0.5,0.5)).isEqualTo(-0.6049394572448313);
+        assertThat(Maja.lerchPhi(0.12,1.0,1.0)).isEqualTo(1.0652780959157073);
+        assertThat(Maja.lerchPhi(0.5,2.0,0.5)).isEqualTo(2.9151318041645378);
+        assertThat(Maja.lerchPhi(-0.5,2.0,1.5)).isEqualTo(0.3802066469636877);
+        assertThat(Maja.lerchPhi(0.0,0.1,0.2)).isEqualTo(1.174618943088019);
+        assertThat(Maja.lerchPhi(0.1,0.2,0.3)).isEqualTo(1.3764833924494795);
+        assertThat(Maja.lerchPhi(0.12,0.0,20.3)).isEqualTo(1.1363636363636365);
+        assertThat(Maja.lerchPhi(0.12,4.0,20.3)).isEqualTo(6.536398653479602E-6);
+    }
 }

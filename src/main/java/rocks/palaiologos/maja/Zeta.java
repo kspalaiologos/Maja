@@ -338,7 +338,7 @@ class Zeta {
         if (a == 2 && z == 0.5)
             return 2 / Math.sqrt(s) * (Spence.dilog(s) - Spence.dilog(-s));
         // lerchphi(z,2,1.5) = 2/(z^1.5) * (Li2(z) - Li2(-z) - 2sqrt(z))
-        if (a == 2 && z == 1.5)
+        if (a == 2 && z == 1.5 && s > 0)
             return 2 / Math.pow(s, 1.5) * (Spence.dilog(s) - Spence.dilog(-s) - 2 * Math.sqrt(s));
         // lerchphi(0,s,a) = (a^2)^(-s/2)
         if (s == 0)
