@@ -6,7 +6,7 @@
 
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -111,12 +111,11 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <version>1.6.13</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                         </configuration>
                     </plugin>
                 </plugins>
