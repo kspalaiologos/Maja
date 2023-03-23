@@ -714,7 +714,7 @@ class Hypergeometric {
         return (psum);
     }
 
-    private static class DoublePtr {
+    static class DoublePtr {
         double value;
     }
 }
