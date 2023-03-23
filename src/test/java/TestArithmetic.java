@@ -102,4 +102,19 @@ public class TestArithmetic {
         assertThat(Maja.isqrt(182)).isEqualTo(13);
         assertThat(Maja.isqrt(12345)).isEqualTo(111);
     }
+
+    @Test
+    public void testICbrt() {
+        assertThat(Maja.icbrt(0)).isEqualTo(0);
+        assertThat(Maja.icbrt(1)).isEqualTo(1);
+        assertThat(Maja.icbrt(-1)).isEqualTo(-1);
+        assertThat(Maja.icbrt(8)).isEqualTo(2);
+        assertThat(Maja.icbrt(-8)).isEqualTo(-2);
+
+        // Try out some more sophisticated results:
+        assertThat(Maja.icbrt(27)).isEqualTo(3);
+        assertThat(Maja.icbrt(64)).isEqualTo(4);
+        assertThat(Maja.icbrt(182)).isEqualTo(5);
+        assertThat(Maja.icbrt(12345)).isEqualTo(23);
+    }
 }
