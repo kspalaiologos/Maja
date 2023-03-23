@@ -1048,6 +1048,44 @@ public class Maja {
     }
 
     /**
+     * Break floating-point number down into exponent and mantissa
+     * @param value
+     * @return A pair of the exponent and the mantissa.
+     */
+    public static Pair<Integer, Double> frexp (double value) {
+        if (value == 0.0 || value == -0.0) {
+            return new Pair<>(0, 0.0);
+        }
+
+        if (Double.isNaN(value)) {
+            return new Pair<>(-1, Double.NaN);
+        }
+
+        if (Double.isInfinite(value)) {
+            return new Pair<>(-1, value);
+        }
+
+        double mantissa = value;
+        int exponent = 0;
+        int sign = 1;
+
+        if (mantissa < 0f) {
+            sign = -1;
+            mantissa = -(mantissa);
+        }
+        while (mantissa < 0.5f) {
+            mantissa *= 2.0f;
+            exponent -= 1;
+        }
+        while (mantissa >= 1.0f) {
+            mantissa *= 0.5f;
+            exponent++;
+        }
+        mantissa *= sign;
+        return new Pair<>(exponent, mantissa);
+    }
+
+    /**
      * Compute the value of x^z where x is a double precision
      * floating point number and z is an integer.
      *
@@ -1081,37 +1119,9 @@ public class Maja {
             n = z;
         }
 
-        if (Double.isNaN(x) || x + x == x || Double.isInfinite(x)) {
-            lx = 0;
-            s = x;
-        } else {
-            long bits = Double.doubleToLongBits(x);
-            boolean neg = (bits < 0);
-            int exponent = (int) ((bits >> 52) & 0x7ffL);
-            long mantissa = bits & 0xfffffffffffffL;
-
-            if (exponent == 0) {
-                exponent++;
-            } else {
-                mantissa = mantissa | (1L << 52);
-            }
-
-            exponent -= 1075;
-            double realMant = mantissa;
-
-            while (realMant > 1.0) {
-                mantissa >>= 1;
-                realMant /= 2.;
-                exponent++;
-            }
-
-            if (neg) {
-                realMant = realMant * -1;
-            }
-
-            lx = exponent;
-            s = realMant;
-        }
+        Pair<Integer, Double> ep = frexp(x);
+        lx = ep.first();
+        s = ep.second();
 
         e = (lx - 1) * n;
         if ((e == 0) || (e > 64) || (e < -64)) {
