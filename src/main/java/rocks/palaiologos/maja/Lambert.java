@@ -8,6 +8,9 @@ class Lambert {
             -8.401032217523977370984161688514, 12.250753501314460424,
             -18.100697012472442755, 27.029044799010561650};
 
+    private Lambert() {
+    }
+
     private static double halley_iteration(double x, double w_initial, int max_iters) {
         double w = w_initial;
         int i;

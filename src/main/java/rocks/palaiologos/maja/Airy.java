@@ -60,6 +60,9 @@ class Airy {
         dxtmp[25] = 0.56418958354775629;
     }
 
+    private Airy() {
+    }
+
     public static double airy(double x) {
         if (Double.isNaN(x))
             return Double.NaN;
@@ -127,7 +130,7 @@ class Airy {
     }
 
     public static double airyDerivative(double x) {
-        if(x == Double.POSITIVE_INFINITY)
+        if (x == Double.POSITIVE_INFINITY)
             return 0;
         int n, l;
         double s, t, u, v, sc, tc, k1, k2, k3, k4, c, xt, si, co, expxt;

@@ -1,6 +1,9 @@
 package rocks.palaiologos.maja;
 
 class Hypergeometric {
+    private Hypergeometric() {
+    }
+
     public static double hyp2f1(double a, double b, double c, double x) {
         double d, d1, d2, e;
         double p, q, r, s, y = Double.NaN, ax;

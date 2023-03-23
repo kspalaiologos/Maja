@@ -1049,10 +1049,11 @@ public class Maja {
 
     /**
      * Break floating-point number down into exponent and mantissa
+     *
      * @param value
      * @return A pair of the exponent and the mantissa.
      */
-    public static Pair<Integer, Double> frexp (double value) {
+    public static Pair<Integer, Double> frexp(double value) {
         if (value == 0.0 || value == -0.0) {
             return new Pair<>(0, 0.0);
         }
@@ -1990,7 +1991,7 @@ public class Maja {
      * @return lcm(a, b)
      */
     public static long lcm(long a, long b) {
-        if(a == 0 || b == 0) return 0;
+        if (a == 0 || b == 0) return 0;
         return a * b / gcd(a, b);
     }
 
@@ -2047,6 +2048,7 @@ public class Maja {
 
     /**
      * Compute fractional order bessel function of n and x.
+     *
      * @param n
      * @param x
      * @return J_n(x)
@@ -2057,6 +2059,7 @@ public class Maja {
 
     /**
      * Compute the fractional order bessel Y function of v and x.
+     *
      * @param v
      * @param x
      * @return Y_n(x)

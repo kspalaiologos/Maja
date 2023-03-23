@@ -3,6 +3,51 @@ package rocks.palaiologos.maja;
 import java.util.concurrent.ConcurrentHashMap;
 
 class Integrator {
+    private static final ConcurrentHashMap<Integer, GaussLegendreParameters> gaussLegendreParameters = new ConcurrentHashMap<>();
+
+    private Integrator() {
+    }
+
+    // N = 10000
+    public static double finiteSimpson(MonadicFunction f, double a, double b, int N) {
+        double h = (b - a) / (N - 1);
+
+        // 1/3 terms
+        double sum = 1.0 / 3.0 * (f.apply(a) + f.apply(b));
+
+        // 4/3 terms
+        for (int i = 1; i < N - 1; i += 2) {
+            double x = a + h * i;
+            sum += 4.0 / 3.0 * f.apply(x);
+        }
+
+        // 2/3 terms
+        for (int i = 2; i < N - 1; i += 2) {
+            double x = a + h * i;
+            sum += 2.0 / 3.0 * f.apply(x);
+        }
+
+        return sum * h;
+    }
+
+    private static GaussLegendreParameters getParameters(int n) {
+        synchronized (gaussLegendreParameters) {
+            if (!gaussLegendreParameters.containsKey(n)) {
+                gaussLegendreParameters.put(n, new GaussLegendreParameters(n));
+            }
+            return gaussLegendreParameters.get(n);
+        }
+    }
+
+    // N = 5
+    public static double gaussLegendreIntegrate(MonadicFunction f, double a, double b, int N) {
+        GaussLegendreParameters parameters = getParameters(N);
+        double c1 = (b - a) / 2, c2 = (b + a) / 2, sum = 0;
+        for (int i = 0; i < N; i++)
+            sum += parameters.weight[i] * f.apply(c1 * parameters.lroots[i] + c2);
+        return c1 * sum;
+    }
+
     // https://www.genivia.com/files/qthsh.pdf.
     // returns a two element double array of the result and the estimated error.
     double[] finiteTanhSinh(MonadicFunction f, double a, double b, int n, double eps) {
@@ -49,31 +94,10 @@ class Integrator {
         return new double[]{d * s * h, e};
     }
 
-    // N = 10000
-    public static double finiteSimpson(MonadicFunction f, double a, double b, int N) {
-        double h = (b - a) / (N - 1);
-
-        // 1/3 terms
-        double sum = 1.0 / 3.0 * (f.apply(a) + f.apply(b));
-
-        // 4/3 terms
-        for (int i = 1; i < N - 1; i += 2) {
-            double x = a + h * i;
-            sum += 4.0 / 3.0 * f.apply(x);
-        }
-
-        // 2/3 terms
-        for (int i = 2; i < N - 1; i += 2) {
-            double x = a + h * i;
-            sum += 2.0 / 3.0 * f.apply(x);
-        }
-
-        return sum * h;
-    }
-
     private static class GaussLegendreParameters {
-        private int N;
-
+        public double[] lroots, weight;
+        public double[][] lcoef;
+        private final int N;
         public GaussLegendreParameters(int N) {
             this.N = N;
             this.lroots = new double[N];
@@ -83,9 +107,6 @@ class Integrator {
             legeRoots();
             lcoef = null;
         }
-
-        public double[] lroots, weight;
-        public double[][] lcoef;
 
         private void legeCoef() {
             lcoef[0][0] = lcoef[1][1] = 1;
@@ -127,25 +148,5 @@ class Integrator {
                 weight[i - 1] = 2 / ((1 - x * x) * x1 * x1);
             }
         }
-    }
-
-    private static final ConcurrentHashMap<Integer, GaussLegendreParameters> gaussLegendreParameters = new ConcurrentHashMap<>();
-
-    private static GaussLegendreParameters getParameters(int n) {
-        synchronized (gaussLegendreParameters) {
-            if (!gaussLegendreParameters.containsKey(n)) {
-                gaussLegendreParameters.put(n, new GaussLegendreParameters(n));
-            }
-            return gaussLegendreParameters.get(n);
-        }
-    }
-
-    // N = 5
-    public static double gaussLegendreIntegrate(MonadicFunction f, double a, double b, int N) {
-        GaussLegendreParameters parameters = getParameters(N);
-        double c1 = (b - a) / 2, c2 = (b + a) / 2, sum = 0;
-        for (int i = 0; i < N; i++)
-            sum += parameters.weight[i] * f.apply(c1 * parameters.lroots[i] + c2);
-        return c1 * sum;
     }
 }

@@ -102,6 +102,9 @@ class TrigonometricIntegral {
             1.03665693917934275131E0
     };
 
+    private TrigonometricIntegral() {
+    }
+
     private static double SiF(double x) {
         double x2 = x * x;
         double nrt = 1 +

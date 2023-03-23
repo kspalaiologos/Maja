@@ -1,6 +1,9 @@
 package rocks.palaiologos.maja;
 
 class Erf {
+    private Erf() {
+    }
+
     private static double w_im_y100(double x) {
         double y100 = 100 / (1 + x);
         switch ((int) y100) {

@@ -10,6 +10,9 @@ class Zeta {
                     -2.1748686985580618730e-16
             };
 
+    private Zeta() {
+    }
+
     private static double __riemann_zeta_glob(double __s) {
         double __zeta = 0;
 

@@ -51,6 +51,9 @@ class Spence {
             4.784036597230791011855E-25,
     };
 
+    private Spence() {
+    }
+
     static double polevl(double x, double[] p, int N) {
         int i = N, dx = 0;
         double ans = p[dx++];

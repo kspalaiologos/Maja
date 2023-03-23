@@ -1,6 +1,9 @@
 package rocks.palaiologos.maja;
 
 class Ei {
+    private Ei() {
+    }
+
     private static double __expint_E1_series(double __x) {
         double __term = 1.0;
         double __esum = 0.0;
@@ -109,9 +112,9 @@ class Ei {
     public static double expint(double x) {
         if (Double.isNaN(x)) {
             return Double.NaN;
-        } else if(x == Double.POSITIVE_INFINITY) {
+        } else if (x == Double.POSITIVE_INFINITY) {
             return Double.POSITIVE_INFINITY;
-        } else if(x == Double.NEGATIVE_INFINITY) {
+        } else if (x == Double.NEGATIVE_INFINITY) {
             return 0;
         } else {
             return __expint_Ei(x);

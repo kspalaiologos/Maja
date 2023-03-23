@@ -3,6 +3,9 @@ package rocks.palaiologos.maja;
 class Fresnel {
     static final double sqrt_2pi = 2.506628274631000502415765284811045253006;
 
+    private Fresnel() {
+    }
+
     private static double SChebyshev_Expansion_0_1(double x) {
         final double[] c = {
                 +2.560134650043040830997e-1, -1.993005146464943284549e-1,

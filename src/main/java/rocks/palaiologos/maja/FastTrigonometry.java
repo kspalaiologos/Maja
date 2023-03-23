@@ -26,6 +26,9 @@ class FastTrigonometry {
         sintable[(int) (270 * degToIndex) & SIN_MASK] = -1f;
     }
 
+    private FastTrigonometry() {
+    }
+
     // sin(x) for x between -2*pi and 2*pi
     public static float sin(float radians) {
         return sintable[(int) (radians * radToIndex) & SIN_MASK];
