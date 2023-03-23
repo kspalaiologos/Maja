@@ -137,6 +137,8 @@ public class TestArithmetic {
         assertFalse(Maja.isPerfectSquare(0b1000));
         assertTrue(Maja.isPerfectSquare(65536));
         assertTrue(Maja.isPerfectSquare(17 * 17));
+        assertTrue(Maja.isPerfectSquare(233 * 233));
+        assertFalse(Maja.isPerfectSquare(233 * 231));
     }
 
     @Test
