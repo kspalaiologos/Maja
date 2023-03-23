@@ -2043,4 +2043,24 @@ public class Maja {
     public static double[] logabsgamma(double x) {
         return Gamma.lgam(x);
     }
+
+    /**
+     * Compute fractional order bessel function of n and x.
+     * @param n
+     * @param x
+     * @return J_n(x)
+     */
+    public static double besselJv(double n, double x) {
+        return Bessel.jv(n, x);
+    }
+
+    /**
+     * Compute the fractional order bessel Y function of v and x.
+     * @param v
+     * @param x
+     * @return Y_n(x)
+     */
+    public static double besselYv(double v, double x) {
+        return Bessel.yv(v, x);
+    }
 }
