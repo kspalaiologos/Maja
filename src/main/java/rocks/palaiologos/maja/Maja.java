@@ -4,6 +4,7 @@ import java.util.Random;
 
 /**
  * A slick numerics-oriented Mathematical library for Java.
+ *
  * @author Palaiologos
  */
 public class Maja {
@@ -684,9 +685,9 @@ public class Maja {
      * @return 1 if x &gt; y, 0 if x == y, -1 if x &lt; y
      */
     public static int compare(double x, double y) {
-        if(x == y) {
+        if (x == y) {
             return 0;
-        } else if(x < y) {
+        } else if (x < y) {
             return -1;
         } else {
             return 1;
@@ -830,7 +831,7 @@ public class Maja {
      * If x &lt; 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt(x))
+     * @return floor(cbrt ( x))
      */
     public static int icbrt(int x) {
         long s, y = 0, b, y2 = 0;
@@ -856,7 +857,7 @@ public class Maja {
      * If x &lt; 0, -cbrt(-x) is returned.
      *
      * @param x
-     * @return floor(cbrt(x))
+     * @return floor(cbrt ( x))
      */
     public static long icbrt(long x) {
         long s, y = 0, b, y2 = 0;
@@ -882,7 +883,7 @@ public class Maja {
      * If a &lt; 0, -cbrt(-a) is returned.
      *
      * @param a
-     * @return floor(cbrt(a))
+     * @return floor(cbrt ( a))
      */
     public static short icbrt(short a) {
         long s, y = 0, b, y2 = 0, x = a;
@@ -908,7 +909,7 @@ public class Maja {
      * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(int x) {
         long m = 0x40000000, y = 0, b, t;
@@ -932,7 +933,7 @@ public class Maja {
      * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(long x) {
         long m = 0x4000000000000000L, y = 0, b, t;
@@ -956,7 +957,7 @@ public class Maja {
      * If x &lt; 0, -isqrt(-x) is returned.
      *
      * @param x
-     * @return floor(sqrt(x))
+     * @return floor(sqrt ( x))
      */
     public static int isqrt(short x) {
         long m = 0x4000, y = 0, b, t;
@@ -1815,6 +1816,7 @@ public class Maja {
 
     /**
      * Compute the Fresnel integral C(x).
+     *
      * @param x
      * @return C(x)
      */
@@ -1824,6 +1826,7 @@ public class Maja {
 
     /**
      * Compute the Fresnel integral S(x).
+     *
      * @param x
      * @return S(x)
      */
@@ -1833,6 +1836,7 @@ public class Maja {
 
     /**
      * Compute the bessel Y0 function at x.
+     *
      * @param x
      * @return Y0(x)
      */
@@ -1842,6 +1846,7 @@ public class Maja {
 
     /**
      * Compute the bessel Y1 function at x.
+     *
      * @param x
      * @return Y1(x)
      */
@@ -1851,6 +1856,7 @@ public class Maja {
 
     /**
      * Compute the bessel Yn function at x.
+     *
      * @param n
      * @param x
      * @return Yn(x)
@@ -1861,6 +1867,7 @@ public class Maja {
 
     /**
      * Compute the bessel J0 function at x.
+     *
      * @param x
      * @return J0(x)
      */
@@ -1870,6 +1877,7 @@ public class Maja {
 
     /**
      * Compute the bessel J1 function at x.
+     *
      * @param x
      * @return J1(x)
      */
@@ -1879,6 +1887,7 @@ public class Maja {
 
     /**
      * Compute the bessel Jn function at x.
+     *
      * @param n
      * @param x
      * @return Jn(x)
@@ -1889,6 +1898,7 @@ public class Maja {
 
     /**
      * Compute the bessel I0 function at x.
+     *
      * @param x
      * @return I0(x)
      */
@@ -1898,6 +1908,7 @@ public class Maja {
 
     /**
      * Compute the bessel I1 function at x.
+     *
      * @param x
      * @return I1(x)
      */
@@ -1907,6 +1918,7 @@ public class Maja {
 
     /**
      * Compute the bessel K0 function at x.
+     *
      * @param x
      * @return K0(x)
      */
@@ -1916,6 +1928,7 @@ public class Maja {
 
     /**
      * Compute the bessel K1 function at x.
+     *
      * @param x
      * @return K1(x)
      */
@@ -1925,6 +1938,7 @@ public class Maja {
 
     /**
      * Compute the bessel Kn function at x.
+     *
      * @param n
      * @param x
      * @return Kn(x)
@@ -1935,6 +1949,7 @@ public class Maja {
 
     /**
      * Compute the greatest common divisor of two integers.
+     *
      * @param a
      * @param b
      * @return gcd(a, b)
@@ -1959,6 +1974,7 @@ public class Maja {
 
     /**
      * Compute the least common multiple of two integers.
+     *
      * @param a
      * @param b
      * @return lcm(a, b)
@@ -1971,6 +1987,7 @@ public class Maja {
      * Compute the n-th Fibonacci number using Binet's formula.
      * Due to floating point precision issues, this method is only
      * accurate for n &le;= 75.
+     *
      * @param a
      * @return fib(a)
      */
@@ -1983,6 +2000,7 @@ public class Maja {
 
     /**
      * Computes the Gaussian hypergeometric function (2F1) of four arguments.
+     *
      * @param a
      * @param b
      * @param c
@@ -1994,10 +2012,23 @@ public class Maja {
     }
 
     /**
+     * Computes the Confluent hypergeometric function (1F1) of three arguments.
+     *
+     * @param a
+     * @param b
+     * @param x
+     * @return (1F1)(a, b, x)
+     */
+    public static double hypergeo1F1(double a, double b, double x) {
+        return Hypergeometric.hyperg(a, b, x);
+    }
+
+    /**
      * Computes the logarithm of the absolute value of the gamma function of x.
-     * @see Maja#loggamma(double)
+     *
      * @param x
      * @return { log(|Gamma(x)|), sign(Gamma(x)) }
+     * @see Maja#loggamma(double)
      */
     public static double[] logabsgamma(double x) {
         return Gamma.lgam(x);

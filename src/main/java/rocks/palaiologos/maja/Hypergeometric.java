@@ -1,10 +1,6 @@
 package rocks.palaiologos.maja;
 
 class Hypergeometric {
-    private static class DoublePtr {
-        double value;
-    }
-
     public static double hyp2f1(double a, double b, double c, double x) {
         double d, d1, d2, e;
         double p, q, r, s, y = Double.NaN, ax;
@@ -232,7 +228,6 @@ class Hypergeometric {
         return f0;
     }
 
-
     public static double hys2f1(double a, double b, double c, double x, DoublePtr loss) {
         double f, g, h, k, m, s, u, umax, t;
         int i;
@@ -281,11 +276,11 @@ class Hypergeometric {
             m = k + 1.0;
             u = u * ((f + k) * (g + k) * x / ((h + k) * m));
             s += u;
-            k = Math.abs(u);		/* remember largest term summed */
+            k = Math.abs(u);        /* remember largest term summed */
             if (k > umax)
                 umax = k;
             k = m;
-            if (++i > 10000) {	/* should never happen */
+            if (++i > 10000) {    /* should never happen */
                 loss.value = 1.0;
                 return (s);
             }
@@ -310,11 +305,11 @@ class Hypergeometric {
         ia = Math.round(a);
         ib = Math.round(b);
 
-        if (a <= 0 && Math.abs(a - ia) < Maja.EPSILON) {	/* a is a negative integer */
+        if (a <= 0 && Math.abs(a - ia) < Maja.EPSILON) {    /* a is a negative integer */
             neg_int_a = 1;
         }
 
-        if (b <= 0 && Math.abs(b - ib) < Maja.EPSILON) {	/* b is a negative integer */
+        if (b <= 0 && Math.abs(b - ib) < Maja.EPSILON) {    /* b is a negative integer */
             neg_int_b = 1;
         }
 
@@ -332,16 +327,17 @@ class Hypergeometric {
         }
 
         d = c - a - b;
-        id = Math.round(d);		/* nearest integer to d */
+        id = Math.round(d);        /* nearest integer to d */
 
         if (x > 0.9 && !(neg_int_a != 0 || neg_int_b != 0)) {
             if (Math.abs(d - id) > Maja.EPSILON) {
                 /* test for integer c-a-b */
                 /* Try the Math.power series first */
                 y = hys2f1(a, b, c, x, err);
-                if (err.value < 1.0e-12)
-                {loss.value = err.value;
-                    return (y);}
+                if (err.value < 1.0e-12) {
+                    loss.value = err.value;
+                    return (y);
+                }
                 /* If Math.power series fails, then apply AMS55 #15.3.6 */
                 q = hys2f1(a, b, 1.0 - d, s, err);
                 sign = 1;
@@ -349,10 +345,10 @@ class Hypergeometric {
                 result = Gamma.lgam(d);
                 w = result[0];
                 sign *= result[1];
-                result = Gamma.lgam(c-a);
+                result = Gamma.lgam(c - a);
                 w -= result[0];
                 sign *= result[1];
-                result = Gamma.lgam(c-b);
+                result = Gamma.lgam(c - b);
                 w -= result[0];
                 sign *= result[1];
                 q *= sign * Math.exp(w);
@@ -370,7 +366,7 @@ class Hypergeometric {
                 r *= sign * Math.exp(w);
                 y = q + r;
 
-                q = Math.abs(q);	/* estimate cancellation error */
+                q = Math.abs(q);    /* estimate cancellation error */
                 r = Math.abs(r);
                 if (q > r)
                     r = q;
@@ -379,8 +375,7 @@ class Hypergeometric {
                 y *= Gamma.gamma(c);
                 loss.value = err.value;
                 return (y);
-            }
-            else {
+            } else {
                 /* Psi function expansion, AMS55 #15.3.10, #15.3.11, #15.3.12
                  *
                  * Although AMS55 does not explicitly state it, this expansion fails
@@ -393,8 +388,7 @@ class Hypergeometric {
                     d1 = d;
                     d2 = 0.0;
                     aid = (int) id;
-                }
-                else {
+                } else {
                     e = -d;
                     d1 = 0.0;
                     d2 = d;
@@ -407,7 +401,7 @@ class Hypergeometric {
                 y = Gamma.digamma(1.0) + Gamma.digamma(1.0 + e) - Gamma.digamma(a + d1) - Gamma.digamma(b + d1) - ax;
                 y /= Gamma.gamma(e + 1.0);
 
-                p = (a + d1) * (b + d1) * s / Gamma.gamma(e + 2.0);	/* Poch for t=1 */
+                p = (a + d1) * (b + d1) * s / Gamma.gamma(e + 2.0);    /* Poch for t=1 */
                 t = 1.0;
                 do {
                     r = Gamma.digamma(1.0 + t) + Gamma.digamma(1.0 + t + e) - Gamma.digamma(a + t + d1)
@@ -439,7 +433,7 @@ class Hypergeometric {
                     y *= p / (Gamma.gamma(a + d2) * Gamma.gamma(b + d2));
                     y = -y;
 
-                    q = Math.pow(s, id);	/* s to the id Math.power */
+                    q = Math.pow(s, id);    /* s to the id Math.power */
                     if (id > 0.0)
                         y *= q;
                     else
@@ -466,7 +460,7 @@ class Hypergeometric {
                 if ((aid & 1) != 0)
                     y = -y;
 
-                q = Math.pow(s, id);	/* s to the id Math.power */
+                q = Math.pow(s, id);    /* s to the id Math.power */
                 if (id > 0.0)
                     y *= q;
                 else
@@ -483,5 +477,244 @@ class Hypergeometric {
         y = hys2f1(a, b, c, x, err);
         loss.value = err.value;
         return (y);
+    }
+
+    static double hy1f1p(double a, double b, double x, DoublePtr err) {
+        double n, a0, sum, t, u, temp;
+        double an, bn, maxt, pcanc;
+
+
+        /* set up for power series summation */
+        an = a;
+        bn = b;
+        a0 = 1.0;
+        sum = 1.0;
+        n = 1.0;
+        t = 1.0;
+        maxt = 0.0;
+
+
+        while (t > Maja.EPSILON) {
+            if (bn == 0)            /* check bn first since if both	*/ {
+                return (Double.POSITIVE_INFINITY);    /* an and bn are zero it is	*/
+            }
+            if (an == 0)            /* a singularity		*/
+                return (sum);
+            if (n > 200)
+                break;
+            u = x * (an / (bn * n));
+
+            /* check for blowup */
+            temp = Math.abs(u);
+            if ((temp > 1.0) && (maxt > (Double.MAX_VALUE / temp))) {
+                pcanc = 1.0;    /* estimate 100% error */
+                err.value = pcanc;
+
+                return (sum);
+            }
+
+            a0 *= u;
+            sum += a0;
+            t = Math.abs(a0);
+            if (t > maxt)
+                maxt = t;
+            an += 1.0;
+            bn += 1.0;
+            n += 1.0;
+        }
+
+        /* estimate error due to roundoff and cancellation */
+        if (sum != 0.0)
+            maxt /= Math.abs(sum);
+        maxt *= Maja.EPSILON;    /* this way avoids multiply overflow */
+        pcanc = Math.abs(Maja.EPSILON * n + maxt);
+
+        err.value = pcanc;
+
+        return (sum);
+    }
+
+    static double hy1f1a(double a, double b, double x, DoublePtr err) {
+        double h1, h2, t, u, temp, acanc, asum;
+        DoublePtr err1 = new DoublePtr(), err2 = new DoublePtr();
+
+        if (x == 0) {
+            acanc = 1.0;
+            asum = Double.POSITIVE_INFINITY;
+            err.value = acanc;
+            return (asum);
+        }
+        temp = Math.log(Math.abs(x));
+        t = x + temp * (a - b);
+        u = -temp * a;
+
+        if (b > 0) {
+            temp = Gamma.lgam(b)[0];
+            t += temp;
+            u += temp;
+        }
+
+        h1 = hyp2f0(a, a - b + 1, -1.0 / x, 1, err1);
+
+        temp = Math.exp(u) / Gamma.gamma(b - a);
+        h1 *= temp;
+        err1.value *= temp;
+
+        h2 = hyp2f0(b - a, 1.0 - a, 1.0 / x, 2, err2);
+
+        if (a < 0)
+            temp = Math.exp(t) / Gamma.gamma(a);
+        else
+            temp = Math.exp(t - Gamma.lgam(a)[0]);
+
+        h2 *= temp;
+        err2.value *= temp;
+
+        if (x < 0.0)
+            asum = h1;
+        else
+            asum = h2;
+
+        acanc = Math.abs(err1.value) + Math.abs(err2.value);
+
+
+        if (b < 0) {
+            temp = Gamma.gamma(b);
+            asum *= temp;
+            acanc *= Math.abs(temp);
+        }
+
+
+        if (asum != 0.0)
+            acanc /= Math.abs(asum);
+
+        acanc *= 30.0;    /* fudge factor, since error of asymptotic formula
+         * often seems this much larger than advertised */
+
+        err.value = acanc;
+        return (asum);
+    }
+
+    static double hyp2f0(double a, double b, double x, int type, DoublePtr err) {
+        double a0, alast, t, tlast, maxt;
+        double n, an, bn, u, sum, temp;
+
+        an = a;
+        bn = b;
+        a0 = 1.0e0;
+        alast = 1.0e0;
+        sum = 0.0;
+        n = 1.0e0;
+        t = 1.0e0;
+        tlast = 1.0e9;
+        maxt = 0.0;
+
+        do {
+            if (an == 0 || bn == 0) {
+                /* estimate error due to roundoff and cancellation */
+                err.value = Math.abs(Maja.EPSILON * (n + maxt));
+
+                alast = a0;
+                sum += alast;
+                return (sum);
+            }
+
+            u = an * (bn * x / n);
+
+            /* check for blowup */
+            temp = Math.abs(u);
+            if ((temp > 1.0) && (maxt > (Double.MAX_VALUE / temp))) {
+                err.value = Double.MAX_VALUE;
+                return (sum);
+            }
+
+            a0 *= u;
+            t = Math.abs(a0);
+
+            /* terminating condition for asymptotic series */
+            if (t > tlast) {
+                /* The following "Converging factors" are supposed to improve accuracy,
+                 * but do not actually seem to accomplish very much. */
+
+                n -= 1.0;
+                x = 1.0 / x;
+
+                switch (type)    /* "type" given as subroutine argument */ {
+                    case 1 -> alast *= (0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x);
+                    case 2 -> alast *= 2.0 / 3.0 - b + 2.0 * a + x - n;
+                }
+
+                /* estimate error due to roundoff, cancellation, and nonconvergence */
+                err.value = Maja.EPSILON * (n + maxt) + Math.abs(a0);
+
+                sum += alast;
+                return (sum);
+            }
+
+            tlast = t;
+            sum += alast;    /* the sum is one term behind */
+            alast = a0;
+
+            if (n > 200) {
+                /* The following "Converging factors" are supposed to improve accuracy,
+                 * but do not actually seem to accomplish very much. */
+
+                n -= 1.0;
+                x = 1.0 / x;
+
+                switch (type)    /* "type" given as subroutine argument */ {
+                    case 1 -> alast *= (0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x);
+                    case 2 -> alast *= 2.0 / 3.0 - b + 2.0 * a + x - n;
+                }
+
+                /* estimate error due to roundoff, cancellation, and nonconvergence */
+                err.value = Maja.EPSILON * (n + maxt) + Math.abs(a0);
+
+                sum += alast;
+                return (sum);
+            }
+
+            an += 1.0e0;
+            bn += 1.0e0;
+            n += 1.0e0;
+            if (t > maxt)
+                maxt = t;
+        }
+        while (t > Maja.EPSILON);
+
+        /* estimate error due to roundoff and cancellation */
+        err.value = Math.abs(Maja.EPSILON * (n + maxt));
+
+        alast = a0;
+        sum += alast;
+        return (sum);
+
+    }
+
+    public static double hyperg(double a, double b, double x) {
+        double asum, psum, temp;
+        DoublePtr acanc = new DoublePtr();
+        DoublePtr pcanc = new DoublePtr();
+
+        temp = b - a;
+        if (Math.abs(temp) < 0.001 * Math.abs(a))
+            return (Math.exp(x) * hyperg(temp, b, -x));
+
+        psum = hy1f1p(a, b, x, pcanc);
+        if (pcanc.value < 1.0e-15)
+            return (psum);
+
+        asum = hy1f1a(a, b, x, acanc);
+
+        if (acanc.value < pcanc.value) {
+            pcanc.value = acanc.value;
+            psum = asum;
+        }
+
+        return (psum);
+    }
+
+    private static class DoublePtr {
+        double value;
     }
 }
