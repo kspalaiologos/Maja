@@ -109,6 +109,10 @@ class Ei {
     public static double expint(double x) {
         if (Double.isNaN(x)) {
             return Double.NaN;
+        } else if(x == Double.POSITIVE_INFINITY) {
+            return Double.POSITIVE_INFINITY;
+        } else if(x == Double.NEGATIVE_INFINITY) {
+            return 0;
         } else {
             return __expint_Ei(x);
         }
