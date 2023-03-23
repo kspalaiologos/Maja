@@ -1,8 +1,6 @@
 
 Functions:
 - Meijer G.
-- Gauss-Legendre quadrature.
-- Simpson rule.
 - Elliptic functions / integrals.
 - Struve function
 - Airy Bi, Bi'

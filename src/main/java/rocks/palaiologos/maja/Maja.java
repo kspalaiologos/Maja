@@ -1990,6 +1990,7 @@ public class Maja {
      * @return lcm(a, b)
      */
     public static long lcm(long a, long b) {
+        if(a == 0 || b == 0) return 0;
         return a * b / gcd(a, b);
     }
 

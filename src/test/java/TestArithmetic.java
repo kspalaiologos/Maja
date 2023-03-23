@@ -138,4 +138,17 @@ public class TestArithmetic {
         assertTrue(Maja.isPerfectSquare(65536));
         assertTrue(Maja.isPerfectSquare(17 * 17));
     }
+
+    @Test
+    public void testLcmGcd() {
+        assertThat(Maja.lcm(90, 342)).isEqualTo(1710);
+        assertThat(Maja.lcm(2, 3)).isEqualTo(6);
+        assertThat(Maja.lcm(0, 0)).isEqualTo(0);
+        assertThat(Maja.lcm(0, 1)).isEqualTo(0);
+
+        assertThat(Maja.gcd(90, 342)).isEqualTo(18);
+        assertThat(Maja.gcd(2, 3)).isEqualTo(1);
+        assertThat(Maja.gcd(0, 0)).isEqualTo(0);
+        assertThat(Maja.gcd(0, 1)).isEqualTo(1);
+    }
 }
