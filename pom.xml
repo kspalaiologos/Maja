@@ -6,7 +6,7 @@
 
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -29,6 +29,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <name>Maja</name>
 
     <description>
         A slick numerics-oriented Mathematical library for Java.
