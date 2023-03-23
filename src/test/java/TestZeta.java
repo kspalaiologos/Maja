@@ -20,4 +20,17 @@ public class TestZeta {
         assertThat(Maja.zeta(Double.NEGATIVE_INFINITY)).isNaN();
         assertThat(Maja.zeta(Double.NaN)).isNaN();
     }
+
+    @Test
+    public void testHurwitz() {
+        assertThat(Maja.hurwitzZeta(0.5,0.5)).isEqualTo(-0.6049394572448313);
+        assertThat(Maja.hurwitzZeta(1.01,1.15)).isEqualTo(100.35428457218312);
+        assertThat(Maja.hurwitzZeta(-1.0,2.23)).isEqualTo(-1.4546960238181506);
+        assertThat(Maja.hurwitzZeta(0.3,5.0)).isEqualTo(-4.095812113543416);
+        assertThat(Maja.hurwitzZeta(-0.3,100000.0)).isEqualTo(-2432505.4656642997);
+        assertThat(Maja.hurwitzZeta(4.0,12.0)).isEqualTo(2.1834829681679626E-4);
+        assertThat(Maja.hurwitzZeta(-4.0,6.23)).isEqualTo(-1204.1989289815126);
+        assertThat(Maja.hurwitzZeta(10.123,1.111)).isEqualTo(0.34506754462671935);
+        assertThat(Maja.hurwitzZeta(-10.123,9.9)).isEqualTo(-5.685551437279248E9);
+    }
 }
