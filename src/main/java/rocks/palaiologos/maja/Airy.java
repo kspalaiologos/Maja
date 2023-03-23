@@ -127,6 +127,8 @@ class Airy {
     }
 
     public static double airyDerivative(double x) {
+        if(x == Double.POSITIVE_INFINITY)
+            return 0;
         int n, l;
         double s, t, u, v, sc, tc, k1, k2, k3, k4, c, xt, si, co, expxt;
         double sqrtx, wwl, pl, pl1, pl2, pl3, zzz, ai, aid;
