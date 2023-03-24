@@ -29,4 +29,13 @@ public class TestQuadratures {
                 - 1.4936482656248540507989348722637060107089993736252126580553089979))
                 .isLessThan(7e-12);
     }
+
+    @Test
+    public void testTanhSinh() {
+        // sqrt(1-x**2) from -1 to 1 => pi/2
+        assertThat(Math.abs(Maja.integrateTanhSinh(x -> Maja.sqrt(1 - x * x), -1, 1, 6, 1e-10)[0]
+                - Maja.PI_2)).isLessThan(1e-10);
+        assertThat(Math.abs(Maja.integrateTanhSinh(x -> Maja.sqrt(1 - x * x), -1, 1, 6, 1e-16)[0]
+                - Maja.PI_2)).isLessThan(1.56e-15);
+    }
 }
