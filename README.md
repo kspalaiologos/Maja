@@ -29,11 +29,11 @@ Functions:
 - Random number generation.
 - Sigmoid (logistic) functions (squash, stretch)
 - Batch operations (map, reduce)
-- Trigonometry (acos, acosh, acot, acoth, acsc, acsch, asec, asech, asin, asinh, atan, atan2, atanh, cos, cosh, cot, coth, csc, csch, sec, sech, sin, sinh, tan, tanh, toDegrees, toRadians)
+- Trigonometry (acos, acosh, acot, acoth, acsc, acsch, asec, asech, asin, asinh, atan, atan2, atanh, cos, cosh, cot, coth, csc, csch, sec, sech, sin, sinc, sinh, tan, tanh, toDegrees, toRadians)
 - High-performance trigonometry (fastSin, fastCos)
 - Airy Ai function (airy, airyDerivative)
 - Bessel functions (i0, i1, j0, j1, jn, k0, k1, kn, y0, y1, yn, jv, yv)
-- Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
+- Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
 - Trigonometric integrals (Chi, Ci, Cin, Shi, ShiChi, si, Si)
 - Exponential integral (expint)
 - Error function family (Dawson-, Dawson+, erf, erfc, erfcInv, erfi, erfInv)
@@ -42,6 +42,8 @@ Functions:
 - Zeta family (Hurwitz Zeta, Lerch Transcendent, Riemann Zeta)
 - Lambert W (W0, W-1)
 - Hypergeometric function (2F1, 1F1).
+- Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
+- Root finding (Newton-Raphson method).
 
 
 ## License
