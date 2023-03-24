@@ -66,7 +66,7 @@ class Integrator {
     public static GaussLegendreParameters getParameters(int n) {
         synchronized (gaussLegendreParameters) {
             if (!gaussLegendreParameters.containsKey(n)) {
-                gaussLegendreParameters.put(n, new GaussLegendreParameters(n));
+                throw new IllegalArgumentException("Gauss-Legendre parameters for n = " + n + " not found.");
             }
             return gaussLegendreParameters.get(n);
         }
@@ -127,69 +127,60 @@ class Integrator {
         return new double[]{d * s * h, e};
     }
 
+    /**
+     * Generated using the following code:
+     * <pre>
+     *         private void legeCoef() {
+     *             lcoef[0][0] = lcoef[1][1] = 1;
+     *
+     *             for (int n = 2; n <= N; n++) {
+     *
+     *                 lcoef[n][0] = -(n - 1) * lcoef[n - 2][0] / n;
+     *
+     *                 for (int i = 1; i <= n; i++) {
+     *                     lcoef[n][i] = ((2 * n - 1) * lcoef[n - 1][i - 1]
+     *                             - (n - 1) * lcoef[n - 2][i]) / n;
+     *                 }
+     *             }
+     *         }
+     *
+     *         private double legeEval(int n, double x) {
+     *             double s = lcoef[n][n];
+     *             for (int i = n; i > 0; i--)
+     *                 s = s * x + lcoef[n][i - 1];
+     *             return s;
+     *         }
+     *
+     *         private double legeDiff(int n, double x) {
+     *             return n * (x * legeEval(n, x) - legeEval(n - 1, x)) / (x * x - 1);
+     *         }
+     *
+     *         private void legeRoots() {
+     *             double x, x1;
+     *             for (int i = 1; i <= N; i++) {
+     *                 x = Math.cos(Math.PI * (i - 0.25) / (N + 0.5));
+     *                 int maxiter = 1000000;
+     *                 do {
+     *                     x1 = x;
+     *                     x -= legeEval(N, x) / legeDiff(N, x);
+     *                     if(maxiter-- == 0)
+     *                         break; // Can't converge, work with what we have.
+     *                 } while (Math.abs(x - x1) > Maja.EPSILON);
+     *
+     *                 lroots[i - 1] = x;
+     *
+     *                 x1 = legeDiff(N, x);
+     *                 weight[i - 1] = 2 / ((1 - x * x) * x1 * x1);
+     *             }
+     *         }
+     * </pre>
+     */
     public static class GaussLegendreParameters {
         public double[] lroots, weight;
-        public double[][] lcoef;
-        private final int N;
-
-        public GaussLegendreParameters(int N) {
-            this.N = N;
-            this.lroots = new double[N];
-            this.weight = new double[N];
-            this.lcoef = new double[N + 1][N + 1];
-            legeCoef();
-            legeRoots();
-            lcoef = null;
-        }
 
         public GaussLegendreParameters(double[] roots, double[] weights) {
-            this.N = roots.length;
             this.lroots = roots;
             this.weight = weights;
-        }
-
-        private void legeCoef() {
-            lcoef[0][0] = lcoef[1][1] = 1;
-
-            for (int n = 2; n <= N; n++) {
-
-                lcoef[n][0] = -(n - 1) * lcoef[n - 2][0] / n;
-
-                for (int i = 1; i <= n; i++) {
-                    lcoef[n][i] = ((2 * n - 1) * lcoef[n - 1][i - 1]
-                            - (n - 1) * lcoef[n - 2][i]) / n;
-                }
-            }
-        }
-
-        private double legeEval(int n, double x) {
-            double s = lcoef[n][n];
-            for (int i = n; i > 0; i--)
-                s = s * x + lcoef[n][i - 1];
-            return s;
-        }
-
-        private double legeDiff(int n, double x) {
-            return n * (x * legeEval(n, x) - legeEval(n - 1, x)) / (x * x - 1);
-        }
-
-        private void legeRoots() {
-            double x, x1;
-            for (int i = 1; i <= N; i++) {
-                x = Math.cos(Math.PI * (i - 0.25) / (N + 0.5));
-                int maxiter = 1000000;
-                do {
-                    x1 = x;
-                    x -= legeEval(N, x) / legeDiff(N, x);
-                    if(maxiter-- == 0)
-                        break; // Can't converge, work with what we have.
-                } while (Math.abs(x - x1) > Maja.EPSILON);
-
-                lroots[i - 1] = x;
-
-                x1 = legeDiff(N, x);
-                weight[i - 1] = 2 / ((1 - x * x) * x1 * x1);
-            }
         }
     }
 }

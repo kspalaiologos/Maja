@@ -2100,6 +2100,7 @@ public class Maja {
      * @param a lower bound
      * @param b upper bound
      * @param N number of intervals, N=6 tends to give a good approximation in most scenarios.
+     *          N must be between 1 and 30.
      * @return integral of f over [a,b]
      */
     public static double integrateGaussLegendre(MonadicFunction f, double a, double b, int N) {
