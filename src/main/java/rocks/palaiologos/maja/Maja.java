@@ -493,6 +493,19 @@ public class Maja {
     }
 
     /**
+     * Returns the sinc function of a double precision number, defined
+     * as sin(x) / x, except for x = 0, where sinc(x) = 1.
+     *
+     * @param x
+     * @return sinc(x)
+     */
+    public static double sinc(double x) {
+        if (x == 0)
+            return 1;
+        return Math.sin(x) / x;
+    }
+
+    /**
      * Returns the hyperbolic sine of a double precision number.
      *
      * @param x
