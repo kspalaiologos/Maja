@@ -1487,6 +1487,18 @@ public class Maja {
     }
 
     /**
+     * Compute the logarihtm of the beta function of two values.
+     * Uses the identity that log(beta(x, y)) = log(gamma(x)) + log(gamma(y)) - log(gamma(x + y)).
+     *
+     * @param x
+     * @param y
+     * @return log(beta(x, y))
+     */
+    public static double logbeta(double x, double y) {
+        return Gamma.loggamma(x) + Gamma.loggamma(y) - Gamma.loggamma(x + y);
+    }
+
+    /**
      * Return the factorial of n. n must be positive.
      * Faster than using the gamma function.
      *
