@@ -2214,4 +2214,16 @@ public class Maja {
         else
             return Integrator.finiteTanhSinh(f, b, a, N, eps);
     }
+
+    public static long binomial(int n, int k) {
+        if(n <= 0 || k < 0 || k > n)
+            throw new IllegalArgumentException("Invalid arguments: n = " + n + ", k = " + k);
+        // Naive method.
+        if (k > n - k)
+            k = n - k;
+        long b = 1;
+        for (int i = 1, m = n; i <= k; i++, m--)
+            b = b * m / i;
+        return b;
+    }
 }

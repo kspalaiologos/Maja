@@ -2,8 +2,7 @@ import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Maja;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestArithmetic {
     @Test
@@ -152,5 +151,15 @@ public class TestArithmetic {
         assertThat(Maja.gcd(2, 3)).isEqualTo(1);
         assertThat(Maja.gcd(0, 0)).isEqualTo(0);
         assertThat(Maja.gcd(0, 1)).isEqualTo(1);
+    }
+
+    @Test
+    public void testNChooseK() {
+        for(int n = 1; n <= 60; n++) {
+            assertEquals(Maja.binomial(n, 1), n);
+            for(int k = 2; k < n; k++) {
+                assertEquals(Maja.binomial(n, k), Maja.binomial(n - 1, k) + Maja.binomial(n - 1, k - 1));
+            }
+        }
     }
 }
