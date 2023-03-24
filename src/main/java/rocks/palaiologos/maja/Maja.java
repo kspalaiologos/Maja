@@ -2067,4 +2067,69 @@ public class Maja {
     public static double besselYv(double v, double x) {
         return Bessel.yv(v, x);
     }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Simpson rule. The number of intervals is given by N and the precision
+     * of the final result greatly depends on this parameter.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
+     * @return integral of f over [a,b]
+     */
+    public static double integrateSimpson(MonadicFunction f, double a, double b, int N) {
+        // Properly handle the configurations of a and b.
+        if(a < b)
+            return Integrator.finiteSimpson(f, a, b, N);
+        else if(a == b)
+            return 0.0;
+        else
+            return -Integrator.finiteSimpson(f, b, a, N);
+    }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Gauss-Legendre quadrature. The number of intervals is given by N and the precision
+     * of the final result greatly depends on this parameter.
+     * The computation of an integral using the Gauss-Legendre quadrature involves caching the
+     * coefficients required to perform the integration depending on the value of the N parameter.
+     * This means that the first call to this method will be slower than subsequent calls with the
+     * same value of N. The coefficients are internally cached inside a ConcurrentHashMap.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N number of intervals, N=5 tends to give a good approximation in most scenarios.
+     * @return integral of f over [a,b]
+     */
+    public static double integrateGaussLegendre(MonadicFunction f, double a, double b, int N) {
+        if(a < b)
+            return Integrator.gaussLegendreIntegrate(f, a, b, N);
+        else if(a == b)
+            return 0.0;
+        else
+            return -Integrator.gaussLegendreIntegrate(f, b, a, N);
+    }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Tanh-Sinh quadrature, especially useful when singularities or infinite
+     * derivatives exist at one or both endpoints. The Tanh-Sinh quadrature is
+     * not as efficient as Gaussian quadrature for smooth integrands.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N the degree of the quadrature, usually N=6 is sufficient
+     * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
+     * @return an array of double values, first of which is the integral of f over [a,b],
+     *         while the second is the estimated error.
+     */
+    public static double[] integrateTanhSinh(MonadicFunction f, double a, double b, int N, double eps) {
+        if(a < b)
+            return Integrator.finiteTanhSinh(f, a, b, N, eps);
+        else if(a == b)
+            return new double[]{0.0, 0.0};
+        else
+            return Integrator.finiteTanhSinh(f, b, a, N, eps);
+    }
 }

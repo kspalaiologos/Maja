@@ -4,3 +4,4 @@ Functions:
 - Elliptic functions / integrals.
 - Struve function
 - Airy Bi, Bi'
+- Math expression parser.

@@ -50,7 +50,7 @@ class Integrator {
 
     // https://www.genivia.com/files/qthsh.pdf.
     // returns a two element double array of the result and the estimated error.
-    double[] finiteTanhSinh(MonadicFunction f, double a, double b, int n, double eps) {
+    public static double[] finiteTanhSinh(MonadicFunction f, double a, double b, int n, double eps) {
         final double tol = 10 * eps;
         double c = (a + b) / 2;
         double d = (b - a) / 2;
