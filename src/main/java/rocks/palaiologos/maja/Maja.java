@@ -2240,6 +2240,12 @@ public class Maja {
             return Integrator.finiteTanhSinh(f, b, a, N, eps);
     }
 
+    /**
+     * Compute the binomial coefficient "n choose k".
+     * @param n the number of elements, n > 0.
+     * @param k the number of elements to choose, 0 < k <= n.
+     * @return n! / (k! * (n-k)!)
+     */
     public static long binomial(int n, int k) {
         if(n <= 0 || k < 0 || k > n)
             throw new IllegalArgumentException("Invalid arguments: n = " + n + ", k = " + k);
@@ -2250,5 +2256,18 @@ public class Maja {
         for (int i = 1, m = n; i <= k; i++, m--)
             b = b * m / i;
         return b;
+    }
+
+    /**
+     * Find a root of a monadic function using the Newton-Raphson method.
+     * @param f the function to find a root for
+     * @param df the derivative of the function
+     * @param x0 the initial guess
+     * @param eps the desired precision of the result
+     * @return a root of the function f within the desired precision
+     *         unless the iteration limit is exceeded.
+     */
+    public static double newtonRaphson(MonadicFunction f, MonadicFunction df, double x0, double eps) {
+        return Root.newtonRaphson(f, df, x0, eps);
     }
 }
