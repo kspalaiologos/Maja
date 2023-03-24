@@ -9,6 +9,87 @@ import java.util.Random;
  */
 public class Maja {
     /**
+     * SI prefix for 10^1.
+     */
+    public static final double DECA = 10.0e1;
+    /**
+     * SI prefix for 10^2.
+     */
+    public static final double HECTO = 10.0e2;
+    /**
+     * SI prefix for 10^3.
+     */
+    public static final double KILO = 10.0e3;
+    /**
+     * SI prefix for 10^6.
+     */
+    public static final double MEGA = 10.0e6;
+    /**
+     * SI prefix for 10^9.
+     */
+    public static final double GIGA = 10.0e9;
+    /**
+     * SI prefix for 10^12.
+     */
+    public static final double TERA = 10.0e12;
+    /**
+     * SI prefix for 10^15.
+     */
+    public static final double PETA = 10.0e15;
+    /**
+     * SI prefix for 10^18.
+     */
+    public static final double EXA = 10.0e18;
+    /**
+     * SI prefix for 10^21.
+     */
+    public static final double ZETTA = 10.0e21;
+    /**
+     * SI prefix for 10^24.
+     */
+    public static final double YOTTA = 10.0e24;
+    /**
+     * SI prefix for 10^-1.
+     */
+    public static final double DECI = 10.0e-1;
+    /**
+     * SI prefix for 10^-2.
+     */
+    public static final double CENTI = 10.0e-2;
+    /**
+     * SI prefix for 10^-3.
+     */
+    public static final double MILLI = 10.0e-3;
+    /**
+     * SI prefix for 10^-6.
+     */
+    public static final double MICRO = 10.0e-6;
+    /**
+     * SI prefix for 10^-9.
+     */
+    public static final double NANO = 10.0e-9;
+    /**
+     * SI prefix for 10^-12.
+     */
+    public static final double PICO = 10.0e-12;
+    /**
+     * SI prefix for 10^-15.
+     */
+    public static final double FEMTO = 10.0e-15;
+    /**
+     * SI prefix for 10^-18.
+     */
+    public static final double ATTO = 10.0e-18;
+    /**
+     * SI prefix for 10^-21.
+     */
+    public static final double ZEPTO = 10.0e-21;
+    /**
+     * SI prefix for 10^-24.
+     */
+    public static final double YOCTO = 10.0e-24;
+
+    /**
      * The value of ln(2).
      */
     public static final double LN2 = 0.6931471805599453094172321214581765680755001343602552541206800094;
