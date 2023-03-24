@@ -5,6 +5,19 @@
 
 A slick numerics-oriented Mathematical library for Java. Maja implements around 150 different special functions for use in Java programs, including high-performance cached variants of the `Math` equivalents. [Javadoc](https://kspalaiologos.github.io/Maja/javadoc/rocks/palaiologos/maja/package-summary.html).
 
+## Installation
+
+From Maven Central:
+
+```xml
+<!-- https://mvnrepository.com/artifact/rocks.palaiologos/maja -->
+<dependency>
+    <groupId>rocks.palaiologos</groupId>
+    <artifactId>maja</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
 ## Features
 
 Constants:
