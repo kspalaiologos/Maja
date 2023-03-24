@@ -2242,8 +2242,8 @@ public class Maja {
 
     /**
      * Compute the binomial coefficient "n choose k".
-     * @param n the number of elements, n > 0.
-     * @param k the number of elements to choose, 0 < k <= n.
+     * @param n the number of elements, n &gt; 0.
+     * @param k the number of elements to choose, 0 &lt; k &lt;= n.
      * @return n! / (k! * (n-k)!)
      */
     public static long binomial(int n, int k) {
