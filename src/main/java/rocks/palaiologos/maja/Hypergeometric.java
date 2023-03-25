@@ -806,6 +806,52 @@ class Hypergeometric {
         return (sum);
     }
 
+    double struve(double v, double x) {
+        double y, ya, f, g, h, t;
+        DoublePtr onef2err = new DoublePtr(), threef0err = new DoublePtr();
+
+        f = Math.floor(v);
+        if ((v < 0) && (v - f == 0.5)) {
+            y = Bessel.jv(-v, x);
+            f = 1.0 - f;
+            g = 2.0 * Math.floor(f / 2.0);
+            if (g != f)
+                y = -y;
+            return (y);
+        }
+        t = 0.25 * x * x;
+        f = Math.abs(x);
+        g = 1.5 * Math.abs(v);
+        
+        if ((f > 30.0) && (f > g)) {
+            onef2err.value = 1.0e38;
+            y = 0.0;
+        } else {
+            y = hypergeo1f2(1.0, 1.5, 1.5 + v, -t, onef2err);
+        }
+
+        if ((f < 18.0) || (x < 0.0)) {
+            threef0err.value = 1.0e38;
+            ya = 0.0;
+        } else {
+            ya = hypergeo3f0(1.0, 0.5, 0.5 - v, -1.0 / t, threef0err);
+        }
+
+        f = 1.7724538509055160272981674833411451827975494561223871282138077898;
+        h = Maja.pow(0.5 * x, v - 1.0);
+
+        if (onef2err.value <= threef0err.value) {
+            g = Gamma.gamma(v + 1.5);
+            y = y * h * t / (0.5 * f * g);
+            return (y);
+        } else {
+            g = Gamma.gamma(v + 0.5);
+            ya = ya * h / (f * g);
+            ya = ya + Bessel.yv(v, x);
+            return (ya);
+        }
+    }
+
 
     static class DoublePtr {
         double value;
