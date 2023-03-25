@@ -1,5 +1,6 @@
 package rocks.palaiologos.maja;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -2269,5 +2270,16 @@ public class Maja {
      */
     public static double newtonRaphson(MonadicFunction f, MonadicFunction df, double x0, double eps) {
         return Root.newtonRaphson(f, df, x0, eps);
+    }
+
+    /**
+     * Evaluate an expression stored inside a string.
+     *
+     * @param expression the expression to evaluate
+     * @param variables a map containing the variables and their values
+     * @return the value of the expression
+     */
+    public static double eval(String expression, Map<String, Double> variables) {
+        return Expression.evalExpression(expression, variables);
     }
 }
