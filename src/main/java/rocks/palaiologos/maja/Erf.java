@@ -429,6 +429,9 @@ class Erf {
     }
 
     public static double erfc(double x) {
+        if(x == 0) return 1.0;
+        else if(x == Double.NEGATIVE_INFINITY) return 2.0;
+
         final double t = 1.0 / (1.0 + 0.5 * Math.abs(x));
         final double ans = t
                 * Math.exp(-x
