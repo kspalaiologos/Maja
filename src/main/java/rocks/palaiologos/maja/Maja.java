@@ -1091,7 +1091,7 @@ public class Maja {
      * @param n
      * @return x^n.
      */
-    public static int iexp(int x, int n) {
+    public static int ipow(int x, int n) {
         int p = x, y = 1;
         while (true) {
             if ((n & 1) != 0)
@@ -1110,7 +1110,7 @@ public class Maja {
      * @param n
      * @return x^n.
      */
-    public static long iexp(long x, long n) {
+    public static long ipow(long x, long n) {
         long p = x, y = 1;
         while (true) {
             if ((n & 1) != 0)
@@ -1129,7 +1129,7 @@ public class Maja {
      * @param n
      * @return x^n.
      */
-    public static short iexp(short x, short n) {
+    public static short ipow(short x, short n) {
         int p = x, y = 1;
         while (true) {
             if ((n & 1) != 0)

@@ -5,3 +5,4 @@ Functions:
 - Struve function
 - Airy Bi, Bi'
 - Math expression parser.
+- Newton-Raphson, range loops for expression language.
