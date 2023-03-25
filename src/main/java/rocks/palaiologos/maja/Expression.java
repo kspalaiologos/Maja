@@ -31,7 +31,7 @@ class Expression {
     }
 
     static class Tokenizer {
-        private String input;
+        private final String input;
         private int pos;
 
         Tokenizer(String input) {
