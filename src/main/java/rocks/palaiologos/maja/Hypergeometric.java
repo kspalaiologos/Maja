@@ -717,7 +717,7 @@ class Hypergeometric {
         return (psum);
     }
 
-    double hypergeo1f2(double a, double b, double c, double x, DoublePtr err) {
+    public static double hypergeo1f2(double a, double b, double c, double x, DoublePtr err) {
         double a0, sum, t;
         double an, bn, cn, max, z;
         int n = 1;
@@ -756,7 +756,7 @@ class Hypergeometric {
         return (sum);
     }
 
-    double hypergeo3f0(double a, double b, double c, double x, DoublePtr err) {
+    public static double hypergeo3f0(double a, double b, double c, double x, DoublePtr err) {
         double a0, sum, t, conv, conv1;
         double an, bn, cn, max, z;
         int n = 1;
@@ -806,7 +806,7 @@ class Hypergeometric {
         return (sum);
     }
 
-    double struve(double v, double x) {
+    public static double struve(double v, double x) {
         double y, ya, f, g, h, t;
         DoublePtr onef2err = new DoublePtr(), threef0err = new DoublePtr();
 
@@ -822,7 +822,7 @@ class Hypergeometric {
         t = 0.25 * x * x;
         f = Math.abs(x);
         g = 1.5 * Math.abs(v);
-        
+
         if ((f > 30.0) && (f > g)) {
             onef2err.value = 1.0e38;
             y = 0.0;

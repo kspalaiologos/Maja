@@ -2143,6 +2143,44 @@ public class Maja {
     }
 
     /**
+     * Computes the 1F2 case of the generalised hypergeometric function.
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param x
+     * @return a double array the approximation and the estimated error of (1F2)(a, b, c x)
+     */
+    public static double hypergeo1F2(double a, double b, double c, double x) {
+        Hypergeometric.DoublePtr result = new Hypergeometric.DoublePtr();
+        return Hypergeometric.hypergeo1f2(a, b, c, x, result);
+    }
+
+    /**
+     * Computes the 3F0 case of the generalised hypergeometric function.
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param x
+     * @return a double array the approximation and the estimated error of (1F2)(a, b, c x)
+     */
+    public static double hypergeo3F0(double a, double b, double c, double x) {
+        Hypergeometric.DoublePtr result = new Hypergeometric.DoublePtr();
+        return Hypergeometric.hypergeo3f0(a, b, c, x, result);
+    }
+
+    /**
+     * Computes the value of the Struve function of order v at x.
+     * @param v order of the Struve function
+     * @param x argument of the Struve function
+     * @return Struve(v, x)
+     */
+    public static double struve(double v, double x) {
+        return Hypergeometric.struve(v, x);
+    }
+
+    /**
      * Computes the logarithm of the absolute value of the gamma function of x.
      *
      * @param x
