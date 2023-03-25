@@ -138,7 +138,10 @@ public class Expression {
                 }
                 if (brackets > 0)
                     throw new ArithmeticException("Missing closing bracket");
-                return new Token(TokenType.QUOTING, input.substring(begin, pos));
+                String s = input.substring(begin, pos);
+                if(s.length() < 3)
+                    throw new ArithmeticException("Empty quoting");
+                return new Token(TokenType.QUOTING, s.substring(1, s.length() - 1));
             } else {
                 throw new ArithmeticException("Unexpected character: " + c);
             }
@@ -328,12 +331,14 @@ public class Expression {
                         case "simpson": {
                             // simpson([x ** 2], -1, 1, dx, 10)
                             String f = currentToken.value;
+                            eat(TokenType.QUOTING);
                             eat(TokenType.COMMA);
                             double a = expr();
                             eat(TokenType.COMMA);
                             double b = expr();
                             eat(TokenType.COMMA);
                             String d = currentToken.value;
+                            eat(TokenType.NAME);
                             eat(TokenType.COMMA);
                             int n = mustInt(expr());
                             eat(TokenType.RPAREN);
