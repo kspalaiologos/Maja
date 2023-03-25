@@ -2282,4 +2282,14 @@ public class Maja {
     public static double eval(String expression, Map<String, Double> variables) {
         return Expression.evalExpression(expression, variables);
     }
+
+    /**
+     * Evaluate an expression stored inside a string.
+     *
+     * @param expression the expression to evaluate
+     * @return the value of the expression
+     */
+    public static double eval(String expression) {
+        return Expression.evalExpression(expression, Map.of());
+    }
 }

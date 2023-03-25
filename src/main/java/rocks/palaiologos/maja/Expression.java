@@ -664,14 +664,4 @@ public class Expression {
     public static double evalExpression(String expr, Map<String, Double> variables) {
         return new Evaluator(expr, variables).expr();
     }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while(true) {
-            System.out.print("> ");
-            String expr = scanner.nextLine();
-            if(expr.isEmpty()) break;
-            System.out.println("Ans = " + evalExpression(expr, Map.of()));
-        }
-    }
 }
