@@ -14,7 +14,7 @@ From Maven Central:
 <dependency>
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 
@@ -44,6 +44,7 @@ Functions:
 - Hypergeometric function (2F1, 1F1).
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
 - Root finding (Newton-Raphson method).
+- Expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
 
 ## License
