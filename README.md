@@ -41,7 +41,7 @@ Functions:
 - Fresnel integrals (fresnelC, fresnelS)
 - Zeta family (Hurwitz Zeta, Lerch Transcendent, Riemann Zeta)
 - Lambert W (W0, W-1)
-- Hypergeometric function (2F1, 1F1).
+- Hypergeometric function (2F1, 1F1, 1F2, 3F0, Struve).
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
 - Root finding (Newton-Raphson method).
 - Expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
