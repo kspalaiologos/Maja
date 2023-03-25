@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 
-public class Expression {
+class Expression {
     private static final String[] operators = {
             "+", "-", "*", "/", "rem", "mod", "!", "lcm", "gcd", "**", "|"
     };
