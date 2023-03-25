@@ -33,5 +33,20 @@ public class TestTrigonometry {
         assertThat(Maja.abs(Maja.acoth(1.1995375441923508) - 1.2)).isLessThan(1e-14);
         assertThat(Maja.abs(Maja.asech(0.5522861542782048) - 1.2)).isLessThan(1e-14);
         assertThat(Maja.abs(Maja.acsch(0.6624879771943155) - 1.2)).isLessThan(1e-14);
+
+        // Test fast trig by sampling a few values.
+        assertThat(Maja.abs(Maja.fastSin(0.123f) - Maja.sin(0.123))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastSin(0.456f) - Maja.sin(0.456))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastSin(12.34f) - Maja.sin(12.34))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastSin(-6.77f) - Maja.sin(-6.77))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastSin(4.55f) - Maja.sin(4.55))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastSin(3.33f) - Maja.sin(3.33))).isLessThan(1e-3);
+
+        assertThat(Maja.abs(Maja.fastCos(0.123f) - Maja.cos(0.123))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastCos(0.456f) - Maja.cos(0.456))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastCos(12.34f) - Maja.cos(12.34))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastCos(-6.77f) - Maja.cos(-6.77))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastCos(4.55f) - Maja.cos(4.55))).isLessThan(1e-3);
+        assertThat(Maja.abs(Maja.fastCos(3.33f) - Maja.cos(3.33))).isLessThan(1e-3);
     }
 }
