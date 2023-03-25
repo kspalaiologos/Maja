@@ -149,9 +149,9 @@ public class Expression {
     }
 
     static class Evaluator {
-        private Tokenizer tokenizer;
+        private final Tokenizer tokenizer;
+        private final Map<String, Double> variables;
         private Token currentToken;
-        private Map<String, Double> variables;
 
         Evaluator(String input, Map<String, Double> variables) {
             tokenizer = new Tokenizer(input);
@@ -602,6 +602,15 @@ public class Expression {
                     yield Maja.hypergeo2F1(args.get(0), args.get(1), args.get(2), args.get(3));
                 }
                 case "hypergeo1F1" -> evalTriadic(Maja::hypergeo1F1, args);
+                case "hypergeo3F0" -> {
+                    assertArity(args, 4);
+                    yield Maja.hypergeo3F0(args.get(0), args.get(1), args.get(2), args.get(3));
+                }
+                case "hypergeo1F2" -> {
+                    assertArity(args, 4);
+                    yield Maja.hypergeo1F2(args.get(0), args.get(1), args.get(2), args.get(3));
+                }
+                case "struve" -> evalDyadic(Maja::struve, args);
                 case "jv" -> evalDyadic(Maja::besselJv, args);
                 case "yv" -> evalDyadic(Maja::besselYv, args);
                 case "binomial" -> {
