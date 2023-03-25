@@ -717,6 +717,96 @@ class Hypergeometric {
         return (psum);
     }
 
+    double hypergeo1f2(double a, double b, double c, double x, DoublePtr err) {
+        double a0, sum, t;
+        double an, bn, cn, max, z;
+        int n = 1;
+
+        an = a;
+        bn = b;
+        cn = c;
+        a0 = 1.0;
+        sum = 1.0;
+        max = 0.0;
+
+        do {
+            if (an == 0)
+                break;
+            if (bn == 0 || cn == 0 || (a0 > 1.0e34) || (n > 200)) {
+                err.value = 1.0e38;
+                return (sum);
+            }
+            a0 *= (an * x) / (bn * cn * n);
+            sum += a0;
+            an += 1.0;
+            bn += 1.0;
+            cn += 1.0;
+            n += 1.0;
+            z = Math.abs(a0);
+            if (z > max)
+                max = z;
+            if (sum != 0)
+                t = Math.abs(a0 / sum);
+            else
+                t = z;
+        }
+        while (t > 1.37e-17);
+
+        err.value = Math.abs(Maja.EPSILON * max / sum);
+        return (sum);
+    }
+
+    double hypergeo3f0(double a, double b, double c, double x, DoublePtr err) {
+        double a0, sum, t, conv, conv1;
+        double an, bn, cn, max, z;
+        int n = 1;
+
+        an = a;
+        bn = b;
+        cn = c;
+        a0 = 1.0;
+        sum = 1.0;
+        t = 1.0;
+        max = 0.0;
+        conv = 1.0e38;
+        conv1 = conv;
+
+        do {
+            if (an == 0.0 || bn == 0.0 || cn == 0.0)
+                break;
+            if ((a0 > 1.0e34) || (n > 200)) {
+                err.value = 1.0e38;
+                return sum;
+            }
+            a0 *= (an * bn * cn * x) / n;
+            an += 1.0;
+            bn += 1.0;
+            cn += 1.0;
+            n += 1;
+            z = Math.abs(a0);
+            if (z > max)
+                max = z;
+            if (z >= conv && (z < max) && (z > conv1))
+                break;
+            conv1 = conv;
+            conv = z;
+            sum += a0;
+            if (sum != 0)
+                t = Math.abs(a0 / sum);
+            else
+                t = z;
+        }
+        while (t > 1.37e-17);
+
+        t = Math.abs(Maja.EPSILON * max / sum);
+        max = Math.abs(conv / sum);
+        if (max > t)
+            t = max;
+        err.value = t;
+        return (sum);
+    }
+
+
     static class DoublePtr {
         double value;
     }
