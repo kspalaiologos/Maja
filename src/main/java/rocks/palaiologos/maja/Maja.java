@@ -2675,4 +2675,41 @@ public class Maja {
         Complex lnt = log(div(y, z));
         return div(lnt, new Complex(0, 2));
     }
+
+    /**
+     * Compute the arcus cotangent of a complex number.
+     * @param a
+     * @return acot(a)
+     */
+    public static Complex acot(Complex a) {
+        // acot(z)=1/2i Ln((z+i)/(z-i))
+        Complex y = add(a, I);
+        Complex z = sub(a, I);
+        Complex lnt = log(div(y, z));
+        return div(lnt, new Complex(0, 2));
+    }
+
+    /**
+     * Compute the arcus cosecant of a complex number.
+     * @param a
+     * @return acsc(a)
+     */
+    public static Complex acsc(Complex a) {
+        // asec(a) = 1/i * ln((i+sqrt(a*a-1))/a)
+        Complex y = add(I, sqrt(sub(mul(a, a), COMPLEX_ONE)));
+        Complex lnt = log(div(y, a));
+        return div(lnt, I);
+    }
+
+    /**
+     * Compute the arcus secant of a complex number.
+     * @param a
+     * @return asec(a)
+     */
+    public static Complex asec(Complex a) {
+        // asec(a) = 1/i * ln((1+sqrt(1-z*z))/z)
+        Complex y = add(COMPLEX_ONE, sqrt(sub(COMPLEX_ONE, mul(a, a))));
+        Complex lnt = log(div(y, a));
+        return div(lnt, I);
+    }
 }
