@@ -49,4 +49,19 @@ public class TestTrigonometry {
         assertThat(Maja.abs(Maja.fastCos(4.55f) - Maja.cos(4.55))).isLessThan(1e-3);
         assertThat(Maja.abs(Maja.fastCos(3.33f) - Maja.cos(3.33))).isLessThan(1e-3);
     }
+
+    @Test
+    public void testSi() {
+        assertThat(Maja.Si(0.123)).isEqualTo(0.12289666540969063);
+        assertThat(Maja.Si(1.23)).isEqualTo(1.131191899402606);
+        assertThat(Maja.Si(Double.NaN)).isNaN();
+        assertThat(Maja.Si(-5)).isNaN();
+        assertThat(Maja.Si(Double.POSITIVE_INFINITY)).isEqualTo(Maja.PI_2);
+        assertThat(Maja.Si(Double.NEGATIVE_INFINITY)).isEqualTo(-Maja.PI_2);
+        assertThat(Maja.Si(10)).isEqualTo(1.658347594218874);
+
+        // Test one or two points for si(), as it is a special case of Si already.
+        assertThat(Maja.si(12)).isEqualTo(-0.06582508526852338);
+        assertThat(Maja.si(0.123)).isEqualTo(-1.447899661385206);
+    }
 }

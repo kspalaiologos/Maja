@@ -192,6 +192,8 @@ class TrigonometricIntegral {
     }
 
     public static double Si(double x) {
+        if (x == Double.POSITIVE_INFINITY) return Maja.PI_2;
+        if (x == Double.NEGATIVE_INFINITY) return -Maja.PI_2;
         if (x < 0.0) return Double.NaN;
         if (x < 4.0) {
             double x2 = x * x;
