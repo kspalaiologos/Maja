@@ -64,4 +64,19 @@ public class TestTrigonometry {
         assertThat(Maja.si(12)).isEqualTo(-0.06582508526852338);
         assertThat(Maja.si(0.123)).isEqualTo(-1.447899661385206);
     }
+
+    @Test
+    public void testCi() {
+        assertThat(Maja.Ci(0.123)).isEqualTo(-1.522135125273761);
+        assertThat(Maja.Ci(1.23)).isEqualTo(0.42906163794495855);
+        assertThat(Maja.Ci(Double.NaN)).isNaN();
+        assertThat(Maja.Ci(-5)).isNaN();
+        assertThat(Maja.Ci(Double.POSITIVE_INFINITY)).isEqualTo(0);
+        assertThat(Maja.Ci(Double.NEGATIVE_INFINITY)).isNaN();
+        assertThat(Maja.Ci(10)).isEqualTo(-0.04545643300445537);
+
+        // Test one or two points for Cin(), as it is a special case of Ci already.
+        assertThat(Maja.Cin(12)).isEqualTo(3.111902321573647);
+        assertThat(Maja.Cin(0.123)).isEqualTo(0.0037798665655739416);
+    }
 }

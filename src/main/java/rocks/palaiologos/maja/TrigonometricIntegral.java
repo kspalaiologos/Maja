@@ -219,6 +219,8 @@ class TrigonometricIntegral {
     }
 
     public static double Ci(double x) {
+        if (x == Double.POSITIVE_INFINITY) return 0.0;
+        if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
         if (x < 0.0) return Double.NaN;
         if (x < 4.0) {
             double x2 = x * x;
