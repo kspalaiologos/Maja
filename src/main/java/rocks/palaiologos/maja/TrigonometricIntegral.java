@@ -278,6 +278,9 @@ class TrigonometricIntegral {
         double k, z, c, s, a, si, ci;
         short sign;
 
+        if(Double.isNaN(x)) return new double[] { Double.NaN, Double.NaN };
+        if(x == Double.NEGATIVE_INFINITY) return new double[] { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY };
+
         if (x < 0.0) {
             sign = -1;
             x = -x;

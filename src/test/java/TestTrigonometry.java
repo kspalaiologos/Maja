@@ -79,4 +79,16 @@ public class TestTrigonometry {
         assertThat(Maja.Cin(12)).isEqualTo(3.111902321573647);
         assertThat(Maja.Cin(0.123)).isEqualTo(0.0037798665655739416);
     }
+
+    @Test
+    public void testShiChi() {
+        assertThat(Maja.ShiChi(0.123)).isEqualTo(new double[] { 0.12310342843383613, -1.5145706236706007 });
+        assertThat(Maja.ShiChi(1.23)).isEqualTo(new double[] { 1.3381963993643304, 1.187115234991678 });
+        assertThat(Maja.ShiChi(Double.NaN)).isEqualTo(new double[] { Double.NaN, Double.NaN });
+        assertThat(Maja.ShiChi(-5)).isEqualTo(new double[] { -20.09321182569723, 20.092063530105953 });
+        assertThat(Maja.ShiChi(Double.POSITIVE_INFINITY)).isEqualTo(new double[] { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY });
+        assertThat(Maja.ShiChi(Double.NEGATIVE_INFINITY)).isEqualTo(new double[] { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY });
+        assertThat(Maja.ShiChi(10)).isEqualTo(new double[] { 1246.1144901994235, 1246.1144860424545 });
+        assertThat(Maja.ShiChi(0)).isEqualTo(new double[] { 0, Double.NEGATIVE_INFINITY });
+    }
 }
