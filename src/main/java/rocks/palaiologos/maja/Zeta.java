@@ -175,7 +175,7 @@ class Zeta {
         final int imax = 100;
 
         if (1.0 <= Math.abs(z)) {
-            // TODO: Numerical integration. Need complex numbers.
+            // TODO: Numerical integration. Need complex math.
             throw new ArithmeticException("lerchphi: result may not be real with |z| > 1.0");
         }
 

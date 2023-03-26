@@ -86,6 +86,8 @@ class Spence {
         double w, y, z;
         int flag;
 
+        if (x == Double.NEGATIVE_INFINITY || x == Double.POSITIVE_INFINITY)
+            return Double.NEGATIVE_INFINITY;
         if (x < 0.0)
             throw new ArithmeticException("Domain error");
         if (x == 1.0)
