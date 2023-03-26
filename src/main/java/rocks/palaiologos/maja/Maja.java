@@ -2346,6 +2346,26 @@ public class Maja {
     }
 
     /**
+     * Add a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a + b
+     */
+    public static Complex add(Complex a, double b) {
+        return new Complex(a.re() + b, a.im());
+    }
+
+    /**
+     * Add a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a + b
+     */
+    public static Complex add(double a, Complex b) {
+        return new Complex(b.re() + a, b.im());
+    }
+
+    /**
      * Subtract two complex numbers from each other.
      * @param a
      * @param b
@@ -2353,6 +2373,26 @@ public class Maja {
      */
     public static Complex sub(Complex a, Complex b) {
         return new Complex(a.re() - b.re(), a.im() - b.im());
+    }
+
+    /**
+     * Subtract a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a - b
+     */
+    public static Complex sub(Complex a, double b) {
+        return new Complex(a.re() - b, a.im());
+    }
+
+    /**
+     * Subtract a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a - b
+     */
+    public static Complex sub(double a, Complex b) {
+        return new Complex(a - b.re(), b.im());
     }
 
     /**
@@ -2366,6 +2406,26 @@ public class Maja {
     }
 
     /**
+     * Multiply a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a * b
+     */
+    public static Complex mul(Complex a, double b) {
+        return new Complex(a.re() * b, a.im() * b);
+    }
+
+    /**
+     * Multiply a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a * b
+     */
+    public static Complex mul(double a, Complex b) {
+        return new Complex(b.re() * a, b.im() * a);
+    }
+
+    /**
      * Divide two complex numbers.
      * @param a
      * @param b
@@ -2374,6 +2434,27 @@ public class Maja {
     public static Complex div(Complex a, Complex b) {
         double d = b.re() * b.re() + b.im() * b.im();
         return new Complex((a.re() * b.re() + a.im() * b.im()) / d, (a.im() * b.re() - a.re() * b.im()) / d);
+    }
+
+    /**
+     * Divide a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a / b
+     */
+    public static Complex div(Complex a, double b) {
+        return new Complex(a.re() / b, a.im() / b);
+    }
+
+    /**
+     * Divide a complex number and a real number.
+     * @param a
+     * @param b
+     * @return a / b
+     */
+    public static Complex div(double a, Complex b) {
+        double d = b.re() * b.re() + b.im() * b.im();
+        return new Complex(a * b.re() / d, -a * b.im() / d);
     }
 
     /**
@@ -2540,14 +2621,13 @@ public class Maja {
         return new Complex(Math.sin(2 * x.re()) / d, Math.sinh(2 * x.im()) / d);
     }
 
-    private static final Complex COMPLEX_ONE = new Complex(1);
     /**
      * Compute the cotangent of a complex number.
      * @param x
      * @return cot(x)
      */
     public static Complex cot(Complex x) {
-        return div(COMPLEX_ONE, tan(x));
+        return div(1, tan(x));
     }
 
     /**
@@ -2556,7 +2636,7 @@ public class Maja {
      * @return
      */
     public static Complex sec(Complex x) {
-        return div(COMPLEX_ONE, cos(x));
+        return div(1, cos(x));
     }
 
     /**
@@ -2565,7 +2645,7 @@ public class Maja {
      * @return
      */
     public static Complex csc(Complex x) {
-        return div(COMPLEX_ONE, sin(x));
+        return div(1, sin(x));
     }
 
     /**
@@ -2617,7 +2697,7 @@ public class Maja {
      * @return coth(a)
      */
     public static Complex coth(Complex a) {
-        return div(COMPLEX_ONE, tanh(a));
+        return div(1, tanh(a));
     }
 
     /**
@@ -2626,7 +2706,7 @@ public class Maja {
      * @return sech(a)
      */
     public static Complex sech(Complex a) {
-        return div(COMPLEX_ONE, cosh(a));
+        return div(1, cosh(a));
     }
 
     /**
@@ -2635,7 +2715,7 @@ public class Maja {
      * @return csch(a)
      */
     public static Complex csch(Complex a) {
-        return div(COMPLEX_ONE, sinh(a));
+        return div(1, sinh(a));
     }
 
     /**
@@ -2645,7 +2725,7 @@ public class Maja {
      */
     public static Complex asin(Complex a) {
         // asin(z)=1/i Ln(iz+sqrt(1-z^2))
-        Complex y = sqrt(sub(COMPLEX_ONE, mul(a, a)));
+        Complex y = sqrt(sub(1, mul(a, a)));
         Complex lnt = log(add(mul(I, a), y));
         return div(lnt, I);
     }
@@ -2657,7 +2737,7 @@ public class Maja {
      */
     public static Complex acos(Complex a) {
         // acos(z)=1/i Ln(z+sqrt(z^2-1))
-        Complex y = sqrt(sub(mul(a, a), COMPLEX_ONE));
+        Complex y = sqrt(sub(mul(a, a), 1));
         Complex lnt = log(add(a, y));
         return div(lnt, I);
     }
@@ -2670,8 +2750,8 @@ public class Maja {
     public static Complex atan(Complex a) {
         // atan(z)=1/2i Ln((1-iz)/(1+iz))
         Complex ia = mul(I, a);
-        Complex y = sub(COMPLEX_ONE, ia);
-        Complex z = add(COMPLEX_ONE, ia);
+        Complex y = sub(1, ia);
+        Complex z = add(1, ia);
         Complex lnt = log(div(y, z));
         return div(lnt, new Complex(0, 2));
     }
@@ -2696,7 +2776,7 @@ public class Maja {
      */
     public static Complex acsc(Complex a) {
         // asec(a) = 1/i * ln((i+sqrt(a*a-1))/a)
-        Complex y = add(I, sqrt(sub(mul(a, a), COMPLEX_ONE)));
+        Complex y = add(I, sqrt(sub(mul(a, a), 1)));
         Complex lnt = log(div(y, a));
         return div(lnt, I);
     }
@@ -2708,7 +2788,7 @@ public class Maja {
      */
     public static Complex asec(Complex a) {
         // asec(a) = 1/i * ln((1+sqrt(1-z*z))/z)
-        Complex y = add(COMPLEX_ONE, sqrt(sub(COMPLEX_ONE, mul(a, a))));
+        Complex y = add(1, sqrt(sub(1, mul(a, a))));
         Complex lnt = log(div(y, a));
         return div(lnt, I);
     }
@@ -2720,7 +2800,7 @@ public class Maja {
      */
     public static Complex asinh(Complex a) {
         // asinh(z) = ln(z+sqrt(z^2+1))
-        Complex y = sqrt(add(mul(a, a), COMPLEX_ONE));
+        Complex y = sqrt(add(mul(a, a), 1));
         return log(add(a, y));
     }
 
@@ -2731,8 +2811,54 @@ public class Maja {
      */
     public static Complex acosh(Complex a) {
         // acosh(z) = sqrt(z-1)/sqrt(1-z) acos(z)
-        Complex y = sqrt(sub(a, COMPLEX_ONE));
-        Complex z = sqrt(sub(COMPLEX_ONE, a));
+        Complex y = sqrt(sub(a, 1));
+        Complex z = sqrt(sub(1, a));
         return mul(acos(a), div(y, z));
+    }
+
+    /**
+     * Compute the hyperbolic arctangent of a complex number.
+     * @param a
+     * @return atanh(a)
+     */
+    public static Complex atanh(Complex a) {
+        // atanh(z) = 1/2 ln((1+z)/(1-z))
+        Complex y = add(1, a);
+        Complex z = sub(1, a);
+        return div(log(div(y, z)), new Complex(0, 2));
+    }
+
+    /**
+     * Compute the hyperbolic arccotangent of a complex number.
+     * @param a
+     * @return acoth(a)
+     */
+    public static Complex acoth(Complex a) {
+        // atanh(z) = 1/2 ln((z+1)/(z-1))
+        Complex y = add(a, 1);
+        Complex z = sub(a, 1);
+        return div(log(div(y, z)), new Complex(0, 2));
+    }
+
+    /**
+     * Compute the hyperbolic arcsecant of a complex number.
+     * @param a
+     * @return asech(a)
+     */
+    public static Complex asech(Complex a) {
+        // asech(z) = ln((1+sqrt(1-z*z))/z)
+        Complex y = add(1, sqrt(sub(1, mul(a, a))));
+        return log(div(y, a));
+    }
+
+    /**
+     * Compute the hyperbolic arccosecant of a complex number.
+     * @param a
+     * @return acsch(a)
+     */
+    public static Complex acsch(Complex a) {
+        // asec(a) = ln((1+sqrt(a*a+1))/a)
+        Complex y = add(I, sqrt(add(mul(a, a), 1)));
+        return log(div(y, a));
     }
 }
