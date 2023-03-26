@@ -1,7 +1,7 @@
 package rocks.palaiologos.maja;
 
 /**
- * A record representing a complex number.
+ * A record representing a complex number in the cartesian form.
  * @param re real part
  * @param im imaginary part
  */
