@@ -2637,4 +2637,42 @@ public class Maja {
     public static Complex csch(Complex a) {
         return div(COMPLEX_ONE, sinh(a));
     }
+
+    /**
+     * Compute the arcus sine of a complex number.
+     * @param a
+     * @return asin(a)
+     */
+    public static Complex asin(Complex a) {
+        // asin(z)=1/i Ln(iz+sqrt(1-z^2))
+        Complex y = sqrt(sub(COMPLEX_ONE, mul(a, a)));
+        Complex lnt = log(add(mul(I, a), y));
+        return div(lnt, I);
+    }
+
+    /**
+     * Compute the arcus cosine of a complex number.
+     * @param a
+     * @return acos(a)
+     */
+    public static Complex acos(Complex a) {
+        // acos(z)=1/i Ln(z+sqrt(z^2-1))
+        Complex y = sqrt(sub(mul(a, a), COMPLEX_ONE));
+        Complex lnt = log(add(a, y));
+        return div(lnt, I);
+    }
+
+    /**
+     * Compute the arcus tangent of a complex number.
+     * @param a
+     * @return atan(a)
+     */
+    public static Complex atan(Complex a) {
+        // atan(z)=1/2i Ln((1-iz)/(1+iz))
+        Complex ia = mul(I, a);
+        Complex y = sub(COMPLEX_ONE, ia);
+        Complex z = add(COMPLEX_ONE, ia);
+        Complex lnt = log(div(y, z));
+        return div(lnt, new Complex(0, 2));
+    }
 }
