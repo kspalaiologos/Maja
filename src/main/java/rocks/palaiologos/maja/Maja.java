@@ -2330,4 +2330,63 @@ public class Maja {
     public static double eval(String expression) {
         return Expression.evalExpression(expression, Map.of());
     }
+
+    /**
+     * Add two complex numbers together.
+     * @param a
+     * @param b
+     * @return a + b
+     */
+    public static Complex add(Complex a, Complex b) {
+        return new Complex(a.re() + b.re(), a.im() + b.im());
+    }
+
+    /**
+     * Subtract two complex numbers from each other.
+     * @param a
+     * @param b
+     * @return a - b
+     */
+    public static Complex sub(Complex a, Complex b) {
+        return new Complex(a.re() - b.re(), a.im() - b.im());
+    }
+
+    /**
+     * Multiply two complex numbers.
+     * @param a
+     * @param b
+     * @return a * b
+     */
+    public static Complex mul(Complex a, Complex b) {
+        return new Complex(a.re() * b.re() - a.im() * b.im(), a.re() * b.im() + a.im() * b.re());
+    }
+
+    /**
+     * Divide two complex numbers.
+     * @param a
+     * @param b
+     * @return a / b
+     */
+    public static Complex div(Complex a, Complex b) {
+        double d = b.re() * b.re() + b.im() * b.im();
+        return new Complex((a.re() * b.re() + a.im() * b.im()) / d, (a.im() * b.re() - a.re() * b.im()) / d);
+    }
+
+    /**
+     * Compute the complex conjugate of a complex number.
+     * @param a
+     * @return conj(a)
+     */
+    public static Complex conj(Complex a) {
+        return new Complex(a.re(), -a.im());
+    }
+
+    /**
+     * Compute the absolute value of a complex number.
+     * @param a
+     * @return |a|
+     */
+    public static double abs(Complex a) {
+        return Math.sqrt(a.re() * a.re() + a.im() * a.im());
+    }
 }
