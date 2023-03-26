@@ -175,7 +175,8 @@ class Zeta {
         final int imax = 100;
 
         if (1.0 <= Math.abs(z)) {
-            return Double.POSITIVE_INFINITY;
+            // TODO: Numerical integration. Need complex numbers.
+            throw new ArithmeticException("lerchphi: result may not be real with |z| > 1.0");
         }
 
         if (Math.abs(Math.floor(v) - v) <= Maja.EPSILON * Math.abs(v) && v <= 0.0) {

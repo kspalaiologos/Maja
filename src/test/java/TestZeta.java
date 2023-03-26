@@ -32,6 +32,7 @@ public class TestZeta {
         assertThat(Maja.hurwitzZeta(-4.0,6.23)).isEqualTo(-1204.1989289815126);
         assertThat(Maja.hurwitzZeta(10.123,1.111)).isEqualTo(0.34506754462671935);
         assertThat(Maja.hurwitzZeta(-10.123,9.9)).isEqualTo(-5.685551437279248E9);
+        assertThat(Maja.hurwitzZeta(0, 0.5)).isEqualTo(0);
     }
 
     @Test
@@ -53,5 +54,6 @@ public class TestZeta {
         assertThat(Maja.lerchPhi(0.1,0.2,-0.3)).isEqualTo(1.3895517784046223);
         assertThat(Maja.lerchPhi(-0.1,0.2,-0.3)).isEqualTo(1.1731091065401793);
         assertThat(Maja.lerchPhi(0.1,0.2,0.3)).isEqualTo(1.3764833924494801);
+        assertThat(Maja.lerchPhi(-0.8,0.75,0.85)).isEqualTo(0.8050428134996211);
     }
 }
