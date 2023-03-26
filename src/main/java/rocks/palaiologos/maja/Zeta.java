@@ -176,7 +176,7 @@ class Zeta {
 
         if (1.0 <= Math.abs(z)) {
             // TODO: Numerical integration. Need complex math.
-            throw new ArithmeticException("lerchphi: result may not be real with |z| > 1.0");
+            return Double.POSITIVE_INFINITY;
         }
 
         if (Math.abs(Math.floor(v) - v) <= Maja.EPSILON * Math.abs(v) && v <= 0.0) {
