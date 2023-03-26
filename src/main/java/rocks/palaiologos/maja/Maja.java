@@ -2463,4 +2463,49 @@ public class Maja {
     public static boolean eq(Complex a, Complex b, double tol) {
         return Math.abs(a.re() - b.re()) < tol && Math.abs(a.im() - b.im()) < tol;
     }
+
+    /**
+     * Compute the n-th root of a complex number.
+     * @param x
+     * @param deg
+     * @return x^(1/deg)
+     */
+    public static double root(double x, int deg) {
+        if(deg < 0)
+            return Double.NaN;
+        return Math.pow(x, 1.0 / deg);
+    }
+
+    /**
+     * Find all n-th roots of a complex number.
+     * @param x
+     * @param n
+     * @return x^(1/n)
+     */
+    public static Complex[] root(Complex x, int n) {
+        if(n < 0)
+            return null;
+        double magnitude = abs(x);
+        double phase = Math.atan2(x.im(), x.re());
+        double nthRootOfMagnitude = root(magnitude, n);
+        Complex[] roots = new Complex[n];
+        for(int i = 0; i < n; i++) {
+            double theta = (phase + 2 * Math.PI * i) / n;
+            roots[i] = new Complex(nthRootOfMagnitude * Math.cos(theta), nthRootOfMagnitude * Math.sin(theta));
+        }
+        return roots;
+    }
+
+    /**
+     * Compute the principal cube root of a complex number.
+     * @param x
+     * @return cbrt(x)
+     */
+    public static Complex cbrt(Complex x) {
+        double magnitude = abs(x);
+        double phase = Math.atan2(x.im(), x.re());
+        double nthRootOfMagnitude = root(magnitude, 3);
+        double theta = (phase + 2 * Math.PI) / 3;
+        return new Complex(nthRootOfMagnitude * Math.cos(theta), nthRootOfMagnitude * Math.sin(theta));
+    }
 }
