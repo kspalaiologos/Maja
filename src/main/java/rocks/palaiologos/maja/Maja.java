@@ -2432,4 +2432,35 @@ public class Maja {
         // Log(z) = ln(r) + i*theta = ln(|z|) + i*arg(z) = ln(|z|) + i*atan2(im(z), re(z))
         return new Complex(Math.log(abs(x)), Math.atan2(x.im(), x.re()));
     }
+
+    /**
+     * Compare two complex numbers for equality.
+     * @param a
+     * @param b
+     * @return true if a == b, false otherwise
+     */
+    public static boolean eq(Complex a, Complex b) {
+        return a.re() == b.re() && a.im() == b.im();
+    }
+
+    /**
+     * Compare two complex numbers for inequality.
+     * @param a
+     * @param b
+     * @return true if a != b, false otherwise
+     */
+    public static boolean ne(Complex a, Complex b) {
+        return a.re() != b.re() || a.im() != b.im();
+    }
+
+    /**
+     * Compare two complex numbers for equality.
+     * @param a
+     * @param b
+     * @param tol
+     * @return true if a ~= b, false otherwise
+     */
+    public static boolean eq(Complex a, Complex b, double tol) {
+        return Math.abs(a.re() - b.re()) < tol && Math.abs(a.im() - b.im()) < tol;
+    }
 }
