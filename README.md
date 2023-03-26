@@ -33,7 +33,7 @@ Real Functions:
 - Batch operations (map, reduce)
 - Trigonometry (acos, acosh, acot, acoth, acsc, acsch, asec, asech, asin, asinh, atan, atan2, atanh, cos, cosh, cot, coth, csc, csch, sec, sech, sin, sinc, sinh, tan, tanh, toDegrees, toRadians)
 - High-performance trigonometry (fastSin, fastCos)
-- Airy Ai function (airy, airyDerivative)
+- Airy Ai function (Ai, Ai', Bi, Bi')
 - Bessel functions (i0, i1, j0, j1, jn, k0, k1, kn, y0, y1, yn, jv, yv)
 - Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
 - Trigonometric integrals (Chi, Ci, Cin, Shi, ShiChi, si, Si)
@@ -51,6 +51,8 @@ Real Functions:
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
 - Trigonometry (sin, cos, tan, cot, sec, csc, asin, acos, atan, acot, asec, acsc, sinh, cosh, tanh, sech, csch, asinh, acosh, atanh, acoth, asech, acsch)
+- Gamma function family (beta, gamma)
+- Airy functions (Ai, Bi, Ai', Bi')
 
 ## License
 
