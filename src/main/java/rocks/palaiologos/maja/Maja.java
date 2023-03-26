@@ -2567,4 +2567,16 @@ public class Maja {
     public static Complex csc(Complex x) {
         return div(COMPLEX_ONE, sin(x));
     }
+
+    /**
+     * Compute a to the power of b, where a and b are both
+     * complex numbers.
+     * @param a
+     * @param b
+     * @return a^b
+     */
+    public static Complex pow(Complex a, Complex b) {
+        // a^b = exp(b*ln(a))
+        return exp(mul(b, log(a)));
+    }
 }
