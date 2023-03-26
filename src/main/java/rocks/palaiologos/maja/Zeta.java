@@ -175,7 +175,7 @@ class Zeta {
         final int imax = 100;
 
         if (1.0 <= Math.abs(z)) {
-            throw new ArithmeticException("lerchphi: |z| >= 1 divergence");
+            return Double.POSITIVE_INFINITY;
         }
 
         if (Math.abs(Math.floor(v) - v) <= Maja.EPSILON * Math.abs(v) && v <= 0.0) {
@@ -187,31 +187,19 @@ class Zeta {
 
         boolean s_cond = Math.abs(Math.floor(s) - s) > Maja.EPSILON * Math.abs(s);
         if (v < 0.0 && Math.abs(z) > Maja.EPSILON) {
-            if (s_cond) {
-                throw new ArithmeticException("lerch-phi: s divergence");
-            } else {
-                m = -(int) Math.floor(v);
-                v1 += m;
-                sum1 = 0.0;
-                if (((int) s % 2) == 0) sign = 1;
-                else sign = -1;
-                for (int i = 0; i <= m - 1; i++) {
-                    if (i > 0 && z < 0) sign = -sign;
-                    sum1 += sign * Math.pow(Math.abs(z), i) / Math.pow(Math.abs(v + i), s);
-                }
+            m = -(int) Math.floor(v);
+            v1 += m;
+            sum1 = 0.0;
+            if (((int) s % 2) == 0) sign = 1;
+            else sign = -1;
+            for (int i = 0; i <= m - 1; i++) {
+                if (i > 0 && z < 0) sign = -sign;
+                sum1 += sign * Math.pow(Math.abs(z), i) / Math.pow(Math.abs(v + i), s);
             }
         }
 
         if (Math.abs(z) <= Maja.EPSILON) {
-            if (v < 0) {
-                if (s_cond) {
-                    throw new ArithmeticException("lerch-phi: s divergence");
-                } else {
-                    if (((int) s % 2) == 0) sign = 1;
-                    else sign = -1;
-                    result = sign * 1.0 / Math.pow(Math.abs(v), s);
-                }
-            } else {
+            if (v >= 0) {
                 return 1.0 / Math.pow(v, s);
             }
         }
@@ -315,37 +303,25 @@ class Zeta {
         return result;
     }
 
-    public static double lerch_phi(double s, double a, double z) {
-        // lerchphi(1, a, 1) = zeta(a)
-        if (s == 1 && z == 1)
-            return riemann_zeta(a);
-        // lerchphi(1, a, z) = zeta(a, z)
-        if (s == 1)
-            return hurwitz_zeta(a, z);
-        // z*lerchphi(z,s,1) = Li_s(z). n:int
-        if (Math.floor(a) == a && z == 1)
-            return Spence.polylog((int) a, s) / s;
-        // lerchphi(0,1,a) = 1/sqrt(a^2)
-        if (s == 0 && a == 1)
-            return 1 / Math.abs(z);
-        // lerchphi(1,s,0.5) = (2^s-1)*zeta(s)
-        if (s == 1 && z == 0.5)
-            return (Math.pow(2, a) - 1) * riemann_zeta(a);
-        // lerchphi(z,1,1) = -log(1-z)/z
-        if (a == 1 && z == 1)
-            return -Math.log(1 - s) / s;
-        // lerchphi(z,2,0.5) = 2/sqrt(z) * (Li2(z) - Li2(-z))
-        if (a == 2 && z == 0.5)
-            return 2 / Math.sqrt(s) * (Spence.dilog(s) - Spence.dilog(-s));
-        // lerchphi(z,2,1.5) = 2/(z^1.5) * (Li2(z) - Li2(-z) - 2sqrt(z))
-        if (a == 2 && z == 1.5 && s > 0)
-            return 2 / Math.pow(s, 1.5) * (Spence.dilog(s) - Spence.dilog(-s) - 2 * Math.sqrt(s));
-        // lerchphi(0,s,a) = (a^2)^(-s/2)
-        if (s == 0)
-            return Math.pow(z * z, -a / 2);
-        // lerchphi(z,0,a) = 1/(1-z)
-        if (a == 0)
-            return 1 / (1 - s);
-        return lerchphiGeneral(s, a, z, 10e-16);
+    public static double lerch_phi(double z, double s, double a) {
+        // lerchphi(1, s, 1) = riemann_zeta(s), s > 1
+        if(z == 1.0 && a == 1.0 && s > 1)
+            return riemann_zeta(s);
+        // lerchphi(1, s, a) = hurwitz_zeta(s, a), s > 1, a != 0, -1, -2, to infinity ...
+        if(z == 1.0 && s > 1 && !(a < 0 && Math.floor(a) == a))
+            return hurwitz_zeta(s, a);
+        // lerchphi(z, s, 1) = polylog_s(z) / z iff s > 1, |z| <= 1
+        if(a == 1.0 && s > 1 && Math.abs(z) <= 1)
+            return Spence.polylog((int) s, z) / z;
+        // lerchphi(z, 0, a) = 1 / (1 - z)
+        if(s == 0)
+            return 1.0 / (1.0 - z);
+        // lerchphi(0, s, a) = a^-s.
+        if(z == 0)
+            return Math.pow(a, -s);
+        // lerchphi(z, 1, 1) = -log(1 - z) / z
+        if(s == 1.0 && a == 1.0)
+            return -Math.log(1.0 - z) / z;
+        return lerchphiGeneral(z, s, a, Maja.EPSILON);
     }
 }

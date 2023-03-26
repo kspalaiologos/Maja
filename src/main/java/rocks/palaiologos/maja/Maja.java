@@ -1760,15 +1760,15 @@ public class Maja {
     }
 
     /**
-     * Compute the value of the Lerch transcendent function at s, a, z.
+     * Compute the value of the Lerch transcendent function at z, s, a.
      *
+     * @param z
      * @param s
      * @param a
-     * @param z
-     * @return Lerch(s, a, z)
+     * @return Lerch(z, s, a)
      */
-    public static double lerchPhi(double s, double a, double z) {
-        return Zeta.lerch_phi(s, a, z);
+    public static double lerchPhi(double z, double s, double a) {
+        return Zeta.lerch_phi(z, s, a);
     }
 
     /**

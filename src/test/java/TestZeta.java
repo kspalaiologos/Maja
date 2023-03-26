@@ -36,17 +36,22 @@ public class TestZeta {
 
     @Test
     public void testLerchPhi() {
-        assertThat(Maja.lerchPhi(1.0,0.5,1.0)).isEqualTo(-1.460354508809582);
-        assertThat(Maja.lerchPhi(1.0,0.5,2.0)).isEqualTo(-2.4603830608559094);
+        assertThat(Maja.lerchPhi(1.0,0.5,1.0)).isEqualTo(Double.POSITIVE_INFINITY);
+        assertThat(Maja.lerchPhi(1.0,0.5,2.0)).isEqualTo(Double.POSITIVE_INFINITY);
         assertThat(Maja.lerchPhi(0.33,0.5,1.0)).isEqualTo(1.321795598173777);
         assertThat(Maja.lerchPhi(0.0,1.0,12.3)).isEqualTo(0.08130081300813008);
-        assertThat(Maja.lerchPhi(1.0,0.5,0.5)).isEqualTo(-0.6049394572448313);
-        assertThat(Maja.lerchPhi(0.12,1.0,1.0)).isEqualTo(1.0652780959157073);
-        assertThat(Maja.lerchPhi(0.5,2.0,0.5)).isEqualTo(2.9151318041645378);
+        assertThat(Maja.lerchPhi(1.0,0.5,0.5)).isEqualTo(Double.POSITIVE_INFINITY);
+        assertThat(Maja.lerchPhi(0.12,1.0,1.0)).isEqualTo(1.065278095915707);
+        assertThat(Maja.lerchPhi(0.5,2.0,0.5)).isEqualTo(4.277145500580947);
         assertThat(Maja.lerchPhi(-0.5,2.0,1.5)).isEqualTo(0.3802066469636877);
         assertThat(Maja.lerchPhi(0.0,0.1,0.2)).isEqualTo(1.174618943088019);
         assertThat(Maja.lerchPhi(0.1,0.2,0.3)).isEqualTo(1.3764833924494795);
         assertThat(Maja.lerchPhi(0.12,0.0,20.3)).isEqualTo(1.1363636363636365);
         assertThat(Maja.lerchPhi(0.12,4.0,20.3)).isEqualTo(6.536398653479602E-6);
+        assertThat(Maja.lerchPhi(0.12,4.0,1E-20)).isEqualTo(1.0000000000000003E80);
+        assertThat(Maja.lerchPhi(1E-20,4.0,0.12)).isEqualTo(4822.530864197532);
+        assertThat(Maja.lerchPhi(0.1,0.2,-0.3)).isEqualTo(1.3895517784046223);
+        assertThat(Maja.lerchPhi(-0.1,0.2,-0.3)).isEqualTo(1.1731091065401793);
+        assertThat(Maja.lerchPhi(0.1,0.2,0.3)).isEqualTo(1.3764833924494795);
     }
 }
