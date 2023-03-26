@@ -2579,4 +2579,62 @@ public class Maja {
         // a^b = exp(b*ln(a))
         return exp(mul(b, log(a)));
     }
+
+    /**
+     * Compute the hyperbolic sine of a complex number.
+     * @param a
+     * @return sinh(a)
+     */
+    public static Complex sinh(Complex a) {
+        // sinh(a+bi) = sinh(a)cos(b) + i*cosh(a)sin(b)
+        return new Complex(Math.sinh(a.re()) * Math.cos(a.im()), Math.cosh(a.re()) * Math.sin(a.im()));
+    }
+
+    /**
+     * Compute the hyperbolic cosine of a complex number.
+     * @param a
+     * @return cosh(a)
+     */
+    public static Complex cosh(Complex a) {
+        // cosh(a+bi) = cosh(a)cos(b) + i*sinh(a)sin(b)
+        return new Complex(Math.cosh(a.re()) * Math.cos(a.im()), Math.sinh(a.re()) * Math.sin(a.im()));
+    }
+
+    /**
+     * Compute the hyperbolic tangent of a complex number.
+     * @param a
+     * @return tanh(a)
+     */
+    public static Complex tanh(Complex a) {
+        // tanh(a+bi) = sinh(2a)+i*sin(2b) / cosh(2a)+cos(2b)
+        double d = Math.cosh(2 * a.re()) + Math.cos(2 * a.im());
+        return new Complex(Math.sinh(2 * a.re()) / d, Math.sin(2 * a.im()) / d);
+    }
+
+    /**
+     * Compute the hyperbolic cotangent of a complex number.
+     * @param a
+     * @return coth(a)
+     */
+    public static Complex coth(Complex a) {
+        return div(COMPLEX_ONE, tanh(a));
+    }
+
+    /**
+     * Compute the hyperbolic secant of a complex number.
+     * @param a
+     * @return sech(a)
+     */
+    public static Complex sech(Complex a) {
+        return div(COMPLEX_ONE, cosh(a));
+    }
+
+    /**
+     * Compute the hyperbolic cosecant of a complex number.
+     * @param a
+     * @return csch(a)
+     */
+    public static Complex csch(Complex a) {
+        return div(COMPLEX_ONE, sinh(a));
+    }
 }
