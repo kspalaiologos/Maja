@@ -2712,4 +2712,27 @@ public class Maja {
         Complex lnt = log(div(y, a));
         return div(lnt, I);
     }
+
+    /**
+     * Compute the hyperbolic arcsine of a complex number.
+     * @param a
+     * @return asinh(a)
+     */
+    public static Complex asinh(Complex a) {
+        // asinh(z) = ln(z+sqrt(z^2+1))
+        Complex y = sqrt(add(mul(a, a), COMPLEX_ONE));
+        return log(add(a, y));
+    }
+
+    /**
+     * Compute the hyperbolic arccosine of a complex number.
+     * @param a
+     * @return acosh(a)
+     */
+    public static Complex acosh(Complex a) {
+        // acosh(z) = sqrt(z-1)/sqrt(1-z) acos(z)
+        Complex y = sqrt(sub(a, COMPLEX_ONE));
+        Complex z = sqrt(sub(COMPLEX_ONE, a));
+        return mul(acos(a), div(y, z));
+    }
 }
