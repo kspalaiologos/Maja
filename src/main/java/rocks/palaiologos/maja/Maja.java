@@ -2508,4 +2508,63 @@ public class Maja {
         double theta = (phase + 2 * Math.PI) / 3;
         return new Complex(nthRootOfMagnitude * Math.cos(theta), nthRootOfMagnitude * Math.sin(theta));
     }
+
+    /**
+     * Compute the sine of a complex number.
+     * @param x
+     * @return sin(x)
+     */
+    public static Complex sin(Complex x) {
+        // sin(a+bi) = sin(a)cosh(b) + i*cos(a)sinh(b)
+        return new Complex(Math.sin(x.re()) * Math.cosh(x.im()), Math.cos(x.re()) * Math.sinh(x.im()));
+    }
+
+    /**
+     * Compute the cosine of a complex number.
+     * @param x
+     * @return cos(x)
+     */
+    public static Complex cos(Complex x) {
+        // cos(a+bi) = cos(a)cosh(b) - i*sin(a)sinh(b)
+        return new Complex(Math.cos(x.re()) * Math.cosh(x.im()), -Math.sin(x.re()) * Math.sinh(x.im()));
+    }
+
+    /**
+     * Compute the tangent of a complex number.
+     * @param x
+     * @return tan(x)
+     */
+    public static Complex tan(Complex x) {
+        // tan(a+bi) = sin(2a)+i*sinh(2b) / cos(2a)+cosh(2b)
+        double d = Math.cos(2 * x.re()) + Math.cosh(2 * x.im());
+        return new Complex(Math.sin(2 * x.re()) / d, Math.sinh(2 * x.im()) / d);
+    }
+
+    private static final Complex COMPLEX_ONE = new Complex(1);
+    /**
+     * Compute the cotangent of a complex number.
+     * @param x
+     * @return cot(x)
+     */
+    public static Complex cot(Complex x) {
+        return div(COMPLEX_ONE, tan(x));
+    }
+
+    /**
+     * Compute the secant of a complex number.
+     * @param x
+     * @return
+     */
+    public static Complex sec(Complex x) {
+        return div(COMPLEX_ONE, cos(x));
+    }
+
+    /**
+     * Compute the cosecant of a complex number.
+     * @param x
+     * @return
+     */
+    public static Complex csc(Complex x) {
+        return div(COMPLEX_ONE, sin(x));
+    }
 }
