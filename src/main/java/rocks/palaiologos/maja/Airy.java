@@ -348,7 +348,7 @@ class Airy {
 
         while (t.re() > EPSILON) {
             uf = mul(uf, z);
-            ug = mul(ug, k);
+            ug = div(ug, k);
             k = add(k, 1);
             ug = mul(ug, z);
             uf = div(uf, k);
