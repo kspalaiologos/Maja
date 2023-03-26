@@ -2879,4 +2879,23 @@ public class Maja {
         Complex y = add(I, sqrt(add(mul(a, a), 1)));
         return log(div(y, a));
     }
+
+    /**
+     * Compute the gamma function of a complex number.
+     * @param a
+     * @return gamma(a)
+     */
+    public static Complex gamma(Complex a) {
+        return Gamma.gamma(a);
+    }
+
+    /**
+     * Compute the beta function of two complex numbers.
+     * @param a
+     * @param b
+     * @return beta(a, b)
+     */
+    public static Complex beta(Complex a, Complex b) {
+        return div(mul(gamma(a), gamma(b)), gamma(add(a, b)));
+    }
 }
