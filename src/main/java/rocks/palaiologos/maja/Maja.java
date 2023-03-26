@@ -2852,6 +2852,24 @@ public class Maja {
     }
 
     /**
+     * Negate a complex number.
+     * @param x
+     * @return -x
+     */
+    public static Complex negate(Complex x) {
+        return new Complex(-x.re(), -x.im());
+    }
+
+    /**
+     * Negate a real number.
+     * @param x
+     * @return -x
+     */
+    public static double negate(double x) {
+        return -x;
+    }
+
+    /**
      * Compute the hyperbolic arccosecant of a complex number.
      * @param a
      * @return acsch(a)
