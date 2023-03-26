@@ -186,7 +186,6 @@ class Zeta {
         double v1 = v, sum1 = 0, result;
         int m = 0, sign;
 
-        boolean s_cond = Math.abs(Math.floor(s) - s) > Maja.EPSILON * Math.abs(s);
         if (v < 0.0 && Math.abs(z) > Maja.EPSILON) {
             m = -(int) Math.floor(v);
             v1 += m;
