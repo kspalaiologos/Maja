@@ -90,5 +90,6 @@ public class TestTrigonometry {
         assertThat(Maja.ShiChi(Double.NEGATIVE_INFINITY)).isEqualTo(new double[] { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY });
         assertThat(Maja.ShiChi(10)).isEqualTo(new double[] { 1246.1144901994235, 1246.1144860424545 });
         assertThat(Maja.ShiChi(0)).isEqualTo(new double[] { 0, Double.NEGATIVE_INFINITY });
+        assertThat(Maja.ShiChi(70)).isEqualTo(new double[] { 1.8231763797898678E28, 1.8231763797898678E28 });
     }
 }
