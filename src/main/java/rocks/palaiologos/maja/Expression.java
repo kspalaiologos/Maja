@@ -532,8 +532,10 @@ class Expression {
                     assertArity(args, 2);
                     yield Maja.pow(args.get(0), mustInt(args.get(1)));
                 }
-                case "airy" -> evalMonadic(Maja::airy, args);
-                case "airy'" -> evalMonadic(Maja::airyDerivative, args);
+                case "airyAi" -> evalMonadic(Maja::airyAi, args);
+                case "airyAi'" -> evalMonadic(Maja::airyAip, args);
+                case "airyBi" -> evalMonadic(Maja::airyBi, args);
+                case "airyBi'" -> evalMonadic(Maja::airyBip, args);
                 case "gamma" -> evalMonadic(Maja::gamma, args);
                 case "loggamma" -> evalMonadic(Maja::loggamma, args);
                 case "digamma" -> evalMonadic(Maja::digamma, args);

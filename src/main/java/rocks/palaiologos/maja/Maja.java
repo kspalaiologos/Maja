@@ -1363,8 +1363,8 @@ public class Maja {
      * @param x
      * @return Ai(x)
      */
-    public static double airy(double x) {
-        return Airy.airy(x);
+    public static double airyAi(double x) {
+        return Airy.airy(x)[0];
     }
 
     /**
@@ -1373,8 +1373,37 @@ public class Maja {
      * @param x
      * @return Ai'(x)
      */
-    public static double airyDerivative(double x) {
-        return Airy.airyDerivative(x);
+    public static double airyAip(double x) {
+        return Airy.airy(x)[1];
+    }
+
+    /**
+     * Compute the value of the Airy Bi function at the specified point.
+     *
+     * @param x
+     * @return Bi(x)
+     */
+    public static double airyBi(double x) {
+        return Airy.airy(x)[2];
+    }
+
+    /**
+     * Compute the value of the Airy Bi function's first derivative at the specified point.
+     *
+     * @param x
+     * @return Bi'(x)
+     */
+    public static double airyBip(double x) {
+        return Airy.airy(x)[3];
+    }
+
+    /**
+     * Compute the value of the Airy Ai, Ai', Bi and Bi' functions at the specified point.
+     * @param x
+     * @return a double array of length 4 containing Ai, Ai', Bi and Bi' in that order.
+     */
+    public static double[] airy(double x) {
+        return Airy.airy(x);
     }
 
     /**

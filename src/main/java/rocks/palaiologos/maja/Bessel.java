@@ -1188,8 +1188,8 @@ class Bessel {
         n23 = Math.cbrt(n * n);
         t = n23 * zeta;
 
-        double ai = Airy.airy(t);
-        double aip = Airy.airyDerivative(t);
+        double ai = Maja.airyAi(t);
+        double aip = Maja.airyAip(t);
 
         /* polynomials in expansion */
         u[0] = 1.0;
@@ -1285,8 +1285,8 @@ class Bessel {
 
         /* Airy function */
         zz = -cbtwo * z;
-        double ai = Airy.airy(zz);
-        double aip = Airy.airyDerivative(zz);
+        double ai = Maja.airyAi(zz);
+        double aip = Maja.airyAip(zz);
 
         /* polynomials in expansion */
         zz = z * z;

@@ -1,204 +1,248 @@
 package rocks.palaiologos.maja;
 
+import static rocks.palaiologos.maja.Maja.*;
+
 class Airy {
-    private static final double[] xtmp = new double[26];
-    private static final double[] dxtmp = new double[26];
+    private final static double[] APGN = {
+        -3.55615429033082288335E-2,  -6.37311518129435504426E-1,
+        -1.70856738884312371053E0,   -1.50221872117316635393E0,
+        -5.63606665822102676611E-1,  -1.02101031120216891789E-1,
+        -9.48396695961445269093E-3,  -4.60325307486780994357E-4,
+        -1.14300836484517375919E-5,  -1.33415518685547420648E-7,
+        -5.63803833958893494476E-10
+    };
 
-    static {
-        xtmp[1] = 1.4083081072180964e1;
-        xtmp[2] = 1.0214885479197331e1;
-        xtmp[3] = 7.4416018450450930;
-        xtmp[4] = 5.3070943061781927;
-        xtmp[5] = 3.6340135029132462;
-        xtmp[6] = 2.3310652303052450;
-        xtmp[7] = 1.3447970842609268;
-        xtmp[8] = 6.4188858369567296e-1;
-        xtmp[9] = 2.0100345998121046e-1;
-        xtmp[10] = 8.0594359172052833e-3;
-        xtmp[11] = 3.1542515762964787e-14;
-        xtmp[12] = 6.6394210819584921e-11;
-        xtmp[13] = 1.7583889061345669e-8;
-        xtmp[14] = 1.3712392370435815e-6;
-        xtmp[15] = 4.4350966639284350e-5;
-        xtmp[16] = 7.1555010917718255e-4;
-        xtmp[17] = 6.4889566103335381e-3;
-        xtmp[18] = 3.6440415875773282e-2;
-        xtmp[19] = 1.4399792418590999e-1;
-        xtmp[20] = 8.1231141336261486e-1;
-        xtmp[21] = 0.355028053887817;
-        xtmp[22] = 0.258819403792807;
-        xtmp[23] = 1.73205080756887729;
-        xtmp[24] = 0.78539816339744831;
-        xtmp[25] = 0.56418958354775629;
-    }
+    private final static double[] APGD = {
+        9.85865801696130355144E0,  2.16401867356585941885E1,
+        1.73130776389749389525E1,  6.17872175280828766327E0,
+        1.08848694396321495475E0,  9.95005543440888479402E-2,
+        4.78468199683886610842E-3, 1.18159633322838625562E-4,
+        1.37480673554219441465E-6, 5.79912514929147598821E-9
+    };
 
-    static {
-        dxtmp[1] = 1.4083081072180964e1;
-        dxtmp[2] = 1.0214885479197331e1;
-        dxtmp[3] = 7.4416018450450930;
-        dxtmp[4] = 5.3070943061781927;
-        dxtmp[5] = 3.6340135029132462;
-        dxtmp[6] = 2.3310652303052450;
-        dxtmp[7] = 1.3447970842609268;
-        dxtmp[8] = 6.4188858369567296e-1;
-        dxtmp[9] = 2.0100345998121046e-1;
-        dxtmp[10] = 8.0594359172052833e-3;
-        dxtmp[11] = 3.1542515762964787e-14;
-        dxtmp[12] = 6.6394210819584921e-11;
-        dxtmp[13] = 1.7583889061345669e-8;
-        dxtmp[14] = 1.3712392370435815e-6;
-        dxtmp[15] = 4.4350966639284350e-5;
-        dxtmp[16] = 7.1555010917718255e-4;
-        dxtmp[17] = 6.4889566103335381e-3;
-        dxtmp[18] = 3.6440415875773282e-2;
-        dxtmp[19] = 1.4399792418590999e-1;
-        dxtmp[20] = 8.1231141336261486e-1;
-        dxtmp[21] = 0.355028053887817;
-        dxtmp[22] = 0.258819403792807;
-        dxtmp[23] = 1.73205080756887729;
-        dxtmp[24] = 0.78539816339744831;
-        dxtmp[25] = 0.56418958354775629;
-    }
+    private final static double[] AN = {
+        3.46538101525629032477E-1, 1.20075952739645805542E1,
+        7.62796053615234516538E1,  1.68089224934630576269E2,
+        1.59756391350164413639E2,  7.05360906840444183113E1,
+        1.40264691163389668864E1,  9.99999999999999995305E-1,
+    };
 
-    private Airy() {
-    }
+    private final static double[] AD = {
+        5.67594532638770212846E-1, 1.47562562584847203173E1,
+        8.45138970141474626562E1,  1.77318088145400459522E2,
+        1.64234692871529701831E2,  7.14778400825575695274E1,
+        1.40959135607834029598E1,  1.00000000000000000470E0,
+    };
 
-    public static double airy(double x) {
-        if (Double.isNaN(x))
-            return Double.NaN;
-        if (x == Double.NEGATIVE_INFINITY || x == Double.POSITIVE_INFINITY)
-            return 0;
-        int n, l;
-        double s, t, u, v, uc, vc, k1, k2, c, xt, si, co, expxt;
-        double sqrtx, wwl, pl, pl1, pl2, zzz, ai;
-        if ((x >= -5.0) && (x <= 8.0)) {
-            u = v = t = uc = vc = 1.0;
-            s = 0.5;
-            n = 3;
-            zzz = x * x * x;
-            while (Math.abs(u) + Math.abs(v) + Math.abs(s) + Math.abs(t) > 1.0e-18) {
-                u = u * zzz / (n * (n - 1));
-                v = v * zzz / (n * (n + 1));
-                s = s * zzz / (n * (n + 2));
-                t = t * zzz / (n * (n - 2));
-                uc += u;
-                vc += v;
-                n += 3;
-            }
-            if (x < 2.5) {
-                ai = xtmp[21] * uc - xtmp[22] * x * vc;
-                return ai;
+    private final static double[] AFN = {
+        -1.31696323418331795333E-1, -6.26456544431912369773E-1,
+        -6.93158036036933542233E-1, -2.79779981545119124951E-1,
+        -4.91900132609500318020E-2, -4.06265923594885404393E-3,
+        -1.59276496239262096340E-4, -2.77649108155232920844E-6,
+        -1.67787698489114633780E-8
+    };
+
+    private final static double[] AFD = {
+        1.33560420706553243746E1,  3.26825032795224613948E1,
+        2.67367040941499554804E1,  9.18707402907259625840E0,
+        1.47529146771666414581E0,  1.15687173795188044134E-1,
+        4.40291641615211203805E-3, 7.54720348287414296618E-5,
+        4.51850092970580378464E-7
+    };
+
+    private final static double[] AGN = {
+        1.97339932091685679179E-2,  3.91103029615688277255E-1,
+        1.06579897599595591108E0,   9.39169229816650230044E-1,
+        3.51465656105547619242E-1,  6.33888919628925490927E-2,
+        5.85804113048388458567E-3,  2.82851600836737019778E-4,
+        6.98793669997260967291E-6,  8.11789239554389293311E-8,
+        3.41551784765923618484E-10
+    };
+    private final static double[] AGD = {
+        9.30892908077441974853E0,  1.98352928718312140417E1,
+        1.55646628932864612953E1,  5.47686069422975497931E0,
+        9.54293611618961883998E-1, 8.64580826352392193095E-2,
+        4.12656523824222607191E-3, 1.01259085116509135510E-4,
+        1.17166733214413521882E-6, 4.91834570062930015649E-9
+    };
+
+    private final static double[] APFN = {
+        1.85365624022535566142E-1, 8.86712188052584095637E-1,
+        9.87391981747398547272E-1, 4.01241082318003734092E-1,
+        7.10304926289631174579E-2, 5.90618657995661810071E-3,
+        2.33051409401776799569E-4, 4.08718778289035454598E-6,
+        2.48379932900442457853E-8
+    };
+
+    private final static double[] APFD = {
+        1.47345854687502542552E1,  3.75423933435489594466E1,
+        3.14657751203046424330E1,  1.09969125207298778536E1,
+        1.78885054766999417817E0,  1.41733275753662636873E-1,
+        5.44066067017226003627E-3, 9.39421290654511171663E-5,
+        5.65978713036027009243E-7
+    };
+
+    private final static double[] APN = {
+        6.13759184814035759225E-1, 1.47454670787755323881E1,
+        8.20584123476060982430E1,  1.71184781360976385540E2,
+        1.59317847137141783523E2,  6.99778599330103016170E1,
+        1.39470856980481566958E1,  1.00000000000000000550E0
+    };
+
+    private final static double[] APD = {
+        3.34203677749736953049E-1, 1.11810297306158156705E1,
+        7.11727352147859965283E1,  1.58778084372838313640E2,
+        1.53206427475809220834E2,  6.86752304592780337944E1,
+        1.38498634758259442477E1,  9.99999999999999994502E-1
+    };
+
+    private final static double[] BN16 = {
+        -2.53240795869364152689E-1, 5.75285167332467384228E-1,
+        -3.29907036873225371650E-1, 6.44404068948199951727E-2,
+        -3.82519546641336734394E-3
+    };
+
+    private final static double[] BD16 = {
+        -7.15685095054035237902E0,  1.06039580715664694291E1,
+        -5.23246636471251500874E0,  9.57395864378383833152E-1,
+        -5.50828147163549611107E-2
+    };
+
+    private final static double[] BPPN = {
+        4.65461162774651610328E-1, -1.08992173800493920734E0,
+        6.38800117371827987759E-1, -1.26844349553102907034E-1,
+        7.62487844342109852105E-3,
+    };
+
+    private final static double[] BPPD = {
+        -8.70622787633159124240E0,  1.38993162704553213172E1,
+        -7.14116144616431159572E0,  1.34008595960680518666E0,
+        -7.84273211323341930448E-2,
+    };
+
+    public static double[] airy(double x) {
+        if(Double.isNaN(x))
+            return new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN };
+        if(x == Double.POSITIVE_INFINITY)
+            return new double[] { 0, 0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY };
+        if(x == Double.NEGATIVE_INFINITY)
+            return new double[] { 0, Double.NaN, 0, Double.NaN };
+
+        double z, zz, t, f, g, uf, ug, k, zeta, theta;
+        int domflg;
+        double ai = Double.NaN, aip = Double.NaN, bi = Double.NaN, bip = Double.NaN;
+
+        domflg = 0;
+        if (x > 103.892) {
+            return new double[] { 0, 0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY };
+        }
+
+        if (x < -2.09) {
+            domflg = 15;
+            t = sqrt(-x);
+            zeta = -2.0 * x * t / 3.0;
+            t = sqrt(t);
+            k = 5.64189583547756286948E-1 / t;
+            z = 1.0 / zeta;
+            zz = z * z;
+            uf = 1.0 + zz * Spence.polevl(zz, AFN, 8) / Spence.p1evl(zz, AFD, 9);
+            ug = z * Spence.polevl(zz, AGN, 10) / Spence.p1evl(zz, AGD, 10);
+            theta = zeta + 0.25 * PI;
+            f = sin(theta);
+            g = cos(theta);
+            ai = k * (f * uf - g * ug);
+            bi = k * (g * uf + f * ug);
+            uf = 1.0 + zz * Spence.polevl(zz, APFN, 8) / Spence.p1evl(zz, APFD, 9);
+            ug = z * Spence.polevl(zz, APGN, 10) / Spence.p1evl(zz, APGD, 10);
+            k = 5.64189583547756286948E-1 * t;
+            aip = -k * (g * uf + f * ug);
+            bip = k * (f * uf - g * ug);
+            return new double[] { ai, aip, bi, bip };
+        }
+
+        if (x >= 2.09) {
+            domflg = 5;
+            t = sqrt(x);
+            zeta = 2.0 * x * t / 3.0;
+            g = exp(zeta);
+            t = sqrt(t);
+            k = 2.0 * t * g;
+            z = 1.0 / zeta;
+            f = Spence.polevl(z, AN, 7) / Spence.polevl(z, AD, 7);
+            ai = 5.64189583547756286948E-1 * f / k;
+            k = -0.5 * 5.64189583547756286948E-1 * t / g;
+            f = Spence.polevl(z, APN, 7) / Spence.polevl(z, APD, 7);
+            aip = f * k;
+
+            if (x > 8.3203353) /* zeta > 16 */
+            {
+                f = z * Spence.polevl(z, BN16, 4) / Spence.p1evl(z, BD16, 5);
+                k = 5.64189583547756286948E-1 * g;
+                bi = k * (1.0 + f) / t;
+                f = z * Spence.polevl(z, BPPN, 4) / Spence.p1evl(z, BPPD, 5);
+                bip = k * t * (1.0 + f);
+                return new double[] { ai, aip, bi, bip };
             }
         }
-        k1 = k2 = 0.0;
-        sqrtx = Math.sqrt(Math.abs(x));
-        xt = 0.666666666666667 * Math.abs(x) * sqrtx;
-        c = xtmp[25] / Math.sqrt(sqrtx);
-        if (x < 0.0) {
-            co = Math.cos(xt - xtmp[24]);
-            si = Math.sin(xt - xtmp[24]);
-            for (l = 1; l <= 10; l++) {
-                wwl = xtmp[l + 10];
-                pl = xtmp[l] / xt;
-                pl2 = pl * pl;
-                pl1 = 1.0 + pl2;
-                k1 += wwl / pl1;
-                k2 += wwl * pl / pl1;
-            }
-            ai = c * (co * k1 + si * k2);
-        } else {
-            if (x < 9.0) {
-                expxt = Math.exp(xt);
-            } else {
-                expxt = 1.0;
-            }
-            for (l = 1; l <= 10; l++) {
-                wwl = xtmp[l + 10];
-                pl = xtmp[l] / xt;
-                pl1 = 1.0 + pl;
-                k1 += wwl / pl1;
-                k2 += wwl * pl / (xt * pl1 * pl1);
-            }
-            ai = 0.5 * c * k1 / expxt;
-            if (x >= 9.0) {
-                // Asymptotic behavior follows
-                expxt = Math.pow(x, 3. / 2.);
-                ai = 0.5 * Math.exp(-2.0 * expxt / 3.0) / Math.sqrt(Math.PI) / Math.pow(x, 0.25);
-            }
-        }
-        return ai;
-    }
 
-    public static double airyDerivative(double x) {
-        if (x == Double.POSITIVE_INFINITY)
-            return 0;
-        int n, l;
-        double s, t, u, v, sc, tc, k1, k2, k3, k4, c, xt, si, co, expxt;
-        double sqrtx, wwl, pl, pl1, pl2, pl3, zzz, ai, aid;
-        if ((x >= -5.0) && (x <= 8.0)) {
-            u = v = t = tc = 1.0;
-            s = sc = 0.5;
-            n = 3;
-            zzz = x * x * x;
-            while (Math.abs(u) + Math.abs(v) + Math.abs(s) + Math.abs(t) > 1.0e-18) {
-                u = u * zzz / (n * (n - 1));
-                v = v * zzz / (n * (n + 1));
-                s = s * zzz / (n * (n + 2));
-                t = t * zzz / (n * (n - 2));
-                sc += s;
-                tc += t;
-                n += 3;
-            }
-            if (x < 2.5) {
-                return dxtmp[21] * sc * x * x - dxtmp[22] * tc;
-            }
+        f = 1.0;
+        g = x;
+        t = 1.0;
+        uf = 1.0;
+        ug = x;
+        k = 1.0;
+        z = x * x * x;
+        while (t > EPSILON) {
+            uf *= z;
+            k += 1.0;
+            uf /= k;
+            ug *= z;
+            k += 1.0;
+            ug /= k;
+            uf /= k;
+            f += uf;
+            k += 1.0;
+            ug /= k;
+            g += ug;
+            t = abs(uf / f);
         }
-        k1 = k2 = k3 = k4 = 0.0;
-        sqrtx = Math.sqrt(Math.abs(x));
-        xt = 0.666666666666667 * Math.abs(x) * sqrtx;
-        c = dxtmp[25] / Math.sqrt(sqrtx);
-        if (x < 0.0) {
-            x = -x;
-            co = Math.cos(xt - dxtmp[24]);
-            si = Math.sin(xt - dxtmp[24]);
-            for (l = 1; l <= 10; l++) {
-                wwl = dxtmp[l + 10];
-                pl = dxtmp[l] / xt;
-                pl2 = pl * pl;
-                pl1 = 1.0 + pl2;
-                pl3 = pl1 * pl1;
-                k1 += wwl / pl1;
-                k2 += wwl * pl / pl1;
-                k3 += wwl * pl * (1.0 + pl * (2.0 / xt + pl)) / pl3;
-                k4 += wwl * (-1.0 - pl * (1.0 + pl * (xt - pl)) / xt) / pl3;
-            }
-            ai = c * (co * k1 + si * k2);
-            aid = 0.25 * ai / x - c * sqrtx * (co * k3 + si * k4);
-        } else {
-            if (x < 9.0) {
-                expxt = Math.exp(xt);
-            } else {
-                expxt = 1.0;
-            }
-            for (l = 1; l <= 10; l++) {
-                wwl = dxtmp[l + 10];
-                pl = dxtmp[l] / xt;
-                pl1 = 1.0 + pl;
-                pl2 = 1.0 - pl;
-                k1 += wwl / pl1;
-                k2 += wwl * pl / (xt * pl1 * pl1);
-                k3 += wwl / pl2;
-                k4 += wwl * pl / (xt * pl2 * pl2);
-            }
-            ai = 0.5 * c * k1 / expxt;
-            aid = ai * (-0.25 / x - sqrtx) + 0.5 * c * sqrtx * k2 / expxt;
-            if (x >= 9) {
-                // Asymptotic behavior follows
-                expxt = Math.pow(x, 3. / 2.);
-                ai = 0.5 * Math.exp(-2.0 * expxt / 3.0) / Math.sqrt(Math.PI) / Math.pow(x, 0.25);
-                aid = -ai * Math.pow(x, 0.5) - ai / x / 4.0;
-            }
+        uf = 0.35502805388781723926 * f;
+        ug = 0.258819403792806798405 * g;
+        if ((domflg & 1) == 0)
+            ai = uf - ug;
+        if ((domflg & 2) == 0)
+            bi = 1.732050807568877293527 * (uf + ug);
+
+        /* the deriviative of ai */
+        k = 4.0;
+        uf = x * x / 2.0;
+        ug = z / 3.0;
+        f = uf;
+        g = 1.0 + ug;
+        uf /= 3.0;
+        t = 1.0;
+
+        while (t > EPSILON) {
+            uf *= z;
+            ug /= k;
+            k += 1.0;
+            ug *= z;
+            uf /= k;
+            f += uf;
+            k += 1.0;
+            ug /= k;
+            uf /= k;
+            g += ug;
+            k += 1.0;
+            t = abs(ug / g);
         }
-        return aid;
+
+        uf = 0.35502805388781723926 * f;
+        ug = 0.258819403792806798405 * g;
+        if ((domflg & 4) == 0)
+            aip = uf - ug;
+        if ((domflg & 8) == 0)
+            bip = 1.732050807568877293527 * (uf + ug);
+        return new double[] { ai, aip, bi, bip };
     }
 }

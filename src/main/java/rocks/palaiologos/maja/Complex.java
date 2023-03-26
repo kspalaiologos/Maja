@@ -20,4 +20,8 @@ public record Complex(double re, double im) {
     public Complex() {
         this(0, 0);
     }
+
+    public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
+    public static final Complex ZERO = new Complex(0, 0);
+    public static final Complex ONE = new Complex(1, 0);
 }
