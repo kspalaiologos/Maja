@@ -47,7 +47,7 @@ Real Functions:
 - Expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
 Complex functions:
-- Elementary (add, sub, mul, div, conj, abs)
+- Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
 
 ## License
 
