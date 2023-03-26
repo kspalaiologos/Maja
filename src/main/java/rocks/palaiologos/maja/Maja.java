@@ -2422,4 +2422,14 @@ public class Maja {
         double r = Math.exp(x.re());
         return new Complex(r * Math.cos(x.im()), r * Math.sin(x.im()));
     }
+
+    /**
+     * Compute the natural logarithm of a complex number.
+     * @param x
+     * @return ln(x)
+     */
+    public static Complex log(Complex x) {
+        // Log(z) = ln(r) + i*theta = ln(|z|) + i*arg(z) = ln(|z|) + i*atan2(im(z), re(z))
+        return new Complex(Math.log(abs(x)), Math.atan2(x.im(), x.re()));
+    }
 }
