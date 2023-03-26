@@ -2393,4 +2393,33 @@ public class Maja {
     public static double abs(Complex a) {
         return Math.sqrt(a.re() * a.re() + a.im() * a.im());
     }
+
+    /**
+     * Compute the square root of a complex number.
+     * @param x
+     * @return sqrt(x)
+     */
+    public static Complex sqrt(Complex x) {
+        if(x.im() == 0)
+            return new Complex(Math.sqrt(x.re()), 0);
+        else {
+            double r = abs(x);
+            double t = Math.sqrt(0.5 * (r + x.re()));
+            double u = Math.sqrt(0.5 * (r - x.re()));
+            if(x.im() > 0)
+                return new Complex(t, u);
+            else
+                return new Complex(t, -u);
+        }
+    }
+
+    /**
+     * Compute the value of the exponential function of a complex number.
+     * @param x
+     * @return exp(x)
+     */
+    public static Complex exp(Complex x) {
+        double r = Math.exp(x.re());
+        return new Complex(r * Math.cos(x.im()), r * Math.sin(x.im()));
+    }
 }
