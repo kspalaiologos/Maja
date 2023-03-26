@@ -23,7 +23,7 @@ From Maven Central:
 Constants:
 - Apery, Catalan, E, Euler-Mascheroni, Feigenbaum, Glaisher, Golden ratio, Golomb-Dickman, Khinchin, Mills, various standard logarithms and precise values of 1/pi, pi, pi/2, pi/4, 2*pi.
 
-Functions:
+Real Functions:
 - Elementary (abs, add, cbrt, ceil, clamp, compare, copySign, div, eq, exp, expm1, fib, floor, fma, frexp, ge, getExponent, gt, hypot, icbrt, iexp, ilog10, isPerfectSquare, isPowerOfTwo, isqrt, le, log, log10, log1p, log2, lt, amx, min, mod, mul, ne, nextAfter, nextDown, nextPowerOfTwo, nextUp, pow, rem, round, scalb, signum, sqrt, sub, ulp)
 - Interpolation (linearInterpolate, linearMap, linearNorm)
 - Random number generation.
@@ -46,6 +46,8 @@ Functions:
 - Root finding (Newton-Raphson method).
 - Expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
+Complex functions:
+- Elementary (add, sub, mul, div, conj, abs)
 
 ## License
 
