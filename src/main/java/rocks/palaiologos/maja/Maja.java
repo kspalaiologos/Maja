@@ -2927,4 +2927,53 @@ public class Maja {
     public static Complex beta(Complex a, Complex b) {
         return div(mul(gamma(a), gamma(b)), gamma(add(a, b)));
     }
+
+    /**
+     * Compute the value of the Airy Ai function at the specified point.
+     *
+     * @param x
+     * @return Ai(x)
+     */
+    public static Complex airyAi(Complex x) {
+        return Airy.airy(x)[0];
+    }
+
+    /**
+     * Compute the value of the Airy Ai function's first derivative at the specified point.
+     *
+     * @param x
+     * @return Ai'(x)
+     */
+    public static Complex airyAip(Complex x) {
+        return Airy.airy(x)[1];
+    }
+
+    /**
+     * Compute the value of the Airy Bi function at the specified point.
+     *
+     * @param x
+     * @return Bi(x)
+     */
+    public static Complex airyBi(Complex x) {
+        return Airy.airy(x)[2];
+    }
+
+    /**
+     * Compute the value of the Airy Bi function's first derivative at the specified point.
+     *
+     * @param x
+     * @return Bi'(x)
+     */
+    public static Complex airyBip(Complex x) {
+        return Airy.airy(x)[3];
+    }
+
+    /**
+     * Compute the value of the Airy Ai, Ai', Bi and Bi' functions at the specified point.
+     * @param x
+     * @return a double array of length 4 containing Ai, Ai', Bi and Bi' in that order.
+     */
+    public static Complex[] airy(Complex x) {
+        return Airy.airy(x);
+    }
 }

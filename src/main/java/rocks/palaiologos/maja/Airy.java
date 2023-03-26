@@ -245,4 +245,128 @@ class Airy {
             bip = 1.732050807568877293527 * (uf + ug);
         return new double[] { ai, aip, bi, bip };
     }
+
+    public static Complex[] airy(Complex x) {
+        if(Complex.isNaN(x))
+            return new Complex[] { Complex.NaN, Complex.NaN, Complex.NaN, Complex.NaN };
+        if(Complex.isInfinite(x))
+            return new Complex[] { Complex.ZERO, Complex.ZERO, Complex.COMPLEX_INFINITY, Complex.COMPLEX_INFINITY };
+
+        Complex z, zz, t, f, g, uf, ug, k, zeta, theta;
+        int domflg;
+        Complex ai = Complex.NaN, aip = Complex.NaN, bi = Complex.NaN, bip = Complex.NaN;
+
+        domflg = 0;
+        if (x.re() > 103.892) {
+            return new Complex[] { Complex.ZERO, Complex.ZERO, Complex.COMPLEX_INFINITY, Complex.COMPLEX_INFINITY };
+        }
+
+        if (x.re() < -2.09) {
+            domflg = 15;
+            t = sqrt(negate(x));
+            zeta = div(mul(mul(-2.0, x), t), 3.0);
+            t = sqrt(t);
+            k = div(5.64189583547756286948E-1, t);
+            z = div(1.0, zeta);
+            zz = mul(z, z);
+            uf = div(add(1, mul(zz, Spence.polevl(zz, AFN, 8))), Spence.p1evl(zz, AFD, 9));
+            ug = div(mul(z, Spence.polevl(zz, AGN, 10)), Spence.p1evl(zz, AGD, 10));
+            theta = add(zeta, PI_4);
+            f = sin(theta);
+            g = cos(theta);
+            ai = mul(k, sub(mul(f, uf), mul(g, ug)));
+            bi = mul(k, add(mul(g, uf), mul(f, ug)));
+            uf = div(add(1, mul(zz, Spence.polevl(zz, APFN, 8))), Spence.p1evl(zz, APFD, 9));
+            ug = div(mul(z, Spence.polevl(zz, APGN, 10)), Spence.p1evl(zz, APGD, 10));
+            k = mul(5.64189583547756286948E-1, t);
+            aip = mul(negate(k), add(mul(g, uf), mul(f, ug)));
+            bip = mul(k, sub(mul(f, uf), mul(g, ug)));
+            return new Complex[] { ai, aip, bi, bip };
+        }
+
+        if (x.re() >= 2.09) {
+            domflg = 5;
+            t = sqrt(x);
+            zeta = div(mul(mul(2.0, x), t), 3.0);
+            g = exp(zeta);
+            t = sqrt(t);
+            k = mul(mul(2, t), g);
+            z = div(1, zeta);
+            f = div(Spence.polevl(z, AN, 7), Spence.polevl(z, AD, 7));
+            ai = div(mul(5.64189583547756286948E-1, f), k);
+            k = div(mul(-0.282094791773878143474, t), g);
+            f = div(Spence.polevl(z, APN, 7), Spence.polevl(z, APD, 7));
+            aip = mul(f, k);
+
+            if (x.re() > 8.3203353) /* zeta > 16 */
+            {
+                f = div(mul(z, Spence.polevl(z, BN16, 4)), Spence.p1evl(z, BD16, 5));
+                k = mul(5.64189583547756286948E-1, g);
+                bi = div(mul(k, add(1, f)), t);
+                f = div(mul(z, Spence.polevl(z, BPPN, 4)), Spence.p1evl(z, BPPD, 5));
+                bip = mul(mul(k, t), add(1, f));
+                return new Complex[] { ai, aip, bi, bip };
+            }
+        }
+
+        f = Complex.ONE;
+        g = x;
+        t = Complex.ONE;
+        uf = Complex.ONE;
+        ug = x;
+        k = Complex.ONE;
+        z = mul(x, mul(x, x));
+        while (t.re() > EPSILON) {
+            uf = mul(uf, z);
+            k = add(k, 1);
+            uf = div(uf, k);
+            ug = mul(ug, z);
+            k = add(1, k);
+            ug = div(ug, k);
+            uf = div(uf, k);
+            f = add(f, uf);
+            k = add(1, k);
+            ug = div(ug, k);
+            g = add(g, ug);
+            t = new Complex(abs(div(uf, f)));
+        }
+        uf = mul(0.35502805388781723926, f);
+        ug = mul(0.258819403792806798405, g);
+        if ((domflg & 1) == 0)
+            ai = sub(uf, ug);
+        if ((domflg & 2) == 0)
+            bi = mul(1.732050807568877293527, add(uf, ug));
+
+        /* the deriviative of ai */
+        k = new Complex(4);
+        uf = div(mul(x, x), 2.0);
+        ug = div(z, 3.0);
+        f = uf;
+        g = add(1.0, ug);
+        uf = div(uf, 3.0);
+        t = Complex.ONE;
+
+        while (t.re() > EPSILON) {
+            uf = mul(uf, z);
+            ug = mul(ug, k);
+            k = add(k, 1);
+            ug = mul(ug, z);
+            uf = div(uf, k);
+            f = add(f, uf);
+            k = add(k, 1);
+            ug = div(ug, k);
+            uf = div(uf, k);
+            g = add(g, ug);
+            k = add(k, 1);
+            t = new Complex(abs(div(ug, g)));
+        }
+
+        uf = mul(0.35502805388781723926, f);
+        ug = mul(0.258819403792806798405, g);
+        if ((domflg & 4) == 0)
+            aip = sub(uf, ug);
+        if ((domflg & 8) == 0)
+            bip = mul(1.732050807568877293527, add(uf, ug));
+        return new Complex[] { ai, aip, bi, bip };
+    }
 }

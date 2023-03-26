@@ -76,6 +76,28 @@ class Spence {
         return ans;
     }
 
+    static Complex polevl(Complex x, double[] p, int N) {
+        int i = N, dx = 0;
+        Complex ans = new Complex(p[dx++]);
+
+        do
+            ans = Maja.add(Maja.mul(ans, x), p[dx++]);
+        while (--i > 0);
+
+        return ans;
+    }
+
+    static Complex p1evl(Complex x, double[] p, int N) {
+        int i = N - 1, dx = 0;
+        Complex ans = Maja.add(x, p[dx++]);
+
+        do
+            ans = Maja.add(Maja.mul(ans, x), p[dx++]);
+        while (--i > 0);
+
+        return ans;
+    }
+
     public static double dilog(double x) {
         return spence(1 - x);
     }
