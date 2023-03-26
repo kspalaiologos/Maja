@@ -171,6 +171,10 @@ public class Maja {
      */
     public static final double KHINCHIN_CONSTANT = 2.6854520010653064453097148354817956938203822939944629530511523455;
     /**
+     * The imaginary unit.
+     */
+    public static final Complex I = new Complex(0.0, 1.0);
+    /**
      * The random number generator used by this class.
      */
     private static final Random random = new Random();
