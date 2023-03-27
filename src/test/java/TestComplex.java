@@ -23,4 +23,17 @@ public class TestComplex {
         assertThat(Maja.div(new Complex(1, 2), 3)).isEqualTo(new Complex(1.0 / 3, 2.0 / 3));
         assertThat(Maja.div(3, new Complex(1, 2))).isEqualTo(new Complex(0.6, -1.2));
     }
+
+    @Test
+    public void testConjugate() {
+        assertThat(Maja.conj(new Complex(1, 2))).isEqualTo(new Complex(1, -2));
+    }
+
+    @Test
+    public void testAbsSqrt() {
+        assertThat(Maja.abs(new Complex(3, 4))).isEqualTo(5);
+        assertThat(Maja.abs(new Complex(3, -4))).isEqualTo(5);
+        assertThat(Maja.sqrt(new Complex(3, 4))).isEqualTo(new Complex(2, 1));
+        assertThat(Maja.sqrt(new Complex(4, 0))).isEqualTo(new Complex(2, 0));
+    }
 }
