@@ -2690,6 +2690,17 @@ public class Maja {
     }
 
     /**
+     * Compute a to the power of b, where a is a complex
+     * @param a
+     * @param b
+     * @return a^b
+     */
+    public static Complex pow(Complex a, int b) {
+        // a^b = exp(b*ln(a))
+        return exp(mul(b, log(a)));
+    }
+
+    /**
      * Compute the hyperbolic sine of a complex number.
      * @param a
      * @return sinh(a)

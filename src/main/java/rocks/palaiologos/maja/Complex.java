@@ -33,4 +33,21 @@ public record Complex(double re, double im) {
     public static boolean isInfinite(Complex c) {
         return Double.isInfinite(c.re) || Double.isInfinite(c.im);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Complex complex = (Complex) o;
+        return Double.compare(complex.re, re) == 0 && Double.compare(complex.im, im) == 0;
+    }
+
+    @Override
+    public String toString() {
+        if(im < 0) {
+            return String.format("%f - %fi", re, -im);
+        } else {
+            return String.format("%f + %fi", re, im);
+        }
+    }
 }
