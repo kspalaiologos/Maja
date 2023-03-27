@@ -3037,4 +3037,16 @@ public class Maja {
     public static Complex e1(Complex x) {
         return Ei.e1(x);
     }
+
+    /**
+     * Compute the value of the complementary exponential integral Ein at the specified point.
+     * For all complex z, Ein and Ei relate as Ein(z) = E1(z) + EulerGamma + ln z.
+     * @param x
+     * @return
+     */
+    public static Complex Ein(Complex x) {
+        // E1(z) = Ein(z) - ln z - EulerGamma
+        // ... => Ein(z) = E1(z) + ln z + EulerGamma
+        return add(e1(x), add(log(x), EULER_GAMMA));
+    }
 }
