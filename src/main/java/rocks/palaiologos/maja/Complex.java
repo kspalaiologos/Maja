@@ -45,9 +45,9 @@ public record Complex(double re, double im) {
     @Override
     public String toString() {
         if(im < 0) {
-            return String.format("%f - %fi", re, -im);
+            return "(" + re + " - " + (-im) + "i)";
         } else {
-            return String.format("%f + %fi", re, im);
+            return "(" + re + " + " + im + "i)";
         }
     }
 }

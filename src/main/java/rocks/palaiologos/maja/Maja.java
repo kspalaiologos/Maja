@@ -2544,7 +2544,7 @@ public class Maja {
     }
 
     /**
-     * Compare two complex numbers for equality.
+     * Compare two numbers for equality.
      * @param a
      * @param b
      * @return true if a == b, false otherwise
@@ -2554,7 +2554,47 @@ public class Maja {
     }
 
     /**
-     * Compare two complex numbers for inequality.
+     * Compare two numbers for equality.
+     * @param a
+     * @param b
+     * @return true if a == b, false otherwise
+     */
+    public static boolean eq(double a, Complex b) {
+        return b.re() == a && b.im() == 0;
+    }
+
+    /**
+     * Compare two numbers for equality.
+     * @param a
+     * @param b
+     * @return true if a == b, false otherwise
+     */
+    public static boolean eq(Complex a, double b) {
+        return a.re() == b && a.im() == 0;
+    }
+
+    /**
+     * Compare two numbers for inequality.
+     * @param a
+     * @param b
+     * @return true if a != b, false otherwise
+     */
+    public static boolean ne(Complex a, double b) {
+        return b != a.re() || a.im() != 0;
+    }
+
+    /**
+     * Compare two numbers for inequality.
+     * @param a
+     * @param b
+     * @return true if a != b, false otherwise
+     */
+    public static boolean ne(double a, Complex b) {
+        return a != b.re() || b.im() != 0;
+    }
+
+    /**
+     * Compare two numbers for inequality.
      * @param a
      * @param b
      * @return true if a != b, false otherwise
@@ -2986,5 +3026,15 @@ public class Maja {
      */
     public static Complex[] airy(Complex x) {
         return Airy.airy(x);
+    }
+
+    /**
+     * Compute the value of the exponential integral E1 at the specified point.
+     * For positive values of real x, E1 and Ei relate as -E1(x) = Ei(-x).
+     * @param x
+     * @return E1(x)
+     */
+    public static Complex e1(Complex x) {
+        return Ei.e1(x);
     }
 }

@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import static rocks.palaiologos.maja.Maja.*;
+
 class Ei {
     private Ei() {
     }
@@ -119,5 +121,57 @@ class Ei {
         } else {
             return __expint_Ei(x);
         }
+    }
+
+    static double dsign(double a, double b) {
+        return abs(a) * (b >= 0 ? 1 : -1);
+    }
+
+    public static Complex e1(Complex Z) {
+        Complex CE1;
+        double X = Z.re();
+        double A0 = abs(Z);
+        double XT = -2 * abs(Z.im());
+        if (A0 == 0.0) {
+            CE1 = new Complex(1.0E300, 0.0);
+        } else if ((A0 <= 5.0) || (X < XT) && (A0 < 40.0)) {
+            CE1 = Complex.ONE;
+            Complex CR = Complex.ONE;
+            for(int K = 1; K <= 500; K++) {
+                CR = div(mul(mul(negate(CR), K), Z), ((K + 1) * (K + 1)));
+                CE1 = add(CE1, CR);
+                System.out.println(CE1);
+                if (abs(CR) <= abs(CE1)*1.0E-15)
+                    break;
+            }
+
+            if ((X <= 0.0) && (Z.im() == 0.0)) {
+                CE1 = sub(add(sub(-EULER_GAMMA, log(negate(Z))), mul(Z, CE1)), mul(dsign(PI, Z.im()), I));
+            } else {
+                CE1 = sub(sub(-EULER_GAMMA, log(Z)), mul(Z, CE1));
+            }
+        } else {
+            Complex ZC = Complex.ZERO;
+            Complex ZD = div(1, Z);
+            Complex ZDC = ZD;
+            ZC = add(ZC, ZDC);
+            for(int K = 1; K <= 500; K++) {
+                ZD = div(1, add(mul(ZD, K), 1));
+                ZDC = mul(sub(ZD, 1), ZDC);
+                ZC = add(ZC, ZDC);
+
+                ZD = div(1, add(mul(ZD, K), Z));
+                ZDC = mul(sub(mul(Z, ZD), 1), ZDC);
+                ZC = add(ZC, ZDC);
+
+                if((abs(ZDC) <= abs(ZC)*1.0E-15) && (K > 20))
+                    break;
+            }
+
+            CE1 = mul(exp(negate(Z)), ZC);
+            if ((X <= 0.0) && (Z.im() == 0.0))
+                CE1 = sub(CE1, mul(PI, I));
+        }
+        return CE1;
     }
 }
