@@ -67,9 +67,10 @@ public class TestComplex {
     }
 
     @Test
-    public void testLiGamma() {
+    public void testGamma() {
         assertThat(Maja.liGamma(new Complex(2, 5), new Complex(3, 6))).isEqualTo(new Complex(0.003951212582048221, -0.007307084423671122));
         assertThat(Maja.liGamma(new Complex(10, 10), new Complex(10, 10))).isEqualTo(new Complex(711.1040308344138, -1881.5622609709533));
+        assertThat(Maja.digamma(new Complex(4, 4))).isEqualTo(new Complex(1.670359817333411, 0.8505022091860447));
     }
 
     @Test

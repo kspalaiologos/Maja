@@ -3320,4 +3320,13 @@ public class Maja {
         Complex t3 = mul(I, erf(mul(div(sub(1,I),2), mul(sqp, z))));
         return mul(t1, add(t2, t3));
     }
+
+    /**
+     * Compute the complex digamma function.
+     * @param z
+     * @return digamma(z)
+     */
+    public static Complex digamma(Complex z) {
+        return Gamma.digamma(z);
+    }
 }

@@ -242,6 +242,38 @@ class Gamma {
         return digamma;
     }
 
+    public static Complex digamma(Complex x) {
+        final double GAMMA = 0.577215664901532860606512090082;
+        final double C_LIMIT = 49;
+        final double S_LIMIT = 1e-5;
+        final double F_M1_12 = -1d / 12;
+        final double F_1_120 = 1d / 120;
+        final double F_M1_252 = -1d / 252;
+
+        if (!Double.isFinite(x.re())) {
+            return x;
+        }
+
+        Complex digamma = Complex.ZERO;
+        if (x.re() < 0) {
+            digamma = sub(digamma, div(Math.PI, tan(mul(Math.PI, x))));
+            x = new Complex(1 - x.re(), x.im());
+        }
+
+        if (x.re() > 0 && x.re() <= S_LIMIT) {
+            return sub(sub(digamma, GAMMA), div(1, x));
+        }
+
+        while (x.re() < C_LIMIT) {
+            digamma = sub(digamma, div(1, x));
+            x = new Complex(x.re() + 1, x.im());
+        }
+
+        final Complex inv = div(1, mul(x, x));
+        digamma = add(digamma, add(sub(log(x), div(0.5, x)), mul(inv, add(F_M1_12, mul(inv, add(F_1_120, mul(F_M1_252, inv)))))));
+        return digamma;
+    }
+
     public static double trigamma(double x) {
         final double C_LIMIT = 49;
         final double S_LIMIT = 1e-5;
