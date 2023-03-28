@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/kspalaiologos/Maja/branch/trunk/graph/badge.svg?token=3MB6GY2GVV)](https://codecov.io/gh/kspalaiologos/Maja)
 [![Lines Of Code](https://tokei.rs/b1/github/kspalaiologos/Maja?category=code)](https://github.com/kspalaiologos/Maja)
 [![Maven Central](https://img.shields.io/maven-central/v/rocks.palaiologos/maja)](https://mvnrepository.com/artifact/rocks.palaiologos/maja)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7777405.svg)](https://doi.org/10.5281/zenodo.7777405)
 
 A slick numerics-oriented Mathematical library for Java. Maja implements around 300 different functions for use in Java programs, including high-performance cached variants of the `Math` equivalents. [Javadoc](https://kspalaiologos.github.io/Maja/javadoc/rocks/palaiologos/maja/package-summary.html).
 
@@ -63,3 +64,9 @@ GNU LGPL v3.
 - Some of the code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
 - Error function code was inspired by libcerf (MIT; S. G. Johnson, J. Wuttke: libcerf, numeric library for complex error functions).
 - Some of the Bessel functions follow the same algorithms as the Jama library (Public Domain).
+
+## Citation
+
+Cite as:
+
+> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.3). Zenodo. https://doi.org/10.5281/zenodo.7777405
