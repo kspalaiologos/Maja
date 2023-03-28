@@ -3049,4 +3049,23 @@ public class Maja {
         // ... => Ein(z) = E1(z) + ln z + EulerGamma
         return add(e1(x), add(log(x), EULER_GAMMA));
     }
+
+    /**
+     * <p>Principal branch of the logarithm of the gamma function.
+     * Defined to be log(gamma(x)) for x &gt; 0.
+     * Extended to the complex plane by analytic continuation.
+     * The function has a single branch cut on the negative real axis.
+     *
+     * <p>It is not generally true that log gamma(x) = log(gamma(x)),
+     * though the real parts tend to agree. The benefit of not defining
+     * loggamma as is that the latter function has a complicated branch
+     * cut structure whereas loggamma is analytic except for on the negative real axis.
+     *
+     * <p>On the real line, loggamma is related to logabsgamma.
+     * @param x
+     * @return
+     */
+    public static Complex loggamma(Complex x) {
+        return Gamma.loggamma(x);
+    }
 }

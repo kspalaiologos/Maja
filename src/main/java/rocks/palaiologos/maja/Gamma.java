@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import static rocks.palaiologos.maja.Maja.*;
+
 class Gamma {
     // It's more efficient to simply tabulate all factorials.
     // '1,',1↓∊',',⍪⍕¨!¨⍳170
@@ -89,6 +91,23 @@ class Gamma {
         return -tmp + Math.log(2.5066282746310005 * ser / x);
     }
 
+    public static Complex loggamma(Complex xx) {
+        Complex x, y, tmp, ser;
+
+        final double[] cof = {76.18009172947146, -86.50532032941677,
+                24.01409824083091, -1.231739572450155, 0.1208650973866179e-2,
+                -0.5395239384953e-5};
+        int j;
+        y = x = xx;
+        tmp = add(x, 5.5);
+        tmp = sub(tmp, mul(add(x, 0.5), log(tmp)));
+        ser = new Complex(1.000000000190015);
+        for (j = 0; j <= 5; j++)
+            ser = add(ser, div(cof[j], (y = add(y, 1))));
+
+        return add(negate(tmp), log(div(mul(2.5066282746310005, ser), x)));
+    }
+
     public static double gamma(double x) {
         double sgngam, q, z, y, p1, q1;
         int ip, p;
@@ -163,12 +182,12 @@ class Gamma {
 
         x = Maja.sub(x, 1);
         Complex a = new Complex(p[0]);
-        Complex t = Maja.add(Maja.add(x, g), 0.5);
+        Complex t = add(add(x, g), 0.5);
         for(int i = 1; i < p.length; i++){
-            a = Maja.add(a, Maja.div(p[i], Maja.add(x, i)));
+            a = add(a, Maja.div(p[i], add(x, i)));
         }
 
-        return Maja.mul(2.506628274631000502415765284811, Maja.mul(Maja.pow(t, Maja.add(x, .5)), Maja.mul(Maja.exp(Maja.negate(t)), a)));
+        return Maja.mul(2.506628274631000502415765284811, Maja.mul(Maja.pow(t, add(x, .5)), Maja.mul(Maja.exp(Maja.negate(t)), a)));
     }
 
     private static double gammastirf(double x) {
