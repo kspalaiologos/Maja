@@ -975,9 +975,8 @@ class Erf {
             }
             else if (Double.isNaN(x))
                 return new Complex(Double.NaN, y == 0 ? 0 : Double.NaN);
-            return Maja.mul(Math.exp(mRe_z2),
-                    Maja.sub(Maja.mul(new Complex(Math.cos(mIm_z2), Math.sin(mIm_z2)),
-                            w_of_z(new Complex(y,-x))), 1.0));
+            Complex c = w_of_z(new Complex(y,-x));
+            return Maja.sub(Maja.mul(Math.exp(mRe_z2), Maja.mul(new Complex(Math.cos(mIm_z2), Math.sin(mIm_z2)), c)), 1);
         }
     }
 

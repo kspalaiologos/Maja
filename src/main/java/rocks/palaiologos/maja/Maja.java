@@ -2547,7 +2547,7 @@ public class Maja {
      * @return a - b
      */
     public static Complex sub(double a, Complex b) {
-        return new Complex(a - b.re(), b.im());
+        return new Complex(a - b.re(), -b.im());
     }
 
     /**
@@ -3291,5 +3291,33 @@ public class Maja {
     public static Complex dawsonMinus(Complex z) {
         // sqrt(pi)/2 * exp(z*2) * erf(z)
         return mul(mul(0.8862269254527580136490837416705725913990, exp(add(z, z))), erf(z));
+    }
+
+    /**
+     * Compute the Fresnel S integral on the complex plane.
+     * @param z
+     * @return FresnelS(z)
+     */
+    public static Complex fresnelS(Complex z) {
+        // FresnelS[z] == ((1 + I)/4) (Erf[((1 + I)/2) Sqrt[Pi] z] - I Erf[((1 - I)/2) Sqrt[Pi] z])
+        double sqp = 1.7724538509055160272981674833411451827975494561223871282138077898;
+        Complex t1 = div(add(1,I),4);
+        Complex t2 = erf(mul(div(add(1,I),2), mul(sqp, z)));
+        Complex t3 = mul(I, erf(mul(div(sub(1,I),2), mul(sqp, z))));
+        return mul(t1, sub(t2, t3));
+    }
+
+    /**
+     * Compute the Fresnel C integral on the complex plane.
+     * @param z
+     * @return FresnelC(z)
+     */
+    public static Complex fresnelC(Complex z) {
+        // FresnelC[z] == ((1 - I)/4) (Erf[((1 + I)/2) Sqrt[Pi] z] + I Erf[((1 - I)/2) Sqrt[Pi] z])
+        double sqp = 1.7724538509055160272981674833411451827975494561223871282138077898;
+        Complex t1 = div(sub(1,I),4);
+        Complex t2 = erf(mul(div(add(1,I),2), mul(sqp, z)));
+        Complex t3 = mul(I, erf(mul(div(sub(1,I),2), mul(sqp, z))));
+        return mul(t1, add(t2, t3));
     }
 }

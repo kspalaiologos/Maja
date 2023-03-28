@@ -71,4 +71,10 @@ public class TestComplex {
         assertThat(Maja.liGamma(new Complex(2, 5), new Complex(3, 6))).isEqualTo(new Complex(0.003951212582048221, -0.007307084423671122));
         assertThat(Maja.liGamma(new Complex(10, 10), new Complex(10, 10))).isEqualTo(new Complex(711.1040308344138, -1881.5622609709533));
     }
+
+    @Test
+    public void testFresnel() {
+        assertThat(Maja.fresnelC(new Complex(2, 5))).isEqualTo(new Complex(-4.768856847987491E11, 1.221373671098564E12));
+        assertThat(Maja.fresnelS(new Complex(2, 5))).isEqualTo(new Complex(-1.221373671098064E12, -4.768856847992491E11));
+    }
 }
