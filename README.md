@@ -52,10 +52,11 @@ Real Functions:
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
 - Trigonometry (sin, cos, tan, cot, sec, csc, asin, acos, atan, acot, asec, acsc, sinh, cosh, tanh, sech, csch, asinh, acosh, atanh, acoth, asech, acsch)
-- Gamma function family (beta, gamma, loggamma, logbeta, pochhammer, digamma, trigamma)
+- Gamma function family (beta, gamma, loggamma, logbeta, pochhammer, digamma, trigamma, lower incomplete gamma, upper incomplete gamma)
 - Airy functions (Ai, Bi, Ai', Bi')
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
+- Exponential integral family (Ein, E1)
 
 ## License
 
@@ -63,9 +64,9 @@ GNU LGPL v3.
 
 ## Acknowledgements
 
-- Some of the code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
+- Some code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
 - Error function code was inspired by libcerf (MIT; S. G. Johnson, J. Wuttke: libcerf, numeric library for complex error functions).
-- Some of the Bessel functions follow the same algorithms as the Jama library (Public Domain).
+- Some Bessel functions follow the same algorithms as the Jama library (Public Domain).
 
 ## Citation
 
