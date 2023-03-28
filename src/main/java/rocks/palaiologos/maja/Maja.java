@@ -3329,4 +3329,13 @@ public class Maja {
     public static Complex digamma(Complex z) {
         return Gamma.digamma(z);
     }
+
+    /**
+     * Compute the complex trigamma function.
+     * @param z
+     * @return trigamma(z)
+     */
+    public static Complex trigamma(Complex z) {
+        return Gamma.trigamma(z);
+    }
 }

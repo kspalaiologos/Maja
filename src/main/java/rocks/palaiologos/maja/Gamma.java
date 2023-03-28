@@ -301,6 +301,33 @@ class Gamma {
         return trigamma;
     }
 
+    public static Complex trigamma(Complex x) {
+        final double C_LIMIT = 49;
+        final double S_LIMIT = 1e-5;
+        final double F_1_6 = 1d / 6;
+        final double F_1_30 = 1d / 30;
+        final double F_1_42 = 1d / 42;
+
+        if (!Double.isFinite(x.re())) {
+            return x;
+        }
+
+        if (x.re() > 0 && x.re() <= S_LIMIT) {
+            return div(1, mul(x, x));
+        }
+
+        Complex trigamma = Complex.ZERO;
+        while (x.re() < C_LIMIT) {
+            trigamma = add(trigamma, div(1, mul(x, x)));
+            x = new Complex(x.re() + 1, x.im());
+        }
+
+        final Complex inv = div(1, mul(x, x));
+        trigamma = add(trigamma, add(add(div(1, x), div(inv, 2)), mul(div(inv, x), sub(F_1_6, mul(inv, add(F_1_30, mul(F_1_42, inv)))))));
+
+        return trigamma;
+    }
+
     public static double lowerIncomplete(double a, double x) {
         if (a == 0)
             return -Ei.expint(-x);
