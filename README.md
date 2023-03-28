@@ -55,6 +55,7 @@ Complex functions:
 - Gamma function family (beta, gamma, loggamma, logbeta, pochhammer)
 - Airy functions (Ai, Bi, Ai', Bi')
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
+- Fresnel integrals (fresnelS, fresnelC).
 
 ## License
 
