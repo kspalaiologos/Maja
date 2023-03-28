@@ -13,7 +13,7 @@ public class TestComplex {
 
         assertThat(Maja.sub(new Complex(1, 2), new Complex(3, 4))).isEqualTo(new Complex(-2, -2));
         assertThat(Maja.sub(new Complex(1, 2), 3)).isEqualTo(new Complex(-2, 2));
-        assertThat(Maja.sub(3, new Complex(1, 2))).isEqualTo(new Complex(2, 2));
+        assertThat(Maja.sub(3, new Complex(1, 2))).isEqualTo(new Complex(2, -2));
 
         assertThat(Maja.mul(new Complex(1, 2), new Complex(3, 4))).isEqualTo(new Complex(-5, 10));
         assertThat(Maja.mul(new Complex(1, 2), 3)).isEqualTo(new Complex(3, 6));
