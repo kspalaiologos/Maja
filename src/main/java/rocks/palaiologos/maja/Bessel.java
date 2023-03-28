@@ -530,6 +530,8 @@ class Bessel {
     }
 
     static public double i0(double x) {
+        if(Double.isInfinite(x)) return Double.POSITIVE_INFINITY;
+
         double y;
         if (x < 0) x = -x;
         if (x <= 8.0) {
