@@ -140,7 +140,6 @@ class Ei {
             for(int K = 1; K <= 500; K++) {
                 CR = div(mul(mul(negate(CR), K), Z), ((K + 1) * (K + 1)));
                 CE1 = add(CE1, CR);
-                System.out.println(CE1);
                 if (abs(CR) <= abs(CE1)*1.0E-15)
                     break;
             }
