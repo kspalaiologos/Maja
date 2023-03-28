@@ -3130,7 +3130,7 @@ public class Maja {
     }
 
     /**
-     * Compute the lower incomplete gamma function of a complex number.
+     * Compute the lower incomplete (non-regularised) gamma function of a complex number.
      * @param s
      * @param z
      * @return ligamma(s, z)
@@ -3150,5 +3150,11 @@ public class Maja {
                 break;
         }
         return mul(mul(zs, ez), sum);
+    }
+
+    public static Complex uiGamma(Complex s, Complex z) {
+        // ligamma(s,x) + uigamma(s,x) = gamma(s)
+        // ... => uigamma(s,x) = gamma(s) - ligamma(s,x)
+        return sub(gamma(s), liGamma(s, z));
     }
 }
