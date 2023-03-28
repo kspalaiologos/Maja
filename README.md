@@ -38,7 +38,7 @@ Real Functions:
 - Bessel functions (i0, i1, j0, j1, jn, k0, k1, kn, y0, y1, yn, jv, yv)
 - Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
 - Trigonometric integrals (Chi, Ci, Cin, Shi, ShiChi, si, Si)
-- Exponential integral (expint)
+- Exponential integral (expint, li)
 - Error function family (Dawson-, Dawson+, erf, erfc, erfcInv, erfi, erfInv)
 - Polylogarithm family (dilog, polylog, Spence)
 - Fresnel integrals (fresnelC, fresnelS)
@@ -56,7 +56,7 @@ Complex functions:
 - Airy functions (Ai, Bi, Ai', Bi')
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
-- Exponential integral family (Ein, E1)
+- Exponential integral family (Ein, E1, li)
 
 ## License
 

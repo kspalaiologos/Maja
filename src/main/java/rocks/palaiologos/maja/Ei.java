@@ -147,7 +147,7 @@ class Ei {
             if ((X <= 0.0) && (Z.im() == 0.0)) {
                 CE1 = sub(add(sub(-EULER_GAMMA, log(negate(Z))), mul(Z, CE1)), mul(dsign(PI, Z.im()), I));
             } else {
-                CE1 = sub(sub(-EULER_GAMMA, log(Z)), mul(Z, CE1));
+                CE1 = add(sub(-EULER_GAMMA, log(Z)), mul(Z, CE1));
             }
         } else {
             Complex ZC = Complex.ZERO;

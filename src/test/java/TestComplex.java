@@ -78,4 +78,9 @@ public class TestComplex {
         assertThat(Maja.fresnelC(new Complex(2, 5))).isEqualTo(new Complex(-4.768856847987491E11, 1.221373671098564E12));
         assertThat(Maja.fresnelS(new Complex(2, 5))).isEqualTo(new Complex(-1.221373671098064E12, -4.768856847992491E11));
     }
+
+    @Test
+    public void testLi() {
+        assertThat(Maja.li(new Complex(1, 2))).isEqualTo(new Complex(1.387678742022938, 2.508754698859233));
+    }
 }

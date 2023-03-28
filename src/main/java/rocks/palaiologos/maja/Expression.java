@@ -1,9 +1,7 @@
 package rocks.palaiologos.maja;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.function.BiFunction;
 
 class Expression {
@@ -543,7 +541,7 @@ class Expression {
                 case "uigamma" -> evalDyadic(Maja::uiGamma, args);
                 case "ligamma" -> evalDyadic(Maja::liGamma, args);
                 case "pochhammer" -> evalDyadic(Maja::pochhammer, args);
-                case "expint" -> evalMonadic(Maja::expint, args);
+                case "expint" -> evalMonadic(Maja::Ei, args);
                 case "zeta" -> evalMonadic(Maja::zeta, args);
                 case "hurwitzzeta" -> evalDyadic(Maja::hurwitzZeta, args);
                 case "lerchphi" -> evalTriadic(Maja::lerchPhi, args);

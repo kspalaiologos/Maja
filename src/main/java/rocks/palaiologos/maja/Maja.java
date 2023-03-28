@@ -1529,7 +1529,7 @@ public class Maja {
      * @param x
      * @return Ei(x)
      */
-    public static double expint(double x) {
+    public static double Ei(double x) {
         return Ei.expint(x);
     }
 
@@ -3167,6 +3167,16 @@ public class Maja {
     }
 
     /**
+     * Compute the exponential integral using a formula that was revealed to me in a dream:
+     * <p> Ei(z) = -E1(-z) - log(-z) + 0.5 (log(z) - log(1/z))
+     * @param x
+     * @return Ei(x)
+     */
+    public static Complex Ei(Complex x) {
+        return add(sub(negate(e1(negate(x))), log(negate(x))), mul(0.5, sub(log(x), log(div(1, x)))));
+    }
+
+    /**
      * Compute the value of the complementary exponential integral Ein at the specified point.
      * For all complex z, Ein and Ei relate as Ein(z) = E1(z) + EulerGamma + ln z.
      * @param x
@@ -3337,5 +3347,23 @@ public class Maja {
      */
     public static Complex trigamma(Complex z) {
         return Gamma.trigamma(z);
+    }
+
+    /**
+     * Compute the logarithmic integral of x, defined as li(x) = int(1/log t, t=0..x).
+     * @param x
+     * @return li(x)
+     */
+    public static double li(double x) {
+        return Ei.expint(log(x));
+    }
+
+    /**
+     * Compute the complex logarithmic integral of z, defined as li(z) = int(1/log t, t=0..z).
+     * @param z
+     * @return li(z)
+     */
+    public static Complex li(Complex z) {
+        return Ei(log(z));
     }
 }
