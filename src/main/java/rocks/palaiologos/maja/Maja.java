@@ -3366,4 +3366,40 @@ public class Maja {
     public static Complex li(Complex z) {
         return Ei(log(z));
     }
+
+    /**
+     * Compute the value of the complex sine integral Si(z) at z.
+     * @param z
+     * @return Si(z)
+     */
+    public static Complex Si(Complex z) {
+        return TrigonometricIntegral.Si(z);
+    }
+
+    /**
+     * Compute the value of the complex sine integral si(z) at z.
+     * @param z
+     * @return si(z)
+     */
+    public static Complex si(Complex z) {
+        return TrigonometricIntegral.si(z);
+    }
+
+    /**
+     * Compute the value of the complex cosine integral Ci(z) at z.
+     * @param z
+     * @return Ci(z)
+     */
+    public static Complex Ci(Complex z) {
+        return TrigonometricIntegral.Ci(z);
+    }
+
+    /**
+     * Compute the value of the complex cosine integral Cin(z) at z.
+     * @param z
+     * @return Cin(z)
+     */
+    public static Complex Cin(Complex z) {
+        return TrigonometricIntegral.Cin(z);
+    }
 }

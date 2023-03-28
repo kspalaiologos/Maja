@@ -57,6 +57,7 @@ Complex functions:
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
 - Exponential integral family (Ein, E1, li)
+- Trigonometric integrla family (Si, si, Ci, Cin).
 
 ## License
 

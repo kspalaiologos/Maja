@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import static rocks.palaiologos.maja.Maja.*;
+
 class TrigonometricIntegral {
     private static final double[] S1 = {
             1.83889230173399459482E-17,
@@ -107,94 +109,22 @@ class TrigonometricIntegral {
 
     private static double SiF(double x) {
         double x2 = x * x;
-        double nrt = 1 +
-                (7.44437068161936700618e2 +
-                        (1.96396372895146869801e5 +
-                                (2.37750310125431834034e7 +
-                                        (1.43073403821274636888e9 +
-                                                (4.33736238870432522765e10 +
-                                                        (6.40533830574022022911e11 +
-                                                                (4.20968180571076940208e12 +
-                                                                        (1.00795182980368574617e13 +
-                                                                                (4.94816688199951963482e12 -
-                                                                                        (4.94701168645415959931e11 / x2))
-                                                                                        / x2)
-                                                                                / x2)
-                                                                        / x2)
-                                                                / x2)
-                                                        / x2)
-                                                / x2)
-                                        / x2)
-                                / x2)
-                        / x2;
-        double drt = 1 +
-                (7.46437068161927678031e2 +
-                        (1.97865247031583951450e5 +
-                                (2.41535670165126845144e7 +
-                                        (1.47478952192985464958e9 +
-                                                (4.58595115847765779830e10 +
-                                                        (7.08501308149515401563e11 +
-                                                                (5.06084464593475076774e12 +
-                                                                        (1.43468549171581016479e13 +
-                                                                                (1.11535493509914254097e13 / x2))
-                                                                                / x2)
-                                                                        / x2)
-                                                                / x2)
-                                                        / x2)
-                                                / x2)
-                                        / x2)
-                                / x2)
-                        / x2;
+        double nrt = 1 + (7.44437068161936700618e2 + (1.96396372895146869801e5 + (2.37750310125431834034e7 + (1.43073403821274636888e9 + (4.33736238870432522765e10 + (6.40533830574022022911e11 + (4.20968180571076940208e12 + (1.00795182980368574617e13 + (4.94816688199951963482e12 - (4.94701168645415959931e11 / x2)) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2;
+        double drt = 1 + (7.46437068161927678031e2 + (1.97865247031583951450e5 + (2.41535670165126845144e7 + (1.47478952192985464958e9 + (4.58595115847765779830e10 + (7.08501308149515401563e11 + (5.06084464593475076774e12 + (1.43468549171581016479e13 + (1.11535493509914254097e13 / x2)) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2;
         return nrt / (drt * x);
     }
 
     private static double SiG(double x) {
         double x2 = x * x;
-        double nrt = 1 +
-                (8.1359520115168615e2 +
-                        (2.35239181626478200e5 +
-                                (3.12557570795778731e7 +
-                                        (2.06297595146763354e9 +
-                                                (6.83052205423625007e10 +
-                                                        (1.09049528450362786e12 +
-                                                                (7.57664583257834349e12 +
-                                                                        (1.81004487464664575e13 +
-                                                                                (6.43291613143049485e12 -
-                                                                                        (1.36517137670871689e12 / x2))
-                                                                                        / x2)
-                                                                                / x2)
-                                                                        / x2)
-                                                                / x2)
-                                                        / x2)
-                                                / x2)
-                                        / x2)
-                                / x2)
-                        / x2;
-        double drt = 1 +
-                (8.19595201151451564e2 +
-                        (2.40036752835578777e5 +
-                                (3.26026661647090822e7 +
-                                        (2.23355543278099360e9 +
-                                                (7.87465017341829930e10 +
-                                                        (1.39866710696414565e12 +
-                                                                (1.17164723371736605e13 +
-                                                                        (4.01839087307656620e13 +
-                                                                                (3.99653257887490811e13 / x2))
-                                                                                / x2)
-                                                                        / x2)
-                                                                / x2)
-                                                        / x2)
-                                                / x2)
-                                        / x2)
-                                / x2)
-                        / x2;
+        double nrt = 1 + (8.1359520115168615e2 + (2.35239181626478200e5 + (3.12557570795778731e7 + (2.06297595146763354e9 + (6.83052205423625007e10 + (1.09049528450362786e12 + (7.57664583257834349e12 + (1.81004487464664575e13 + (6.43291613143049485e12 - (1.36517137670871689e12 / x2)) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2;
+        double drt = 1 + (8.19595201151451564e2 + (2.40036752835578777e5 + (3.26026661647090822e7 + (2.23355543278099360e9 + (7.87465017341829930e10 + (1.39866710696414565e12 + (1.17164723371736605e13 + (4.01839087307656620e13 + (3.99653257887490811e13 / x2)) / x2) / x2) / x2) / x2) / x2) / x2) / x2) / x2;
         return nrt / (drt * x2);
     }
 
     public static double Si(double x) {
         if (x == Double.POSITIVE_INFINITY) return Maja.PI_2;
         if (x == Double.NEGATIVE_INFINITY) return -Maja.PI_2;
-        if (x < 0.0) return Double.NaN;
+        if (x < 0.0) return -Si(-x);
         if (x < 4.0) {
             double x2 = x * x;
             double x4 = x2 * x2;
@@ -214,14 +144,24 @@ class TrigonometricIntegral {
         }
     }
 
+    public static Complex Si(Complex z) {
+        // if |ph z| < pi/2, Si(z) = 0.5i (E1(-iz) - E1(iz)) + pi/2 DLMF §6.5
+        if(z.re() < 0) return negate(Si(negate(z)));
+        return add(mul(mul(0.5, I), sub(e1(mul(I, negate(z))), e1(mul(I, z)))), PI_2);
+    }
+
     public static double si(double x) {
         return Si(x) - Math.PI / 2;
+    }
+
+    public static Complex si(Complex z) {
+        return sub(Si(z), PI_2);
     }
 
     public static double Ci(double x) {
         if (x == Double.POSITIVE_INFINITY) return 0.0;
         if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
-        if (x < 0.0) return Double.NaN;
+        if (x < 0.0) return -Ci(-x);
         if (x < 4.0) {
             double x2 = x * x;
             double x4 = x2 * x2;
@@ -241,10 +181,20 @@ class TrigonometricIntegral {
         }
     }
 
+    public static Complex Ci(Complex z) {
+        // if |ph z| < pi/2, Ci(z) = -0.5 (E1(-iz) + E1(iz)) DLMF §6.5
+        if(z.re() < 0) return negate(Ci(negate(z)));
+        return mul(-0.5, add(e1(mul(I, negate(z))), e1(mul(I, z))));
+    }
+
     public static double Cin(double x) {
         // Ci(x) = euler-gamma + ln(x) - Cin(x).
         // ... => Cin(x) = euler-gamma + ln(x) - Ci(x)
         return Maja.EULER_GAMMA + Math.log(x) - Ci(x);
+    }
+
+    public static Complex Cin(Complex z) {
+        return sub(add(Maja.EULER_GAMMA, log(z)), Ci(z));
     }
 
     private static double chbevl(double x, double[] coef, int N) {
