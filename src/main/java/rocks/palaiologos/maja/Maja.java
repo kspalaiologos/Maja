@@ -3152,6 +3152,12 @@ public class Maja {
         return mul(mul(zs, ez), sum);
     }
 
+    /**
+     * Compute the upper incomplete (non-regularised) gamma function of a complex number.
+     * @param s
+     * @param z
+     * @return uigamma(s, z)
+     */
     public static Complex uiGamma(Complex s, Complex z) {
         // ligamma(s,x) + uigamma(s,x) = gamma(s)
         // ... => uigamma(s,x) = gamma(s) - ligamma(s,x)
