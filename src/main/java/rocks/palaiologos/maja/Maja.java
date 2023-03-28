@@ -2168,6 +2168,18 @@ public class Maja {
     }
 
     /**
+     * Domain extension of the remainder function onto the complex plane.
+     * @param a
+     * @param b
+     * @return a rem b
+     */
+    public static Complex rem(Complex a, Complex b) {
+        Complex quot = div(a, b);
+        quot = new Complex(floor(quot.re()), floor(quot.im()));
+        return sub(a, mul(b, quot));
+    }
+
+    /**
      * Compute the least common multiple of two integers.
      *
      * @param a
