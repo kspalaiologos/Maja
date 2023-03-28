@@ -2971,8 +2971,10 @@ public class Maja {
 
     /**
      * Compute the beta function of two complex numbers.
+     * Defined as beta(a, b) = gamma(a) * gamma(b) / gamma(a + b)
      * @param a
      * @param b
+     * @see #gamma(Complex) 
      * @return beta(a, b)
      */
     public static Complex beta(Complex a, Complex b) {
@@ -3042,6 +3044,7 @@ public class Maja {
      * Compute the value of the complementary exponential integral Ein at the specified point.
      * For all complex z, Ein and Ei relate as Ein(z) = E1(z) + EulerGamma + ln z.
      * @param x
+     * @see #e1(Complex)
      * @return Ein(x)
      */
     public static Complex Ein(Complex x) {
@@ -3063,9 +3066,22 @@ public class Maja {
      *
      * <p>On the real line, loggamma is related to logabsgamma.
      * @param x
+     * @see #logabsgamma(double)
      * @return
      */
     public static Complex loggamma(Complex x) {
         return Gamma.loggamma(x);
+    }
+
+    /**
+     * Compute the logarithm of the beta function in the complex plane.
+     * Defined using complex loggamma as logbeta(a, b) = loggamma(a) - loggamma(b) - loggamma(a + b).
+     * @param a
+     * @param b
+     * @see #loggamma(Complex)
+     * @return logbeta(a, b)
+     */
+    public static Complex logbeta(Complex a, Complex b) {
+        return sub(loggamma(a), add(loggamma(b), loggamma(add(a, b))));
     }
 }
