@@ -52,7 +52,7 @@ Real Functions:
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
 - Trigonometry (sin, cos, tan, cot, sec, csc, asin, acos, atan, acot, asec, acsc, sinh, cosh, tanh, sech, csch, asinh, acosh, atanh, acoth, asech, acsch)
-- Gamma function family (beta, gamma, loggamma, logbeta, pochhammer, digamma)
+- Gamma function family (beta, gamma, loggamma, logbeta, pochhammer, digamma, trigamma)
 - Airy functions (Ai, Bi, Ai', Bi')
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
