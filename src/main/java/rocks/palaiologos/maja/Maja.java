@@ -1480,6 +1480,50 @@ public class Maja {
     }
 
     /**
+     * Compute the Pochhammer symbol (x)_n.
+     *
+     * @param x
+     * @param n
+     * @return (x)_n
+     */
+    public static double pochhammer(double x, int n) {
+        return Gamma.gamma(x + n) / Gamma.gamma(x);
+    }
+
+    /**
+     * Compute the Pochhammer symbol (x)_n.
+     *
+     * @param x
+     * @param n
+     * @return (x)_n
+     */
+    public static Complex pochhammer(Complex x, int n) {
+        return div(Gamma.gamma(add(x, n)), Gamma.gamma(x));
+    }
+
+    /**
+     * Compute the Pochhammer symbol (x)_n.
+     *
+     * @param x
+     * @param n
+     * @return (x)_n
+     */
+    public static Complex pochhammer(Complex x, double n) {
+        return div(Gamma.gamma(add(x, n)), Gamma.gamma(x));
+    }
+
+    /**
+     * Compute the Pochhammer symbol (x)_n.
+     *
+     * @param x
+     * @param n
+     * @return (x)_n
+     */
+    public static Complex pochhammer(Complex x, Complex n) {
+        return div(Gamma.gamma(add(x, n)), Gamma.gamma(x));
+    }
+
+    /**
      * Compute the value of the exponential integral at x.
      *
      * @param x
