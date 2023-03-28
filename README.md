@@ -64,3 +64,9 @@ GNU LGPL v3.
 - Some of the code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
 - Error function code was inspired by libcerf (MIT; S. G. Johnson, J. Wuttke: libcerf, numeric library for complex error functions).
 - Some of the Bessel functions follow the same algorithms as the Jama library (Public Domain).
+
+## Citation
+
+Cite as:
+
+> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.3). Zenodo. https://doi.org/10.5281/zenodo.7777405
