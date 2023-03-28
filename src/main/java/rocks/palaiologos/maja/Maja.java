@@ -2168,6 +2168,54 @@ public class Maja {
     }
 
     /**
+     * Domain extension of the greatest common division function onto the real line.
+     * @param a
+     * @param b
+     * @return gcd(a, b)
+     */
+    public static double gcd(double a, double b) {
+        double result;
+        if (a == 0) {
+            result = b;
+        } else if (b == 0) {
+            result = a;
+        } else {
+            double r = a % b;
+            while (r != 0) {
+                a = b;
+                b = r;
+                r = a % b;
+            }
+            result = b;
+        }
+        return result;
+    }
+
+    /**
+     * Domain extension of the greatest common division function onto the complex plane.
+     * @param a
+     * @param b
+     * @return gcd(a, b)
+     */
+    public static Complex gcd(Complex a, Complex b) {
+        Complex result;
+        if (eq(a, Complex.ZERO)) {
+            result = b;
+        } else if (eq(b, Complex.ZERO)) {
+            result = a;
+        } else {
+            Complex r = rem(a, b);
+            while (ne(r, 0)) {
+                a = b;
+                b = r;
+                r = rem(a, b);
+            }
+            result = b;
+        }
+        return result;
+    }
+
+    /**
      * Domain extension of the remainder function onto the complex plane.
      * @param a
      * @param b
@@ -2189,6 +2237,28 @@ public class Maja {
     public static long lcm(long a, long b) {
         if (a == 0 || b == 0) return 0;
         return a * b / gcd(a, b);
+    }
+
+    /**
+     * Domain extension of the least common multiple function onto the real line.
+     * @param a
+     * @param b
+     * @return lcm(a, b)
+     */
+    public static double lcm(double a, double b) {
+        if (a == 0 || b == 0) return 0;
+        return a * b / gcd(a, b);
+    }
+
+    /**
+     * Domain extension of the least common multiple function onto the complex plane.
+     * @param a
+     * @param b
+     * @return lcm(a, b)
+     */
+    public static Complex lcm(Complex a, Complex b) {
+        if (eq(a, Complex.ZERO) || eq(b, Complex.ZERO)) return Complex.ZERO;
+        return div(mul(a, b), gcd(a, b));
     }
 
     /**
