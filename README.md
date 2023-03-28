@@ -57,3 +57,9 @@ Complex functions:
 ## License
 
 GNU LGPL v3.
+
+## Acknowledgements
+
+- Some of the code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
+- Error function code was inspired by libcerf (MIT; S. G. Johnson, J. Wuttke: libcerf, numeric library for complex error functions).
+- Some of the Bessel functions follow the same algorithms as the Jama library (Public Domain).
