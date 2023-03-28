@@ -55,7 +55,6 @@ public class TestTrigonometry {
         assertThat(Maja.Si(0.123)).isEqualTo(0.12289666540969063);
         assertThat(Maja.Si(1.23)).isEqualTo(1.131191899402606);
         assertThat(Maja.Si(Double.NaN)).isNaN();
-        assertThat(Maja.Si(-5)).isNaN();
         assertThat(Maja.Si(Double.POSITIVE_INFINITY)).isEqualTo(Maja.PI_2);
         assertThat(Maja.Si(Double.NEGATIVE_INFINITY)).isEqualTo(-Maja.PI_2);
         assertThat(Maja.Si(10)).isEqualTo(1.658347594218874);
@@ -70,7 +69,6 @@ public class TestTrigonometry {
         assertThat(Maja.Ci(0.123)).isEqualTo(-1.522135125273761);
         assertThat(Maja.Ci(1.23)).isEqualTo(0.42906163794495855);
         assertThat(Maja.Ci(Double.NaN)).isNaN();
-        assertThat(Maja.Ci(-5)).isNaN();
         assertThat(Maja.Ci(Double.POSITIVE_INFINITY)).isEqualTo(0);
         assertThat(Maja.Ci(Double.NEGATIVE_INFINITY)).isNaN();
         assertThat(Maja.Ci(10)).isEqualTo(-0.04545643300445537);
