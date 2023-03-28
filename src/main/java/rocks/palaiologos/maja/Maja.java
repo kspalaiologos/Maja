@@ -3128,4 +3128,27 @@ public class Maja {
     public static Complex logbeta(Complex a, Complex b) {
         return sub(loggamma(a), add(loggamma(b), loggamma(add(a, b))));
     }
+
+    /**
+     * Compute the lower incomplete gamma function of a complex number.
+     * @param s
+     * @param z
+     * @return ligamma(s, z)
+     */
+    public static Complex liGamma(Complex s, Complex z) {
+        // z^s e^-z sum(k=0, inf, z^k/pochhammer(s, k+1))
+        if(eq(s, Complex.ZERO))
+            throw new ArithmeticException("s=0 pole.");
+        Complex zs = pow(z, s);
+        Complex ez = exp(negate(z));
+        Complex sum = Complex.ZERO;
+        int maxiter = 50;
+        for (int k = 0; k < maxiter; k++) {
+            Complex term = div(pow(z, k), pochhammer(s, k + 1));
+            sum = add(sum, term);
+            if (abs(term) <= Maja.EPSILON)
+                break;
+        }
+        return mul(mul(zs, ez), sum);
+    }
 }
