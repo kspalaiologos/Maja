@@ -3402,4 +3402,32 @@ public class Maja {
     public static Complex Cin(Complex z) {
         return TrigonometricIntegral.Cin(z);
     }
+
+    /**
+     * Compute the value of the complex hyperbolic sine integral Shi(z).
+     * @param z
+     * @return Shi(z)
+     */
+    public static Complex Shi(Complex z) {
+        return TrigonometricIntegral.Shi(z);
+    }
+
+    /**
+     * Compute the value of the complex hyperbolic cosine integral Chi(z).
+     * @param z
+     * @return Chi(z)
+     */
+    public static Complex Chi(Complex z) {
+        return TrigonometricIntegral.Chi(z);
+    }
+
+    /**
+     * Compute the value of the complex hyperbolic sine integral Shi(z)
+     * and complex hyperbolic cosine integral Chi(z).
+     * @param z
+     * @return { Shi(z), Chi(z) }
+     */
+    public static Complex[] ShiChi(Complex z) {
+        return new Complex[] { Shi(z), Chi(z) };
+    }
 }
