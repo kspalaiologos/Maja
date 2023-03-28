@@ -3245,4 +3245,51 @@ public class Maja {
         // ... => uigamma(s,x) = gamma(s) - ligamma(s,x)
         return sub(gamma(s), liGamma(s, z));
     }
+
+    /**
+     * Compute the complex error function.
+     * @param z
+     * @return erf(z)
+     */
+    public static Complex erf(Complex z) {
+        return Erf.cerf(z);
+    }
+
+    /**
+     * Compute the complex complementary error function.
+     * @param z
+     * @return erfc(z)
+     */
+    public static Complex erfc(Complex z) {
+        return Erf.cerfc(z);
+    }
+
+    /**
+     * Compute the complex imaginary error function.
+     * @param z
+     * @return erfi(z) = -i erf(iz)
+     */
+    public static Complex erfi(Complex z) {
+        return Erf.cerfi(z);
+    }
+
+    /**
+     * Compute the value of the complex Dawson function (D+) at z.
+     * @param z
+     * @return D+(z)
+     */
+    public static Complex dawsonPlus(Complex z) {
+        return Erf.cdawson(z);
+    }
+
+    /**
+     * Compute the value of the complex Dawson function (D-) at z.
+     *
+     * @param z
+     * @return D-(z)
+     */
+    public static Complex dawsonMinus(Complex z) {
+        // sqrt(pi)/2 * exp(z*2) * erf(z)
+        return mul(mul(0.8862269254527580136490837416705725913990, exp(add(z, z))), erf(z));
+    }
 }
