@@ -3441,6 +3441,6 @@ public class Maja {
      */
     public static Complex en(Complex n, Complex z) {
         // z^(n-1) * uiGamma(1-n, z)
-        return mul(pow(z, sub(z, 1)), uiGamma(sub(1, z), z));
+        return mul(pow(z, sub(n, 1)), uiGamma(sub(1, n), z));
     }
 }
