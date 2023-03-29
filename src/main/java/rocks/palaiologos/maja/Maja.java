@@ -3433,7 +3433,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex generalised exponential integral E_n(z).
-     * Uses A&S 5.1.45 E_n(z) = z^(n-1) * uiGamma(1-n, z) to perform computation.
+     * Uses A&amp;S 5.1.45 E_n(z) = z^(n-1) * uiGamma(1-n, z) to perform computation.
      *
      * @param n
      * @param z
