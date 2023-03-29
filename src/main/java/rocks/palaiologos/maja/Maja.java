@@ -1695,6 +1695,16 @@ public class Maja {
     }
 
     /**
+     * Compute the value of the complex Riemann zeta function at z.
+     *
+     * @param z
+     * @return zeta(z)
+     */
+    public static Complex zeta(Complex z) {
+        return Zeta.riemann_zeta(z);
+    }
+
+    /**
      * Compute the value of the Hurwitz zeta function at x.
      *
      * @param x
@@ -3054,6 +3064,18 @@ public class Maja {
      * @return a^b
      */
     public static Complex pow(Complex a, Complex b) {
+        // a^b = exp(b*ln(a))
+        return exp(mul(b, log(a)));
+    }
+
+    /**
+     * Compute a to the power of b, where a is a double precision
+     * number and b is a complex number.
+     * @param a
+     * @param b
+     * @return a^b
+     */
+    public static Complex pow(double a, Complex b) {
         // a^b = exp(b*ln(a))
         return exp(mul(b, log(a)));
     }

@@ -83,4 +83,9 @@ public class TestComplex {
     public void testLi() {
         assertThat(Maja.li(new Complex(1, 2))).isEqualTo(new Complex(1.387678742022938, 2.508754698859233));
     }
+
+    @Test
+    public void testZeta() {
+        assertThat(Maja.zeta(new Complex(-2, 2))).isEqualTo(new Complex(0.08638207303300506, 0.02053604281694063));
+    }
 }

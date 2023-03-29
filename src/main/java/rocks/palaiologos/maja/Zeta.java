@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import static rocks.palaiologos.maja.Maja.*;
+
 class Zeta {
     private static final double[] zetBernCoefs = new double[]
             {
@@ -323,5 +325,81 @@ class Zeta {
         if(s == 1.0 && a == 1.0)
             return -Math.log(1.0 - z) / z;
         return lerchphiGeneral(z, s, a, Maja.EPSILON);
+    }
+
+    private static Complex __riemann_zeta_glob(Complex __s) {
+        Complex __zeta = Complex.ZERO;
+
+        //  Max e exponent before overflow.
+        final double __max_bincoeff = 308 * Math.log(10) - 1;
+
+        //  This series works until the binomial coefficient blows up
+        //  so use reflection.
+        if (__s.re() < 0) {
+            {
+                __zeta = __riemann_zeta_glob(sub(1, __s));
+                __zeta = mul(__zeta, div(mul(mul(pow(TWO_PI, __s), sin(mul(PI_2, __s))), gamma(sub(1, __s))), Math.PI));
+                return __zeta;
+            }
+        }
+
+        __s = negate(__s);
+        double __num = 0.5;
+        final int __maxit = 10000;
+        for (int __i = 0; __i < __maxit; ++__i) {
+            boolean __punt = false;
+            double __sgn = 1;
+            Complex __term = Complex.ZERO;
+            for (int __j = 0; __j <= __i; ++__j) {
+                double __bincoeff = Gamma.loggamma(1 + __i) - Gamma.loggamma(1 + __j) - Gamma.loggamma(1 + __i - __j);
+                if (__bincoeff > __max_bincoeff) {
+                    //  This only gets hit for x << 0.
+                    __punt = true;
+                    break;
+                }
+                __bincoeff = Math.exp(__bincoeff);
+                __term = add(__term, mul(__sgn * __bincoeff, pow(1 + __j, __s)));
+                __sgn *= -1;
+            }
+            if (__punt)
+                break;
+            __term = mul(__term, __num);
+            __zeta = add(__zeta, __term);
+            if (abs(div(__term, __zeta)) < Maja.EPSILON)
+                break;
+            __num *= 0.5;
+        }
+
+        return div(__zeta, sub(1, pow(2, sub(1, negate(__s)))));
+    }
+
+    private static Complex __riemann_zeta_product(Complex __s) {
+        final double[] __prime = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109};
+
+        __s = negate(__s);
+        Complex __zeta = Complex.ONE;
+        for (double v : __prime) {
+            Complex __fact = sub(1, pow(v, __s));
+            __zeta = mul(__zeta, __fact);
+            if (abs(sub(1, __fact)) < Maja.EPSILON) {
+                break;
+            }
+        }
+
+        return div(1, __zeta);
+    }
+
+    public static Complex riemann_zeta(Complex s) {
+        if (s.im() == 0) {
+            return new Complex(riemann_zeta(s.re()));
+        } else if (s.re() < -19) {
+            Complex zeta = __riemann_zeta_product(sub(1, s));
+            zeta = mul(zeta, div(mul(mul(pow(TWO_PI, s), sin(mul(PI_2, s))), gamma(sub(1, s))), Math.PI));
+            return zeta;
+        } else if (s.re() < 20) {
+            return __riemann_zeta_glob(s);
+        } else {
+            return __riemann_zeta_product(s);
+        }
     }
 }
