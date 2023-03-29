@@ -56,7 +56,7 @@ Complex functions:
 - Airy functions (Ai, Bi, Ai', Bi')
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
-- Exponential integral family (Ein, E1, li)
+- Exponential integral family (Ein, E_1, li, E_n)
 - Trigonometric integral family (Si, si, Ci, Cin, Shi, Chi, ShiChi).
 
 ## License
