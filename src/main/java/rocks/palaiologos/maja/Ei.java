@@ -133,7 +133,7 @@ class Ei {
         double A0 = abs(Z);
         double XT = -2 * abs(Z.im());
         if (A0 == 0.0) {
-            CE1 = new Complex(1.0E300, 0.0);
+            CE1 = Complex.COMPLEX_INFINITY;
         } else if ((A0 <= 5.0) || (X < XT) && (A0 < 40.0)) {
             CE1 = Complex.ONE;
             Complex CR = Complex.ONE;

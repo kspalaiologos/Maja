@@ -3430,4 +3430,17 @@ public class Maja {
     public static Complex[] ShiChi(Complex z) {
         return new Complex[] { Shi(z), Chi(z) };
     }
+
+    /**
+     * Compute the value of the complex generalised exponential integral E_n(z).
+     * Uses A&S 5.1.45 E_n(z) = z^(n-1) * uiGamma(1-n, z) to perform computation.
+     *
+     * @param n
+     * @param z
+     * @return E_n(z)
+     */
+    public static Complex en(Complex n, Complex z) {
+        // z^(n-1) * uiGamma(1-n, z)
+        return mul(pow(z, sub(z, 1)), uiGamma(sub(1, z), z));
+    }
 }
