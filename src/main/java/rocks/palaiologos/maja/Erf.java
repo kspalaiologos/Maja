@@ -432,20 +432,6 @@ class Erf {
         return 1.0 - erf(x);
     }
 
-    public static double inverfc(double p) {
-        double x, err, t, pp;
-        if (p >= 2.0) return -100.;
-        if (p <= 0.0) return 100.;
-        pp = (p < 1.0) ? p : 2. - p;
-        t = Math.sqrt(-2. * Math.log(pp / 2.));
-        x = -0.70711 * ((2.30753 + t * 0.27061) / (1. + t * (0.99229 + t * 0.04481)) - t);
-        for (int j = 0; j < 2; j++) {
-            err = erfc(x) - pp;
-            x += err / (1.12837916709551257 * Math.exp(-x * x) - x * err);
-        }
-        return (p < 1.0 ? x : -x);
-    }
-
     public static double dawsonm(double x) {
         // sqrt(pi)/2 * exp(x*2) * erf(x)
         return 0.8862269254527580136490837416705725913990 * Math.exp(x * x) * erf(x);

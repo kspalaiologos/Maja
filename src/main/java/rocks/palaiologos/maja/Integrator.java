@@ -1,6 +1,9 @@
 package rocks.palaiologos.maja;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+
+import static rocks.palaiologos.maja.Maja.*;
 
 class Integrator {
     private static final ConcurrentHashMap<Integer, GaussLegendreParameters> gaussLegendreParameters = new ConcurrentHashMap<>();
@@ -43,6 +46,7 @@ class Integrator {
 
     // N = 10000
     public static double finiteSimpson(MonadicFunction f, double a, double b, int N) {
+        if(N < 0) throw new ArithmeticException("N must be positive");
         double h = (b - a) / (N - 1);
 
         // 1/3 terms
@@ -63,6 +67,28 @@ class Integrator {
         return sum * h;
     }
 
+    public static Complex finiteSimpson(Function<Double, Complex> f, double a, double b, int N) {
+        if(N < 0) throw new ArithmeticException("N must be positive");
+        double h = (b - a) / (N - 1);
+
+        // 1/3 terms
+        Complex sum = mul(1.0 / 3.0, add(f.apply(a), f.apply(b)));
+
+        // 4/3 terms
+        for (int i = 1; i < N - 1; i += 2) {
+            double x = a + h * i;
+            sum = add(sum, mul(4.0 / 3.0, f.apply(x)));
+        }
+
+        // 2/3 terms
+        for (int i = 2; i < N - 1; i += 2) {
+            double x = a + h * i;
+            sum = add(sum, mul(2.0 / 3.0, f.apply(x)));
+        }
+
+        return mul(sum, h);
+    }
+
     public static GaussLegendreParameters getParameters(int n) {
         synchronized (gaussLegendreParameters) {
             if (!gaussLegendreParameters.containsKey(n)) {
@@ -74,11 +100,22 @@ class Integrator {
 
     // N = 5
     public static double gaussLegendreIntegrate(MonadicFunction f, double a, double b, int N) {
+        if(N < 0) throw new ArithmeticException("N must be positive");
         GaussLegendreParameters parameters = getParameters(N);
         double c1 = (b - a) / 2, c2 = (b + a) / 2, sum = 0;
         for (int i = 0; i < N; i++)
             sum += parameters.weight[i] * f.apply(c1 * parameters.lroots[i] + c2);
         return c1 * sum;
+    }
+
+    public static Complex gaussLegendreIntegrate(Function<Double, Complex> f, double a, double b, int N) {
+        if(N < 0) throw new ArithmeticException("N must be positive");
+        GaussLegendreParameters parameters = getParameters(N);
+        double c1 = (b - a) / 2, c2 = (b + a) / 2;
+        Complex sum = Complex.ZERO;
+        for (int i = 0; i < N; i++)
+            sum = add(sum, mul(parameters.weight[i], f.apply(c1 * parameters.lroots[i] + c2)));
+        return mul(c1, sum);
     }
 
     // https://www.genivia.com/files/qthsh.pdf.
@@ -125,6 +162,51 @@ class Integrator {
         } while (Math.abs(v) > tol * Math.abs(s) && k <= n);
         e = Math.abs(v) / (Math.abs(s) + eps);
         return new double[]{d * s * h, e};
+    }
+
+    public static Complex[] finiteTanhSinh(Function<Double, Complex> f, double a, double b, int n, double eps) {
+        final double tol = 10 * eps;
+        double c = (a + b) / 2;
+        double d = (b - a) / 2;
+        Complex s = f.apply(c), v;
+        double e, h = 2;
+        int k = 0;
+        if (n <= 0)
+            n = 6;
+        if (eps <= 0)
+            eps = 1E-9;
+        do {
+            double t, eh;
+            Complex fp = Complex.ZERO, fm = Complex.ZERO, q, p = Complex.ZERO;
+            h /= 2;
+            t = eh = Math.exp(h);
+            if (k > 0)
+                eh *= eh;
+            do {
+                double u = Math.exp(1 / t - t);
+                double r = 2 * u / (1 + u);
+                double w = (t + 1 / t) * r / (1 + u);
+                double x = d * r;
+                if (a + x > a) {
+                    Complex y = f.apply(a + x);
+                    if (ne(y, Complex.COMPLEX_INFINITY))
+                        fp = y;
+                }
+                if (b - x < b) {
+                    Complex y = f.apply(b - x);
+                    if (ne(y, Complex.COMPLEX_INFINITY))
+                        fm = y;
+                }
+                q = mul(w, add(fp, fm));
+                p = add(p, q);
+                t *= eh;
+            } while (abs(q) > eps * abs(p));
+            v = sub(s, p);
+            s = add(s, p);
+            ++k;
+        } while (abs(v) > tol * abs(s) && k <= n);
+        e = abs(v) / (abs(s) + eps);
+        return new Complex[]{mul(d, mul(s, h)), new Complex(e)};
     }
 
     /**

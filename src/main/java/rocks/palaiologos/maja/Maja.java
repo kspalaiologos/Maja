@@ -2,6 +2,7 @@ package rocks.palaiologos.maja;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
 
 /**
  * A slick numerics-oriented Mathematical library for Java.
@@ -241,6 +242,20 @@ public class Maja {
     }
 
     /**
+     * Returns the modulus of two numbers.
+     *
+     * @param x
+     * @param y
+     * @return x mod y
+     */
+    public static long mod(long x, long y) {
+        final long r = x % y;
+        if (r != 0 && Math.signum(x) != Math.signum(y))
+            return r + y;
+        return r;
+    }
+
+    /**
      * Returns the remainder that results from dividing two double precision numbers.
      *
      * @param x
@@ -259,6 +274,16 @@ public class Maja {
      * @see java.lang.Math#abs(double)
      */
     public static double abs(double x) {
+        return Math.abs(x);
+    }
+
+    /**
+     * Returns the absolute value of a number.
+     *
+     * @param x
+     * @return |x|
+     */
+    public static long abs(long x) {
         return Math.abs(x);
     }
 
@@ -487,6 +512,18 @@ public class Maja {
     }
 
     /**
+     * Returns the sign of a number.
+     *
+     * @param x
+     * @return -1 if x &lt; 0, 1 if x &gt; 0
+     */
+    public static long signum(long x) {
+        if(x < 0) return -1;
+        if(x > 0) return 1;
+        return 0;
+    }
+
+    /**
      * Returns the value of the sine of a double precision number.
      *
      * @param x
@@ -495,6 +532,33 @@ public class Maja {
      */
     public static double sin(double x) {
         return Math.sin(x);
+    }
+
+    /**
+     * Rounds both the real and imaginary parts of a complex number.
+     * @param x
+     * @return ceil(x)
+     */
+    public static Complex ceil(Complex x) {
+        return new Complex(Math.ceil(x.re()), Math.ceil(x.im()));
+    }
+
+    /**
+     * Rounds both the real and imaginary parts of a complex number.
+     * @param x
+     * @return floor(x)
+     */
+    public static Complex floor(Complex x) {
+        return new Complex(Math.floor(x.re()), Math.floor(x.im()));
+    }
+
+    /**
+     * Rounds both the real and imaginary parts of a complex number.
+     * @param x
+     * @return round(x)
+     */
+    public static Complex round(Complex x) {
+        return new Complex(Math.round(x.re()), Math.round(x.im()));
     }
 
     /**
@@ -508,6 +572,19 @@ public class Maja {
         if (x == 0)
             return 1;
         return Math.sin(x) / x;
+    }
+
+    /**
+     * Returns the sinc function of a complex number, defined
+     * as sin(x) / x, except for x = 0, where sinc(x) = 1.
+     *
+     * @param x
+     * @return sinc(x)
+     */
+    public static Complex sinc(Complex x) {
+        if (eq(x, Complex.ZERO))
+            return Complex.ONE;
+        return div(sin(x), x);
     }
 
     /**
@@ -601,6 +678,18 @@ public class Maja {
     }
 
     /**
+     * Returns the value of the complex fused multiply-add operation.
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return x * y + z
+     */
+    public static Complex fma(Complex x, Complex y, Complex z) {
+        return div(mul(x, y), z);
+    }
+
+    /**
      * Returns the value of the double precision number adjacent to the first argument in the direction of the second argument.
      *
      * @param x
@@ -659,6 +748,17 @@ public class Maja {
     }
 
     /**
+     * Copy thesign of the second argument to the first argument.
+     *
+     * @param x
+     * @param y
+     * @return copySign(x, y)
+     */
+    public static long copySign(long x, long y) {
+        return signum(y) * abs(x);
+    }
+
+    /**
      * Returns the exponent of a double precision number.
      *
      * @param x
@@ -701,6 +801,17 @@ public class Maja {
     }
 
     /**
+     * Returns a random long integer in range [min, max).
+     *
+     * @param min
+     * @param max
+     * @return random() * (max - min) + min
+     */
+    public static long random(long min, long max) {
+        return random.nextLong(min, max);
+    }
+
+    /**
      * Returns a random double precision number in range [0, max).
      *
      * @param max
@@ -708,6 +819,16 @@ public class Maja {
      */
     public static double random(double max) {
         return max * Math.random();
+    }
+
+    /**
+     * Returns a random long integer in range [0, max).
+     *
+     * @param max
+     * @return random() * max
+     */
+    public static long random(long max) {
+        return random.nextLong(max);
     }
 
     /**
@@ -794,6 +915,23 @@ public class Maja {
     }
 
     /**
+     * Compare two integers.
+     *
+     * @param x
+     * @param y
+     * @return 1 if x &gt; y, 0 if x == y, -1 if x &lt; y
+     */
+    public static int compare(long x, long y) {
+        if (x == y) {
+            return 0;
+        } else if (x < y) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
      * Return true if x is approximately equal to y.
      *
      * @param x
@@ -804,7 +942,6 @@ public class Maja {
     public static boolean eq(double x, double y, double tol) {
         return Math.abs(x - y) <= tol;
     }
-
 
     /**
      * Determine whether a number is a perfect square.
@@ -863,6 +1000,20 @@ public class Maja {
      * @return min if value &lt; min, max if value &gt; max, value otherwise
      */
     public static double clamp(double value, double min, double max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
+    }
+
+    /**
+     * Clamp a value in the range [min, max].
+     *
+     * @param value
+     * @param min
+     * @param max
+     * @return min if value &lt; min, max if value &gt; max, value otherwise
+     */
+    public static long clamp(long value, long min, long max) {
         if (value < min) return min;
         if (value > max) return max;
         return value;
@@ -1590,13 +1741,13 @@ public class Maja {
     }
 
     /**
-     * Return the factorial of n. n must be positive.
+     * Return the factorial of n as a double-precision. n must be positive.
      * Faster than using the gamma function.
      *
      * @param n
      * @return n!
      */
-    public static double factorial(int n) {
+    public static double factorial(long n) {
         return Gamma.factorial(n);
     }
 
@@ -1846,26 +1997,6 @@ public class Maja {
      */
     public static double lerchPhi(double z, double s, double a) {
         return Zeta.lerch_phi(z, s, a);
-    }
-
-    /**
-     * Return the value of the inverse error function at x.
-     *
-     * @param x
-     * @return erf^(-1) (x)
-     */
-    public static double erfInv(double x) {
-        return Erf.inverfc(1.0 - x);
-    }
-
-    /**
-     * Return the value of the inverse complementary error function at x.
-     *
-     * @param x
-     * @return erfc^(-1) (x)
-     */
-    public static double erfcInv(double x) {
-        return Erf.inverfc(x);
     }
 
     /**
@@ -2434,8 +2565,80 @@ public class Maja {
             return Integrator.finiteTanhSinh(f, a, b, N, eps);
         else if(a == b)
             return new double[]{0.0, 0.0};
+        else {
+            double[] res = Integrator.finiteTanhSinh(f, b, a, N, eps);
+            res[0] = -res[0];
+            return res;
+        }
+    }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Simpson rule. The number of intervals is given by N and the precision
+     * of the final result greatly depends on this parameter.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
+     * @return integral of f over [a,b]
+     */
+    public static Complex integrateSimpson(Function<Double, Complex> f, double a, double b, int N) {
+        // Properly handle the configurations of a and b.
+        if(a < b)
+            return Integrator.finiteSimpson(f, a, b, N);
+        else if(a == b)
+            return Complex.ZERO;
         else
-            return Integrator.finiteTanhSinh(f, b, a, N, eps);
+            return negate(Integrator.finiteSimpson(f, b, a, N));
+    }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Gauss-Legendre quadrature. The number of intervals is given by N and the precision
+     * of the final result greatly depends on this parameter.
+     * The computation of an integral using the Gauss-Legendre quadrature involves caching the
+     * coefficients required to perform the integration depending on the value of the N parameter.
+     * This means that the first call to this method will be slower than subsequent calls with the
+     * same value of N. The coefficients are internally cached inside a ConcurrentHashMap.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N number of intervals, N=6 tends to give a good approximation in most scenarios.
+     *          N must be between 1 and 30.
+     * @return integral of f over [a,b]
+     */
+    public static Complex integrateGaussLegendre(Function<Double, Complex> f, double a, double b, int N) {
+        if(a < b)
+            return Integrator.gaussLegendreIntegrate(f, a, b, N);
+        else if(a == b)
+            return Complex.ZERO;
+        else
+            return negate(Integrator.gaussLegendreIntegrate(f, b, a, N));
+    }
+
+    /**
+     * Integrate a monadic function over a finite interval [a,b] using the
+     * Tanh-Sinh quadrature, especially useful when singularities or infinite
+     * derivatives exist at one or both endpoints. The Tanh-Sinh quadrature is
+     * not as efficient as Gaussian quadrature for smooth integrands.
+     * @param f function to integrate
+     * @param a lower bound
+     * @param b upper bound
+     * @param N the degree of the quadrature, usually N=6 is sufficient
+     * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
+     * @return an array of double values, first of which is the integral of f over [a,b],
+     *         while the second is the estimated error.
+     */
+    public static Complex[] integrateTanhSinh(Function<Double, Complex> f, double a, double b, int N, double eps) {
+        if(a < b)
+            return Integrator.finiteTanhSinh(f, a, b, N, eps);
+        else if(a == b)
+            return new Complex[]{Complex.ZERO, Complex.ZERO};
+        else {
+            Complex[] result = Integrator.finiteTanhSinh(f, b, a, N, eps);
+            result[0] = negate(result[0]);
+            return result;
+        }
     }
 
     /**
@@ -2476,7 +2679,7 @@ public class Maja {
      * @param variables a map containing the variables and their values
      * @return the value of the expression
      */
-    public static double eval(String expression, Map<String, Double> variables) {
+    public static Number eval(String expression, Map<String, Number> variables) {
         return Expression.evalExpression(expression, variables);
     }
 
@@ -2486,7 +2689,7 @@ public class Maja {
      * @param expression the expression to evaluate
      * @return the value of the expression
      */
-    public static double eval(String expression) {
+    public static Number eval(String expression) {
         return Expression.evalExpression(expression, Map.of());
     }
 
@@ -2861,7 +3064,7 @@ public class Maja {
      * @param b
      * @return a^b
      */
-    public static Complex pow(Complex a, int b) {
+    public static Complex pow(Complex a, long b) {
         // a^b = exp(b*ln(a))
         return exp(mul(b, log(a)));
     }
@@ -3442,5 +3645,125 @@ public class Maja {
     public static Complex en(Complex n, Complex z) {
         // z^(n-1) * uiGamma(1-n, z)
         return mul(pow(z, sub(n, 1)), uiGamma(sub(1, n), z));
+    }
+
+    /**
+     * Add two numbers of any types together.
+     * @param a
+     * @param b
+     * @return a + b
+     */
+    public static Number add(Number a, Number b) {
+        if(a.isComplex() && b.isComplex()) {
+            return new Number(add(a.getComplex(), b.getComplex()));
+        } else if(a.isComplex() && b.isDouble()) {
+            return new Number(add(a.getComplex(), b.getDouble()));
+        } else if(a.isDouble() && b.isComplex()) {
+            return new Number(add(a.getDouble(), b.getComplex()));
+        } else if(a.isLong() && b.isComplex()) {
+            return new Number(add(a.getLong(), b.getComplex()));
+        } else if(a.isComplex() && b.isLong()) {
+            return new Number(add(a.getComplex(), b.getLong()));
+        } else if(a.isLong() && b.isDouble()) {
+            return new Number(add(a.getLong(), b.getDouble()));
+        } else if(a.isDouble() && b.isLong()) {
+            return new Number(add(a.getDouble(), b.getLong()));
+        } else if(a.isDouble() && b.isDouble()) {
+            return new Number(add(a.getDouble(), b.getDouble()));
+        } else if(a.isLong() && b.isLong()) {
+            return new Number(a.getLong() + b.getLong());
+        } else {
+            throw new ArithmeticException("Cannot add " + a + " and " + b);
+        }
+    }
+
+    /**
+     * Subtract two numbers of any types from each other.
+     * @param a
+     * @param b
+     * @return a - b
+     */
+    public static Number sub(Number a, Number b) {
+        if(a.isComplex() && b.isComplex()) {
+            return new Number(sub(a.getComplex(), b.getComplex()));
+        } else if(a.isComplex() && b.isDouble()) {
+            return new Number(sub(a.getComplex(), b.getDouble()));
+        } else if(a.isDouble() && b.isComplex()) {
+            return new Number(sub(a.getDouble(), b.getComplex()));
+        } else if(a.isLong() && b.isComplex()) {
+            return new Number(sub(a.getLong(), b.getComplex()));
+        } else if(a.isComplex() && b.isLong()) {
+            return new Number(sub(a.getComplex(), b.getLong()));
+        } else if(a.isLong() && b.isDouble()) {
+            return new Number(sub(a.getLong(), b.getDouble()));
+        } else if(a.isDouble() && b.isLong()) {
+            return new Number(sub(a.getDouble(), b.getLong()));
+        } else if(a.isDouble() && b.isDouble()) {
+            return new Number(sub(a.getDouble(), b.getDouble()));
+        } else if(a.isLong() && b.isLong()) {
+            return new Number(a.getLong() - b.getLong());
+        } else {
+            throw new ArithmeticException("Cannot subtract " + a + " and " + b);
+        }
+    }
+
+    /**
+     * Multiply two numbers of any types together.
+     * @param a
+     * @param b
+     * @return a * b
+     */
+    public static Number mul(Number a, Number b) {
+        if(a.isComplex() && b.isComplex()) {
+            return new Number(mul(a.getComplex(), b.getComplex()));
+        } else if(a.isComplex() && b.isDouble()) {
+            return new Number(mul(a.getComplex(), b.getDouble()));
+        } else if(a.isDouble() && b.isComplex()) {
+            return new Number(mul(a.getDouble(), b.getComplex()));
+        } else if(a.isLong() && b.isComplex()) {
+            return new Number(mul(a.getLong(), b.getComplex()));
+        } else if(a.isComplex() && b.isLong()) {
+            return new Number(mul(a.getComplex(), b.getLong()));
+        } else if(a.isLong() && b.isDouble()) {
+            return new Number(mul(a.getLong(), b.getDouble()));
+        } else if(a.isDouble() && b.isLong()) {
+            return new Number(mul(a.getDouble(), b.getLong()));
+        } else if(a.isDouble() && b.isDouble()) {
+            return new Number(mul(a.getDouble(), b.getDouble()));
+        } else if(a.isLong() && b.isLong()) {
+            return new Number(a.getLong() - b.getLong());
+        } else {
+            throw new ArithmeticException("Cannot subtract " + a + " and " + b);
+        }
+    }
+
+    /**
+     * Multiply two numbers by each other.
+     * @param a
+     * @param b
+     * @return a / b
+     */
+    public static Number div(Number a, Number b) {
+        if(a.isComplex() && b.isComplex()) {
+            return new Number(div(a.getComplex(), b.getComplex()));
+        } else if(a.isComplex() && b.isDouble()) {
+            return new Number(div(a.getComplex(), b.getDouble()));
+        } else if(a.isDouble() && b.isComplex()) {
+            return new Number(div(a.getDouble(), b.getComplex()));
+        } else if(a.isLong() && b.isComplex()) {
+            return new Number(div(a.getLong(), b.getComplex()));
+        } else if(a.isComplex() && b.isLong()) {
+            return new Number(div(a.getComplex(), b.getLong()));
+        } else if(a.isLong() && b.isDouble()) {
+            return new Number(div(a.getLong(), b.getDouble()));
+        } else if(a.isDouble() && b.isLong()) {
+            return new Number(div(a.getDouble(), b.getLong()));
+        } else if(a.isDouble() && b.isDouble()) {
+            return new Number(div(a.getDouble(), b.getDouble()));
+        } else if(a.isLong() && b.isLong()) {
+            return new Number(a.getLong() / b.getLong());
+        } else {
+            throw new ArithmeticException("Cannot divide " + a + " and " + b);
+        }
     }
 }

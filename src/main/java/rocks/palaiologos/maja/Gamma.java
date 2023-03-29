@@ -404,14 +404,14 @@ class Gamma {
         return Math.exp(-x + a * Math.log(x) - gln) * h;
     }
 
-    public static double factorial(int n) {
+    public static double factorial(long n) {
         if (n < 0) {
             throw new ArithmeticException("Domain error");
         }
         if (n > 170) {
             return Double.POSITIVE_INFINITY;
         }
-        return factorialTab[n];
+        return factorialTab[(int) n];
     }
 
     public static double[] lgam(double x) {

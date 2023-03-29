@@ -31,7 +31,7 @@ public class TestArithmetic {
         assertThat(Maja.mod(-5, 3)).isEqualTo(1);
         assertThat(Maja.mod(5, -3)).isEqualTo(-1);
         assertThat(Maja.mod(-5, -3)).isEqualTo(-2);
-        assertTrue(Double.isNaN(Maja.mod(0, 0)));
+        assertTrue(Double.isNaN(Maja.mod(0f, 0f)));
 
         assertThat(Maja.rem(5, 3)).isEqualTo(2);
         assertThat(Maja.rem(-5, 3)).isEqualTo(-2);

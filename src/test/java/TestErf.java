@@ -48,24 +48,6 @@ public class TestErf {
     }
 
     @Test
-    public void testErfInv() {
-        assertThat(Maja.abs(Maja.erfInv(Maja.erf(0)) - 0)).isLessThan(3e-8);
-        assertThat(Maja.abs(Maja.erfInv(Maja.erf(1)) - 1)).isLessThan(3e-8);
-        assertThat(Maja.abs(Maja.erfInv(Maja.erf(0.5)) - 0.5)).isLessThan(4e-8);
-        assertThat(Maja.abs(Maja.erfInv(Maja.erf(-0.5)) + 0.5)).isLessThan(4e-8);
-        assertThat(Maja.abs(Maja.erfInv(Maja.erf(0.111)) - 0.111)).isLessThan(4e-8);
-    }
-
-    @Test
-    public void testErfcInv() {
-        assertThat(Maja.abs(Maja.erfcInv(Maja.erfc(0)) - 0)).isLessThan(3e-8);
-        assertThat(Maja.abs(Maja.erfcInv(Maja.erfc(1)) - 1)).isLessThan(3e-8);
-        assertThat(Maja.abs(Maja.erfcInv(Maja.erfc(0.5)) - 0.5)).isLessThan(4e-8);
-        assertThat(Maja.abs(Maja.erfcInv(Maja.erfc(-0.5)) + 0.5)).isLessThan(4e-8);
-        assertThat(Maja.abs(Maja.erfcInv(Maja.erfc(0.111)) - 0.111)).isLessThan(4e-8);
-    }
-
-    @Test
     public void testDawson() {
         assertThat(Maja.dawsonMinus(0.0)).isEqualTo(0.0);
         assertThat(Maja.dawsonMinus(1.0)).isEqualTo(2.030078469278705);
