@@ -3828,4 +3828,14 @@ public class Maja {
     public static Complex spence(Complex z) {
         return Spence.spence(z);
     }
+
+    /**
+     * Compute the polylogarithm of s and z.
+     * @param s
+     * @param z
+     * @return polylog(s, z)
+     */
+    public static Complex polylog(Complex s, Complex z) {
+        return Spence.polylog(s, z);
+    }
 }

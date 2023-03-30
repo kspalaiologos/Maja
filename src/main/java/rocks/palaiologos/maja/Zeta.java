@@ -427,10 +427,10 @@ class Zeta {
         } else if(eq(s, Complex.ONE)) {
             return Complex.COMPLEX_INFINITY;
         } else {
-            // 0.5(3+4i)^-(-2+2i) + ((3+4i)^(1-(-2+2i)))/((-2+2i)-1)
+            // Abel-Plana formula:
             // zeta(s,a) = 0.5a^-s + (a^(1-s))/(s-1)
             //  + 2 * int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
-            // the integrand usually vanishes for x > |a|.
+            // the integrand probably vanishes for x > |a|, so we take it for granted.
             Complex fa = a;
             var integrand = (Function<Double, Complex>) x -> {
                 if(x <= EPSILON)
