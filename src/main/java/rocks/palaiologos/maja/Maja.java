@@ -3191,12 +3191,13 @@ public class Maja {
      * @return atan(a)
      */
     public static Complex atan(Complex a) {
-        // atan(z)=1/2i Ln((1-iz)/(1+iz))
+        // atan(z)=1/2 i Ln((1-iz)/(1+iz))
+        // atan(z) = (I/2)*(log(1-I*z) - log(1+I*z))
         Complex ia = mul(I, a);
-        Complex y = sub(1, ia);
-        Complex z = add(1, ia);
-        Complex lnt = log(div(y, z));
-        return div(lnt, new Complex(0, 2));
+        Complex y = log(sub(1, ia));
+        Complex z = log(add(1, ia));
+        Complex lnt = sub(y, z);
+        return mul(lnt, mul(0.5, I));
     }
 
     /**
@@ -3209,7 +3210,7 @@ public class Maja {
         Complex y = add(a, I);
         Complex z = sub(a, I);
         Complex lnt = log(div(y, z));
-        return div(lnt, new Complex(0, 2));
+        return mul(lnt, mul(0.5, I));
     }
 
     /**
@@ -3837,5 +3838,17 @@ public class Maja {
      */
     public static Complex polylog(Complex s, Complex z) {
         return Spence.polylog(s, z);
+    }
+
+    /**
+     * Compute the Lerch transcendent of z, s, and a.
+     *
+     * @param z
+     * @param s
+     * @param a
+     * @return lerch(z, s, a)
+     */
+    public static Complex lerchPhi(Complex z, Complex s, Complex a) {
+        return Zeta.lerch_phi(z, s, a);
     }
 }

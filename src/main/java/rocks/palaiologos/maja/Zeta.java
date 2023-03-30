@@ -329,6 +329,54 @@ class Zeta {
         return lerchphiGeneral(z, s, a, Maja.EPSILON);
     }
 
+    private static boolean isnpint(Complex a) {
+        // Check if a is a non-positive integer
+        return a.im() == 0 && a.re() < 0 && Math.floor(a.re()) == a.re();
+    }
+
+    private static Complex gammainc(Complex z, Complex a) {
+        if(eq(a, 0))
+            return gamma(z);
+        else
+            return uiGamma(z, a);
+    }
+
+    public static Complex lerch_phi(Complex z, Complex s, Complex a) {
+        if(eq(z, 0))
+            return pow(a, negate(s));
+        if(eq(z, 1) && s.re() > 1)
+            return hurwitz_zeta(s, a);
+        // Make sure that Re(a) > 0 using the recurrence relation
+        // lerchphi(z, s, a) = z * lerchphi(z, s, a + 1) + a^-s
+        if(a.re() < 1) {
+            if(isnpint(a))
+                return Complex.COMPLEX_INFINITY;
+            int m = (int) Math.ceil(1 - a.re());
+            Complex v = Complex.ZERO;
+            Complex zpow = Complex.ONE;
+            for(int n = 0; n < m; n++) {
+                v = add(v, div(zpow, pow(add(a, n), s)));
+                zpow = mul(zpow, z);
+            }
+            return add(mul(zpow, lerch_phi(z, s, add(a, m))), v);
+        }
+        Complex g = log(z);
+        Complex v = add(div(1, mul(2, pow(a, s))), div(mul(gammainc(sub(1, s), mul(negate(a), g)), pow(negate(g), sub(s, 1))), pow(z, a)));
+        Complex h = div(s, 2);
+        Complex r = new Complex(TWO_PI);
+        var f = (Function<Double, Complex>) t -> {
+            if(t < EPSILON)
+                return Complex.ZERO;
+            Complex numerator = sin(sub(mul(s, atan(div(t, a))), mul(t, g)));
+            Complex denominator = mul(pow(add(pow(a, 2), pow(t, 2)), h), sub(exp(mul(r, t)), 1));
+            Complex res = div(numerator, denominator);
+            System.out.println("t = " + t + ", r = " + res);
+            return res;
+        };
+        v = add(v, mul(2, integrateTanhSinh(f, 0, abs(a) + abs(z) + abs(s), 7, 1e-12)[0]));
+        return v;
+    }
+
     private static Complex __riemann_zeta_glob(Complex __s) {
         Complex __zeta = Complex.ZERO;
 

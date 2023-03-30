@@ -39,7 +39,7 @@ Real Functions:
 - Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
 - Trigonometric integrals (Chi, Ci, Cin, Shi, ShiChi, si, Si)
 - Exponential integral (expint, li)
-- Error function family (Dawson-, Dawson+, erf, erfc, erfcInv, erfi, erfInv)
+- Error function family (Dawson-, Dawson+, erf, erfc, erfi)
 - Polylogarithm family (dilog, polylog, Spence)
 - Fresnel integrals (fresnelC, fresnelS)
 - Zeta family (Hurwitz Zeta, Lerch Transcendent, Riemann Zeta)
@@ -56,9 +56,10 @@ Complex functions:
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi).
 - Fresnel integrals (fresnelS, fresnelC).
 - Exponential integral family (Ein, E_1, li, E_n)
-- Zeta function family (Riemann Zeta, Hurwitz Zeta)
+- Zeta function family (Riemann Zeta, Hurwitz Zeta, Lerch Transcendent)
 - Trigonometric integral family (Si, si, Ci, Cin, Shi, Chi, ShiChi).
 - Polylogarithm family (dilog, Spence, polylog)
+- Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre).
 
 Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
