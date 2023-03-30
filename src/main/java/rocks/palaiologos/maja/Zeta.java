@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import java.util.function.Function;
+
 import static rocks.palaiologos.maja.Maja.*;
 
 class Zeta {
@@ -400,6 +402,55 @@ class Zeta {
             return __riemann_zeta_glob(s);
         } else {
             return __riemann_zeta_product(s);
+        }
+    }
+
+    public static Complex hurwitz_zeta(Complex s, Complex a) {
+        // Re(a) > 0 because zeta(s,a)=zeta(s,a+1)+a^-s
+        Complex result = Complex.ZERO;
+        while (a.re() <= 0) {
+            result = add(result, pow(a, negate(s)));
+            a = add(a, 1);
+        }
+        if(s.re() > 1) {
+            Complex fa = a;
+            Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
+                // (e^(x-ax)x^(s-1))/(e^x-1) + (e^(1/x-a/x)x^(-s-1))/(e^(1/x)-1)
+                if(x <= EPSILON)
+                    return Complex.ZERO;
+                Complex z1 = div(mul(exp(sub(x, mul(fa, x))), pow(x, sub(s, 1))), sub(exp(x), 1));
+                Complex z2 = div(mul(exp(sub(div(1, x), div(fa, x))), pow(x, sub(negate(s), 1))), sub(exp(div(1, x)), 1));
+                System.out.println(x + " = " + add(z1, z2));
+                return add(z1, z2);
+            }, 0, 1, 7, 1e-14);
+            return add(result, div(r[0], gamma(s)));
+        } else if(eq(s, Complex.ONE)) {
+            return Complex.COMPLEX_INFINITY;
+        } else {
+            // 0.5(3+4i)^-(-2+2i) + ((3+4i)^(1-(-2+2i)))/((-2+2i)-1)
+            // zeta(s,a) = 0.5a^-s + (a^(1-s))/(s-1)
+            //  + 2 * int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
+            // consider:
+            // int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
+            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx + int(1,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
+            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx + int(1,0) (sin (s arctan ((1/x)/a)))/((a^2+(1/x)^2)^(s/2)*(e^(2*pi*(1/x))-1)) (-dx/x^2)
+            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) + (sin (s arctan ((1/x)/a)))/((a^2+(1/x)^2)^(s/2)*(e^(2*pi*(1/x))-1)*x^2) dx
+            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) + ((a^2+1/x^2)^(-s/2)*sin(s*arccot(ax)))/(x^2*(e^(tau/x)-1)) dx
+
+            Complex fa = a;
+            Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
+                // (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1))
+                if(x <= EPSILON)
+                    return Complex.ZERO;
+                Complex z1 = div(mul(sin(mul(s, atan(div(x, fa)))), pow(add(pow(fa, 2), pow(x, 2)), div(s, 2))), mul(sub(exp(mul(TWO_PI, x)), 1), pow(add(pow(fa, 2), pow(x, 2)), div(s, 2))));
+                Complex z2 = div(mul(pow(add(pow(fa, 2), pow(div(1, pow(x, 2)), 2)), div(negate(s), 2)), sin(mul(s, acot(mul(fa, x))))), mul(pow(x, 2), sub(exp(div(TWO_PI, x)), 1)));
+                System.out.println(x + " = " + add(z1, z2));
+                return add(z1, z2);
+            }, 0, 1, 7, 1e-14);
+            result = add(result, mul(0.5, pow(a, negate(s))));
+            result = add(result, div(pow(a, sub(1, s)), sub(s, 1)));
+            result = add(result, mul(2, r[0]));
+            return result;
         }
     }
 }
