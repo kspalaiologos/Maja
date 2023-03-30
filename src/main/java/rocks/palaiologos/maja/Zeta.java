@@ -439,11 +439,12 @@ class Zeta {
 
             Complex fa = a;
             Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
-                // (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1))
                 if(x <= EPSILON)
                     return Complex.ZERO;
-                Complex z1 = div(mul(sin(mul(s, atan(div(x, fa)))), pow(add(pow(fa, 2), pow(x, 2)), div(s, 2))), mul(sub(exp(mul(TWO_PI, x)), 1), pow(add(pow(fa, 2), pow(x, 2)), div(s, 2))));
-                Complex z2 = div(mul(pow(add(pow(fa, 2), pow(div(1, pow(x, 2)), 2)), div(negate(s), 2)), sin(mul(s, acot(mul(fa, x))))), mul(pow(x, 2), sub(exp(div(TWO_PI, x)), 1)));
+                // z1 = (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1))
+                Complex z1 = div(sin(mul(s, atan(div(x, fa)))), mul(pow(add(pow(fa, 2), pow(x, 2)), div(s, 2)), sub(exp(mul(TWO_PI, x)), 1)));
+                // z2 = ((a^2+1/x^2)^(-s/2)*sin(s*arccot(ax)))/(x^2*(e^(tau/x)-1))
+                Complex z2 = div(mul(pow(add(pow(fa, 2), div(1, pow(x, 2))), div(negate(s), 2)), sin(mul(s, acot(mul(fa, x))))), mul(pow(x, 2), sub(exp(div(TWO_PI, x)), 1)));
                 System.out.println(x + " = " + add(z1, z2));
                 return add(z1, z2);
             }, 0, 1, 7, 1e-14);
