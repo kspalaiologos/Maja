@@ -1728,6 +1728,18 @@ public class Maja {
     }
 
     /**
+     * Compute the value of the order-N polygamma function at complex z.
+     *
+     * @param n
+     * @param z
+     * @return polygamma(n, z)
+     */
+    public static Complex polygamma(Complex n, Complex z) {
+        Complex np1 = add(n, 1);
+        return mul(pow(-1, np1), mul(gamma(np1), Zeta.hurwitz_zeta(np1, z)));
+    }
+
+    /**
      * Compute the beta function of two values.
      *
      * @param x
