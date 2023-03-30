@@ -3788,4 +3788,14 @@ public class Maja {
             throw new ArithmeticException("Cannot divide " + a + " and " + b);
         }
     }
+
+    /**
+     * Compute the Hurwitz zeta function of complex arguments.
+     * @param s
+     * @param a
+     * @return zeta(s, a)
+     */
+    public static Complex zeta(Complex s, Complex a) {
+        return Zeta.hurwitz_zeta(s, a);
+    }
 }

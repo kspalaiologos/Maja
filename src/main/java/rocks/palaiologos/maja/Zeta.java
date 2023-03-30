@@ -430,7 +430,7 @@ class Zeta {
             // 0.5(3+4i)^-(-2+2i) + ((3+4i)^(1-(-2+2i)))/((-2+2i)-1)
             // zeta(s,a) = 0.5a^-s + (a^(1-s))/(s-1)
             //  + 2 * int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
-            // the integrand usually vanishes for x < |a|.
+            // the integrand usually vanishes for x > |a|.
             Complex fa = a;
             var integrand = (Function<Double, Complex>) x -> {
                 if(x <= EPSILON)
