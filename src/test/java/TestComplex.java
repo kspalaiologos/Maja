@@ -88,4 +88,9 @@ public class TestComplex {
     public void testZeta() {
         assertThat(Maja.zeta(new Complex(-2, 2))).isEqualTo(new Complex(0.08638207303300506, 0.02053604281694063));
     }
+
+    @Test
+    public void testComplexTrig() {
+        assertThat(Maja.abs(Maja.sub(Maja.sin(new Complex(-2.612, 3.162)), new Complex(-5.976332784021184, -10.172956161697219)))).isLessThan(1e-5);
+    }
 }
