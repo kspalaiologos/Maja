@@ -17,7 +17,7 @@ From Maven Central:
 <dependency>
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
 </dependency>
 ```
 
@@ -47,7 +47,6 @@ Real Functions:
 - Hypergeometric function (2F1, 1F1, 1F2, 3F0, Struve).
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
 - Root finding (Newton-Raphson method).
-- Expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
@@ -59,17 +58,28 @@ Complex functions:
 - Exponential integral family (Ein, E_1, li, E_n)
 - Zeta function family (Riemann Zeta, Hurwitz Zeta)
 - Trigonometric integral family (Si, si, Ci, Cin, Shi, Chi, ShiChi).
-- Polylogarithm family (dilog, Spence)
-- 
+- Polylogarithm family (dilog, Spence, polylog)
+
+Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
+
 ## License
 
 GNU LGPL v3.
 
 ## Acknowledgements
 
+Literature:
+- NIST DLMF (https://dlmf.nist.gov/).
+- Abramowitz & Stegun.
+- Various papers on numerical computing.
+- Wolfram MathWorld (https://mathworld.wolfram.com/).
+
+Software:
+- Many lookup tables (e.g. Chebyshev coefficients, Pade approximants) have been generated using Wolfram Mathematica or Dyalog APL one-liners.
 - Some code in Maja uses similar algorithms & the same lookup tables as the ones in the Cephes project (MIT).
 - Error function code was inspired by libcerf (MIT; S. G. Johnson, J. Wuttke: libcerf, numeric library for complex error functions).
 - Some Bessel functions follow the same algorithms as the Jama library (Public Domain).
+- Complex polylogarithm was inspired by mpmath code (MIT).
 
 ## Citation
 

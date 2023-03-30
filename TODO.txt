@@ -1,7 +1,4 @@
 
 Functions:
 - Elliptic functions / integrals.
-- Struve function
-- Airy Bi, Bi'
 - lerchphi converges with |z|>1 in some cases.
-- complex math?
