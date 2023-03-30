@@ -3798,4 +3798,22 @@ public class Maja {
     public static Complex zeta(Complex s, Complex a) {
         return Zeta.hurwitz_zeta(s, a);
     }
+
+    /**
+     * Compute the complex dilogarithm of z.
+     * @param z
+     * @return dilog(z)
+     */
+    public static Complex dilog(Complex z) {
+        return Spence.dilog(z);
+    }
+
+    /**
+     * Compute the Spencer function of z.
+     * @param z
+     * @return spence(z)
+     */
+    public static Complex spence(Complex z) {
+        return Spence.spence(z);
+    }
 }

@@ -1,5 +1,7 @@
 package rocks.palaiologos.maja;
 
+import java.util.function.Function;
+
 class Spence {
     private final static double[] A = {
             4.65128586073990045278E-5,
@@ -100,6 +102,18 @@ class Spence {
 
     public static double dilog(double x) {
         return spence(1 - x);
+    }
+
+    public static Complex dilog(Complex x) {
+        // Integrate ln(1-zt)/t dt from 0 to 1.
+        return Maja.negate(Integrator.finiteTanhSinh(
+                (Function<Double, Complex>) t -> Maja.div(Maja.log(Maja.sub(1, Maja.mul(x, t))), t),
+                0, 1, 6, 1e-15)[0]);
+    }
+
+    public static Complex spence(Complex x) {
+        // Considering that dilog(x) = spence(1-x), spence(x) = dilog(1-x).
+        return dilog(Maja.sub(1, x));
     }
 
     // NOTE: This actually computes:
