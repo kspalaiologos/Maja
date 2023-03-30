@@ -430,27 +430,19 @@ class Zeta {
             // 0.5(3+4i)^-(-2+2i) + ((3+4i)^(1-(-2+2i)))/((-2+2i)-1)
             // zeta(s,a) = 0.5a^-s + (a^(1-s))/(s-1)
             //  + 2 * int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
-            // consider:
-            // int(0,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
-            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx + int(1,inf) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx
-            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) dx + int(1,0) (sin (s arctan ((1/x)/a)))/((a^2+(1/x)^2)^(s/2)*(e^(2*pi*(1/x))-1)) (-dx/x^2)
-            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) + (sin (s arctan ((1/x)/a)))/((a^2+(1/x)^2)^(s/2)*(e^(2*pi*(1/x))-1)*x^2) dx
-            // = int(0,1) (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1)) + ((a^2+1/x^2)^(-s/2)*sin(s*arccot(ax)))/(x^2*(e^(tau/x)-1)) dx
-
+            // the integrand usually vanishes for x < |a|.
             Complex fa = a;
-            Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
+            var integrand = (Function<Double, Complex>) x -> {
                 if(x <= EPSILON)
                     return Complex.ZERO;
-                // z1 = (sin (s arctan (x/a)))/((a^2+x^2)^(s/2)*(e^(2*pi*x)-1))
-                Complex z1 = div(sin(mul(s, atan(div(x, fa)))), mul(pow(add(pow(fa, 2), pow(x, 2)), div(s, 2)), sub(exp(mul(TWO_PI, x)), 1)));
-                // z2 = ((a^2+1/x^2)^(-s/2)*sin(s*arccot(ax)))/(x^2*(e^(tau/x)-1))
-                Complex z2 = div(mul(pow(add(pow(fa, 2), div(1, pow(x, 2))), div(negate(s), 2)), sin(mul(s, acot(mul(fa, x))))), mul(pow(x, 2), sub(exp(div(TWO_PI, x)), 1)));
-                System.out.println(x + " = " + add(z1, z2));
-                return add(z1, z2);
-            }, 0, 1, 7, 1e-14);
+                Complex z1 = sin(mul(s, atan(div(x, fa))));
+                Complex z2 = mul(pow(add(pow(fa, 2), pow(x, 2)), div(s, 2)), sub(exp(mul(TWO_PI, x)), 1));
+                return div(z1, z2);
+            };
+            Complex[] r = Integrator.finiteTanhSinh(integrand, 0, abs(a), 8, 1e-15);
             result = add(result, mul(0.5, pow(a, negate(s))));
             result = add(result, div(pow(a, sub(1, s)), sub(s, 1)));
-            result = add(result, mul(2, r[0]));
+            result = add(result, mul(-2, r[0]));
             return result;
         }
     }
