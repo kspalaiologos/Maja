@@ -93,7 +93,7 @@ class Fresnel {
         double[] term = new double[asymptoticTerms + 1];
         double epsilon = Maja.EPSILON / 4.0;
         int j = 5;
-        int i = 0;
+        int i;
 
         term[0] = 1.0;
         term[asymptoticTerms] = 0.0;
@@ -205,7 +205,7 @@ class Fresnel {
         double epsilon = Maja.EPSILON / 4.0;
         final int asymptoticTerms = 50;
         int j = 3;
-        int i = 0;
+        int i;
 
         double[] term = new double[asymptoticTerms + 1];
         term[0] = 1.0;

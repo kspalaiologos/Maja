@@ -210,7 +210,8 @@ class Integrator {
     }
 
     public static class GaussLegendreParameters {
-        public double[] lroots, weight;
+        public final double[] lroots;
+        public final double[] weight;
 
         public GaussLegendreParameters(double[] roots, double[] weights) {
             this.lroots = roots;

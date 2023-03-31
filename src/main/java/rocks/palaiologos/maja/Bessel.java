@@ -197,7 +197,7 @@ class Bessel {
             1.03923736576817238437E-1,
             2.72062619048444266945E0
     };
-    static double[] lambda = {
+    static final double[] lambda = {
             1.0,
             1.041666666666666666666667E-1,
             8.355034722222222222222222E-2,
@@ -210,7 +210,7 @@ class Bessel {
             4.744515388682643231611949E+2,
             3.207490090890661934704328E+3
     };
-    static double[] mu = {
+    static final double[] mu = {
             1.0,
             -1.458333333333333333333333E-1,
             -9.874131944444444444444444E-2,
@@ -223,29 +223,29 @@ class Bessel {
             -4.923553705236705240352022E+2,
             -3.316218568547972508762102E+3
     };
-    static double[] P1 = {
+    static final double[] P1 = {
             -2.083333333333333333333333E-1,
             1.250000000000000000000000E-1
     };
-    static double[] P2 = {
+    static final double[] P2 = {
             3.342013888888888888888889E-1,
             -4.010416666666666666666667E-1,
             7.031250000000000000000000E-2
     };
-    static double[] P3 = {
+    static final double[] P3 = {
             -1.025812596450617283950617E+0,
             1.846462673611111111111111E+0,
             -8.912109375000000000000000E-1,
             7.324218750000000000000000E-2
     };
-    static double[] P4 = {
+    static final double[] P4 = {
             4.669584423426247427983539E+0,
             -1.120700261622299382716049E+1,
             8.789123535156250000000000E+0,
             -2.364086914062500000000000E+0,
             1.121520996093750000000000E-1
     };
-    static double[] P5 = {
+    static final double[] P5 = {
             -2.8212072558200244877E1,
             8.4636217674600734632E1,
             -9.1818241543240017361E1,
@@ -253,7 +253,7 @@ class Bessel {
             -7.3687943594796316964E0,
             2.27108001708984375E-1
     };
-    static double[] P6 = {
+    static final double[] P6 = {
             2.1257013003921712286E2,
             -7.6525246814118164230E2,
             1.0599904525279998779E3,
@@ -262,7 +262,7 @@ class Bessel {
             -2.6491430486951555525E1,
             5.7250142097473144531E-1
     };
-    static double[] P7 = {
+    static final double[] P7 = {
             -1.9194576623184069963E3,
             8.0617221817373093845E3,
             -1.3586550006434137439E4,
@@ -272,31 +272,31 @@ class Bessel {
             -1.0809091978839465550E2,
             1.7277275025844573975E0
     };
-    static double[] PF2 = {
+    static final double[] PF2 = {
             -9.0000000000000000000e-2,
             8.5714285714285714286e-2
     };
-    static double[] PF3 = {
+    static final double[] PF3 = {
             1.3671428571428571429e-1,
             -5.4920634920634920635e-2,
             -4.4444444444444444444e-3
     };
-    static double[] PF4 = {
+    static final double[] PF4 = {
             1.3500000000000000000e-3,
             -1.6036054421768707483e-1,
             4.2590187590187590188e-2,
             2.7330447330447330447e-3
     };
-    static double[] PG1 = {
+    static final double[] PG1 = {
             -2.4285714285714285714e-1,
             1.4285714285714285714e-2
     };
-    static double[] PG2 = {
+    static final double[] PG2 = {
             -9.0000000000000000000e-3,
             1.9396825396825396825e-1,
             -1.1746031746031746032e-2
     };
-    static double[] PG3 = {
+    static final double[] PG3 = {
             1.9607142857142857143e-2,
             -1.5983694083694083694e-1,
             6.3838383838383838384e-3
@@ -877,7 +877,6 @@ class Bessel {
                 kPtr.value = k;
                 q = recur(yPtr, x, kPtr, 0);
                 y = yPtr.value;
-                k = kPtr.value;
                 y = jvs(y, x) * q;
                 return (sign * y);
             }
@@ -901,14 +900,12 @@ class Bessel {
                     k = kPtr.value;
                     n = nPtr.value;
                 } else {
-                    t = k;
                     k = n;
                     Hypergeometric.DoublePtr tPtr = new Hypergeometric.DoublePtr();
                     Hypergeometric.DoublePtr kPtr = new Hypergeometric.DoublePtr();
                     tPtr.value = n;
                     kPtr.value = k;
                     q = recur(tPtr, x, kPtr, 1);
-                    k = kPtr.value;
                     t = tPtr.value;
                     k = t;
                 }
@@ -1022,7 +1019,7 @@ class Bessel {
                 if (Math.abs(ans) < 0.125) {
                     nflag = -1;
                     n.value = n.value - 1.0;
-                    continue fstart;
+                    continue;
                 }
             }
 
@@ -1073,9 +1070,7 @@ class Bessel {
             if (y != 0)
                 t = Math.abs(u / y);
         }
-        Pair<Integer, Double> ep = Maja.frexp(0.5 * x);
-        t = ep.second();
-        ex = ep.first();
+        ex = Maja.getExponent(0.5 * x);
         ex = (int) (ex * n);
         if ((ex > -1023)
                 && (ex < 1023)

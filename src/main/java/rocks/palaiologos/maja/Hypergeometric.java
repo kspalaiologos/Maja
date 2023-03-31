@@ -6,7 +6,7 @@ class Hypergeometric {
 
     public static double hyp2f1(double a, double b, double c, double x) {
         double d, d1, d2, e;
-        double p, q, r, s, y = Double.NaN, ax;
+        double p, q, r, s, y, ax;
         double ia, ib, ic, id;
         DoublePtr err = new DoublePtr();
         double t1;
@@ -174,7 +174,7 @@ class Hypergeometric {
     public static double hyp2f1ra(double a, double b, double c, double x,
                                   DoublePtr loss) {
         double f2, f1, f0;
-        long n, m, da;
+        long n, da;
         double t;
         DoublePtr err = new DoublePtr();
 
@@ -232,9 +232,9 @@ class Hypergeometric {
     }
 
     public static double hys2f1(double a, double b, double c, double x, DoublePtr loss) {
-        double f, g, h, k, m, s, u, umax, t;
+        double f, g, h, k, m, s, u, umax;
         int i;
-        long ia, ib, intflag = 0;
+        long ib, intflag = 0;
 
         if (Math.abs(b) > Math.abs(a)) {
             /* Ensure that |a| > |b| ... */
@@ -243,7 +243,6 @@ class Hypergeometric {
             a = f;
         }
 
-        ia = Math.round(a);
         ib = Math.round(b);
 
         if (Math.abs(b - ib) < Maja.EPSILON && ib <= 0 && Math.abs(b) < Math.abs(a)) {
@@ -376,8 +375,6 @@ class Hypergeometric {
                 err.value += err1.value + (Maja.EPSILON * r) / y;
 
                 y *= Gamma.gamma(c);
-                loss.value = err.value;
-                return (y);
             } else {
                 /* Psi function expansion, AMS55 #15.3.10, #15.3.11, #15.3.12
                  *
@@ -470,9 +467,9 @@ class Hypergeometric {
                     y1 *= q;
 
                 y += y1;
-                loss.value = err.value;
-                return (y);
             }
+            loss.value = err.value;
+            return (y);
 
         }
 

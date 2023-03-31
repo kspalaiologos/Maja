@@ -768,7 +768,7 @@ public class Maja {
      * @return exponent(x)
      * @see java.lang.Math#getExponent(double)
      */
-    public static double getExponent(double x) {
+    public static int getExponent(double x) {
         return Math.getExponent(x);
     }
 
@@ -908,13 +908,7 @@ public class Maja {
      * @return 1 if x &gt; y, 0 if x == y, -1 if x &lt; y
      */
     public static int compare(double x, double y) {
-        if (x == y) {
-            return 0;
-        } else if (x < y) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return Double.compare(x, y);
     }
 
     /**
@@ -925,13 +919,7 @@ public class Maja {
      * @return 1 if x &gt; y, 0 if x == y, -1 if x &lt; y
      */
     public static int compare(long x, long y) {
-        if (x == y) {
-            return 0;
-        } else if (x < y) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return Long.compare(x, y);
     }
 
     /**
@@ -1004,8 +992,7 @@ public class Maja {
      */
     public static double clamp(double value, double min, double max) {
         if (value < min) return min;
-        if (value > max) return max;
-        return value;
+        return Math.min(value, max);
     }
 
     /**
@@ -1018,8 +1005,7 @@ public class Maja {
      */
     public static long clamp(long value, long min, long max) {
         if (value < min) return min;
-        if (value > max) return max;
-        return value;
+        return Math.min(value, max);
     }
 
     /**
@@ -1307,7 +1293,7 @@ public class Maja {
      * @return A pair of the exponent and the mantissa.
      */
     public static Pair<Integer, Double> frexp(double value) {
-        if (value == 0.0 || value == -0.0) {
+        if (value == 0.0) {
             return new Pair<>(0, 0.0);
         }
 

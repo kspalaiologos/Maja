@@ -138,7 +138,6 @@ class Airy {
         }
 
         if (x < -2.09) {
-            domflg = 15;
             t = sqrt(-x);
             zeta = -2.0 * x * t / 3.0;
             t = sqrt(t);
@@ -209,8 +208,7 @@ class Airy {
         ug = 0.258819403792806798405 * g;
         if ((domflg & 1) == 0)
             ai = uf - ug;
-        if ((domflg & 2) == 0)
-            bi = 1.732050807568877293527 * (uf + ug);
+        bi = 1.732050807568877293527 * (uf + ug);
 
         /* the deriviative of ai */
         k = 4.0;
@@ -240,8 +238,7 @@ class Airy {
         ug = 0.258819403792806798405 * g;
         if ((domflg & 4) == 0)
             aip = uf - ug;
-        if ((domflg & 8) == 0)
-            bip = 1.732050807568877293527 * (uf + ug);
+        bip = 1.732050807568877293527 * (uf + ug);
         return new double[]{ai, aip, bi, bip};
     }
 
@@ -261,7 +258,6 @@ class Airy {
         }
 
         if (x.re() < -2.09) {
-            domflg = 15;
             t = sqrt(negate(x));
             zeta = div(mul(mul(-2.0, x), t), 3.0);
             t = sqrt(t);
@@ -332,8 +328,7 @@ class Airy {
         ug = mul(0.258819403792806798405, g);
         if ((domflg & 1) == 0)
             ai = sub(uf, ug);
-        if ((domflg & 2) == 0)
-            bi = mul(1.732050807568877293527, add(uf, ug));
+        bi = mul(1.732050807568877293527, add(uf, ug));
 
         /* the deriviative of ai */
         k = new Complex(4);
@@ -363,8 +358,7 @@ class Airy {
         ug = mul(0.258819403792806798405, g);
         if ((domflg & 4) == 0)
             aip = sub(uf, ug);
-        if ((domflg & 8) == 0)
-            bip = mul(1.732050807568877293527, add(uf, ug));
+        bip = mul(1.732050807568877293527, add(uf, ug));
         return new Complex[]{ai, aip, bi, bip};
     }
 }

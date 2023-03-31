@@ -146,7 +146,7 @@ class Zeta {
     }
 
     // van Wijngaarden's A_j for Lerch Transcendent computation.
-    private static double aj(double z, double s, double v, int j, double acc) {
+    private static double aj(double z, double s, double v, int j) {
         // ind and two2k can be longs, but we use ints to avoid overflow.
         // there's still a check in the loop body to make sure though.
         double sum, bjk, z2ind, ind, two2k;
@@ -169,7 +169,7 @@ class Zeta {
             z2ind = Math.pow(z, ind);
             bjk = two2k * z2ind / Math.pow(v + ind, s);
             sum += bjk;
-        } while (!(Math.abs(sum) <= 2.2250738585072014e-308) && !(Math.abs(bjk / sum) < 1.0e-2 * acc));
+        } while (!(Math.abs(sum) <= 2.2250738585072014e-308) && !(Math.abs(bjk / sum) < 1.0e-2 * Maja.EPSILON));
 
         return sum;
     }
@@ -218,7 +218,7 @@ class Zeta {
         if (z <= 0.5)
             omega = 1.0 / Math.pow(v1, s);
         else {
-            omega = aj(z, s, v1, 0, Maja.EPSILON);
+            omega = aj(z, s, v1, 0);
         }
 
         double[] num = new double[imax];
@@ -252,7 +252,7 @@ class Zeta {
                         omega = -sign * 0.5 * (StoreAj[i / 2] - Math.pow(z, i / 2.0) /
                                 Math.pow(v1 + i / 2.0, s));
                     } else {
-                        omega = aj(z, s, v1, i + 1, Maja.EPSILON);
+                        omega = aj(z, s, v1, i + 1);
                         omega = -sign * omega;
                     }
                 }

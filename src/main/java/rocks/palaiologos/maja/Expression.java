@@ -20,8 +20,8 @@ class Expression {
     }
 
     static class Token {
-        TokenType type;
-        String value;
+        final TokenType type;
+        final String value;
 
         Token(TokenType type, String value) {
             this.type = type;
@@ -213,71 +213,77 @@ class Expression {
             while (currentToken.type == TokenType.OP && currentToken.value.equals("**") || currentToken.value.equals("rem") || currentToken.value.equals("mod") || currentToken.value.equals("lcm") || currentToken.value.equals("gcd")) {
                 Token op = currentToken;
                 eat(TokenType.OP);
-                if (op.value.equals("**")) {
-                    Number exp = unexp();
-                    // Special cases:
-                    if (result.isComplex() && exp.isComplex()) {
-                        result = new Number(pow(result.getComplex(), exp.getComplex()));
-                    } else if (result.isComplex() && exp.isLong()) {
-                        result = new Number(pow(result.getComplex(), exp.getLong()));
-                    } else if (result.isDouble() && exp.isDouble()) {
-                        result = new Number(pow(result.getDouble(), exp.getDouble()));
-                    } else if (result.isLong() && exp.isLong()) {
-                        result = new Number(pow(result.getLong(), exp.getLong()));
-                    } else if (result.isComplex() || exp.isComplex()) {
-                        // Promote to complex:
-                        result = new Number(pow(result.getComplex(), exp.getComplex()));
-                    } else if (result.isDouble() || exp.isDouble()) {
-                        // Promote to double:
-                        result = new Number(pow(result.getDouble(), exp.getDouble()));
+                switch (op.value) {
+                    case "**" -> {
+                        Number exp = unexp();
+                        // Special cases:
+                        if (result.isComplex() && exp.isComplex()) {
+                            result = new Number(pow(result.getComplex(), exp.getComplex()));
+                        } else if (result.isComplex() && exp.isLong()) {
+                            result = new Number(pow(result.getComplex(), exp.getLong()));
+                        } else if (result.isDouble() && exp.isDouble()) {
+                            result = new Number(pow(result.getDouble(), exp.getDouble()));
+                        } else if (result.isLong() && exp.isLong()) {
+                            result = new Number(pow(result.getLong(), exp.getLong()));
+                        } else if (result.isComplex() || exp.isComplex()) {
+                            // Promote to complex:
+                            result = new Number(pow(result.getComplex(), exp.getComplex()));
+                        } else if (result.isDouble() || exp.isDouble()) {
+                            // Promote to double:
+                            result = new Number(pow(result.getDouble(), exp.getDouble()));
+                        }
                     }
-                } else if (op.value.equals("rem")) {
-                    Number exp = unexp();
-                    // Special cases:
-                    if (result.isComplex() && exp.isComplex()) {
-                        result = new Number(rem(result.getComplex(), exp.getComplex()));
-                    } else if (result.isDouble() && exp.isDouble()) {
-                        result = new Number(rem(result.getDouble(), exp.getDouble()));
-                    } else if (result.isLong() && exp.isLong()) {
-                        result = new Number(rem(result.getLong(), exp.getLong()));
-                    } else if (result.isComplex() || exp.isComplex()) {
-                        // Promote to complex:
-                        result = new Number(rem(result.getComplex(), exp.getComplex()));
-                    } else if (result.isDouble() || exp.isDouble()) {
-                        // Promote to double:
-                        result = new Number(rem(result.getDouble(), exp.getDouble()));
+                    case "rem" -> {
+                        Number exp = unexp();
+                        // Special cases:
+                        if (result.isComplex() && exp.isComplex()) {
+                            result = new Number(rem(result.getComplex(), exp.getComplex()));
+                        } else if (result.isDouble() && exp.isDouble()) {
+                            result = new Number(rem(result.getDouble(), exp.getDouble()));
+                        } else if (result.isLong() && exp.isLong()) {
+                            result = new Number(rem(result.getLong(), exp.getLong()));
+                        } else if (result.isComplex() || exp.isComplex()) {
+                            // Promote to complex:
+                            result = new Number(rem(result.getComplex(), exp.getComplex()));
+                        } else if (result.isDouble() || exp.isDouble()) {
+                            // Promote to double:
+                            result = new Number(rem(result.getDouble(), exp.getDouble()));
+                        }
                     }
-                } else if (op.value.equals("mod")) {
-                    Number exp = unexp();
-                    if (result.isComplex() || exp.isComplex()) {
-                        throw new ArithmeticException("mod is not defined for complex numbers");
-                    } else if (result.isDouble() || exp.isDouble()) {
-                        // Promote to double:
-                        result = new Number(mod(result.getDouble(), exp.getDouble()));
-                    } else {
-                        result = new Number(mod(result.getLong(), exp.getLong()));
+                    case "mod" -> {
+                        Number exp = unexp();
+                        if (result.isComplex() || exp.isComplex()) {
+                            throw new ArithmeticException("mod is not defined for complex numbers");
+                        } else if (result.isDouble() || exp.isDouble()) {
+                            // Promote to double:
+                            result = new Number(mod(result.getDouble(), exp.getDouble()));
+                        } else {
+                            result = new Number(mod(result.getLong(), exp.getLong()));
+                        }
                     }
-                } else if (op.value.equals("lcm")) {
-                    Number exp = unexp();
-                    if (result.isComplex() || exp.isComplex()) {
-                        // Promote to complex:
-                        result = new Number(lcm(result.getComplex(), exp.getComplex()));
-                    } else if (result.isDouble() || exp.isDouble()) {
-                        // Promote to double:
-                        result = new Number(lcm(result.getDouble(), exp.getDouble()));
-                    } else {
-                        result = new Number(lcm(result.getLong(), exp.getLong()));
+                    case "lcm" -> {
+                        Number exp = unexp();
+                        if (result.isComplex() || exp.isComplex()) {
+                            // Promote to complex:
+                            result = new Number(lcm(result.getComplex(), exp.getComplex()));
+                        } else if (result.isDouble() || exp.isDouble()) {
+                            // Promote to double:
+                            result = new Number(lcm(result.getDouble(), exp.getDouble()));
+                        } else {
+                            result = new Number(lcm(result.getLong(), exp.getLong()));
+                        }
                     }
-                } else if (op.value.equals("gcd")) {
-                    Number exp = unexp();
-                    if (result.isComplex() || exp.isComplex()) {
-                        // Promote to complex:
-                        result = new Number(gcd(result.getComplex(), exp.getComplex()));
-                    } else if (result.isDouble() || exp.isDouble()) {
-                        // Promote to double:
-                        result = new Number(gcd(result.getDouble(), exp.getDouble()));
-                    } else {
-                        result = new Number(gcd(result.getLong(), exp.getLong()));
+                    case "gcd" -> {
+                        Number exp = unexp();
+                        if (result.isComplex() || exp.isComplex()) {
+                            // Promote to complex:
+                            result = new Number(gcd(result.getComplex(), exp.getComplex()));
+                        } else if (result.isDouble() || exp.isDouble()) {
+                            // Promote to double:
+                            result = new Number(gcd(result.getDouble(), exp.getDouble()));
+                        } else {
+                            result = new Number(gcd(result.getLong(), exp.getLong()));
+                        }
                     }
                 }
             }

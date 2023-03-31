@@ -659,7 +659,7 @@ class Erf {
         final double y = z.im();
         final double ya = Math.abs(y);
 
-        Complex ret = Complex.ZERO; // return value
+        Complex ret; // return value
 
         double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0;
 
@@ -894,6 +894,7 @@ class Erf {
     /* Handle positive and negative x via different formulas,
        using the mirror symmetries of w, to avoid overflow/underflow
        problems from multiplying exponentially large and small quantities. */
+        final Complex trigf = new Complex(Math.cos(mIm_z2), Math.sin(mIm_z2));
         if (x >= 0) {
             if (x < 8e-2) {
                 if (Math.abs(y) < 1e-2) {
@@ -920,7 +921,7 @@ class Erf {
                 }
             }
             return Maja.sub(1.0, Maja.mul(Math.exp(mRe_z2),
-                    Maja.mul(new Complex(Math.cos(mIm_z2), Math.sin(mIm_z2)),
+                    Maja.mul(trigf,
                             w_of_z(new Complex(-y, x)))));
         } else { // x < 0
             if (x > -8e-2) { // duplicate from above to avoid fabs(x) call
@@ -947,9 +948,9 @@ class Erf {
                                             + 0.37612638903183752464 * y2))));
                 }
             } else if (Double.isNaN(x))
-                return new Complex(Double.NaN, y == 0 ? 0 : Double.NaN);
+                return new Complex(Double.NaN, Double.NaN);
             Complex c = w_of_z(new Complex(y, -x));
-            return Maja.sub(Maja.mul(Math.exp(mRe_z2), Maja.mul(new Complex(Math.cos(mIm_z2), Math.sin(mIm_z2)), c)), 1);
+            return Maja.sub(Maja.mul(Math.exp(mRe_z2), Maja.mul(trigf, c)), 1);
         }
     }
 
@@ -1090,7 +1091,7 @@ class Erf {
                     }
                 }
             } else if (Double.isNaN(y))
-                return new Complex(x == 0 ? 0 : Double.NaN, Double.NaN);
+                return new Complex(Double.NaN, Double.NaN);
             Complex res = Maja.sub(w_of_z(Maja.negate(z)), Maja.exp(mz2));
             return Maja.mul(0.8862269254527580136490837416705725913990, new Complex(-res.im(), res.re()));
         }
