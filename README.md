@@ -72,8 +72,10 @@ GNU LGPL v3.
 Literature:
 - NIST DLMF (https://dlmf.nist.gov/).
 - Abramowitz & Stegun.
-- Various papers on numerical computing.
 - Wolfram MathWorld (https://mathworld.wolfram.com/).
+- [Implementation of the Combined--Nonlinear Condensation Transformation](https://arxiv.org/abs/math/0207086) - S. V. Aksenov, M. A. Savageau, et al; Comput.Phys.Commun. 150 (2003) 1-20
+- [On the Evaluation of the Complex-Valued Exponential Integral](https://www.sci.utah.edu/~vpegorar/research/2011_JGT.pdf) - Vincent Pegoraro and Philipp Slusallek; Journal of Graphics, GPU, and Game Tools, 15(3): 183-198, 2011
+- Various other on numerical computing.
 
 Software:
 - Many lookup tables (e.g. Chebyshev coefficients, Pade approximants) have been generated using Wolfram Mathematica or Dyalog APL one-liners.
