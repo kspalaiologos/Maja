@@ -192,6 +192,6 @@ class Lambert {
             }
         }
 
-        return Complex.NAN;
+        return Complex.NaN;
     }
 }
