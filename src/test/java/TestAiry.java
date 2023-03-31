@@ -35,4 +35,17 @@ public class TestAiry {
         assertThat(Maja.airyAip(Double.NEGATIVE_INFINITY)).isNaN();
         assertThat(Maja.airyAip(Double.NaN)).isNaN();
     }
+
+    @Test
+    public void testBi() {
+        assertThat(Maja.abs(Maja.airyBi(1) - 1.2074235949528712594363788170282869953853)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBi(-1) - 0.1039973894969446118886899909785991446370)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBi(-5.6) + 0.360172225437713344245843596994549992815)).isLessThan(1e-15);
+        // Accuracy dimnishes for larger values of x, but this is not a huge problem.
+        assertThat(Maja.abs(Maja.airyBi(5.6) - 2540.18283758149890523387595324256875012096)).isLessThan(2e-12);
+        assertThat(Maja.abs(Maja.airyBi(-12.6) - 0.2052016805306034694915364528812494365753)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBi(12.6) - 2.67139640130579937853574376851794776585679e12)).isLessThan(1e-2);
+        assertThat(Maja.abs(Maja.airyBi(-100.6) - 0.071120276667991626826926966029165362298975)).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.airyBi(100.6) - 2.4555381213245226172411883474564151744705065217434285e291)).isLessThan(1.1E278);
+    }
 }

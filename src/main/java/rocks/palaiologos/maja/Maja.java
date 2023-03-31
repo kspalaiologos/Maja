@@ -3946,4 +3946,8 @@ public class Maja {
     public static Complex lerchPhi(Complex z, Complex s, Complex a) {
         return Zeta.lerch_phi(z, s, a);
     }
+
+    public static Complex lambertw(Complex z, long k) {
+        return Lambert.lambertW(z, k);
+    }
 }
