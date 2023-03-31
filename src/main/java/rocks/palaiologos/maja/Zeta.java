@@ -180,7 +180,11 @@ class Zeta {
 
         if (1.0 <= Math.abs(z)) {
             // TODO: Numerical integration. Need complex math.
-            return Double.POSITIVE_INFINITY;
+            Complex result = lerch_phi(new Complex(z), new Complex(s), new Complex(v));
+            if(result.im() == 0)
+                return result.re();
+            else
+                return Double.POSITIVE_INFINITY;
         }
 
         if (Math.abs(Math.floor(v) - v) <= Maja.EPSILON * Math.abs(v) && v <= 0.0) {
@@ -369,9 +373,7 @@ class Zeta {
                 return Complex.ZERO;
             Complex numerator = sin(sub(mul(s, atan(div(t, a))), mul(t, g)));
             Complex denominator = mul(pow(add(pow(a, 2), pow(t, 2)), h), sub(exp(mul(r, t)), 1));
-            Complex res = div(numerator, denominator);
-            System.out.println("t = " + t + ", r = " + res);
-            return res;
+            return div(numerator, denominator);
         };
         v = add(v, mul(2, integrateTanhSinh(f, 0, abs(a) + abs(z) + abs(s), 7, 1e-12)[0]));
         return v;
