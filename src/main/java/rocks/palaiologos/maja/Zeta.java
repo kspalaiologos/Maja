@@ -355,14 +355,7 @@ class Zeta {
         if (a.re() < 1) {
             if (isnpint(a))
                 return Complex.COMPLEX_INFINITY;
-            int m = (int) Math.ceil(1 - a.re());
-            Complex v = Complex.ZERO;
-            Complex zpow = Complex.ONE;
-            for (int n = 0; n < m; n++) {
-                v = add(v, div(zpow, pow(add(a, n), s)));
-                zpow = mul(zpow, z);
-            }
-            return add(mul(zpow, lerch_phi(z, s, add(a, m))), v);
+            return add(mul(z, lerch_phi(z, s, add(a, 1))), pow(pow(a, 2), negate(div(s, 2))));
         }
         Complex g = log(z);
         Complex v = add(div(1, mul(2, pow(a, s))), div(mul(gammainc(sub(1, s), mul(negate(a), g)), pow(negate(g), sub(s, 1))), pow(z, a)));
@@ -492,7 +485,7 @@ class Zeta {
             Complex[] r = Integrator.finiteTanhSinh(integrand, 0, abs(a), 8, 1e-15);
             result = add(result, mul(0.5, pow(a, negate(s))));
             result = add(result, div(pow(a, sub(1, s)), sub(s, 1)));
-            result = add(result, mul(-2, r[0]));
+            result = add(result, mul(2, r[0]));
             return result;
         }
     }

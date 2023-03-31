@@ -3900,7 +3900,7 @@ public class Maja {
      * @param a
      * @return zeta(s, a)
      */
-    public static Complex zeta(Complex s, Complex a) {
+    public static Complex hurwitzZeta(Complex s, Complex a) {
         return Zeta.hurwitz_zeta(s, a);
     }
 
@@ -3937,6 +3937,14 @@ public class Maja {
 
     /**
      * Compute the Lerch transcendent of z, s, and a.
+     * A few things to note:
+     * <ul>
+     *     <li>Presently, the implementation of Lerch Phi uses the Abel-Plana formula,
+     *     which ends up with an invalid branch cut (as seen when using e.g.
+     *     <code>Maja.lerchPhi(new Complex(0, -8), new Complex(1, -1), new Complex(1, 1))</code></li>
+     *     <li>The implementation may overflow the stack for particularly large, negative values of Re(a).
+     *     This is being worked on.</li>
+     * </ul>
      *
      * @param z
      * @param s

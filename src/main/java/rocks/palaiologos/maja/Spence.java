@@ -433,7 +433,7 @@ class Spence {
             Complex j = I;
             v = sub(Complex.ONE, s);
             Complex y = div(log(negate(z)), mul(TWO_PI, j));
-            return div(mul(gamma(v), add(mul(pow(j, v), zeta(v, add(0.5, y))), mul(pow(j, negate(v)), zeta(v, sub(0.5, y))))), pow(TWO_PI, v));
+            return div(mul(gamma(v), add(mul(pow(j, v), hurwitzZeta(v, add(0.5, y))), mul(pow(j, negate(v)), hurwitzZeta(v, sub(0.5, y))))), pow(TWO_PI, v));
         }
         Complex t = Complex.ONE;
         int k = 0;

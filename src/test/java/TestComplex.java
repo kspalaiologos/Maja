@@ -87,6 +87,21 @@ public class TestComplex {
     @Test
     public void testZeta() {
         assertThat(Maja.zeta(new Complex(-2, 2))).isEqualTo(new Complex(0.08638207303300506, 0.02053604281694063));
+        assertThat(
+                Maja.abs(Maja.sub(
+                        Maja.hurwitzZeta(new Complex(-2, 2), new Complex(1, 2)),
+                        new Complex(36.4631498760176, -3.5135475777949)))
+        ).isLessThan(3.8e-5);
+        assertThat(
+                Maja.abs(Maja.sub(
+                        Maja.lerchPhi(new Complex(-2, 2), new Complex(1, 2), new Complex(2, 2)),
+                        new Complex(-0.539304744092355, -0.611340474677990)))
+        ).isLessThan(2.5e-13);
+        assertThat(
+                Maja.abs(Maja.sub(
+                        Maja.lerchPhi(new Complex(-2, 2), new Complex(1, 2), new Complex(-2, 2)),
+                        new Complex(-15.1536239656553, 43.4891357967102)))
+        ).isLessThan(1E-11);
     }
 
     @Test
