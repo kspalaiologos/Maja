@@ -146,8 +146,8 @@ class TrigonometricIntegral {
 
     public static Complex Si(Complex z) {
         // if |ph z| < pi/2, Si(z) = 0.5i (E1(-iz) - E1(iz)) + pi/2 DLMF §6.5
-        if(z.re() < 0) return negate(Si(negate(z)));
-        if(z.re() == 0) return new Complex(0, Shi(z.im()));
+        if (z.re() < 0) return negate(Si(negate(z)));
+        if (z.re() == 0) return new Complex(0, Shi(z.im()));
         return add(mul(mul(0.5, I), sub(e1(mul(I, negate(z))), e1(mul(I, z)))), PI_2);
     }
 
@@ -185,8 +185,8 @@ class TrigonometricIntegral {
     public static Complex Ci(Complex z) {
         // if |ph z| < pi/2, Ci(z) = -0.5 (E1(-iz) + E1(iz)) DLMF §6.5
         // Ci(-x) = Ci(x) + log(-x) - log(x)
-        if(z.re() < 0) return sub(add(Ci(negate(z)), log(z)), log(negate(z)));
-        if(z.re() == 0) return add(Chi(z.im()), mul(I, PI_2));
+        if (z.re() < 0) return sub(add(Ci(negate(z)), log(z)), log(negate(z)));
+        if (z.re() == 0) return add(Chi(z.im()), mul(I, PI_2));
         return mul(-0.5, add(e1(mul(I, negate(z))), e1(mul(I, z))));
     }
 
@@ -221,8 +221,8 @@ class TrigonometricIntegral {
 
     public static Complex Shi(Complex z) {
         // Si(iz) = i Shi(z).
-        if(z.re() < 0) return negate(Shi(new Complex(-z.re(), z.im())));
-        if(z.re() == 0) return new Complex(0, Si(z.im()));
+        if (z.re() < 0) return negate(Shi(new Complex(-z.re(), z.im())));
+        if (z.re() == 0) return new Complex(0, Si(z.im()));
         // Knowing that if |ph z| < pi/2 (checked above), Si(z) = 0.5i (E1(-iz) - E1(iz)) + pi/2 DLMF §6.5
         // => Shi(z) = Si(iz)/i = (0.5i (E1(z) - E1(-z)) + pi/2)/i.
         return div(add(mul(mul(0.5, I), sub(e1(z), e1(negate(z)))), PI_2), I);
@@ -231,8 +231,8 @@ class TrigonometricIntegral {
     public static Complex Chi(Complex z) {
         // Holds for all z:
         // Chi(z) = Ci(iz) + log(z) - log(iz)
-        if(eq(z, Complex.ZERO)) return Complex.COMPLEX_INFINITY;
-        if(z.re() == 0) return add(Ci(z.im()), mul(I, PI_2));
+        if (eq(z, Complex.ZERO)) return Complex.COMPLEX_INFINITY;
+        if (z.re() == 0) return add(Ci(z.im()), mul(I, PI_2));
         return sub(add(Ci(mul(I, z)), log(z)), log(mul(I, z)));
     }
 
@@ -248,8 +248,8 @@ class TrigonometricIntegral {
         double k, z, c, s, a, si, ci;
         short sign;
 
-        if(Double.isNaN(x)) return new double[] { Double.NaN, Double.NaN };
-        if(x == Double.NEGATIVE_INFINITY) return new double[] { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY };
+        if (Double.isNaN(x)) return new double[]{Double.NaN, Double.NaN};
+        if (x == Double.NEGATIVE_INFINITY) return new double[]{Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY};
 
         if (x < 0.0) {
             sign = -1;

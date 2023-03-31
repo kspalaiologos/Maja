@@ -137,10 +137,10 @@ class Ei {
         } else if ((A0 <= 5.0) || (X < XT) && (A0 < 40.0)) {
             CE1 = Complex.ONE;
             Complex CR = Complex.ONE;
-            for(int K = 1; K <= 500; K++) {
+            for (int K = 1; K <= 500; K++) {
                 CR = div(mul(mul(negate(CR), K), Z), ((K + 1) * (K + 1)));
                 CE1 = add(CE1, CR);
-                if (abs(CR) <= abs(CE1)*1.0E-15)
+                if (abs(CR) <= abs(CE1) * 1.0E-15)
                     break;
             }
 
@@ -154,7 +154,7 @@ class Ei {
             Complex ZD = div(1, Z);
             Complex ZDC = ZD;
             ZC = add(ZC, ZDC);
-            for(int K = 1; K <= 500; K++) {
+            for (int K = 1; K <= 500; K++) {
                 ZD = div(1, add(mul(ZD, K), 1));
                 ZDC = mul(sub(ZD, 1), ZDC);
                 ZC = add(ZC, ZDC);
@@ -163,7 +163,7 @@ class Ei {
                 ZDC = mul(sub(mul(Z, ZD), 1), ZDC);
                 ZC = add(ZC, ZDC);
 
-                if((abs(ZDC) <= abs(ZC)*1.0E-15) && (K > 20))
+                if ((abs(ZDC) <= abs(ZC) * 1.0E-15) && (K > 20))
                     break;
             }
 

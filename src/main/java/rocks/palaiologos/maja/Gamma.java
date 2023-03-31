@@ -178,12 +178,12 @@ class Gamma {
                 771.32342877765313, -176.61502916214059, 12.507343278686905,
                 -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7};
         int g = 7;
-        if(x.re() < 0.5) return Maja.div(Math.PI, Maja.mul(Maja.sin(Maja.mul(Math.PI, x)), gamma(Maja.sub(1, x))));
+        if (x.re() < 0.5) return Maja.div(Math.PI, Maja.mul(Maja.sin(Maja.mul(Math.PI, x)), gamma(Maja.sub(1, x))));
 
         x = Maja.sub(x, 1);
         Complex a = new Complex(p[0]);
         Complex t = add(add(x, g), 0.5);
-        for(int i = 1; i < p.length; i++){
+        for (int i = 1; i < p.length; i++) {
             a = add(a, Maja.div(p[i], add(x, i)));
         }
 

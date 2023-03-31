@@ -530,7 +530,7 @@ class Bessel {
     }
 
     static public double i0(double x) {
-        if(Double.isInfinite(x)) return Double.POSITIVE_INFINITY;
+        if (Double.isInfinite(x)) return Double.POSITIVE_INFINITY;
 
         double y;
         if (x < 0) x = -x;
@@ -983,7 +983,6 @@ class Bessel {
             yk = qkm1;
             ans = 1.0;
             ctr = 0;
-            loop:
             do {
                 yk += 2.0;
                 pk = pkm1 * yk + pkm2 * xk;

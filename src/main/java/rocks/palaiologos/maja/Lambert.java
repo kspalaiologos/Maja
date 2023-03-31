@@ -1,7 +1,5 @@
 package rocks.palaiologos.maja;
 
-import static rocks.palaiologos.maja.Maja.*;
-
 class Lambert {
     private static final double[] c = {-1.0, 2.331643981597124203363536062168,
             -1.812187885639363490240191647568, 1.936631114492359755363277457668,

@@ -54,6 +54,7 @@ class Spence {
             2.240041814626069927477E-20,
             4.784036597230791011855E-25,
     };
+    private final static double[] berntab = {1.000000, 0.500000, 0.166667, -0.000000, -0.033333, 0.000000, 0.023810, 0.000000, -0.033333, 0.000000, 0.075758, -0.000000, -0.253114, -0.000000, 1.166667, -0.000000, -7.092157, -0.000000, 54.971178, -0.000000, -529.124242, -0.000000, 6192.123188, 0.000000, -86580.253114, 0.000000, 1425517.166667, 0.000000, -27298231.067816, 0.000000, 601580873.900642, 0.000000, -15116315767.092157, 0.000000, 429614643061.166667, 0.000000, -13711655205088.332772, 0.000000, 488332318973593.166667, -0.000000, -19296579341940068.148633, -0.000000, 841693047573682615.000554, -0.000000, -40338071854059455413.076812, -0.000000, 2115074863808199160560.145390, -0.000000, -120866265222965259346027.311937, -0.000000, 7500866746076964366855720.075758, -0.000000, -503877810148106891413789303.052201, -0.000000, 36528776484818123335110430842.971178, -0.000000, -2849876930245088222626914643291.067816, -0.000000, 238654274996836276446459819192192.149718, -0.000000, -21399949257225333665810744765191097.392674};
 
     private Spence() {
     }
@@ -317,17 +318,17 @@ class Spence {
 
     // Based on a mpmath algorithm.
     public static Complex polylog(Complex s, Complex z) {
-        if(eq(z, Complex.ONE))
+        if (eq(z, Complex.ONE))
             return Zeta.riemann_zeta(s);
-        else if(eq(s, Complex.ZERO))
+        else if (eq(s, Complex.ZERO))
             return div(z, sub(Complex.ONE, z));
-        else if(eq(s, Complex.ONE))
+        else if (eq(s, Complex.ONE))
             return negate(log(sub(Complex.ONE, z)));
-        else if(abs(z) <= 0.75 || (!isint(s) && abs(z) < 0.9))
+        else if (abs(z) <= 0.75 || (!isint(s) && abs(z) < 0.9))
             return polylogSeries(s, z);
-        else if(abs(z) >= 1.4 && isint(s))
+        else if (abs(z) >= 1.4 && isint(s))
             return add(mul(pow(negate(Complex.ONE), add(s, Complex.ONE)), polylogSeries(s, div(1, z))), polylogContinuation((int) s.re(), z));
-        else if(isint(s))
+        else if (isint(s))
             return polylogUnitCircle((int) s.re(), z);
         else
             return polylogGeneral(s, z);
@@ -338,26 +339,24 @@ class Spence {
         int k = 1;
         Complex zk = z;
         int maxiter = 1000;
-        while(maxiter --> 0) {
+        while (maxiter-- > 0) {
             Complex term = div(zk, pow(k, s));
             l = add(l, term);
-            if(abs(term) < Maja.EPSILON)
+            if (abs(term) < Maja.EPSILON)
                 break;
             zk = mul(zk, z);
             k++;
         }
-        if(maxiter == 0)
+        if (maxiter == 0)
             throw new ArithmeticException("polylog series: possible divergence, open a ticket?");
         return l;
     }
 
-    private final static double[] berntab = { 1.000000, 0.500000, 0.166667, -0.000000, -0.033333, 0.000000, 0.023810, 0.000000, -0.033333, 0.000000, 0.075758, -0.000000, -0.253114, -0.000000, 1.166667, -0.000000, -7.092157, -0.000000, 54.971178, -0.000000, -529.124242, -0.000000, 6192.123188, 0.000000, -86580.253114, 0.000000, 1425517.166667, 0.000000, -27298231.067816, 0.000000, 601580873.900642, 0.000000, -15116315767.092157, 0.000000, 429614643061.166667, 0.000000, -13711655205088.332772, 0.000000, 488332318973593.166667, -0.000000, -19296579341940068.148633, -0.000000, 841693047573682615.000554, -0.000000, -40338071854059455413.076812, -0.000000, 2115074863808199160560.145390, -0.000000, -120866265222965259346027.311937, -0.000000, 7500866746076964366855720.075758, -0.000000, -503877810148106891413789303.052201, -0.000000, 36528776484818123335110430842.971178, -0.000000, -2849876930245088222626914643291.067816, -0.000000, 238654274996836276446459819192192.149718, -0.000000, -21399949257225333665810744765191097.392674 };
-
     private static Complex bernpoly(int n, Complex z) {
         Complex sum = Complex.ZERO;
-        if(n >= 60)
+        if (n >= 60)
             return pow(z, n);
-        for(int k = 0; k < n + 1; k++) {
+        for (int k = 0; k < n + 1; k++) {
             Complex term = mul(binomial(n, k), mul(berntab[k], pow(z, n - k)));
             sum = add(sum, term);
         }
@@ -365,54 +364,54 @@ class Spence {
     }
 
     private static Complex polylogContinuation(int n, Complex z) {
-        if(n < 0)
+        if (n < 0)
             return Complex.ZERO;
         Complex twopij = mul(I, TWO_PI);
         Complex a = div(mul(pow(twopij, -n), bernpoly(n, div(log(z), twopij))), factorial(n));
-        if(z.im() == 0 && z.re() < 0)
+        if (z.im() == 0 && z.re() < 0)
             a = new Complex(a.re(), 0);
-        if(z.im() < 0 || (z.im() == 0 && z.re() >= 1))
+        if (z.im() < 0 || (z.im() == 0 && z.re() >= 1))
             a = sub(a, div(mul(pow(log(z), n - 1), twopij), factorial(n - 1)));
         return a;
     }
 
     private static double harmonic(int n) {
         double sum = 0;
-        for(int k = 1; k <= n; k++)
+        for (int k = 1; k <= n; k++)
             sum += 1.0 / k;
         return sum;
     }
 
     private static Complex polylogUnitCircle(int n, Complex z) {
         Complex l = Complex.ZERO;
-        if(n > 1) {
+        if (n > 1) {
             Complex logz = log(z);
             Complex logmz = Complex.ONE;
             int m = 0;
             int maxiter = 1000;
-            while(maxiter --> 0) {
-                if(n - m != 1) {
+            while (maxiter-- > 0) {
+                if (n - m != 1) {
                     Complex term = div(mul(zeta(n - m), logmz), factorial(m));
-                    if(ne(term, 0) && abs(term) < EPSILON)
+                    if (ne(term, 0) && abs(term) < EPSILON)
                         break;
                     l = add(l, term);
                 }
                 logmz = mul(logmz, logz);
                 m++;
             }
-            if(maxiter == 0)
+            if (maxiter == 0)
                 throw new ArithmeticException("polylog unit circle: possible divergence, open a ticket?");
             l = add(l, mul(div(pow(log(z), n - 1), factorial(n - 1)), sub(harmonic(n - 1), log(negate(log(z))))));
-        } else if(n < 1) {
+        } else if (n < 1) {
             l = mul(factorial(-n), pow(negate(log(z)), n - 1));
             Complex logz = log(z);
             Complex logkz = Complex.ONE;
             int k = 0;
-            while(true) {
+            while (true) {
                 double b = berntab[k - n + 1];
-                if(b != 0) {
+                if (b != 0) {
                     Complex term = div(mul(b, logkz), mul(factorial(k), k - n + 1));
-                    if(abs(term) < EPSILON)
+                    if (abs(term) < EPSILON)
                         break;
                     l = sub(l, term);
                 }
@@ -422,7 +421,7 @@ class Spence {
         } else {
             throw new ArithmeticException("n == 1.");
         }
-        if(z.im() == 0 && z.re() < 0)
+        if (z.im() == 0 && z.re() < 0)
             l = new Complex(l.re(), 0);
         return l;
     }
@@ -430,7 +429,7 @@ class Spence {
     private static Complex polylogGeneral(Complex s, Complex z) {
         Complex v = Complex.ZERO;
         Complex u = log(z);
-        if(abs(u) >= 5) {
+        if (abs(u) >= 5) {
             Complex j = I;
             v = sub(Complex.ONE, s);
             Complex y = div(log(negate(z)), mul(TWO_PI, j));
@@ -439,16 +438,16 @@ class Spence {
         Complex t = Complex.ONE;
         int k = 0;
         int maxiter = 1000;
-        while(maxiter --> 0) {
+        while (maxiter-- > 0) {
             Complex term = mul(zeta(sub(s, k)), t);
-            if(abs(term) < EPSILON)
+            if (abs(term) < EPSILON)
                 break;
             v = add(v, term);
             k++;
             t = mul(t, u);
             t = div(t, k);
         }
-        if(maxiter == 0)
+        if (maxiter == 0)
             throw new ArithmeticException("polylog general: possible divergence, open a ticket?");
         return add(mul(gamma(sub(Complex.ONE, s)), pow(negate(u), sub(s, 1))), v);
     }

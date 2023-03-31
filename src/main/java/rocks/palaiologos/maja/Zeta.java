@@ -175,13 +175,13 @@ class Zeta {
     }
 
     // https://www.marvinrayburns.com/UniversalTOC25.pdf
-    private static double lerchphiGeneral(double z, double s, double v, double acc) {
+    private static double lerchphiGeneral(double z, double s, double v) {
         final int imax = 100;
 
         if (1.0 <= Math.abs(z)) {
             // TODO: Numerical integration. Need complex math.
             Complex result = lerch_phi(new Complex(z), new Complex(s), new Complex(v));
-            if(result.im() == 0)
+            if (result.im() == 0)
                 return result.re();
             else
                 return Double.POSITIVE_INFINITY;
@@ -218,7 +218,7 @@ class Zeta {
         if (z <= 0.5)
             omega = 1.0 / Math.pow(v1, s);
         else {
-            omega = aj(z, s, v1, 0, acc);
+            omega = aj(z, s, v1, 0, Maja.EPSILON);
         }
 
         double[] num = new double[imax];
@@ -252,7 +252,7 @@ class Zeta {
                         omega = -sign * 0.5 * (StoreAj[i / 2] - Math.pow(z, i / 2.0) /
                                 Math.pow(v1 + i / 2.0, s));
                     } else {
-                        omega = aj(z, s, v1, i + 1, acc);
+                        omega = aj(z, s, v1, i + 1, Maja.EPSILON);
                         omega = -sign * omega;
                     }
                 }
@@ -289,7 +289,7 @@ class Zeta {
                     est = 2.0 / x / (1.0 - x) * eps;
                 }
                 cacc = Math.abs(est / skn);
-                if (cacc < acc) break;
+                if (cacc < Maja.EPSILON) break;
             }
 
             if (eps <= 0.0) break;
@@ -313,24 +313,24 @@ class Zeta {
 
     public static double lerch_phi(double z, double s, double a) {
         // lerchphi(1, s, 1) = riemann_zeta(s), s > 1
-        if(z == 1.0 && a == 1.0 && s > 1)
+        if (z == 1.0 && a == 1.0 && s > 1)
             return riemann_zeta(s);
         // lerchphi(1, s, a) = hurwitz_zeta(s, a), s > 1, a != 0, -1, -2, to infinity ...
-        if(z == 1.0 && s > 1 && !(a < 0 && Math.floor(a) == a))
+        if (z == 1.0 && s > 1 && !(a < 0 && Math.floor(a) == a))
             return hurwitz_zeta(s, a);
         // lerchphi(z, s, 1) = polylog_s(z) / z iff s > 1, |z| <= 1
-        if(a == 1.0 && s > 1 && Math.abs(z) <= 1)
+        if (a == 1.0 && s > 1 && Math.abs(z) <= 1)
             return Spence.polylog((int) s, z) / z;
         // lerchphi(z, 0, a) = 1 / (1 - z)
-        if(s == 0)
+        if (s == 0)
             return 1.0 / (1.0 - z);
         // lerchphi(0, s, a) = a^-s.
-        if(z == 0)
+        if (z == 0)
             return Math.pow(a, -s);
         // lerchphi(z, 1, 1) = -log(1 - z) / z
-        if(s == 1.0 && a == 1.0)
+        if (s == 1.0 && a == 1.0)
             return -Math.log(1.0 - z) / z;
-        return lerchphiGeneral(z, s, a, Maja.EPSILON);
+        return lerchphiGeneral(z, s, a);
     }
 
     private static boolean isnpint(Complex a) {
@@ -339,26 +339,26 @@ class Zeta {
     }
 
     private static Complex gammainc(Complex z, Complex a) {
-        if(eq(a, 0))
+        if (eq(a, 0))
             return gamma(z);
         else
             return uiGamma(z, a);
     }
 
     public static Complex lerch_phi(Complex z, Complex s, Complex a) {
-        if(eq(z, 0))
+        if (eq(z, 0))
             return pow(a, negate(s));
-        if(eq(z, 1) && s.re() > 1)
+        if (eq(z, 1) && s.re() > 1)
             return hurwitz_zeta(s, a);
         // Make sure that Re(a) > 0 using the recurrence relation
         // lerchphi(z, s, a) = z * lerchphi(z, s, a + 1) + a^-s
-        if(a.re() < 1) {
-            if(isnpint(a))
+        if (a.re() < 1) {
+            if (isnpint(a))
                 return Complex.COMPLEX_INFINITY;
             int m = (int) Math.ceil(1 - a.re());
             Complex v = Complex.ZERO;
             Complex zpow = Complex.ONE;
-            for(int n = 0; n < m; n++) {
+            for (int n = 0; n < m; n++) {
                 v = add(v, div(zpow, pow(add(a, n), s)));
                 zpow = mul(zpow, z);
             }
@@ -369,7 +369,7 @@ class Zeta {
         Complex h = div(s, 2);
         Complex r = new Complex(TWO_PI);
         var f = (Function<Double, Complex>) t -> {
-            if(t < EPSILON)
+            if (t < EPSILON)
                 return Complex.ZERO;
             Complex numerator = sin(sub(mul(s, atan(div(t, a))), mul(t, g)));
             Complex denominator = mul(pow(add(pow(a, 2), pow(t, 2)), h), sub(exp(mul(r, t)), 1));
@@ -462,11 +462,11 @@ class Zeta {
             result = add(result, pow(a, negate(s)));
             a = add(a, 1);
         }
-        if(s.re() > 1) {
+        if (s.re() > 1) {
             Complex fa = a;
             Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
                 // (e^(x-ax)x^(s-1))/(e^x-1) + (e^(1/x-a/x)x^(-s-1))/(e^(1/x)-1)
-                if(x <= EPSILON)
+                if (x <= EPSILON)
                     return Complex.ZERO;
                 Complex z1 = div(mul(exp(sub(x, mul(fa, x))), pow(x, sub(s, 1))), sub(exp(x), 1));
                 Complex z2 = div(mul(exp(sub(div(1, x), div(fa, x))), pow(x, sub(negate(s), 1))), sub(exp(div(1, x)), 1));
@@ -474,7 +474,7 @@ class Zeta {
                 return add(z1, z2);
             }, 0, 1, 7, 1e-14);
             return add(result, div(r[0], gamma(s)));
-        } else if(eq(s, Complex.ONE)) {
+        } else if (eq(s, Complex.ONE)) {
             return Complex.COMPLEX_INFINITY;
         } else {
             // Abel-Plana formula:
@@ -483,7 +483,7 @@ class Zeta {
             // the integrand probably vanishes for x > |a|, so we take it for granted.
             Complex fa = a;
             var integrand = (Function<Double, Complex>) x -> {
-                if(x <= EPSILON)
+                if (x <= EPSILON)
                     return Complex.ZERO;
                 Complex z1 = sin(mul(s, atan(div(x, fa))));
                 Complex z2 = mul(pow(add(pow(fa, 2), pow(x, 2)), div(s, 2)), sub(exp(mul(TWO_PI, x)), 1));

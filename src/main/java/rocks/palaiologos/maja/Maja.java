@@ -518,8 +518,8 @@ public class Maja {
      * @return -1 if x &lt; 0, 1 if x &gt; 0
      */
     public static long signum(long x) {
-        if(x < 0) return -1;
-        if(x > 0) return 1;
+        if (x < 0) return -1;
+        if (x > 0) return 1;
         return 0;
     }
 
@@ -536,6 +536,7 @@ public class Maja {
 
     /**
      * Rounds both the real and imaginary parts of a complex number.
+     *
      * @param x
      * @return ceil(x)
      */
@@ -545,6 +546,7 @@ public class Maja {
 
     /**
      * Rounds both the real and imaginary parts of a complex number.
+     *
      * @param x
      * @return floor(x)
      */
@@ -554,6 +556,7 @@ public class Maja {
 
     /**
      * Rounds both the real and imaginary parts of a complex number.
+     *
      * @param x
      * @return round(x)
      */
@@ -1550,6 +1553,7 @@ public class Maja {
 
     /**
      * Compute the value of the Airy Ai, Ai', Bi and Bi' functions at the specified point.
+     *
      * @param x
      * @return a double array of length 4 containing Ai, Ai', Bi and Bi' in that order.
      */
@@ -1756,7 +1760,7 @@ public class Maja {
      *
      * @param x
      * @param y
-     * @return log(beta(x, y))
+     * @return log(beta ( x, y))
      */
     public static double logbeta(double x, double y) {
         return Gamma.loggamma(x) + Gamma.loggamma(y) - Gamma.loggamma(x + y);
@@ -2322,6 +2326,7 @@ public class Maja {
 
     /**
      * Domain extension of the greatest common division function onto the real line.
+     *
      * @param a
      * @param b
      * @return gcd(a, b)
@@ -2346,6 +2351,7 @@ public class Maja {
 
     /**
      * Domain extension of the greatest common division function onto the complex plane.
+     *
      * @param a
      * @param b
      * @return gcd(a, b)
@@ -2370,6 +2376,7 @@ public class Maja {
 
     /**
      * Domain extension of the remainder function onto the complex plane.
+     *
      * @param a
      * @param b
      * @return a rem b
@@ -2394,6 +2401,7 @@ public class Maja {
 
     /**
      * Domain extension of the least common multiple function onto the real line.
+     *
      * @param a
      * @param b
      * @return lcm(a, b)
@@ -2405,6 +2413,7 @@ public class Maja {
 
     /**
      * Domain extension of the least common multiple function onto the complex plane.
+     *
      * @param a
      * @param b
      * @return lcm(a, b)
@@ -2484,6 +2493,7 @@ public class Maja {
 
     /**
      * Computes the value of the Struve function of order v at x.
+     *
      * @param v order of the Struve function
      * @param x argument of the Struve function
      * @return Struve(v, x)
@@ -2529,6 +2539,7 @@ public class Maja {
      * Integrate a monadic function over a finite interval [a,b] using the
      * Simpson rule. The number of intervals is given by N and the precision
      * of the final result greatly depends on this parameter.
+     *
      * @param f function to integrate
      * @param a lower bound
      * @param b upper bound
@@ -2537,9 +2548,9 @@ public class Maja {
      */
     public static double integrateSimpson(MonadicFunction f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
-        if(a < b)
+        if (a < b)
             return Integrator.finiteSimpson(f, a, b, N);
-        else if(a == b)
+        else if (a == b)
             return 0.0;
         else
             return -Integrator.finiteSimpson(f, b, a, N);
@@ -2553,6 +2564,7 @@ public class Maja {
      * coefficients required to perform the integration depending on the value of the N parameter.
      * This means that the first call to this method will be slower than subsequent calls with the
      * same value of N. The coefficients are internally cached inside a ConcurrentHashMap.
+     *
      * @param f function to integrate
      * @param a lower bound
      * @param b upper bound
@@ -2561,9 +2573,9 @@ public class Maja {
      * @return integral of f over [a,b]
      */
     public static double integrateGaussLegendre(MonadicFunction f, double a, double b, int N) {
-        if(a < b)
+        if (a < b)
             return Integrator.gaussLegendreIntegrate(f, a, b, N);
-        else if(a == b)
+        else if (a == b)
             return 0.0;
         else
             return -Integrator.gaussLegendreIntegrate(f, b, a, N);
@@ -2574,18 +2586,19 @@ public class Maja {
      * Tanh-Sinh quadrature, especially useful when singularities or infinite
      * derivatives exist at one or both endpoints. The Tanh-Sinh quadrature is
      * not as efficient as Gaussian quadrature for smooth integrands.
-     * @param f function to integrate
-     * @param a lower bound
-     * @param b upper bound
-     * @param N the degree of the quadrature, usually N=6 is sufficient
+     *
+     * @param f   function to integrate
+     * @param a   lower bound
+     * @param b   upper bound
+     * @param N   the degree of the quadrature, usually N=6 is sufficient
      * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
      * @return an array of double values, first of which is the integral of f over [a,b],
-     *         while the second is the estimated error.
+     * while the second is the estimated error.
      */
     public static double[] integrateTanhSinh(MonadicFunction f, double a, double b, int N, double eps) {
-        if(a < b)
+        if (a < b)
             return Integrator.finiteTanhSinh(f, a, b, N, eps);
-        else if(a == b)
+        else if (a == b)
             return new double[]{0.0, 0.0};
         else {
             double[] res = Integrator.finiteTanhSinh(f, b, a, N, eps);
@@ -2598,6 +2611,7 @@ public class Maja {
      * Integrate a monadic function over a finite interval [a,b] using the
      * Simpson rule. The number of intervals is given by N and the precision
      * of the final result greatly depends on this parameter.
+     *
      * @param f function to integrate
      * @param a lower bound
      * @param b upper bound
@@ -2606,9 +2620,9 @@ public class Maja {
      */
     public static Complex integrateSimpson(Function<Double, Complex> f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
-        if(a < b)
+        if (a < b)
             return Integrator.finiteSimpson(f, a, b, N);
-        else if(a == b)
+        else if (a == b)
             return Complex.ZERO;
         else
             return negate(Integrator.finiteSimpson(f, b, a, N));
@@ -2622,6 +2636,7 @@ public class Maja {
      * coefficients required to perform the integration depending on the value of the N parameter.
      * This means that the first call to this method will be slower than subsequent calls with the
      * same value of N. The coefficients are internally cached inside a ConcurrentHashMap.
+     *
      * @param f function to integrate
      * @param a lower bound
      * @param b upper bound
@@ -2630,9 +2645,9 @@ public class Maja {
      * @return integral of f over [a,b]
      */
     public static Complex integrateGaussLegendre(Function<Double, Complex> f, double a, double b, int N) {
-        if(a < b)
+        if (a < b)
             return Integrator.gaussLegendreIntegrate(f, a, b, N);
-        else if(a == b)
+        else if (a == b)
             return Complex.ZERO;
         else
             return negate(Integrator.gaussLegendreIntegrate(f, b, a, N));
@@ -2643,18 +2658,19 @@ public class Maja {
      * Tanh-Sinh quadrature, especially useful when singularities or infinite
      * derivatives exist at one or both endpoints. The Tanh-Sinh quadrature is
      * not as efficient as Gaussian quadrature for smooth integrands.
-     * @param f function to integrate
-     * @param a lower bound
-     * @param b upper bound
-     * @param N the degree of the quadrature, usually N=6 is sufficient
+     *
+     * @param f   function to integrate
+     * @param a   lower bound
+     * @param b   upper bound
+     * @param N   the degree of the quadrature, usually N=6 is sufficient
      * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
      * @return an array of double values, first of which is the integral of f over [a,b],
-     *         while the second is the estimated error.
+     * while the second is the estimated error.
      */
     public static Complex[] integrateTanhSinh(Function<Double, Complex> f, double a, double b, int N, double eps) {
-        if(a < b)
+        if (a < b)
             return Integrator.finiteTanhSinh(f, a, b, N, eps);
-        else if(a == b)
+        else if (a == b)
             return new Complex[]{Complex.ZERO, Complex.ZERO};
         else {
             Complex[] result = Integrator.finiteTanhSinh(f, b, a, N, eps);
@@ -2665,12 +2681,13 @@ public class Maja {
 
     /**
      * Compute the binomial coefficient "n choose k".
+     *
      * @param n the number of elements, n &gt; 0.
      * @param k the number of elements to choose, 0 &lt; k &lt;= n.
      * @return n! / (k! * (n-k)!)
      */
     public static long binomial(int n, int k) {
-        if(n <= 0 || k < 0 || k > n)
+        if (n <= 0 || k < 0 || k > n)
             throw new IllegalArgumentException("Invalid arguments: n = " + n + ", k = " + k);
         // Naive method.
         if (k > n - k)
@@ -2683,12 +2700,13 @@ public class Maja {
 
     /**
      * Find a root of a monadic function using the Newton-Raphson method.
-     * @param f the function to find a root for
-     * @param df the derivative of the function
-     * @param x0 the initial guess
+     *
+     * @param f   the function to find a root for
+     * @param df  the derivative of the function
+     * @param x0  the initial guess
      * @param eps the desired precision of the result
      * @return a root of the function f within the desired precision
-     *         unless the iteration limit is exceeded.
+     * unless the iteration limit is exceeded.
      */
     public static double newtonRaphson(MonadicFunction f, MonadicFunction df, double x0, double eps) {
         return Root.newtonRaphson(f, df, x0, eps);
@@ -2698,7 +2716,7 @@ public class Maja {
      * Evaluate an expression stored inside a string.
      *
      * @param expression the expression to evaluate
-     * @param variables a map containing the variables and their values
+     * @param variables  a map containing the variables and their values
      * @return the value of the expression
      */
     public static Number eval(String expression, Map<String, Number> variables) {
@@ -2717,6 +2735,7 @@ public class Maja {
 
     /**
      * Add two complex numbers together.
+     *
      * @param a
      * @param b
      * @return a + b
@@ -2727,6 +2746,7 @@ public class Maja {
 
     /**
      * Add a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a + b
@@ -2737,6 +2757,7 @@ public class Maja {
 
     /**
      * Add a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a + b
@@ -2747,6 +2768,7 @@ public class Maja {
 
     /**
      * Subtract two complex numbers from each other.
+     *
      * @param a
      * @param b
      * @return a - b
@@ -2757,6 +2779,7 @@ public class Maja {
 
     /**
      * Subtract a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a - b
@@ -2767,6 +2790,7 @@ public class Maja {
 
     /**
      * Subtract a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a - b
@@ -2777,6 +2801,7 @@ public class Maja {
 
     /**
      * Multiply two complex numbers.
+     *
      * @param a
      * @param b
      * @return a * b
@@ -2787,6 +2812,7 @@ public class Maja {
 
     /**
      * Multiply a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a * b
@@ -2797,6 +2823,7 @@ public class Maja {
 
     /**
      * Multiply a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a * b
@@ -2807,6 +2834,7 @@ public class Maja {
 
     /**
      * Divide two complex numbers.
+     *
      * @param a
      * @param b
      * @return a / b
@@ -2818,6 +2846,7 @@ public class Maja {
 
     /**
      * Divide a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a / b
@@ -2828,6 +2857,7 @@ public class Maja {
 
     /**
      * Divide a complex number and a real number.
+     *
      * @param a
      * @param b
      * @return a / b
@@ -2839,6 +2869,7 @@ public class Maja {
 
     /**
      * Compute the complex conjugate of a complex number.
+     *
      * @param a
      * @return conj(a)
      */
@@ -2848,6 +2879,7 @@ public class Maja {
 
     /**
      * Compute the absolute value of a complex number.
+     *
      * @param a
      * @return |a|
      */
@@ -2857,17 +2889,18 @@ public class Maja {
 
     /**
      * Compute the square root of a complex number.
+     *
      * @param x
      * @return sqrt(x)
      */
     public static Complex sqrt(Complex x) {
-        if(x.im() == 0)
+        if (x.im() == 0)
             return new Complex(Math.sqrt(x.re()), 0);
         else {
             double r = abs(x);
             double t = Math.sqrt(0.5 * (r + x.re()));
             double u = Math.sqrt(0.5 * (r - x.re()));
-            if(x.im() > 0)
+            if (x.im() > 0)
                 return new Complex(t, u);
             else
                 return new Complex(t, -u);
@@ -2876,6 +2909,7 @@ public class Maja {
 
     /**
      * Compute the value of the exponential function of a complex number.
+     *
      * @param x
      * @return exp(x)
      */
@@ -2886,6 +2920,7 @@ public class Maja {
 
     /**
      * Compute the natural logarithm of a complex number.
+     *
      * @param x
      * @return ln(x)
      */
@@ -2896,6 +2931,7 @@ public class Maja {
 
     /**
      * Compare two numbers for equality.
+     *
      * @param a
      * @param b
      * @return true if a == b, false otherwise
@@ -2906,6 +2942,7 @@ public class Maja {
 
     /**
      * Compare two numbers for equality.
+     *
      * @param a
      * @param b
      * @return true if a == b, false otherwise
@@ -2916,6 +2953,7 @@ public class Maja {
 
     /**
      * Compare two numbers for equality.
+     *
      * @param a
      * @param b
      * @return true if a == b, false otherwise
@@ -2926,6 +2964,7 @@ public class Maja {
 
     /**
      * Compare two numbers for inequality.
+     *
      * @param a
      * @param b
      * @return true if a != b, false otherwise
@@ -2936,6 +2975,7 @@ public class Maja {
 
     /**
      * Compare two numbers for inequality.
+     *
      * @param a
      * @param b
      * @return true if a != b, false otherwise
@@ -2946,6 +2986,7 @@ public class Maja {
 
     /**
      * Compare two numbers for inequality.
+     *
      * @param a
      * @param b
      * @return true if a != b, false otherwise
@@ -2956,6 +2997,7 @@ public class Maja {
 
     /**
      * Compare two complex numbers for equality.
+     *
      * @param a
      * @param b
      * @param tol
@@ -2967,30 +3009,32 @@ public class Maja {
 
     /**
      * Compute the n-th root of a complex number.
+     *
      * @param x
      * @param deg
      * @return x^(1/deg)
      */
     public static double root(double x, int deg) {
-        if(deg < 0)
+        if (deg < 0)
             return Double.NaN;
         return Math.pow(x, 1.0 / deg);
     }
 
     /**
      * Find all n-th roots of a complex number.
+     *
      * @param x
      * @param n
      * @return x^(1/n)
      */
     public static Complex[] root(Complex x, int n) {
-        if(n < 0)
+        if (n < 0)
             return null;
         double magnitude = abs(x);
         double phase = Math.atan2(x.im(), x.re());
         double nthRootOfMagnitude = root(magnitude, n);
         Complex[] roots = new Complex[n];
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             double theta = (phase + 2 * Math.PI * i) / n;
             roots[i] = new Complex(nthRootOfMagnitude * Math.cos(theta), nthRootOfMagnitude * Math.sin(theta));
         }
@@ -2999,6 +3043,7 @@ public class Maja {
 
     /**
      * Compute the principal cube root of a complex number.
+     *
      * @param x
      * @return cbrt(x)
      */
@@ -3012,6 +3057,7 @@ public class Maja {
 
     /**
      * Compute the sine of a complex number.
+     *
      * @param x
      * @return sin(x)
      */
@@ -3022,6 +3068,7 @@ public class Maja {
 
     /**
      * Compute the cosine of a complex number.
+     *
      * @param x
      * @return cos(x)
      */
@@ -3032,6 +3079,7 @@ public class Maja {
 
     /**
      * Compute the tangent of a complex number.
+     *
      * @param x
      * @return tan(x)
      */
@@ -3043,6 +3091,7 @@ public class Maja {
 
     /**
      * Compute the cotangent of a complex number.
+     *
      * @param x
      * @return cot(x)
      */
@@ -3052,6 +3101,7 @@ public class Maja {
 
     /**
      * Compute the secant of a complex number.
+     *
      * @param x
      * @return
      */
@@ -3061,6 +3111,7 @@ public class Maja {
 
     /**
      * Compute the cosecant of a complex number.
+     *
      * @param x
      * @return
      */
@@ -3071,6 +3122,7 @@ public class Maja {
     /**
      * Compute a to the power of b, where a and b are both
      * complex numbers.
+     *
      * @param a
      * @param b
      * @return a^b
@@ -3083,6 +3135,7 @@ public class Maja {
     /**
      * Compute a to the power of b, where a is a double precision
      * number and b is a complex number.
+     *
      * @param a
      * @param b
      * @return a^b
@@ -3094,6 +3147,7 @@ public class Maja {
 
     /**
      * Compute a to the power of b, where a is a complex
+     *
      * @param a
      * @param b
      * @return a^b
@@ -3105,6 +3159,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic sine of a complex number.
+     *
      * @param a
      * @return sinh(a)
      */
@@ -3115,6 +3170,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic cosine of a complex number.
+     *
      * @param a
      * @return cosh(a)
      */
@@ -3125,6 +3181,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic tangent of a complex number.
+     *
      * @param a
      * @return tanh(a)
      */
@@ -3136,6 +3193,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic cotangent of a complex number.
+     *
      * @param a
      * @return coth(a)
      */
@@ -3145,6 +3203,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic secant of a complex number.
+     *
      * @param a
      * @return sech(a)
      */
@@ -3154,6 +3213,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic cosecant of a complex number.
+     *
      * @param a
      * @return csch(a)
      */
@@ -3163,6 +3223,7 @@ public class Maja {
 
     /**
      * Compute the arcus sine of a complex number.
+     *
      * @param a
      * @return asin(a)
      */
@@ -3175,6 +3236,7 @@ public class Maja {
 
     /**
      * Compute the arcus cosine of a complex number.
+     *
      * @param a
      * @return acos(a)
      */
@@ -3187,6 +3249,7 @@ public class Maja {
 
     /**
      * Compute the arcus tangent of a complex number.
+     *
      * @param a
      * @return atan(a)
      */
@@ -3202,6 +3265,7 @@ public class Maja {
 
     /**
      * Compute the arcus cotangent of a complex number.
+     *
      * @param a
      * @return acot(a)
      */
@@ -3215,6 +3279,7 @@ public class Maja {
 
     /**
      * Compute the arcus cosecant of a complex number.
+     *
      * @param a
      * @return acsc(a)
      */
@@ -3227,6 +3292,7 @@ public class Maja {
 
     /**
      * Compute the arcus secant of a complex number.
+     *
      * @param a
      * @return asec(a)
      */
@@ -3239,6 +3305,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arcsine of a complex number.
+     *
      * @param a
      * @return asinh(a)
      */
@@ -3250,6 +3317,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arccosine of a complex number.
+     *
      * @param a
      * @return acosh(a)
      */
@@ -3262,6 +3330,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arctangent of a complex number.
+     *
      * @param a
      * @return atanh(a)
      */
@@ -3274,6 +3343,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arccotangent of a complex number.
+     *
      * @param a
      * @return acoth(a)
      */
@@ -3286,6 +3356,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arcsecant of a complex number.
+     *
      * @param a
      * @return asech(a)
      */
@@ -3297,6 +3368,7 @@ public class Maja {
 
     /**
      * Negate a complex number.
+     *
      * @param x
      * @return -x
      */
@@ -3306,6 +3378,7 @@ public class Maja {
 
     /**
      * Negate a real number.
+     *
      * @param x
      * @return -x
      */
@@ -3315,6 +3388,7 @@ public class Maja {
 
     /**
      * Compute the hyperbolic arccosecant of a complex number.
+     *
      * @param a
      * @return acsch(a)
      */
@@ -3326,6 +3400,7 @@ public class Maja {
 
     /**
      * Compute the gamma function of a complex number.
+     *
      * @param a
      * @return gamma(a)
      */
@@ -3336,10 +3411,11 @@ public class Maja {
     /**
      * Compute the beta function of two complex numbers.
      * Defined as beta(a, b) = gamma(a) * gamma(b) / gamma(a + b)
+     *
      * @param a
      * @param b
-     * @see #gamma(Complex) 
      * @return beta(a, b)
+     * @see #gamma(Complex)
      */
     public static Complex beta(Complex a, Complex b) {
         return div(mul(gamma(a), gamma(b)), gamma(add(a, b)));
@@ -3387,6 +3463,7 @@ public class Maja {
 
     /**
      * Compute the value of the Airy Ai, Ai', Bi and Bi' functions at the specified point.
+     *
      * @param x
      * @return a double array of length 4 containing Ai, Ai', Bi and Bi' in that order.
      */
@@ -3397,6 +3474,7 @@ public class Maja {
     /**
      * Compute the value of the exponential integral E1 at the specified point.
      * For positive values of real x, E1 and Ei relate as -E1(x) = Ei(-x).
+     *
      * @param x
      * @return E1(x)
      */
@@ -3407,6 +3485,7 @@ public class Maja {
     /**
      * Compute the exponential integral using a formula that was revealed to me in a dream:
      * <p> Ei(z) = -E1(-z) - log(-z) + 0.5 (log(z) - log(1/z))
+     *
      * @param x
      * @return Ei(x)
      */
@@ -3417,9 +3496,10 @@ public class Maja {
     /**
      * Compute the value of the complementary exponential integral Ein at the specified point.
      * For all complex z, Ein and Ei relate as Ein(z) = E1(z) + EulerGamma + ln z.
+     *
      * @param x
-     * @see #e1(Complex)
      * @return Ein(x)
+     * @see #e1(Complex)
      */
     public static Complex Ein(Complex x) {
         // E1(z) = Ein(z) - ln z - EulerGamma
@@ -3439,9 +3519,10 @@ public class Maja {
      * cut structure whereas loggamma is analytic except for on the negative real axis.
      *
      * <p>On the real line, loggamma is related to logabsgamma.
+     *
      * @param x
-     * @see #logabsgamma(double)
      * @return
+     * @see #logabsgamma(double)
      */
     public static Complex loggamma(Complex x) {
         return Gamma.loggamma(x);
@@ -3450,10 +3531,11 @@ public class Maja {
     /**
      * Compute the logarithm of the beta function in the complex plane.
      * Defined using complex loggamma as logbeta(a, b) = loggamma(a) - loggamma(b) - loggamma(a + b).
+     *
      * @param a
      * @param b
-     * @see #loggamma(Complex)
      * @return logbeta(a, b)
+     * @see #loggamma(Complex)
      */
     public static Complex logbeta(Complex a, Complex b) {
         return sub(loggamma(a), add(loggamma(b), loggamma(add(a, b))));
@@ -3461,13 +3543,14 @@ public class Maja {
 
     /**
      * Compute the lower incomplete (non-regularised) gamma function of a complex number.
+     *
      * @param s
      * @param z
      * @return ligamma(s, z)
      */
     public static Complex liGamma(Complex s, Complex z) {
         // z^s e^-z sum(k=0, inf, z^k/pochhammer(s, k+1))
-        if(eq(s, Complex.ZERO))
+        if (eq(s, Complex.ZERO))
             throw new ArithmeticException("s=0 pole.");
         Complex zs = pow(z, s);
         Complex ez = exp(negate(z));
@@ -3484,6 +3567,7 @@ public class Maja {
 
     /**
      * Compute the upper incomplete (non-regularised) gamma function of a complex number.
+     *
      * @param s
      * @param z
      * @return uigamma(s, z)
@@ -3496,6 +3580,7 @@ public class Maja {
 
     /**
      * Compute the complex error function.
+     *
      * @param z
      * @return erf(z)
      */
@@ -3505,6 +3590,7 @@ public class Maja {
 
     /**
      * Compute the complex complementary error function.
+     *
      * @param z
      * @return erfc(z)
      */
@@ -3514,6 +3600,7 @@ public class Maja {
 
     /**
      * Compute the complex imaginary error function.
+     *
      * @param z
      * @return erfi(z) = -i erf(iz)
      */
@@ -3523,6 +3610,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex Dawson function (D+) at z.
+     *
      * @param z
      * @return D+(z)
      */
@@ -3543,34 +3631,37 @@ public class Maja {
 
     /**
      * Compute the Fresnel S integral on the complex plane.
+     *
      * @param z
      * @return FresnelS(z)
      */
     public static Complex fresnelS(Complex z) {
         // FresnelS[z] == ((1 + I)/4) (Erf[((1 + I)/2) Sqrt[Pi] z] - I Erf[((1 - I)/2) Sqrt[Pi] z])
         double sqp = 1.7724538509055160272981674833411451827975494561223871282138077898;
-        Complex t1 = div(add(1,I),4);
-        Complex t2 = erf(mul(div(add(1,I),2), mul(sqp, z)));
-        Complex t3 = mul(I, erf(mul(div(sub(1,I),2), mul(sqp, z))));
+        Complex t1 = div(add(1, I), 4);
+        Complex t2 = erf(mul(div(add(1, I), 2), mul(sqp, z)));
+        Complex t3 = mul(I, erf(mul(div(sub(1, I), 2), mul(sqp, z))));
         return mul(t1, sub(t2, t3));
     }
 
     /**
      * Compute the Fresnel C integral on the complex plane.
+     *
      * @param z
      * @return FresnelC(z)
      */
     public static Complex fresnelC(Complex z) {
         // FresnelC[z] == ((1 - I)/4) (Erf[((1 + I)/2) Sqrt[Pi] z] + I Erf[((1 - I)/2) Sqrt[Pi] z])
         double sqp = 1.7724538509055160272981674833411451827975494561223871282138077898;
-        Complex t1 = div(sub(1,I),4);
-        Complex t2 = erf(mul(div(add(1,I),2), mul(sqp, z)));
-        Complex t3 = mul(I, erf(mul(div(sub(1,I),2), mul(sqp, z))));
+        Complex t1 = div(sub(1, I), 4);
+        Complex t2 = erf(mul(div(add(1, I), 2), mul(sqp, z)));
+        Complex t3 = mul(I, erf(mul(div(sub(1, I), 2), mul(sqp, z))));
         return mul(t1, add(t2, t3));
     }
 
     /**
      * Compute the complex digamma function.
+     *
      * @param z
      * @return digamma(z)
      */
@@ -3580,6 +3671,7 @@ public class Maja {
 
     /**
      * Compute the complex trigamma function.
+     *
      * @param z
      * @return trigamma(z)
      */
@@ -3589,6 +3681,7 @@ public class Maja {
 
     /**
      * Compute the logarithmic integral of x, defined as li(x) = int(1/log t, t=0..x).
+     *
      * @param x
      * @return li(x)
      */
@@ -3598,6 +3691,7 @@ public class Maja {
 
     /**
      * Compute the complex logarithmic integral of z, defined as li(z) = int(1/log t, t=0..z).
+     *
      * @param z
      * @return li(z)
      */
@@ -3607,6 +3701,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex sine integral Si(z) at z.
+     *
      * @param z
      * @return Si(z)
      */
@@ -3616,6 +3711,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex sine integral si(z) at z.
+     *
      * @param z
      * @return si(z)
      */
@@ -3625,6 +3721,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex cosine integral Ci(z) at z.
+     *
      * @param z
      * @return Ci(z)
      */
@@ -3634,6 +3731,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex cosine integral Cin(z) at z.
+     *
      * @param z
      * @return Cin(z)
      */
@@ -3643,6 +3741,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex hyperbolic sine integral Shi(z).
+     *
      * @param z
      * @return Shi(z)
      */
@@ -3652,6 +3751,7 @@ public class Maja {
 
     /**
      * Compute the value of the complex hyperbolic cosine integral Chi(z).
+     *
      * @param z
      * @return Chi(z)
      */
@@ -3662,11 +3762,12 @@ public class Maja {
     /**
      * Compute the value of the complex hyperbolic sine integral Shi(z)
      * and complex hyperbolic cosine integral Chi(z).
+     *
      * @param z
      * @return { Shi(z), Chi(z) }
      */
     public static Complex[] ShiChi(Complex z) {
-        return new Complex[] { Shi(z), Chi(z) };
+        return new Complex[]{Shi(z), Chi(z)};
     }
 
     /**
@@ -3684,28 +3785,29 @@ public class Maja {
 
     /**
      * Add two numbers of any types together.
+     *
      * @param a
      * @param b
      * @return a + b
      */
     public static Number add(Number a, Number b) {
-        if(a.isComplex() && b.isComplex()) {
+        if (a.isComplex() && b.isComplex()) {
             return new Number(add(a.getComplex(), b.getComplex()));
-        } else if(a.isComplex() && b.isDouble()) {
+        } else if (a.isComplex() && b.isDouble()) {
             return new Number(add(a.getComplex(), b.getDouble()));
-        } else if(a.isDouble() && b.isComplex()) {
+        } else if (a.isDouble() && b.isComplex()) {
             return new Number(add(a.getDouble(), b.getComplex()));
-        } else if(a.isLong() && b.isComplex()) {
+        } else if (a.isLong() && b.isComplex()) {
             return new Number(add(a.getLong(), b.getComplex()));
-        } else if(a.isComplex() && b.isLong()) {
+        } else if (a.isComplex() && b.isLong()) {
             return new Number(add(a.getComplex(), b.getLong()));
-        } else if(a.isLong() && b.isDouble()) {
+        } else if (a.isLong() && b.isDouble()) {
             return new Number(add(a.getLong(), b.getDouble()));
-        } else if(a.isDouble() && b.isLong()) {
+        } else if (a.isDouble() && b.isLong()) {
             return new Number(add(a.getDouble(), b.getLong()));
-        } else if(a.isDouble() && b.isDouble()) {
+        } else if (a.isDouble() && b.isDouble()) {
             return new Number(add(a.getDouble(), b.getDouble()));
-        } else if(a.isLong() && b.isLong()) {
+        } else if (a.isLong() && b.isLong()) {
             return new Number(a.getLong() + b.getLong());
         } else {
             throw new ArithmeticException("Cannot add " + a + " and " + b);
@@ -3714,28 +3816,29 @@ public class Maja {
 
     /**
      * Subtract two numbers of any types from each other.
+     *
      * @param a
      * @param b
      * @return a - b
      */
     public static Number sub(Number a, Number b) {
-        if(a.isComplex() && b.isComplex()) {
+        if (a.isComplex() && b.isComplex()) {
             return new Number(sub(a.getComplex(), b.getComplex()));
-        } else if(a.isComplex() && b.isDouble()) {
+        } else if (a.isComplex() && b.isDouble()) {
             return new Number(sub(a.getComplex(), b.getDouble()));
-        } else if(a.isDouble() && b.isComplex()) {
+        } else if (a.isDouble() && b.isComplex()) {
             return new Number(sub(a.getDouble(), b.getComplex()));
-        } else if(a.isLong() && b.isComplex()) {
+        } else if (a.isLong() && b.isComplex()) {
             return new Number(sub(a.getLong(), b.getComplex()));
-        } else if(a.isComplex() && b.isLong()) {
+        } else if (a.isComplex() && b.isLong()) {
             return new Number(sub(a.getComplex(), b.getLong()));
-        } else if(a.isLong() && b.isDouble()) {
+        } else if (a.isLong() && b.isDouble()) {
             return new Number(sub(a.getLong(), b.getDouble()));
-        } else if(a.isDouble() && b.isLong()) {
+        } else if (a.isDouble() && b.isLong()) {
             return new Number(sub(a.getDouble(), b.getLong()));
-        } else if(a.isDouble() && b.isDouble()) {
+        } else if (a.isDouble() && b.isDouble()) {
             return new Number(sub(a.getDouble(), b.getDouble()));
-        } else if(a.isLong() && b.isLong()) {
+        } else if (a.isLong() && b.isLong()) {
             return new Number(a.getLong() - b.getLong());
         } else {
             throw new ArithmeticException("Cannot subtract " + a + " and " + b);
@@ -3744,28 +3847,29 @@ public class Maja {
 
     /**
      * Multiply two numbers of any types together.
+     *
      * @param a
      * @param b
      * @return a * b
      */
     public static Number mul(Number a, Number b) {
-        if(a.isComplex() && b.isComplex()) {
+        if (a.isComplex() && b.isComplex()) {
             return new Number(mul(a.getComplex(), b.getComplex()));
-        } else if(a.isComplex() && b.isDouble()) {
+        } else if (a.isComplex() && b.isDouble()) {
             return new Number(mul(a.getComplex(), b.getDouble()));
-        } else if(a.isDouble() && b.isComplex()) {
+        } else if (a.isDouble() && b.isComplex()) {
             return new Number(mul(a.getDouble(), b.getComplex()));
-        } else if(a.isLong() && b.isComplex()) {
+        } else if (a.isLong() && b.isComplex()) {
             return new Number(mul(a.getLong(), b.getComplex()));
-        } else if(a.isComplex() && b.isLong()) {
+        } else if (a.isComplex() && b.isLong()) {
             return new Number(mul(a.getComplex(), b.getLong()));
-        } else if(a.isLong() && b.isDouble()) {
+        } else if (a.isLong() && b.isDouble()) {
             return new Number(mul(a.getLong(), b.getDouble()));
-        } else if(a.isDouble() && b.isLong()) {
+        } else if (a.isDouble() && b.isLong()) {
             return new Number(mul(a.getDouble(), b.getLong()));
-        } else if(a.isDouble() && b.isDouble()) {
+        } else if (a.isDouble() && b.isDouble()) {
             return new Number(mul(a.getDouble(), b.getDouble()));
-        } else if(a.isLong() && b.isLong()) {
+        } else if (a.isLong() && b.isLong()) {
             return new Number(a.getLong() - b.getLong());
         } else {
             throw new ArithmeticException("Cannot subtract " + a + " and " + b);
@@ -3774,28 +3878,29 @@ public class Maja {
 
     /**
      * Multiply two numbers by each other.
+     *
      * @param a
      * @param b
      * @return a / b
      */
     public static Number div(Number a, Number b) {
-        if(a.isComplex() && b.isComplex()) {
+        if (a.isComplex() && b.isComplex()) {
             return new Number(div(a.getComplex(), b.getComplex()));
-        } else if(a.isComplex() && b.isDouble()) {
+        } else if (a.isComplex() && b.isDouble()) {
             return new Number(div(a.getComplex(), b.getDouble()));
-        } else if(a.isDouble() && b.isComplex()) {
+        } else if (a.isDouble() && b.isComplex()) {
             return new Number(div(a.getDouble(), b.getComplex()));
-        } else if(a.isLong() && b.isComplex()) {
+        } else if (a.isLong() && b.isComplex()) {
             return new Number(div(a.getLong(), b.getComplex()));
-        } else if(a.isComplex() && b.isLong()) {
+        } else if (a.isComplex() && b.isLong()) {
             return new Number(div(a.getComplex(), b.getLong()));
-        } else if(a.isLong() && b.isDouble()) {
+        } else if (a.isLong() && b.isDouble()) {
             return new Number(div(a.getLong(), b.getDouble()));
-        } else if(a.isDouble() && b.isLong()) {
+        } else if (a.isDouble() && b.isLong()) {
             return new Number(div(a.getDouble(), b.getLong()));
-        } else if(a.isDouble() && b.isDouble()) {
+        } else if (a.isDouble() && b.isDouble()) {
             return new Number(div(a.getDouble(), b.getDouble()));
-        } else if(a.isLong() && b.isLong()) {
+        } else if (a.isLong() && b.isLong()) {
             return new Number(a.getLong() / b.getLong());
         } else {
             throw new ArithmeticException("Cannot divide " + a + " and " + b);
@@ -3804,6 +3909,7 @@ public class Maja {
 
     /**
      * Compute the Hurwitz zeta function of complex arguments.
+     *
      * @param s
      * @param a
      * @return zeta(s, a)
@@ -3814,6 +3920,7 @@ public class Maja {
 
     /**
      * Compute the complex dilogarithm of z.
+     *
      * @param z
      * @return dilog(z)
      */
@@ -3822,7 +3929,8 @@ public class Maja {
     }
 
     /**
-     * Compute the Spencer function of z.
+     * Compute the Spence function of z.
+     *
      * @param z
      * @return spence(z)
      */
@@ -3832,6 +3940,7 @@ public class Maja {
 
     /**
      * Compute the polylogarithm of s and z.
+     *
      * @param s
      * @param z
      * @return polylog(s, z)
