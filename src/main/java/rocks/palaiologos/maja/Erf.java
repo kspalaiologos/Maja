@@ -563,7 +563,7 @@ class Erf {
         if (ax > 45) {
             if (ax > 5e7)
                 return ispi / x;
-            return ispi * ((x * x) * (x * x - 4.5) + 2) / (x * ((x * x) * (x * x - 5) + 3.75));
+            return ispi * (x * x * (x * x - 4.5) + 2) / (x * (x * x * (x * x - 5) + 3.75));
         }
 
         if (ax < 0.03092783506) {
@@ -574,11 +574,11 @@ class Erf {
                     - x2 * (0.085971746064420005629
                     - x2 * 0.016931216931216931217))));
         }
-        return (x >= 0) ? w_im_y100(x) : -w_im_y100(-x);
+        return x >= 0 ? w_im_y100(x) : -w_im_y100(-x);
     }
 
     public static double erfi(double x) {
-        return x * x > 720 ? (x > 0 ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY) : Math.exp(x * x) * im_w_of_x(x);
+        return x * x > 720 ? x > 0 ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY : Math.exp(x * x) * im_w_of_x(x);
     }
 
     public static double dawson(double x) {
@@ -624,20 +624,20 @@ class Erf {
             c = absx;
             p = ((((((-0.136864857382717e-6 * c + 0.564195517478974e0) * c + 0.721175825088309e1) * c + 0.431622272220567e2) * c + 0.152989285046940e3) * c + 0.339320816734344e3) * c + 0.451918953711873e3) * c + 0.300459261020162e3;
             q = ((((((c + 0.127827273196294e2) * c + 0.770001529352295e2) * c + 0.277585444743988e3) * c + 0.638980264465631e3) * c + 0.931354094850610e3) * c + 0.790950925327898e3) * c + 0.300459260956983e3;
-            return ((x > 0.0) ? p / q : Math.exp(x * x) * 2.0 - p / q);
+            return x > 0.0 ? p / q : Math.exp(x * x) * 2.0 - p / q;
         } else {
             c = 1.0 / x / x;
             p = (((0.223192459734185e-1 * c + 0.278661308609648e0) * c + 0.226956593539687e0) * c + 0.494730910623251e-1) * c + 0.299610707703542e-2;
             q = (((c + 0.198733201817135e1) * c + 0.105167510706793e1) * c + 0.191308926107830e0) * c + 0.106209230528468e-1;
-            c = (c * (-p) / q + 0.564189583547756) / absx;
-            return ((x > 0.0) ? c : Math.exp(x * x) * 2.0 - c);
+            c = (c * -p / q + 0.564189583547756) / absx;
+            return x > 0.0 ? c : Math.exp(x * x) * 2.0 - c;
         }
     }
 
     private static double sinc(double x, double sinx) {
         // return sinc(x) = sin(x)/x, given both x and sin(x)
         // [since we only use this in cases where sin(x) has already been computed]
-        return Math.abs(x) < 1e-4 ? 1 - (0.1666666666666666666667) * x * x : sinx / x;
+        return Math.abs(x) < 1e-4 ? 1 - 0.1666666666666666666667 * x * x : sinx / x;
     }
 
     private static Complex w_of_z(Complex z) {
@@ -663,12 +663,12 @@ class Erf {
 
         double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0;
 
-        if (ya > 7 || (x > 6  // continued fraction is faster
+        if (ya > 7 || x > 6  // continued fraction is faster
                    /* As pointed out by M. Zaghloul, the continued
                       fraction seems to give a large relative error in
                       Re w(z) for |x| ~ 6 and small |y|, so use
                       algorithm 816 in this region: */
-                && (ya > 0.1 || (x > 8 && ya > 1e-10) || x > 28))) {
+                && (ya > 0.1 || x > 8 && ya > 1e-10 || x > 28)) {
 
         /* Poppe & Wijers suggest using a number of terms
            nu = 3 + 1442 / (26*rho + 77)
@@ -690,7 +690,7 @@ class Erf {
                         double denom = ispi / (xs + yax * ya);
                         ret = new Complex(denom * yax, denom);
                     } else if (Double.isInfinite(ya)) {
-                        return ((Double.isNaN(x) || y < 0) ? Complex.NaN : Complex.ZERO);
+                        return Double.isNaN(x) || y < 0 ? Complex.NaN : Complex.ZERO;
                     } else {
                         double xya = xs / ya;
                         double denom = ispi / (xya * xs + ya);
@@ -761,25 +761,25 @@ class Erf {
                     sum3 += coef * prod2ax;
 
                     // really = sum5 - sum4
-                    sum5 += coef * (2 * a) * n * Maja.sinh((2 * a) * n * x);
+                    sum5 += coef * (2 * a) * n * Maja.sinh(2 * a * n * x);
 
                     // test convergence via sum3
                     if (coef * prod2ax < relerr * sum3) break;
                 }
             } else { // x > 5e-4, compute sum4 and sum5 separately
                 expx2 = Math.exp(-x * x);
-                final double exp2ax = Math.exp((2 * a) * x), expm2ax = 1 / exp2ax;
+                final double exp2ax = Math.exp(2 * a * x), expm2ax = 1 / exp2ax;
                 for (int n = 1; ; ++n) {
                     final double coef = expa2n2[n - 1] * expx2 / (a2 * (n * n) + y * y);
                     prod2ax *= exp2ax;
                     prodm2ax *= expm2ax;
                     sum1 += coef;
                     sum2 += coef * prodm2ax;
-                    sum4 += (coef * prodm2ax) * (a * n);
+                    sum4 += coef * prodm2ax * (a * n);
                     sum3 += coef * prod2ax;
-                    sum5 += (coef * prod2ax) * (a * n);
+                    sum5 += coef * prod2ax * (a * n);
                     // test convergence via sum5, since this sum has the slowest decay
-                    if ((coef * prod2ax) * (a * n) < relerr * sum5) break;
+                    if (coef * prod2ax * (a * n) < relerr * sum5) break;
                 }
             }
             final double expx2erfcxy = // avoid spurious overflow for large negative y
@@ -787,7 +787,7 @@ class Erf {
                             ? expx2 * erfcx(y) : 2 * Maja.exp(y * y - x * x);
             if (y > 5) { // imaginary terms cancel
                 final double sinxy = Math.sin(x * y);
-                ret = new Complex((expx2erfcxy - c * y * sum1) * Math.cos(2 * x * y) + (c * x * expx2) * sinxy * sinc(x * y, sinxy));
+                ret = new Complex((expx2erfcxy - c * y * sum1) * Math.cos(2 * x * y) + c * x * expx2 * sinxy * sinc(x * y, sinxy));
             } else {
                 double xs = z.re();
                 final double sinxy = Math.sin(xs * y);
@@ -816,8 +816,8 @@ class Erf {
                 double np = n0 + dn, nm = n0 - dn;
                 double tp = Math.exp(-(a * dn + dx) * (a * dn + dx));
                 double tm = tp * (exp1dn *= exp1); // trick to get tm from tp
-                tp /= (a2 * (np * np) + y * y);
-                tm /= (a2 * (nm * nm) + y * y);
+                tp /= a2 * (np * np) + y * y;
+                tm /= a2 * (nm * nm) + y * y;
                 sum3 += tp + tm;
                 double sum51 = a * (np * tp + nm * tm);
                 sum5 += sum51;
@@ -836,14 +836,14 @@ class Erf {
                 }
             }
         }
-        return Maja.add(ret, new Complex((0.5 * c) * y * (sum2 + sum3),
-                (0.5 * c) * Math.copySign(sum5 - sum4, z.re())));
+        return Maja.add(ret, new Complex(0.5 * c * y * (sum2 + sum3),
+                0.5 * c * Math.copySign(sum5 - sum4, z.re())));
     }
 
     private static double erfcx_y100(double y100) {
         final int iy = (int) y100;
 
-        if ((iy >= 0) && (iy < 100)) {
+        if (iy >= 0 && iy < 100) {
             final double t = 2 * y100 - (1 + 2 * iy);
             return g_LutChebPoly[7 * iy] + (g_LutChebPoly[7 * iy + 1] + (g_LutChebPoly[7 * iy + 2] + (g_LutChebPoly[7 * iy + 3] + (g_LutChebPoly[7 * iy + 4] + (g_LutChebPoly[7 * iy + 5] + g_LutChebPoly[7 * iy + 6] * t) * t) * t) * t) * t) * t;
         }
@@ -857,12 +857,12 @@ class Erf {
                 final double ispi = 0.56418958354775628694807945156; // 1 / sqrt(pi)
                 if (x > 5e7) // 1-term expansion, important to avoid overflow
                     return ispi / x;
-                return ispi * ((x * x) * (x * x + 4.5) + 2) / (x * ((x * x) * (x * x + 5) + 3.75));
+                return ispi * (x * x * (x * x + 4.5) + 2) / (x * (x * x * (x * x + 5) + 3.75));
             }
             return erfcx_y100(400 / (4 + x));
         } else
-            return x < -26.7 ? Double.POSITIVE_INFINITY : (x < -6.1 ? 2 * Math.exp(x * x)
-                    : 2 * Math.exp(x * x) - erfcx_y100(400 / (4 - x)));
+            return x < -26.7 ? Double.POSITIVE_INFINITY : x < -6.1 ? 2 * Math.exp(x * x)
+                    : 2 * Math.exp(x * x) - erfcx_y100(400 / (4 - x));
     }
 
     public static Complex cerfi(Complex z) {
@@ -883,7 +883,7 @@ class Erf {
                  /* handle y -> Inf limit manually, since
                     exp(y^2) -> Inf but Im[w(y)] -> 0, so
                     IEEE will give us a NaN when it should be Inf */
-                    y * y > 720 ? (y > 0 ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY)
+                    y * y > 720 ? y > 0 ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY
                             : Math.exp(y * y) * im_w_of_x(y));
 
         double mRe_z2 = (y - x) * (x + y); // Re(-z^2), being careful of overflow
@@ -964,7 +964,7 @@ class Erf {
 
         if (x == 0.)
             return new Complex(1,
-                    y * y > 720 ? (y > 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY)
+                    y * y > 720 ? y > 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY
                             : -Math.exp(y * y) * im_w_of_x(y));
         if (y == 0.) {
             if (x * x > 750) // underflow
@@ -1020,7 +1020,7 @@ class Erf {
                     if (x2 > 1600) { // |x| > 40
                         double y2 = y * y;
                         if (x2 > 25e14) {// |x| > 5e7
-                            double xy2 = (x * y) * (x * y);
+                            double xy2 = x * y * (x * y);
                             return new Complex((0.5 + y2 * (0.5 + 0.25 * y2
                                     - 0.16666666666666666667 * xy2)) / x,
                                     y * (-1 + y2 * (-0.66666666666666666667
@@ -1028,7 +1028,7 @@ class Erf {
                                             - 0.26666666666666666667 * y2))
                                             / (2 * x2 - 1));
                         }
-                        return Maja.mul((1. / (-15 + x2 * (90 + x2 * (-60 + 8 * x2)))),
+                        return Maja.mul(1. / (-15 + x2 * (90 + x2 * (-60 + 8 * x2))),
                                 new Complex(x * (33 + x2 * (-28 + 4 * x2)
                                         + y2 * (18 - 4 * x2 + 4 * y2)),
                                         y * (-15 + x2 * (24 - 4 * x2)
@@ -1061,7 +1061,7 @@ class Erf {
                     if (x2 > 1600) { // |x| > 40
                         double y2 = y * y;
                         if (x2 > 25e14) {// |x| > 5e7
-                            double xy2 = (x * y) * (x * y);
+                            double xy2 = x * y * (x * y);
                             return new Complex((0.5 + y2 * (0.5 + 0.25 * y2
                                     - 0.16666666666666666667 * xy2)) / x,
                                     y * (-1 + y2 * (-0.66666666666666666667
@@ -1069,7 +1069,7 @@ class Erf {
                                             - 0.26666666666666666667 * y2))
                                             / (2 * x2 - 1));
                         }
-                        return Maja.mul((1. / (-15 + x2 * (90 + x2 * (-60 + 8 * x2)))),
+                        return Maja.mul(1. / (-15 + x2 * (90 + x2 * (-60 + 8 * x2))),
                                 new Complex(x * (33 + x2 * (-28 + 4 * x2)
                                         + y2 * (18 - 4 * x2 + 4 * y2)),
                                         y * (-15 + x2 * (24 - 4 * x2)

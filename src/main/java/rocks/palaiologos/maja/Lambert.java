@@ -22,7 +22,7 @@ class Lambert {
             double t = w * e - x;
 
             if (w > 0) {
-                t = (t / p) / e;
+                t = t / p / e;
             } else {
                 t /= e * p - 0.5 * (p + 1.0) * t / p;
             }

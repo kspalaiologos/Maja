@@ -188,7 +188,7 @@ class Expression {
 
         private Number term() {
             Number result = factor();
-            while (currentToken.type != TokenType.OP || (currentToken.value.equals("*") || currentToken.value.equals("/"))) {
+            while (currentToken.type != TokenType.OP || currentToken.value.equals("*") || currentToken.value.equals("/")) {
                 if (currentToken.type == TokenType.EOF || currentToken.type == TokenType.RPAREN
                         || currentToken.type == TokenType.COMMA || currentToken.type == TokenType.QUOTING)
                     return result;
@@ -476,415 +476,415 @@ class Expression {
                 case "sin" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sin(args.get(0).getComplex()));
+                        yield Maja.sin(args.get(0).getComplex());
                     else
-                        yield (Maja.sin(args.get(0).getDouble()));
+                        yield Maja.sin(args.get(0).getDouble());
                 }
                 case "cos" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.cos(args.get(0).getComplex()));
+                        yield Maja.cos(args.get(0).getComplex());
                     else
-                        yield (Maja.cos(args.get(0).getDouble()));
+                        yield Maja.cos(args.get(0).getDouble());
                 }
                 case "tan" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.tan(args.get(0).getComplex()));
+                        yield Maja.tan(args.get(0).getComplex());
                     else
-                        yield (Maja.tan(args.get(0).getDouble()));
+                        yield Maja.tan(args.get(0).getDouble());
                 }
                 case "asin" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.asin(args.get(0).getComplex()));
+                        yield Maja.asin(args.get(0).getComplex());
                     else
-                        yield (Maja.asin(args.get(0).getDouble()));
+                        yield Maja.asin(args.get(0).getDouble());
                 }
                 case "acos" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.acos(args.get(0).getComplex()));
+                        yield Maja.acos(args.get(0).getComplex());
                     else
-                        yield (Maja.acos(args.get(0).getDouble()));
+                        yield Maja.acos(args.get(0).getDouble());
                 }
                 case "atan" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.atan(args.get(0).getComplex()));
+                        yield Maja.atan(args.get(0).getComplex());
                     else
-                        yield (Maja.atan(args.get(0).getDouble()));
+                        yield Maja.atan(args.get(0).getDouble());
                 }
                 case "sinh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sinh(args.get(0).getComplex()));
+                        yield Maja.sinh(args.get(0).getComplex());
                     else
-                        yield (Maja.sinh(args.get(0).getDouble()));
+                        yield Maja.sinh(args.get(0).getDouble());
                 }
                 case "cosh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.cosh(args.get(0).getComplex()));
+                        yield Maja.cosh(args.get(0).getComplex());
                     else
-                        yield (Maja.cosh(args.get(0).getDouble()));
+                        yield Maja.cosh(args.get(0).getDouble());
                 }
                 case "tanh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.tanh(args.get(0).getComplex()));
+                        yield Maja.tanh(args.get(0).getComplex());
                     else
-                        yield (Maja.tanh(args.get(0).getDouble()));
+                        yield Maja.tanh(args.get(0).getDouble());
                 }
                 case "cot" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.cot(args.get(0).getComplex()));
+                        yield Maja.cot(args.get(0).getComplex());
                     else
-                        yield (Maja.cot(args.get(0).getDouble()));
+                        yield Maja.cot(args.get(0).getDouble());
                 }
                 case "sec" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sec(args.get(0).getComplex()));
+                        yield Maja.sec(args.get(0).getComplex());
                     else
-                        yield (Maja.sec(args.get(0).getDouble()));
+                        yield Maja.sec(args.get(0).getDouble());
                 }
                 case "csc" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.csc(args.get(0).getComplex()));
+                        yield Maja.csc(args.get(0).getComplex());
                     else
-                        yield (Maja.csc(args.get(0).getDouble()));
+                        yield Maja.csc(args.get(0).getDouble());
                 }
                 case "acot" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.acot(args.get(0).getComplex()));
+                        yield Maja.acot(args.get(0).getComplex());
                     else
-                        yield (Maja.acot(args.get(0).getDouble()));
+                        yield Maja.acot(args.get(0).getDouble());
                 }
                 case "asec" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.asec(args.get(0).getComplex()));
+                        yield Maja.asec(args.get(0).getComplex());
                     else
-                        yield (Maja.asec(args.get(0).getDouble()));
+                        yield Maja.asec(args.get(0).getDouble());
                 }
                 case "acsc" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.acsc(args.get(0).getComplex()));
+                        yield Maja.acsc(args.get(0).getComplex());
                     else
-                        yield (Maja.acsc(args.get(0).getDouble()));
+                        yield Maja.acsc(args.get(0).getDouble());
                 }
                 case "coth" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.coth(args.get(0).getComplex()));
+                        yield Maja.coth(args.get(0).getComplex());
                     else
-                        yield (Maja.coth(args.get(0).getDouble()));
+                        yield Maja.coth(args.get(0).getDouble());
                 }
                 case "sech" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sech(args.get(0).getComplex()));
+                        yield Maja.sech(args.get(0).getComplex());
                     else
-                        yield (Maja.sech(args.get(0).getDouble()));
+                        yield Maja.sech(args.get(0).getDouble());
                 }
                 case "csch" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.csch(args.get(0).getComplex()));
+                        yield Maja.csch(args.get(0).getComplex());
                     else
-                        yield (Maja.csch(args.get(0).getDouble()));
+                        yield Maja.csch(args.get(0).getDouble());
                 }
                 case "asinh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.asinh(args.get(0).getComplex()));
+                        yield Maja.asinh(args.get(0).getComplex());
                     else
-                        yield (Maja.asinh(args.get(0).getDouble()));
+                        yield Maja.asinh(args.get(0).getDouble());
                 }
                 case "acosh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.acosh(args.get(0).getComplex()));
+                        yield Maja.acosh(args.get(0).getComplex());
                     else
-                        yield (Maja.acosh(args.get(0).getDouble()));
+                        yield Maja.acosh(args.get(0).getDouble());
                 }
                 case "atanh" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.atanh(args.get(0).getComplex()));
+                        yield Maja.atanh(args.get(0).getComplex());
                     else
-                        yield (Maja.atanh(args.get(0).getDouble()));
+                        yield Maja.atanh(args.get(0).getDouble());
                 }
                 case "acoth" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.acoth(args.get(0).getComplex()));
+                        yield Maja.acoth(args.get(0).getComplex());
                     else
-                        yield (Maja.acoth(args.get(0).getDouble()));
+                        yield Maja.acoth(args.get(0).getDouble());
                 }
                 case "eq" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
-                        yield (Maja.eq(args.get(0).getComplex(), args.get(1).getComplex()));
+                        yield Maja.eq(args.get(0).getComplex(), args.get(1).getComplex());
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.eq(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.eq(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() == args.get(1).getLong());
+                        yield args.get(0).getLong() == args.get(1).getLong();
                 }
                 case "ne" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
-                        yield (Maja.ne(args.get(0).getComplex(), args.get(1).getComplex()));
+                        yield Maja.ne(args.get(0).getComplex(), args.get(1).getComplex());
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.ne(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.ne(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() != args.get(1).getLong());
+                        yield args.get(0).getLong() != args.get(1).getLong();
                 }
                 case "lt" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.lt(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.lt(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() < args.get(1).getLong());
+                        yield args.get(0).getLong() < args.get(1).getLong();
                 }
                 case "le" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.le(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.le(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() <= args.get(1).getLong());
+                        yield args.get(0).getLong() <= args.get(1).getLong();
                 }
                 case "gt" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.gt(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.gt(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() > args.get(1).getLong());
+                        yield args.get(0).getLong() > args.get(1).getLong();
                 }
                 case "ge" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.ge(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.ge(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (args.get(0).getLong() >= args.get(1).getLong());
+                        yield args.get(0).getLong() >= args.get(1).getLong();
                 }
                 case "min" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.min(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.min(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Math.min(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Math.min(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "max" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compare complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.max(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.max(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Math.max(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Math.max(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "abs" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.abs(args.get(0).getComplex()));
+                        yield Maja.abs(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.abs(args.get(0).getDouble()));
+                        yield Maja.abs(args.get(0).getDouble());
                     else
-                        yield (Math.abs(args.get(0).getLong()));
+                        yield Math.abs(args.get(0).getLong());
                 }
                 case "signum" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute sign of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.signum(args.get(0).getDouble()));
+                        yield Maja.signum(args.get(0).getDouble());
                     else
-                        yield (Maja.signum(args.get(0).getLong()));
+                        yield Maja.signum(args.get(0).getLong());
                 }
                 case "pow" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
-                        yield (Maja.pow(args.get(0).getComplex(), args.get(1).getComplex()));
+                        yield Maja.pow(args.get(0).getComplex(), args.get(1).getComplex());
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.pow(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.pow(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Maja.pow(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Maja.pow(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "exp" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.exp(args.get(0).getComplex()));
+                        yield Maja.exp(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.exp(args.get(0).getDouble()));
+                        yield Maja.exp(args.get(0).getDouble());
                     else
-                        yield (Maja.exp(args.get(0).getLong()));
+                        yield Maja.exp(args.get(0).getLong());
                 }
                 case "log" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.log(args.get(0).getComplex()));
+                        yield Maja.log(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.log(args.get(0).getDouble()));
+                        yield Maja.log(args.get(0).getDouble());
                     else
-                        yield (Maja.log(args.get(0).getLong()));
+                        yield Maja.log(args.get(0).getLong());
                 }
                 case "log10" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute log10 of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.log10(args.get(0).getDouble()));
+                        yield Maja.log10(args.get(0).getDouble());
                     else
-                        yield (Maja.log10(args.get(0).getLong()));
+                        yield Maja.log10(args.get(0).getLong());
                 }
                 case "log2" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute log2 of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.log2(args.get(0).getDouble()));
+                        yield Maja.log2(args.get(0).getDouble());
                     else
-                        yield (Maja.log2(args.get(0).getLong()));
+                        yield Maja.log2(args.get(0).getLong());
                 }
                 case "log1p" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute log1p of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.log1p(args.get(0).getDouble()));
+                        yield Maja.log1p(args.get(0).getDouble());
                     else
-                        yield (Maja.log1p(args.get(0).getLong()));
+                        yield Maja.log1p(args.get(0).getLong());
                 }
                 case "expm1" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute expm1 of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.expm1(args.get(0).getDouble()));
+                        yield Maja.expm1(args.get(0).getDouble());
                     else
-                        yield (Maja.expm1(args.get(0).getLong()));
+                        yield Maja.expm1(args.get(0).getLong());
                 }
                 case "sqrt" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sqrt(args.get(0).getComplex()));
+                        yield Maja.sqrt(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.sqrt(args.get(0).getDouble()));
+                        yield Maja.sqrt(args.get(0).getDouble());
                     else
-                        yield (Maja.sqrt(args.get(0).getLong()));
+                        yield Maja.sqrt(args.get(0).getLong());
                 }
                 case "cbrt" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.cbrt(args.get(0).getComplex()));
+                        yield Maja.cbrt(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.cbrt(args.get(0).getDouble()));
+                        yield Maja.cbrt(args.get(0).getDouble());
                     else
-                        yield (Maja.cbrt(args.get(0).getLong()));
+                        yield Maja.cbrt(args.get(0).getLong());
                 }
                 case "hypot" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compute hypot of complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.hypot(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.hypot(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Maja.hypot(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Maja.hypot(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "ceil" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.ceil(args.get(0).getComplex()));
+                        yield Maja.ceil(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.ceil(args.get(0).getDouble()));
+                        yield Maja.ceil(args.get(0).getDouble());
                     else
-                        yield (Maja.ceil(args.get(0).getLong()));
+                        yield Maja.ceil(args.get(0).getLong());
                 }
                 case "floor" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.floor(args.get(0).getComplex()));
+                        yield Maja.floor(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.floor(args.get(0).getDouble()));
+                        yield Maja.floor(args.get(0).getDouble());
                     else
-                        yield (Maja.floor(args.get(0).getLong()));
+                        yield Maja.floor(args.get(0).getLong());
                 }
                 case "round" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.round(args.get(0).getComplex()));
+                        yield Maja.round(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.round(args.get(0).getDouble()));
+                        yield Maja.round(args.get(0).getDouble());
                     else
-                        yield (Maja.round(args.get(0).getLong()));
+                        yield Maja.round(args.get(0).getLong());
                 }
                 case "atan2" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compute atan2 of complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.atan2(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.atan2(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Maja.atan2(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Maja.atan2(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "sinc" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
-                        yield (Maja.sinc(args.get(0).getComplex()));
+                        yield Maja.sinc(args.get(0).getComplex());
                     else if (args.get(0).isDouble())
-                        yield (Maja.sinc(args.get(0).getDouble()));
+                        yield Maja.sinc(args.get(0).getDouble());
                     else
-                        yield (Maja.sinc(args.get(0).getLong()));
+                        yield Maja.sinc(args.get(0).getLong());
                 }
                 case "rad" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute rad of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.toRadians(args.get(0).getDouble()));
+                        yield Maja.toRadians(args.get(0).getDouble());
                     else
-                        yield (Maja.toRadians(args.get(0).getLong()));
+                        yield Maja.toRadians(args.get(0).getLong());
                 }
                 case "deg" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute deg of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.toDegrees(args.get(0).getDouble()));
+                        yield Maja.toDegrees(args.get(0).getDouble());
                     else
-                        yield (Maja.toDegrees(args.get(0).getLong()));
+                        yield Maja.toDegrees(args.get(0).getLong());
                 }
                 case "fma" -> {
                     assertArity(args, 3);
                     if (args.get(0).isComplex() || args.get(1).isComplex() || args.get(2).isComplex())
                         throw new ArithmeticException("Cannot compute fma of complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble() || args.get(2).isDouble())
-                        yield (Maja.fma(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble()));
+                        yield Maja.fma(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble());
                     else
-                        yield (Maja.fma(args.get(0).getLong(), args.get(1).getLong(), args.get(2).getLong()));
+                        yield Maja.fma(args.get(0).getLong(), args.get(1).getLong(), args.get(2).getLong());
                 }
                 case "nextafter" -> {
                     assertArity(args, 2);
                     if (args.get(0).isComplex() || args.get(1).isComplex())
                         throw new ArithmeticException("Cannot compute nextafter of complex numbers");
                     else if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.nextAfter(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.nextAfter(args.get(0).getDouble(), args.get(1).getDouble());
                     else
                         throw new ArithmeticException("Cannot compute nextafter of integers");
                 }
@@ -893,7 +893,7 @@ class Expression {
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute nextup of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.nextUp(args.get(0).getDouble()));
+                        yield Maja.nextUp(args.get(0).getDouble());
                     else
                         throw new ArithmeticException("Cannot compute nextup of integer");
                 }
@@ -902,7 +902,7 @@ class Expression {
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute nextdown of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.nextDown(args.get(0).getDouble()));
+                        yield Maja.nextDown(args.get(0).getDouble());
                     else
                         throw new ArithmeticException("Cannot compute nextdown of integer");
                 }
@@ -911,7 +911,7 @@ class Expression {
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute ulp of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.ulp(args.get(0).getDouble()));
+                        yield Maja.ulp(args.get(0).getDouble());
                     else
                         throw new ArithmeticException("Cannot compute ulp of integer");
                 }
@@ -924,16 +924,16 @@ class Expression {
                 case "copysign" -> {
                     assertArity(args, 2);
                     if (args.get(0).isDouble() || args.get(1).isDouble())
-                        yield (Maja.copySign(args.get(0).getDouble(), args.get(1).getDouble()));
+                        yield Maja.copySign(args.get(0).getDouble(), args.get(1).getDouble());
                     else
-                        yield (Maja.copySign(args.get(0).getLong(), args.get(1).getLong()));
+                        yield Maja.copySign(args.get(0).getLong(), args.get(1).getLong());
                 }
                 case "getexp" -> {
                     assertArity(args, 1);
                     if (args.get(0).isComplex())
                         throw new ArithmeticException("Cannot compute getexp of complex number");
                     else if (args.get(0).isDouble())
-                        yield (Maja.getExponent(args.get(0).getDouble()));
+                        yield Maja.getExponent(args.get(0).getDouble());
                     else
                         throw new ArithmeticException("Cannot compute getexp of integer");
                 }
@@ -1033,11 +1033,11 @@ class Expression {
                 }
                 case "iexp" -> {
                     assertArity(args, 2);
-                    yield Maja.ipow((int) (args.get(0).getLong()), (int) (args.get(1).getLong()));
+                    yield Maja.ipow((int) args.get(0).getLong(), (int) args.get(1).getLong());
                 }
                 case "dipow" -> {
                     assertArity(args, 2);
-                    yield Maja.pow(args.get(0).getDouble(), (int) (args.get(1).getLong()));
+                    yield Maja.pow(args.get(0).getDouble(), (int) args.get(1).getLong());
                 }
                 case "airyAi" -> {
                     assertArity(args, 1);
@@ -1348,7 +1348,7 @@ class Expression {
                 case "yn" -> {
                     assertArity(args, 2);
                     if (args.get(0).isLong() && args.get(1).isDouble())
-                        yield Maja.besselYn((int) (args.get(0).getLong()), args.get(1).getDouble());
+                        yield Maja.besselYn((int) args.get(0).getLong(), args.get(1).getDouble());
                     else
                         throw new IllegalArgumentException("yn not yet implemented for complex arguments.");
                 }
@@ -1369,7 +1369,7 @@ class Expression {
                 case "jn" -> {
                     assertArity(args, 2);
                     if (args.get(0).isLong() && args.get(1).isDouble())
-                        yield Maja.besselJn((int) (args.get(0).getLong()), args.get(1).getDouble());
+                        yield Maja.besselJn((int) args.get(0).getLong(), args.get(1).getDouble());
                     else
                         throw new IllegalArgumentException("yn not yet implemented for complex arguments.");
                 }
@@ -1404,7 +1404,7 @@ class Expression {
                 case "kn" -> {
                     assertArity(args, 2);
                     if (args.get(0).isLong() && args.get(1).isDouble())
-                        yield Maja.besselKn((int) (args.get(0).getLong()), args.get(1).getDouble());
+                        yield Maja.besselKn((int) args.get(0).getLong(), args.get(1).getDouble());
                     else
                         throw new IllegalArgumentException("yn not yet implemented for complex arguments.");
                 }

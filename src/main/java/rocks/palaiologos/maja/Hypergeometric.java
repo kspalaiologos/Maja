@@ -63,11 +63,11 @@ class Hypergeometric {
             ic = Math.round(c);        /* nearest integer to c */
             if (Math.abs(c - ic) < Maja.EPSILON) {    /* c is a negative integer */
                 /* check if termination before explosion */
-                if (neg_int_a != 0 && (ia > ic)) {
+                if (neg_int_a != 0 && ia > ic) {
                     y = hyt2f1(a, b, c, x, err);
                     return y;
                 }
-                if (neg_int_b != 0 && (ib > ic)) {
+                if (neg_int_b != 0 && ib > ic) {
                     y = hyt2f1(a, b, c, x, err);
                     return y;
                 }
@@ -106,12 +106,12 @@ class Hypergeometric {
 
         p = c - a;
         ia = Math.round(p);        /* nearest integer to c-a */
-        if ((ia <= 0.0) && (Math.abs(p - ia) < Maja.EPSILON))    /* negative int c - a */
+        if (ia <= 0.0 && Math.abs(p - ia) < Maja.EPSILON)    /* negative int c - a */
             neg_int_ca_or_cb = 1;
 
         r = c - b;
         ib = Math.round(r);        /* nearest integer to c-b */
-        if ((ib <= 0.0) && (Math.abs(r - ib) < Maja.EPSILON))    /* negative int c - b */
+        if (ib <= 0.0 && Math.abs(r - ib) < Maja.EPSILON)    /* negative int c - b */
             neg_int_ca_or_cb = 1;
 
         id = Math.round(d);        /* nearest integer to d */
@@ -179,7 +179,7 @@ class Hypergeometric {
         DoublePtr err = new DoublePtr();
 
         /* Don't cross c or zero */
-        if ((c < 0 && a <= c) || (c >= 0 && a >= c)) {
+        if (c < 0 && a <= c || c >= 0 && a >= c) {
             da = Math.round(a - c);
         } else {
             da = Math.round(a);
@@ -284,15 +284,15 @@ class Hypergeometric {
             k = m;
             if (++i > 10000) {    /* should never happen */
                 loss.value = 1.0;
-                return (s);
+                return s;
             }
         }
         while (s == 0 || Math.abs(u / s) > Maja.EPSILON);
 
         /* return estimated relative error */
-        loss.value = (Maja.EPSILON * umax) / Math.abs(s) + (Maja.EPSILON * i);
+        loss.value = Maja.EPSILON * umax / Math.abs(s) + Maja.EPSILON * i;
 
-        return (s);
+        return s;
     }
 
     public static double hyt2f1(double a, double b, double c, double x, DoublePtr loss) {
@@ -325,7 +325,7 @@ class Hypergeometric {
                 y = Math.pow(s, -b) * hys2f1(c - a, b, c, -x / s, err);
 
             loss.value = err.value;
-            return (y);
+            return y;
         }
 
         d = c - a - b;
@@ -338,7 +338,7 @@ class Hypergeometric {
                 y = hys2f1(a, b, c, x, err);
                 if (err.value < 1.0e-12) {
                     loss.value = err.value;
-                    return (y);
+                    return y;
                 }
                 /* If Math.power series fails, then apply AMS55 #15.3.6 */
                 q = hys2f1(a, b, 1.0 - d, s, err);
@@ -372,7 +372,7 @@ class Hypergeometric {
                 r = Math.abs(r);
                 if (q > r)
                     r = q;
-                err.value += err1.value + (Maja.EPSILON * r) / y;
+                err.value += err1.value + Maja.EPSILON * r / y;
 
                 y *= Gamma.gamma(c);
             } else {
@@ -421,7 +421,7 @@ class Hypergeometric {
                 if (id == 0.0) {
                     y *= Gamma.gamma(c) / (Gamma.gamma(a) * Gamma.gamma(b));
                     loss.value = err.value;
-                    return (y);
+                    return y;
                 }
 
                 y1 = 1.0;
@@ -441,7 +441,7 @@ class Hypergeometric {
 
                     y += y1;
                     loss.value = err.value;
-                    return (y);
+                    return y;
                 }
 
                 t = 0.0;
@@ -469,14 +469,14 @@ class Hypergeometric {
                 y += y1;
             }
             loss.value = err.value;
-            return (y);
+            return y;
 
         }
 
         /* Use defining Math.power series if no special cases */
         y = hys2f1(a, b, c, x, err);
         loss.value = err.value;
-        return (y);
+        return y;
     }
 
     static double hy1f1p(double a, double b, double x, DoublePtr err) {
@@ -496,21 +496,21 @@ class Hypergeometric {
 
         while (t > Maja.EPSILON) {
             if (bn == 0)            /* check bn first since if both	*/ {
-                return (Double.POSITIVE_INFINITY);    /* an and bn are zero it is	*/
+                return Double.POSITIVE_INFINITY;    /* an and bn are zero it is	*/
             }
             if (an == 0)            /* a singularity		*/
-                return (sum);
+                return sum;
             if (n > 200)
                 break;
             u = x * (an / (bn * n));
 
             /* check for blowup */
             temp = Math.abs(u);
-            if ((temp > 1.0) && (maxt > (Double.MAX_VALUE / temp))) {
+            if (temp > 1.0 && maxt > Double.MAX_VALUE / temp) {
                 pcanc = 1.0;    /* estimate 100% error */
                 err.value = pcanc;
 
-                return (sum);
+                return sum;
             }
 
             a0 *= u;
@@ -531,7 +531,7 @@ class Hypergeometric {
 
         err.value = pcanc;
 
-        return (sum);
+        return sum;
     }
 
     static double hy1f1a(double a, double b, double x, DoublePtr err) {
@@ -542,7 +542,7 @@ class Hypergeometric {
             acanc = 1.0;
             asum = Double.POSITIVE_INFINITY;
             err.value = acanc;
-            return (asum);
+            return asum;
         }
         temp = Math.log(Math.abs(x));
         t = x + temp * (a - b);
@@ -592,7 +592,7 @@ class Hypergeometric {
          * often seems this much larger than advertised */
 
         err.value = acanc;
-        return (asum);
+        return asum;
     }
 
     static double hyp2f0(double a, double b, double x, int type, DoublePtr err) {
@@ -616,16 +616,16 @@ class Hypergeometric {
 
                 alast = a0;
                 sum += alast;
-                return (sum);
+                return sum;
             }
 
             u = an * (bn * x / n);
 
             /* check for blowup */
             temp = Math.abs(u);
-            if ((temp > 1.0) && (maxt > (Double.MAX_VALUE / temp))) {
+            if (temp > 1.0 && maxt > Double.MAX_VALUE / temp) {
                 err.value = Double.MAX_VALUE;
-                return (sum);
+                return sum;
             }
 
             a0 *= u;
@@ -640,7 +640,7 @@ class Hypergeometric {
                 x = 1.0 / x;
 
                 switch (type)    /* "type" given as subroutine argument */ {
-                    case 1 -> alast *= (0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x);
+                    case 1 -> alast *= 0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x;
                     case 2 -> alast *= 2.0 / 3.0 - b + 2.0 * a + x - n;
                 }
 
@@ -648,7 +648,7 @@ class Hypergeometric {
                 err.value = Maja.EPSILON * (n + maxt) + Math.abs(a0);
 
                 sum += alast;
-                return (sum);
+                return sum;
             }
 
             tlast = t;
@@ -663,7 +663,7 @@ class Hypergeometric {
                 x = 1.0 / x;
 
                 switch (type)    /* "type" given as subroutine argument */ {
-                    case 1 -> alast *= (0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x);
+                    case 1 -> alast *= 0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x;
                     case 2 -> alast *= 2.0 / 3.0 - b + 2.0 * a + x - n;
                 }
 
@@ -671,7 +671,7 @@ class Hypergeometric {
                 err.value = Maja.EPSILON * (n + maxt) + Math.abs(a0);
 
                 sum += alast;
-                return (sum);
+                return sum;
             }
 
             an += 1.0e0;
@@ -687,7 +687,7 @@ class Hypergeometric {
 
         alast = a0;
         sum += alast;
-        return (sum);
+        return sum;
 
     }
 
@@ -698,11 +698,11 @@ class Hypergeometric {
 
         temp = b - a;
         if (Math.abs(temp) < 0.001 * Math.abs(a))
-            return (Math.exp(x) * hyperg(temp, b, -x));
+            return Math.exp(x) * hyperg(temp, b, -x);
 
         psum = hy1f1p(a, b, x, pcanc);
         if (pcanc.value < 1.0e-15)
-            return (psum);
+            return psum;
 
         asum = hy1f1a(a, b, x, acanc);
 
@@ -711,7 +711,7 @@ class Hypergeometric {
             psum = asum;
         }
 
-        return (psum);
+        return psum;
     }
 
     public static double hypergeo1f2(double a, double b, double c, double x, DoublePtr err) {
@@ -729,11 +729,11 @@ class Hypergeometric {
         do {
             if (an == 0)
                 break;
-            if (bn == 0 || cn == 0 || (a0 > 1.0e34) || (n > 200)) {
+            if (bn == 0 || cn == 0 || a0 > 1.0e34 || n > 200) {
                 err.value = 1.0e38;
-                return (sum);
+                return sum;
             }
-            a0 *= (an * x) / (bn * cn * n);
+            a0 *= an * x / (bn * cn * n);
             sum += a0;
             an += 1.0;
             bn += 1.0;
@@ -750,7 +750,7 @@ class Hypergeometric {
         while (t > 1.37e-17);
 
         err.value = Math.abs(Maja.EPSILON * max / sum);
-        return (sum);
+        return sum;
     }
 
     public static double hypergeo3f0(double a, double b, double c, double x, DoublePtr err) {
@@ -771,11 +771,11 @@ class Hypergeometric {
         do {
             if (an == 0.0 || bn == 0.0 || cn == 0.0)
                 break;
-            if ((a0 > 1.0e34) || (n > 200)) {
+            if (a0 > 1.0e34 || n > 200) {
                 err.value = 1.0e38;
                 return sum;
             }
-            a0 *= (an * bn * cn * x) / n;
+            a0 *= an * bn * cn * x / n;
             an += 1.0;
             bn += 1.0;
             cn += 1.0;
@@ -783,7 +783,7 @@ class Hypergeometric {
             z = Math.abs(a0);
             if (z > max)
                 max = z;
-            if (z >= conv && (z < max) && (z > conv1))
+            if (z >= conv && z < max && z > conv1)
                 break;
             conv1 = conv;
             conv = z;
@@ -800,7 +800,7 @@ class Hypergeometric {
         if (max > t)
             t = max;
         err.value = t;
-        return (sum);
+        return sum;
     }
 
     public static double struve(double v, double x) {
@@ -808,26 +808,26 @@ class Hypergeometric {
         DoublePtr onef2err = new DoublePtr(), threef0err = new DoublePtr();
 
         f = Math.floor(v);
-        if ((v < 0) && (v - f == 0.5)) {
+        if (v < 0 && v - f == 0.5) {
             y = Bessel.jv(-v, x);
             f = 1.0 - f;
             g = 2.0 * Math.floor(f / 2.0);
             if (g != f)
                 y = -y;
-            return (y);
+            return y;
         }
         t = 0.25 * x * x;
         f = Math.abs(x);
         g = 1.5 * Math.abs(v);
 
-        if ((f > 30.0) && (f > g)) {
+        if (f > 30.0 && f > g) {
             onef2err.value = 1.0e38;
             y = 0.0;
         } else {
             y = hypergeo1f2(1.0, 1.5, 1.5 + v, -t, onef2err);
         }
 
-        if ((f < 18.0) || (x < 0.0)) {
+        if (f < 18.0 || x < 0.0) {
             threef0err.value = 1.0e38;
             ya = 0.0;
         } else {
@@ -840,12 +840,12 @@ class Hypergeometric {
         if (onef2err.value <= threef0err.value) {
             g = Gamma.gamma(v + 1.5);
             y = y * h * t / (0.5 * f * g);
-            return (y);
+            return y;
         } else {
             g = Gamma.gamma(v + 0.5);
             ya = ya * h / (f * g);
             ya = ya + Bessel.yv(v, x);
-            return (ya);
+            return ya;
         }
     }
 

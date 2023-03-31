@@ -526,7 +526,7 @@ class Bessel {
             b0 = x * b1 - b2 + coef[p++];
         } while (--i > 0);
 
-        return (0.5 * (b0 - b2));
+        return 0.5 * (b0 - b2);
     }
 
     static public double i0(double x) {
@@ -535,11 +535,11 @@ class Bessel {
         double y;
         if (x < 0) x = -x;
         if (x <= 8.0) {
-            y = (x / 2.0) - 2.0;
-            return (Math.exp(x) * chbevl(y, A_i0, 30));
+            y = x / 2.0 - 2.0;
+            return Math.exp(x) * chbevl(y, A_i0, 30);
         }
 
-        return (Math.exp(x) * chbevl(32.0 / x - 2.0, B_i0, 25) / Math.sqrt(x));
+        return Math.exp(x) * chbevl(32.0 / x - 2.0, B_i0, 25) / Math.sqrt(x);
     }
 
     static public double i1(double x) {
@@ -547,14 +547,14 @@ class Bessel {
 
         z = Math.abs(x);
         if (z <= 8.0) {
-            y = (z / 2.0) - 2.0;
+            y = z / 2.0 - 2.0;
             z = chbevl(y, A_i1, 29) * z * Math.exp(z);
         } else {
             z = Math.exp(z) * chbevl(32.0 / z - 2.0, B_i1, 25) / Math.sqrt(z);
         }
         if (x < 0.0)
             z = -z;
-        return (z);
+        return z;
     }
 
     static public double k0(double x) {
@@ -564,12 +564,12 @@ class Bessel {
         if (x <= 2.0) {
             y = x * x - 2.0;
             y = chbevl(y, A_k0, 10) - Math.log(0.5 * x) * i0(x);
-            return (y);
+            return y;
         }
 
         z = 8.0 / x - 2.0;
         y = Math.exp(-x) * chbevl(z, B_k0, 25) / Math.sqrt(x);
-        return (y);
+        return y;
     }
 
     static public double k1(double x) {
@@ -580,10 +580,10 @@ class Bessel {
         if (x <= 2.0) {
             y = x * x - 2.0;
             y = Math.log(z) * i1(x) + chbevl(y, A_k1, 11) / x;
-            return (y);
+            return y;
         }
 
-        return (Math.exp(-x) * chbevl(8.0 / x - 2.0, B_k1, 25) / Math.sqrt(x));
+        return Math.exp(-x) * chbevl(8.0 / x - 2.0, B_k1, 25) / Math.sqrt(x);
     }
 
     static public double kn(int nn, double x) {
@@ -636,14 +636,14 @@ class Bessel {
                         zn *= z;
                         t = nk1f * zn / kf;
                         s += t;
-                        if ((MAXNUM - Math.abs(t)) < Math.abs(s)) throw new ArithmeticException("Overflow");
-                        if ((tox > 1.0) && ((MAXNUM / tox) < zmn)) throw new ArithmeticException("Overflow");
+                        if (MAXNUM - Math.abs(t) < Math.abs(s)) throw new ArithmeticException("Overflow");
+                        if (tox > 1.0 && MAXNUM / tox < zmn) throw new ArithmeticException("Overflow");
                         zmn *= tox;
                     }
                     s *= 0.5;
                     t = Math.abs(s);
-                    if ((zmn > 1.0) && ((MAXNUM / zmn) < t)) throw new ArithmeticException("Overflow");
-                    if ((t > 1.0) && ((MAXNUM / t) < zmn)) throw new ArithmeticException("Overflow");
+                    if (zmn > 1.0 && MAXNUM / zmn < t) throw new ArithmeticException("Overflow");
+                    if (t > 1.0 && MAXNUM / t < zmn) throw new ArithmeticException("Overflow");
                     ans = s * zmn;
                 }
             }
@@ -674,7 +674,7 @@ class Bessel {
                 s = -s;
             ans += s;
 
-            return (ans);
+            return ans;
         }
 
         /* Asymptotic expansion for Kn(x) */
@@ -693,9 +693,9 @@ class Bessel {
             z = pn - pk * pk;
             t = t * z / (fn * z0);
             nk1f = Math.abs(t);
-            if ((i >= n) && (nk1f > nkf)) {
+            if (i >= n && nk1f > nkf) {
                 ans = Math.exp(-x) * Math.sqrt(Math.PI / (2.0 * x)) * s;
-                return (ans);
+                return ans;
             }
             nkf = nk1f;
             s += t;
@@ -706,7 +706,7 @@ class Bessel {
 
 
         ans = Math.exp(-x) * Math.sqrt(Math.PI / (2.0 * x)) * s;
-        return (ans);
+        return ans;
     }
 
     static public double y0(double x) throws ArithmeticException {
@@ -719,7 +719,7 @@ class Bessel {
             double ans2 = 40076544269.0 + y * (745249964.8 + y * (7189466.438
                     + y * (47447.26470 + y * (226.1030244 + y))));
 
-            return (ans1 / ans2) + 0.636619772 * bessel0(x) * Math.log(x);
+            return ans1 / ans2 + 0.636619772 * bessel0(x) * Math.log(x);
         } else {
             double z = 8.0 / x;
             double y = z * z;
@@ -729,7 +729,7 @@ class Bessel {
                     + y * (-0.2073370639e-5 + y * 0.2093887211e-6)));
             double ans2 = -0.1562499995e-1 + y * (0.1430488765e-3
                     + y * (-0.6911147651e-5 + y * (0.7621095161e-6
-                    + y * (-0.934945152e-7))));
+                    + y * -0.934945152e-7)));
             return Math.sqrt(0.636619772 / x) *
                     (Math.sin(xx) * ans1 + z * Math.cos(xx) * ans2);
         }
@@ -745,13 +745,13 @@ class Bessel {
             double ans2 = 0.2499580570e14 + y * (0.4244419664e12
                     + y * (0.3733650367e10 + y * (0.2245904002e8
                     + y * (0.1020426050e6 + y * (0.3549632885e3 + y)))));
-            return (ans1 / ans2) + 0.636619772 * (bessel1(x) * Math.log(x) - 1.0 / x);
+            return ans1 / ans2 + 0.636619772 * (bessel1(x) * Math.log(x) - 1.0 / x);
         } else {
             double z = 8.0 / x;
             double y = z * z;
             double xx = x - 2.356194491;
             double ans1 = 1.0 + y * (0.183105e-2 + y * (-0.3516396496e-4
-                    + y * (0.2457520174e-5 + y * (-0.240337019e-6))));
+                    + y * (0.2457520174e-5 + y * -0.240337019e-6)));
             double ans2 = 0.04687499995 + y * (-0.2002690873e-3
                     + y * (0.8449199096e-5 + y * (-0.88228987e-6
                     + y * 0.105787412e-6)));
@@ -785,11 +785,11 @@ class Bessel {
         if (y == v) {
             n = (int) v;
             y = yn(n, x);
-            return (y);
+            return y;
         }
         t = Maja.PI * v;
         y = (Math.cos(t) * jv(v, x) - jv(-v, x)) / Math.sin(t);
-        return (y);
+        return y;
     }
 
     public static double jv(double n, double x) {
@@ -814,12 +814,12 @@ class Bessel {
                 x = -x;
             }
             if (n == 0.0)
-                return (bessel0(x));
+                return bessel0(x);
             if (n == 1.0)
-                return (sign * bessel1(x));
+                return sign * bessel1(x);
         }
 
-        if ((x < 0.0) && (y != an)) {
+        if (x < 0.0 && y != an) {
             return 0;
         }
 
@@ -830,10 +830,10 @@ class Bessel {
 
         k = 3.6 * Math.sqrt(y);
         t = 3.6 * Math.sqrt(an);
-        if ((y < t) && (an > 21.0))
-            return (sign * jvs(n, x));
-        if ((an < k) && (y > 21.0))
-            return (sign * hankel(n, x));
+        if (y < t && an > 21.0)
+            return sign * jvs(n, x);
+        if (an < k && y > 21.0)
+            return sign * hankel(n, x);
 
         if (an < 500.0) {
             /* Note: if x is too large, the continued
@@ -853,16 +853,16 @@ class Bessel {
                 n = nPtr.value;
                 if (k == 0.0) {
                     y = bessel0(x) / q;
-                    return (sign * y);
+                    return sign * y;
                 }
                 if (k == 1.0) {
                     y = bessel1(x) / q;
-                    return (sign * y);
+                    return sign * y;
                 }
             }
 
-            if (an > 2.0 * y || ((n >= 0.0) && (n < 20.0)
-                    && (y > 6.0) && (y < 20.0))) {
+            if (an > 2.0 * y || n >= 0.0 && n < 20.0
+                    && y > 6.0 && y < 20.0) {
                 /* Recur backwards from a larger value of n
                  */
                 k = n;
@@ -878,15 +878,15 @@ class Bessel {
                 q = recur(yPtr, x, kPtr, 0);
                 y = yPtr.value;
                 y = jvs(y, x) * q;
-                return (sign * y);
+                return sign * y;
             }
 
             if (k <= 30.0) {
                 k = 2.0;
             } else if (k < 90.0) {
-                k = (3 * k) / 4;
+                k = 3 * k / 4;
             }
-            if (an > (k + 3.0)) {
+            if (an > k + 3.0) {
                 if (n < 0.0)
                     k = -k;
                 q = n - Math.floor(n);
@@ -944,7 +944,7 @@ class Bessel {
              */
             if (n < 0.0) {
                 y = 0.0;
-                return (sign * y);
+                return sign * y;
             }
             t = x / n;
             t /= n;
@@ -954,7 +954,7 @@ class Bessel {
                 y = jnx(n, x);
         }
 
-        return (sign * y);
+        return sign * y;
     }
 
     static double recur(Hypergeometric.DoublePtr n, double x, Hypergeometric.DoublePtr newn, int cancel) {
@@ -1041,16 +1041,16 @@ class Bessel {
             r -= 2.0;
             k -= 1.0;
         }
-        while (k > (kf + 0.5));
+        while (k > kf + 0.5);
 
         if (cancel != 0) {
-            if ((kf >= 0.0) && (Math.abs(pk) > Math.abs(pkm1))) {
+            if (kf >= 0.0 && Math.abs(pk) > Math.abs(pkm1)) {
                 k += 1.0;
                 pkm2 = pk;
             }
         }
         newn.value = k;
-        return (pkm2);
+        return pkm2;
     }
 
     static double jvs(double n, double x) {
@@ -1072,10 +1072,10 @@ class Bessel {
         }
         ex = Maja.getExponent(0.5 * x);
         ex = (int) (ex * n);
-        if ((ex > -1023)
-                && (ex < 1023)
-                && (n > 0.0)
-                && (n < (170.624376956302725))) {
+        if (ex > -1023
+                && ex < 1023
+                && n > 0.0
+                && n < 170.624376956302725) {
             t = Math.pow(0.5 * x, n) / Gamma.gamma(n + 1.0);
             y *= t;
         } else {
@@ -1088,14 +1088,14 @@ class Bessel {
             }
             t += Math.log(y);
             if (t < -7.09782712893383996843E2) {
-                return (0.0);
+                return 0.0;
             }
             if (t > 7.09782712893383996843E2) {
-                return (Double.POSITIVE_INFINITY);
+                return Double.POSITIVE_INFINITY;
             }
             y = sgngam * Math.exp(t);
         }
-        return (y);
+        return y;
     }
 
     static double hankel(double n, double x) {
@@ -1135,14 +1135,14 @@ class Bessel {
                 flag = 1;
             }
             /* stop if the terms start getting larger */
-            if ((flag != 0) && (t > conv)) {
+            if (flag != 0 && t > conv) {
                 break;
             }
         }
 
         u = x - (0.5 * n + 0.25) * Math.PI;
         t = Math.sqrt(2.0 / (Math.PI * x)) * (pp * Math.cos(u) - qq * Math.sin(u));
-        return (t);
+        return t;
     }
 
     static double jnx(double n, double x) {
@@ -1159,12 +1159,12 @@ class Bessel {
         cbn = Math.cbrt(n);
         z = (x - n) / cbn;
         if (Math.abs(z) <= 0.7)
-            return (jnt(n, x));
+            return jnt(n, x);
 
         z = x / n;
         zz = 1.0 - z * z;
         if (zz == 0.0)
-            return (0.0);
+            return 0.0;
 
         if (zz > 0.0) {
             sz = Math.sqrt(zz);
@@ -1226,7 +1226,7 @@ class Bessel {
 
                 if (dob != 0) {
                     m = tkp1 - s;
-                    if (((m + 1) & 3) > 1)
+                    if ((m + 1 & 3) > 1)
                         sign = nflg;
                     else
                         sign = 1;
@@ -1265,7 +1265,7 @@ class Bessel {
         t = Math.sqrt(Math.sqrt(t));
 
         t *= ai * pp / Math.cbrt(n) + aip * qq / (n23 * n);
-        return (t);
+        return t;
     }
 
     static double jnt(double n, double x) {
@@ -1312,6 +1312,6 @@ class Bessel {
         }
 
         fk = cbtwo * ai * pp / cbn + 1.5874010519681994747517056392723082603914933278998530098082857618 * aip * qq / n;
-        return (fk);
+        return fk;
     }
 }

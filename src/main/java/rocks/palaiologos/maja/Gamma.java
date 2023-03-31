@@ -103,7 +103,7 @@ class Gamma {
         tmp = sub(tmp, mul(add(x, 0.5), log(tmp)));
         ser = new Complex(1.000000000190015);
         for (j = 0; j <= 5; j++)
-            ser = add(ser, div(cof[j], (y = add(y, 1))));
+            ser = add(ser, div(cof[j], y = add(y, 1)));
 
         return add(negate(tmp), log(div(mul(2.5066282746310005, ser), x)));
     }
@@ -347,7 +347,7 @@ class Gamma {
     private static double regularizedGammaP(double a, double x) {
         if (a <= 0.0)
             throw new IllegalArgumentException("Invalid arguments in routine gammp");
-        if (x < (a + 1.0)) {
+        if (x < a + 1.0) {
             return gser(a, x);
         } else {
             return 1.0 - gcf(a, x);

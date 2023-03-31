@@ -104,7 +104,7 @@ class Zeta {
             return Double.NaN;
         if (x == 1)
             return Double.NaN;
-        if (a > 1e7 || (x < 0 && x >= -100 && a >= 1e3)) {
+        if (a > 1e7 || x < 0 && x >= -100 && a >= 1e3) {
             return (1 / (x - 1) + 1 / (2 * a)) * Math.pow(a, 1 - x);
         }
         if (x < 0) {
@@ -198,7 +198,7 @@ class Zeta {
             m = -(int) Math.floor(v);
             v1 += m;
             sum1 = 0.0;
-            if (((int) s % 2) == 0) sign = 1;
+            if ((int) s % 2 == 0) sign = 1;
             else sign = -1;
             for (int i = 0; i <= m - 1; i++) {
                 if (i > 0 && z < 0) sign = -sign;
@@ -242,10 +242,10 @@ class Zeta {
             sn += omega;
             double omegafactor = Math.pow((v1 + i) / (v1 + i + 1), s);
             if (z < 0.0)
-                omega = (z) * omegafactor * omega;
+                omega = z * omegafactor * omega;
             else {
                 if (z <= 0.5)
-                    omega = (z) * omegafactor * omega;
+                    omega = z * omegafactor * omega;
                 else {
                     StoreAj[i] = sign * omega;
                     if (i % 2 == 0) {
@@ -259,7 +259,7 @@ class Zeta {
             }
             if (Math.abs(z) <= 0.5) {
                 skn = sn;
-                est = 2.0 * Math.pow(Math.abs(z), (i + 1)) / Math.pow(v1 + i + 1, s);
+                est = 2.0 * Math.pow(Math.abs(z), i + 1) / Math.pow(v1 + i + 1, s);
             } else {
                 if (Math.abs(omega) <= Maja.EPSILON) {
                     throw new ArithmeticException("lerch-phi: omega ~= 0");
@@ -304,7 +304,7 @@ class Zeta {
 
         if (v < 0) {
             sign = 1;
-            if ((z < 0) && (m % 2 != 0)) sign = -1;
+            if (z < 0 && m % 2 != 0) sign = -1;
             result = sum1 + skn * sign * Math.pow(Math.abs(z), m);
         } else result = skn;
 

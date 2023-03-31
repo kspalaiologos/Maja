@@ -142,7 +142,7 @@ class Spence {
         }
 
         if (x > 1.5) {
-            w = (1.0 / x) - 1.0;
+            w = 1.0 / x - 1.0;
             flag |= 2;
         } else if (x < 0.5) {
             w = -x;
@@ -153,7 +153,7 @@ class Spence {
         y = -w * polevl(w, A, 7) / polevl(w, B, 7);
 
         if ((flag & 1) != 0)
-            y = (Math.PI * Math.PI) / 6.0 - Math.log(x) * Math.log(1.0 - x) - y;
+            y = Math.PI * Math.PI / 6.0 - Math.log(x) * Math.log(1.0 - x) - y;
 
         if ((flag & 2) != 0) {
             z = Math.log(x);
@@ -252,7 +252,7 @@ class Spence {
                 s = s + h;
                 k += 1.0;
             } while (Math.abs(h / s) > 1.1e-16);
-            return (s + t);
+            return s + t;
         }
 
         boolean do_pseries = false;
@@ -313,7 +313,7 @@ class Spence {
     }
 
     private static boolean isint(Complex x) {
-        return x.im() == 0 && ((int) x.re()) == x.re();
+        return x.im() == 0 && (int) x.re() == x.re();
     }
 
     // Based on a mpmath algorithm.
@@ -324,7 +324,7 @@ class Spence {
             return div(z, sub(Complex.ONE, z));
         else if (eq(s, Complex.ONE))
             return negate(log(sub(Complex.ONE, z)));
-        else if (abs(z) <= 0.75 || (!isint(s) && abs(z) < 0.9))
+        else if (abs(z) <= 0.75 || !isint(s) && abs(z) < 0.9)
             return polylogSeries(s, z);
         else if (abs(z) >= 1.4 && isint(s))
             return add(mul(pow(negate(Complex.ONE), add(s, Complex.ONE)), polylogSeries(s, div(1, z))), polylogContinuation((int) s.re(), z));
@@ -370,7 +370,7 @@ class Spence {
         Complex a = div(mul(pow(twopij, -n), bernpoly(n, div(log(z), twopij))), factorial(n));
         if (z.im() == 0 && z.re() < 0)
             a = new Complex(a.re(), 0);
-        if (z.im() < 0 || (z.im() == 0 && z.re() >= 1))
+        if (z.im() < 0 || z.im() == 0 && z.re() >= 1)
             a = sub(a, div(mul(pow(log(z), n - 1), twopij), factorial(n - 1)));
         return a;
     }

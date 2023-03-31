@@ -8,7 +8,7 @@ class IsSquare {
     }
 
     static boolean isSquare(long x) {
-        if (x < 0 || (x & 2) != 0 || ((x & 7) == 5) || ((x & 11) == 8))
+        if (x < 0 || (x & 2) != 0 || (x & 7) == 5 || (x & 11) == 8)
             return false;
         if (x == 0)
             return true;
@@ -16,7 +16,7 @@ class IsSquare {
         long y = x;
         y = (y & 4294967295L) + (y >> 32);
         y = (y & 65535) + (y >> 16);
-        y = (y & 255) + ((y >> 8) & 255) + (y >> 16);
+        y = (y & 255) + (y >> 8 & 255) + (y >> 16);
         if (bad255[(int) y])
             return false;
         if ((x & 4294967295L) == 0)
@@ -32,18 +32,18 @@ class IsSquare {
         if ((x & 7) != 1)
             return false;
         long r, t, z;
-        r = start[(int) ((x >> 3) & 1023)];
+        r = start[(int) (x >> 3 & 1023)];
         do {
             z = x - r * r;
             if (z == 0)
                 return true;
             if (z < 0)
                 return false;
-            t = z & (-z);
+            t = z & -z;
             r += (z & t) >> 1;
-            if (r > (t >> 1))
+            if (r > t >> 1)
                 r = t - r;
-        } while (t <= (1L << 33));
+        } while (t <= 1L << 33);
 
         return false;
     }

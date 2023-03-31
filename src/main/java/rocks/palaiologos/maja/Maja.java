@@ -1080,7 +1080,7 @@ public class Maja {
         for (s = 30; s >= 0; s = s - 3) {
             y2 = 4 * y2;
             y = 2 * y;
-            b = (3 * (y2 + y) + 1) << s;
+            b = 3 * (y2 + y) + 1 << s;
             if (x >= b) {
                 x = (int) (x - b);
                 y2 = y2 + 2 * y + 1;
@@ -1106,7 +1106,7 @@ public class Maja {
         for (s = 60; s >= 0; s = s - 3) {
             y2 = 4 * y2;
             y = 2 * y;
-            b = (3 * (y2 + y) + 1) << s;
+            b = 3 * (y2 + y) + 1 << s;
             if (x >= b) {
                 x = x - b;
                 y2 = y2 + 2 * y + 1;
@@ -1132,7 +1132,7 @@ public class Maja {
         for (s = 15; s >= 0; s = s - 3) {
             y2 = 4 * y2;
             y = 2 * y;
-            b = (3 * (y2 + y) + 1) << s;
+            b = 3 * (y2 + y) + 1 << s;
             if (x >= b) {
                 x = x - b;
                 y2 = y2 + 2 * y + 1;
@@ -1160,7 +1160,7 @@ public class Maja {
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
             x = (int) (x - (b & t));
-            y = y | (m & t);
+            y = y | m & t;
             m = m >> 2;
         }
 
@@ -1184,7 +1184,7 @@ public class Maja {
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
             x = (int) (x - (b & t));
-            y = y | (m & t);
+            y = y | m & t;
             m = m >> 2;
         }
 
@@ -1208,7 +1208,7 @@ public class Maja {
             y = y >> 1;
             t = (int) (x | ~(x - b)) >> 31;
             x = (short) (x - (b & t));
-            y = y | (m & t);
+            y = y | m & t;
             m = m >> 2;
         }
 
@@ -1224,8 +1224,8 @@ public class Maja {
     public static int ilog10(int x) {
         int y;
         final int[] table = {0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999, 0xFFFFFFFF};
-        y = (19 * (31 - Integer.numberOfLeadingZeros(x))) >> 6;
-        y = y + ((table[y + 1] - x) >>> 31);
+        y = 19 * (31 - Integer.numberOfLeadingZeros(x)) >> 6;
+        y = y + (table[y + 1] - x >>> 31);
         return y;
     }
 
@@ -1311,7 +1311,7 @@ public class Maja {
 
         if (mantissa < 0f) {
             sign = -1;
-            mantissa = -(mantissa);
+            mantissa = -mantissa;
         }
         while (mantissa < 0.5f) {
             mantissa *= 2.0f;
@@ -1338,14 +1338,14 @@ public class Maja {
         double w, y, s;
         if (x == 0.0) {
             if (z == 0)
-                return (1.0);
+                return 1.0;
             else if (z < 0)
                 return Double.POSITIVE_INFINITY;
             else
-                return (0.0);
+                return 0.0;
         }
         if (z == 0)
-            return (1.0);
+            return 1.0;
         if (x < 0.0) {
             asign = -1;
             x = -x;
@@ -1364,7 +1364,7 @@ public class Maja {
         s = ep.second();
 
         e = (lx - 1) * n;
-        if ((e == 0) || (e > 64) || (e < -64)) {
+        if (e == 0 || e > 64 || e < -64) {
             s = (s - 7.0710678118654752e-1) / (s + 7.0710678118654752e-1);
             s = (2.9142135623730950 * s - 0.5 + lx) * z * 1.4426950408889634073599;
         } else {
@@ -1375,7 +1375,7 @@ public class Maja {
             throw new ArithmeticException("pow: overflow");
         }
         if (s < -7.09782712893383996843E2)
-            return (0.0);
+            return 0.0;
         if ((n & 1) != 0)
             y = x;
         else {
@@ -1394,7 +1394,7 @@ public class Maja {
             y = -y;
         if (sign < 0)
             y = 1.0 / y;
-        return (y);
+        return y;
     }
 
     /**
@@ -1920,7 +1920,7 @@ public class Maja {
     public static double acosh(double x) {
         double ans;
 
-        if (Double.isNaN(x) || (x < 1)) {
+        if (Double.isNaN(x) || x < 1) {
             ans = Double.NaN;
         } else if (x < 94906265.62) {
             ans = safeLog(x + Math.sqrt(x * x - 1.0D));

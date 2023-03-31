@@ -49,7 +49,7 @@ class Ei {
         double __d = 1 / __b;
         double __h = __d;
         for (int __i = 1; __i <= __max_iter; ++__i) {
-            double __a = -__i * (__i);
+            double __a = -__i * __i;
             __b += 2;
             __d = 1 / (__a * __d + __b);
             __c = __b + __a / __c;
@@ -134,17 +134,17 @@ class Ei {
         double XT = -2 * abs(Z.im());
         if (A0 == 0.0) {
             CE1 = Complex.COMPLEX_INFINITY;
-        } else if ((A0 <= 5.0) || (X < XT) && (A0 < 40.0)) {
+        } else if (A0 <= 5.0 || X < XT && A0 < 40.0) {
             CE1 = Complex.ONE;
             Complex CR = Complex.ONE;
             for (int K = 1; K <= 500; K++) {
-                CR = div(mul(mul(negate(CR), K), Z), ((K + 1) * (K + 1)));
+                CR = div(mul(mul(negate(CR), K), Z), (K + 1) * (K + 1));
                 CE1 = add(CE1, CR);
                 if (abs(CR) <= abs(CE1) * 1.0E-15)
                     break;
             }
 
-            if ((X <= 0.0) && (Z.im() == 0.0)) {
+            if (X <= 0.0 && Z.im() == 0.0) {
                 CE1 = sub(add(sub(-EULER_GAMMA, log(negate(Z))), mul(Z, CE1)), mul(dsign(PI, Z.im()), I));
             } else {
                 CE1 = add(sub(-EULER_GAMMA, log(Z)), mul(Z, CE1));
@@ -163,12 +163,12 @@ class Ei {
                 ZDC = mul(sub(mul(Z, ZD), 1), ZDC);
                 ZC = add(ZC, ZDC);
 
-                if ((abs(ZDC) <= abs(ZC) * 1.0E-15) && (K > 20))
+                if (abs(ZDC) <= abs(ZC) * 1.0E-15 && K > 20)
                     break;
             }
 
             CE1 = mul(exp(negate(Z)), ZC);
-            if ((X <= 0.0) && (Z.im() == 0.0))
+            if (X <= 0.0 && Z.im() == 0.0)
                 CE1 = sub(CE1, mul(PI, I));
         }
         return CE1;

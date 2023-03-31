@@ -42,7 +42,7 @@ class Fresnel {
                 +6.989334213887669628647e-23
         };
 
-        return chebvl((x - 2.0), c, c.length - 1);
+        return chebvl(x - 2.0, c, c.length - 1);
     }
 
     private static double SChebyshev_Expansion_3_5(double x) {
@@ -61,7 +61,7 @@ class Fresnel {
                 -4.783978662888842165071e-23
         };
 
-        return chebvl((x - 4.0), c, c.length - 1);
+        return chebvl(x - 4.0, c, c.length - 1);
     }
 
     private static double SChebyshev_Expansion_5_7(double x) {
@@ -79,7 +79,7 @@ class Fresnel {
                 +4.255983404468350776788e-24
         };
 
-        return chebvl((x - 6.0), c, c.length - 1);
+        return chebvl(x - 6.0, c, c.length - 1);
 
     }
 
@@ -98,7 +98,7 @@ class Fresnel {
         term[0] = 1.0;
         term[asymptoticTerms] = 0.0;
         for (i = 1; i < asymptoticTerms; i++) {
-            factorial *= ((double) j * (double) (j - 2));
+            factorial *= (double) j * (double) (j - 2);
             xn *= x4;
             term[i] = factorial / xn;
             j += 4;
@@ -110,7 +110,7 @@ class Fresnel {
         }
         for (; i >= 0; i--) g += term[i];
 
-        g /= (x * sqrt_2pi);
+        g /= x * sqrt_2pi;
         return g / (x2 + x2);
     }
 
@@ -152,7 +152,7 @@ class Fresnel {
         int degree = c.length - 1;
         double midpoint = 4.0;
 
-        return chebvl((x - midpoint), c, degree);
+        return chebvl(x - midpoint, c, degree);
     }
 
     public static double CChebyshev_Expansion_3_5(double x) {
@@ -173,7 +173,7 @@ class Fresnel {
         int degree = c.length - 1;
         double midpoint = 4.0;
 
-        return chebvl((x - midpoint), c, degree);
+        return chebvl(x - midpoint, c, degree);
     }
 
     public static double CChebyshev_Expansion_5_7(double x) {
@@ -193,7 +193,7 @@ class Fresnel {
         int degree = c.length - 1;
         double midpoint = 6.0;
 
-        return chebvl((x - midpoint), c, degree);
+        return chebvl(x - midpoint, c, degree);
     }
 
     private static double CAsymptotic_Series(double x) {
@@ -211,7 +211,7 @@ class Fresnel {
         term[0] = 1.0;
         term[asymptoticTerms] = 0.0;
         for (i = 1; i < asymptoticTerms; i++) {
-            factorial *= ((double) j * (double) (j - 2));
+            factorial *= (double) j * (double) (j - 2);
             xn *= x4;
             term[i] = factorial / xn;
             j += 4;
@@ -257,7 +257,7 @@ class Fresnel {
         g = fresnelAuxiliarySineIntegral(Math.abs(x));
         x2 = x * x;
         s = 0.5 - Math.cos(x2) * f - Math.sin(x2) * g;
-        return (x < 0.0) ? -s : s;
+        return x < 0.0 ? -s : s;
     }
 
     public static double fresnelC(double x) {
@@ -272,7 +272,7 @@ class Fresnel {
         g = fresnelAuxiliarySineIntegral(Math.abs(x));
         x2 = x * x;
         c = 0.5 + Math.sin(x2) * f - Math.cos(x2) * g;
-        return (x < 0.0) ? -c : c;
+        return x < 0.0 ? -c : c;
     }
 
     private static double chebvl(double x, double[] a, int degree) {
