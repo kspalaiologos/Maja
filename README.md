@@ -72,8 +72,12 @@ GNU LGPL v3.
 Literature:
 - NIST DLMF (https://dlmf.nist.gov/).
 - Abramowitz & Stegun.
-- Various papers on numerical computing.
 - Wolfram MathWorld (https://mathworld.wolfram.com/).
+- [Implementation of the Combined--Nonlinear Condensation Transformation](https://arxiv.org/abs/math/0207086) - S. V. Aksenov, M. A. Savageau, et al; Comput.Phys.Commun. 150 (2003) 1-20
+- [On the Evaluation of the Complex-Valued Exponential Integral](https://www.sci.utah.edu/~vpegorar/research/2011_JGT.pdf) - Vincent Pegoraro and Philipp Slusallek; Journal of Graphics, GPU, and Game Tools, 15(3): 183-198, 2011
+- [Improving the Double Exponential Quadrature Tanh-Sinh, Sinh-Sinh and Exp-Sinh Formulas](https://www.genivia.com/files/qthsh.pdf) -  Dr. Robert A. van Engelen, Genivia Labs.
+- [GalSim: The modular galaxy image simulation toolkit](https://arxiv.org/abs/1407.7676) - B. Rowe, et al; Instrumentation and Methods for Astrophysics (astro-ph.IM); Cosmology and Nongalactic Astrophysics (astro-ph.CO)
+- Various other on numerical computing.
 
 Software:
 - Many lookup tables (e.g. Chebyshev coefficients, Pade approximants) have been generated using Wolfram Mathematica or Dyalog APL one-liners.
