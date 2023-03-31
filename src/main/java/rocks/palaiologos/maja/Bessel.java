@@ -560,7 +560,7 @@ class Bessel {
     static public double k0(double x) {
         double y, z;
 
-        if (x <= 0.0) throw new ArithmeticException();
+        if (x <= 0.0) return Double.POSITIVE_INFINITY;
         if (x <= 2.0) {
             y = x * x - 2.0;
             y = chbevl(y, A_k0, 10) - Math.log(0.5 * x) * i0(x);

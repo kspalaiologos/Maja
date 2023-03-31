@@ -42,10 +42,21 @@ public class TestAiry {
         assertThat(Maja.abs(Maja.airyBi(-1) - 0.1039973894969446118886899909785991446370)).isLessThan(1e-15);
         assertThat(Maja.abs(Maja.airyBi(-5.6) + 0.360172225437713344245843596994549992815)).isLessThan(1e-15);
         // Accuracy diminishes for larger values of x, but this is not a huge problem.
+        // Despite looking rather large, the worst-case relative error is at most 4.418687638008123E-12%.
         assertThat(Maja.abs(Maja.airyBi(5.6) - 2540.18283758149890523387595324256875012096)).isLessThan(2e-12);
         assertThat(Maja.abs(Maja.airyBi(-12.6) - 0.2052016805306034694915364528812494365753)).isLessThan(1e-15);
         assertThat(Maja.abs(Maja.airyBi(12.6) - 2.67139640130579937853574376851794776585679e12)).isLessThan(1e-2);
         assertThat(Maja.abs(Maja.airyBi(-100.6) - 0.071120276667991626826926966029165362298975)).isLessThan(2e-14);
         assertThat(Maja.abs(Maja.airyBi(100.6) - 2.4555381213245226172411883474564151744705065217434285e291)).isLessThan(1.1E278);
+        assertThat(Maja.airyBi(Double.NaN)).isNaN();
+    }
+
+    @Test
+    public void testBip() {
+        assertThat(Maja.abs(Maja.airyBip(1) - 0.9324359333927756329594514536744353442695653752386)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBip(-1) - 0.592375626422792350816779229181600973276795883367)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBip(-5.6) + 0.177837595579460472064086640978407456618028224981)).isLessThan(1e-15);
+        assertThat(Maja.abs(Maja.airyBip(5.6) - 5891.67408620813233496772479301623855645524466691141)).isLessThan(8.2e-12);
+        assertThat(Maja.airyBip(Double.NaN)).isNaN();
     }
 }
