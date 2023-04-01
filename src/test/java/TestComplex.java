@@ -82,6 +82,7 @@ public class TestComplex {
     @Test
     public void testLi() {
         assertThat(Maja.li(new Complex(1, 2))).isEqualTo(new Complex(1.387678742022938, 2.508754698859233));
+        assertThat(Maja.e1(new Complex(-10, 10))).isEqualTo(new Complex(1576.1504265768526, 433.77763904754283));
     }
 
     @Test
