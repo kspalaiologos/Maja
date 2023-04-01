@@ -118,6 +118,16 @@ class Integrator {
         return mul(c1, sum);
     }
 
+    public static Complex gaussLegendreIntegrate(Function<Complex, Complex> f, Complex a, Complex b, int N) {
+        if (N < 0) throw new ArithmeticException("N must be positive");
+        GaussLegendreParameters parameters = getParameters(N);
+        Complex c1 = div(sub(b, a), 2), c2 = div(add(b, a), 2);
+        Complex sum = Complex.ZERO;
+        for (int i = 0; i < N; i++)
+            sum = add(sum, mul(parameters.weight[i], f.apply(add(mul(c1, parameters.lroots[i]), c2))));
+        return mul(c1, sum);
+    }
+
     // https://www.genivia.com/files/qthsh.pdf.
     // returns a two element double array of the result and the estimated error.
     public static double[] finiteTanhSinh(MonadicFunction f, double a, double b, int n, double eps) {
