@@ -149,6 +149,13 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
+                <configuration>
+                    <excludes>
+                        <!-- Exclude the expression function registry from code coverage tests.
+                             It is not particularly beneficial nor interesting to test these. -->
+                        <exclude>rocks/palaiologos/maja/ExpressionFunctions.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
