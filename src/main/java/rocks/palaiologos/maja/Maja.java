@@ -3956,7 +3956,31 @@ public class Maja {
         return Zeta.lerch_phi(z, s, a);
     }
 
+    /**
+     * Compute the specified branch of the complex Lambert W function of z.
+     * @param z
+     * @param k
+     * @return lambertw(z, k)
+     */
     public static Complex lambertw(Complex z, long k) {
         return Lambert.lambertW(z, k);
+    }
+
+    /**
+     * Trim insignificant real/imaginary parts (below machine epsilon), round up numbers where
+     * the real/imaginary part is very close to an integer.
+     * @param z
+     * @return iround(z)
+     */
+    public static Complex chop(Complex z) {
+        if(Math.abs(z.re()) < EPSILON)
+            z = new Complex(0, z.im());
+        if(Math.abs(z.im()) < EPSILON)
+            z = new Complex(z.re(), 0);
+        if(Math.abs(z.re() - Math.round(z.re())) < EPSILON)
+            z = new Complex(Math.round(z.re()), z.im());
+        if(Math.abs(z.im() - Math.round(z.im())) < EPSILON)
+            z = new Complex(z.re(), Math.round(z.im()));
+        return z;
     }
 }
