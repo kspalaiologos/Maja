@@ -27,7 +27,7 @@ Constants:
 - Apery, Catalan, E, Euler-Mascheroni, Feigenbaum, Glaisher, Golden ratio, Golomb-Dickman, Khinchin, Mills, various standard logarithms and precise values of 1/pi, pi, pi/2, pi/4, 2*pi.
 
 Real Functions:
-- Elementary (abs, add, cbrt, ceil, clamp, compare, copySign, div, eq, exp, expm1, fib, floor, fma, frexp, ge, getExponent, gt, hypot, icbrt, iexp, ilog10, isPerfectSquare, isPowerOfTwo, isqrt, le, log, log10, log1p, log2, lt, amx, min, mod, mul, ne, nextAfter, nextDown, nextPowerOfTwo, nextUp, pow, rem, round, scalb, signum, sqrt, sub, ulp)
+- Elementary (abs, add, cbrt, ceil, clamp, compare, copySign, div, eq, exp, expm1, fib, floor, fma, frexp, ge, getExponent, gt, hypot, icbrt, iexp, ilog10, isPerfectSquare, isPowerOfTwo, isqrt, le, log, log10, log1p, log2, lt, max, min, mod, mul, ne, nextAfter, nextDown, nextPowerOfTwo, nextUp, pow, rem, round, scalb, signum, sqrt, sub, ulp)
 - Interpolation (linearInterpolate, linearMap, linearNorm)
 - Random number generation.
 - Sigmoid (logistic) functions (squash, stretch)
@@ -77,6 +77,7 @@ Literature:
 - [On the Evaluation of the Complex-Valued Exponential Integral](https://www.sci.utah.edu/~vpegorar/research/2011_JGT.pdf) - Vincent Pegoraro and Philipp Slusallek; Journal of Graphics, GPU, and Game Tools, 15(3): 183-198, 2011
 - [Improving the Double Exponential Quadrature Tanh-Sinh, Sinh-Sinh and Exp-Sinh Formulas](https://www.genivia.com/files/qthsh.pdf) -  Dr. Robert A. van Engelen, Genivia Labs.
 - [GalSim: The modular galaxy image simulation toolkit](https://arxiv.org/abs/1407.7676) - B. Rowe, et al; Instrumentation and Methods for Astrophysics (astro-ph.IM); Cosmology and Nongalactic Astrophysics (astro-ph.CO)
+- [Computing the Lerch transcendent](https://fredrikj.net/blog/2022/02/computing-the-lerch-transcendent/) - Fredrik Johansson
 - Various other on numerical computing.
 
 Software:
