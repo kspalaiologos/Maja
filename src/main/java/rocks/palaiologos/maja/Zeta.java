@@ -364,6 +364,8 @@ class Zeta {
             return add(mul(z, lerch_phi(z, s, add(a, 1))), pow(pow(a, 2), negate(div(s, 2))));
         }
 
+        final int degree = 6;
+
         Function<Complex, Complex> g = t ->
                 mul(pow(t, sub(s, 1)), div(exp(negate(mul(a, t))), sub(1, mul(z, exp(negate(t))))));
         Function<Complex, Complex> h = t ->
@@ -375,17 +377,17 @@ class Zeta {
             Complex I = Complex.ZERO;
             if (Math.abs(L.im()) < 0.25 && L.re() >= 0) {
                 if (z.im() <= 0.0) {
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, Complex.ZERO, new Complex(0, 1), 10));
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, new Complex(0, 1), add(new Complex(1, 1), abs(L)), 10));
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, add(new Complex(1, 1), abs(L)), add(abs(L), Complex.ONE), 10));
+                    I = add(I, Integrator.finiteTanhSinh(g, Complex.ZERO, new Complex(0, 1), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinh(g, new Complex(0, 1), add(new Complex(1, 1), abs(L)), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinh(g, add(new Complex(1, 1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
                 } else {
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, Complex.ZERO, new Complex(0, -1), 10));
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, new Complex(0, -1), add(new Complex(1, -1), abs(L)), 10));
-                    I = add(I, Integrator.gaussLegendreIntegrate(g, add(new Complex(1, -1), abs(L)), add(abs(L), Complex.ONE), 10));
+                    I = add(I, Integrator.finiteTanhSinh(g, Complex.ZERO, new Complex(0, -1), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinh(g, new Complex(0, -1), add(new Complex(1, -1), abs(L)), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinh(g, add(new Complex(1, -1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
                 }
-                I = add(I, Integrator.gaussLegendreIntegrate(g, add(abs(L), Complex.ONE), intmax, 10));
+                I = add(I, Integrator.finiteTanhSinh(g, add(abs(L), Complex.ONE), intmax, degree, EPSILON)[0]);
             } else {
-                I = Integrator.gaussLegendreIntegrate(g, Complex.ZERO, intmax, 10);
+                I = Integrator.finiteTanhSinh(g, Complex.ZERO, intmax, degree, EPSILON)[0];
             }
             return mul(recipGammaNoPole(s), I);
         }
@@ -410,26 +412,26 @@ class Zeta {
         Complex Int = Complex.ZERO;
 
         if(isreal) {
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
-                    g, right, add(right, mul(top, Maja.I)), 10), w).im()));
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
-                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), 10), w).im()));
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
-                    h, add(negate(left), mul(top, Maja.I)), negate(left), 10), w).im()));
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+                    g, right, add(right, mul(top, Maja.I)), degree, EPSILON)[0], w).im()));
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), degree, EPSILON)[0], w).im()));
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+                    h, add(negate(left), mul(top, Maja.I)), negate(left), degree, EPSILON)[0], w).im()));
         } else {
-            Int = add(Int, div(Integrator.gaussLegendreIntegrate(
-                    g, right, add(right, mul(top, Maja.I)), 10), w));
-            Int = add(Int, div(Integrator.gaussLegendreIntegrate(
-                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), 10), w));
-            Int = add(Int, Integrator.gaussLegendreIntegrate(
-                    h, add(negate(left), mul(top, Maja.I)), add(negate(left), mul(negate(top), Maja.I)), 10));
-            Int = add(Int, mul(w, Integrator.gaussLegendreIntegrate(
-                    g, add(negate(left), mul(negate(top), Maja.I)), add(right, mul(negate(top), Maja.I)), 10)));
-            Int = add(Int, mul(w, Integrator.gaussLegendreIntegrate(
-                    g, add(right, mul(negate(top), Maja.I)), right, 10)));
+            Int = add(Int, div(Integrator.finiteTanhSinh(
+                    g, right, add(right, mul(top, Maja.I)), degree, EPSILON)[0], w));
+            Int = add(Int, div(Integrator.finiteTanhSinh(
+                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), degree, EPSILON)[0], w));
+            Int = add(Int, Integrator.finiteTanhSinh(
+                    h, add(negate(left), mul(top, Maja.I)), add(negate(left), mul(negate(top), Maja.I)), degree, EPSILON)[0]);
+            Int = add(Int, mul(w, Integrator.finiteTanhSinh(
+                    g, add(negate(left), mul(negate(top), Maja.I)), add(right, mul(negate(top), Maja.I)), degree, EPSILON)[0]));
+            Int = add(Int, mul(w, Integrator.finiteTanhSinh(
+                    g, add(right, mul(negate(top), Maja.I)), right, degree, EPSILON)[0]));
         }
-        Int = add(Int, mul(sub(w, div(Complex.ONE, w)), Integrator.gaussLegendreIntegrate(
-                g, right, intmax, 10)));
+        Int = add(Int, mul(sub(w, div(Complex.ONE, w)), Integrator.finiteTanhSinh(
+                g, right, intmax, degree, EPSILON)[0]));
         Int = add(div(Int, mul(TWO_PI, Maja.I)), residue);
         Int = mul(negate(gamma(sub(Complex.ONE, s))), Int);
         return Int;

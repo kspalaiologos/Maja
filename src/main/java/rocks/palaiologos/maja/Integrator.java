@@ -219,6 +219,50 @@ class Integrator {
         return new Complex[]{mul(d, mul(s, h)), new Complex(e)};
     }
 
+    public static Complex[] finiteTanhSinh(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
+        final double tol = 10 * eps;
+        Complex c = div(add(a, b), 2);
+        Complex d = div(sub(b, a), 2);
+        Complex s = f.apply(c), v;
+        double e, h = 2;
+        int k = 0;
+        if (n <= 0)
+            n = 6;
+        if (eps <= 0)
+            eps = 1E-9;
+        do {
+            double t, eh;
+            Complex fp = Complex.ZERO, fm = Complex.ZERO, q, p = Complex.ZERO;
+            h /= 2;
+            t = eh = Math.exp(h);
+            if (k > 0)
+                eh *= eh;
+            do {
+                double u = Math.exp(1 / t - t);
+                double r = 2 * u / (1 + u);
+                double w = (t + 1 / t) * r / (1 + u);
+                Complex x = mul(d, r);
+                // XXX: we don't check for proximity of the points. We probably should,
+                // for performance reasons.
+                Complex y;
+                y = f.apply(add(a, x));
+                if (ne(y, Complex.COMPLEX_INFINITY))
+                    fp = y;
+                y = f.apply(sub(b, x));
+                if (ne(y, Complex.COMPLEX_INFINITY))
+                    fm = y;
+                q = mul(w, add(fp, fm));
+                p = add(p, q);
+                t *= eh;
+            } while (abs(q) > eps * abs(p));
+            v = sub(s, p);
+            s = add(s, p);
+            ++k;
+        } while (abs(v) > tol * abs(s) && k <= n);
+        e = abs(v) / (abs(s) + eps);
+        return new Complex[]{mul(d, mul(s, h)), new Complex(e)};
+    }
+
     public static class GaussLegendreParameters {
         public final double[] lroots;
         public final double[] weight;
