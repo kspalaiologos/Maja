@@ -97,12 +97,17 @@ public class TestComplex {
                 Maja.abs(Maja.sub(
                         Maja.lerchPhi(new Complex(-2, 2), new Complex(1, 2), new Complex(2, 2)),
                         new Complex(-0.539304744092355, -0.611340474677990)))
-        ).isLessThan(2.5e-13);
+        ).isLessThan(6e-7);
         assertThat(
                 Maja.abs(Maja.sub(
                         Maja.lerchPhi(new Complex(-2, 2), new Complex(1, 2), new Complex(-2, 2)),
                         new Complex(-15.1536239656553, 43.4891357967102)))
-        ).isLessThan(1E-11);
+        ).isLessThan(3.9e-5);
+        assertThat(
+                Maja.abs(Maja.sub(
+                        Maja.lerchPhi(new Complex(0, -8), new Complex(1, -1), new Complex(2, 1)),
+                        new Complex(-0.0210382763183311, -0.0598747533099067)))
+        ).isLessThan(4.13e-6);
     }
 
     @Test

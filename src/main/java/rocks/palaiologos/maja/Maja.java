@@ -2912,7 +2912,9 @@ public class Maja {
      */
     public static Complex log(Complex x) {
         // Log(z) = ln(r) + i*theta = ln(|z|) + i*arg(z) = ln(|z|) + i*atan2(im(z), re(z))
-        return new Complex(Math.log(abs(x)), Math.atan2(x.im(), x.re()));
+        // There's some ridiculous nonsense involving the sign of zero here.
+        // Pretend that it doesn't exist...
+        return new Complex(Math.log(abs(x)), Math.atan2(x.im() == -0.0 ? 0.0 : x.im(), x.re() == -0.0 ? 0.0 : x.re()));
     }
 
     /**
@@ -3939,11 +3941,10 @@ public class Maja {
      * Compute the Lerch transcendent of z, s, and a.
      * A few things to note:
      * <ul>
-     *     <li>Presently, the implementation of Lerch Phi uses the Abel-Plana formula,
-     *     which ends up with an invalid branch cut (as seen when using e.g.
-     *     <code>Maja.lerchPhi(new Complex(0, -8), new Complex(1, -1), new Complex(1, 1))</code></li>
      *     <li>The implementation may overflow the stack for particularly large, negative values of Re(a).
      *     This is being worked on.</li>
+     *     <li>The precision of the output may vary. Worst-case scenario revealed during non-extensive randomised
+     *     trials is around 0.006% relative error</li>
      * </ul>
      *
      * @param z

@@ -345,31 +345,94 @@ class Zeta {
             return uiGamma(z, a);
     }
 
+    private static Complex recipGammaNoPole(Complex z) {
+        if(isnpint(z))
+            return Complex.ZERO;
+        return div(1, gamma(z));
+    }
+
     public static Complex lerch_phi(Complex z, Complex s, Complex a) {
         if (eq(z, 0))
             return pow(a, negate(s));
+
         if (eq(z, 1) && s.re() > 1)
             return hurwitz_zeta(s, a);
-        // Make sure that Re(a) > 0 using the recurrence relation
-        // lerchphi(z, s, a) = z * lerchphi(z, s, a + 1) + a^-s
-        if (a.re() < 1) {
+
+        if (a.re() < 2) {
             if (isnpint(a))
                 return Complex.COMPLEX_INFINITY;
             return add(mul(z, lerch_phi(z, s, add(a, 1))), pow(pow(a, 2), negate(div(s, 2))));
         }
-        Complex g = log(z);
-        Complex v = add(div(1, mul(2, pow(a, s))), div(mul(gammainc(sub(1, s), mul(negate(a), g)), pow(negate(g), sub(s, 1))), pow(z, a)));
-        Complex h = div(s, 2);
-        Complex r = new Complex(TWO_PI);
-        var f = (Function<Double, Complex>) t -> {
-            if (t < EPSILON)
-                return Complex.ZERO;
-            Complex numerator = sin(sub(mul(s, atan(div(t, a))), mul(t, g)));
-            Complex denominator = mul(pow(add(pow(a, 2), pow(t, 2)), h), sub(exp(mul(r, t)), 1));
-            return div(numerator, denominator);
-        };
-        v = add(v, mul(2, integrateTanhSinh(f, 0, abs(a) + abs(z) + abs(s), 7, 1e-12)[0]));
-        return v;
+
+        Function<Complex, Complex> g = t ->
+                mul(pow(t, sub(s, 1)), div(exp(negate(mul(a, t))), sub(1, mul(z, exp(negate(t))))));
+        Function<Complex, Complex> h = t ->
+                mul(pow(negate(t), sub(s, 1)), div(exp(negate(mul(a, t))), sub(1, mul(z, exp(negate(t))))));
+        Complex L = log(z);
+        Complex intmax = new Complex(Math.min(abs(z) + abs(s) + abs(a), 10));
+
+        if (s.im() == 0 && s.re() == floor(s.re()) && s.re() >= 1) {
+            Complex I = Complex.ZERO;
+            if (Math.abs(L.im()) < 0.25 && L.re() >= 0) {
+                if (z.im() <= 0.0) {
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, Complex.ZERO, new Complex(0, 1), 10));
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, new Complex(0, 1), add(new Complex(1, 1), abs(L)), 10));
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, add(new Complex(1, 1), abs(L)), add(abs(L), Complex.ONE), 10));
+                } else {
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, Complex.ZERO, new Complex(0, -1), 10));
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, new Complex(0, -1), add(new Complex(1, -1), abs(L)), 10));
+                    I = add(I, Integrator.gaussLegendreIntegrate(g, add(new Complex(1, -1), abs(L)), add(abs(L), Complex.ONE), 10));
+                }
+                I = add(I, Integrator.gaussLegendreIntegrate(g, add(abs(L), Complex.ONE), intmax, 10));
+            } else {
+                I = Integrator.gaussLegendreIntegrate(g, Complex.ZERO, intmax, 10);
+            }
+            return mul(recipGammaNoPole(s), I);
+        }
+
+        Complex residue = Complex.ZERO;
+        Complex left, right, top, c;
+        if (L.re() < -0.5) {
+            c = new Complex(Math.min(abs(L.re()) / 2, 1));
+            left = right = top = c;
+        } else if (abs(L.im()) > 0.5) {
+            c = new Complex(Math.min(abs(L.im()) / 2, 1));
+            left = right = top = c;
+        } else {
+            residue = div(pow(negate(L), s), div(L, pow(z, a)));
+            left = add(max(0, negate(L.re())), Complex.ONE);
+            top = add(abs(L.im()), Complex.ONE);
+            right = add(abs(L), Complex.ONE);
+        }
+
+        boolean isreal = z.im() == 0 && z.re() < 1 && s.im() == 0 && a.im() == 0 && a.re() > 0;
+        Complex w = pow(negate(Complex.ONE), sub(s, 1));
+        Complex Int = Complex.ZERO;
+
+        if(isreal) {
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
+                    g, right, add(right, mul(top, Maja.I)), 10), w).im()));
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
+                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), 10), w).im()));
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.gaussLegendreIntegrate(
+                    h, add(negate(left), mul(top, Maja.I)), negate(left), 10), w).im()));
+        } else {
+            Int = add(Int, div(Integrator.gaussLegendreIntegrate(
+                    g, right, add(right, mul(top, Maja.I)), 10), w));
+            Int = add(Int, div(Integrator.gaussLegendreIntegrate(
+                    g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), 10), w));
+            Int = add(Int, Integrator.gaussLegendreIntegrate(
+                    h, add(negate(left), mul(top, Maja.I)), add(negate(left), mul(negate(top), Maja.I)), 10));
+            Int = add(Int, mul(w, Integrator.gaussLegendreIntegrate(
+                    g, add(negate(left), mul(negate(top), Maja.I)), add(right, mul(negate(top), Maja.I)), 10)));
+            Int = add(Int, mul(w, Integrator.gaussLegendreIntegrate(
+                    g, add(right, mul(negate(top), Maja.I)), right, 10)));
+        }
+        Int = add(Int, mul(sub(w, div(Complex.ONE, w)), Integrator.gaussLegendreIntegrate(
+                g, right, intmax, 10)));
+        Int = add(div(Int, mul(TWO_PI, Maja.I)), residue);
+        Int = mul(negate(gamma(sub(Complex.ONE, s))), Int);
+        return Int;
     }
 
     private static Complex __riemann_zeta_glob(Complex __s) {
