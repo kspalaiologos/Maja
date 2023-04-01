@@ -409,7 +409,8 @@ class Gamma {
             throw new ArithmeticException("Domain error");
         }
         if (n > 170) {
-            return Double.POSITIVE_INFINITY;
+            // Can use the stirling formula now.
+            return sqrt(TWO_PI * n) * pow(n / E, n);
         }
         return factorialTab[(int) n];
     }
