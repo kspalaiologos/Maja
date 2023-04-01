@@ -35,11 +35,33 @@ public class TestBessel {
     }
 
     @Test
-    public void testK() {
+    public void testK0() {
         assertThat(inRange(Maja.besselK0(1.0), 0.42102443824070823, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(2.0), 0.1138938727495334, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(1.23), 0.3057709895976339, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(12.34), 1.5451620707996024E-6, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(3.1415), 0.029511826011480266, 1e-10)).isTrue();
+    }
+
+    @Test
+    public void testJ() {
+        assertThat(inRange(Maja.besselJ0(0.0), 1.0, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(1.0), 0.7651976865579665, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(0.5), 0.938469807240813, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(0.25), 0.9844359292958527, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(1.23), 0.656070571706025, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(4.56), -0.30620449017839674, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(10.11), -0.2492010643917988, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(33.33), 0.05959635979399258, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-1.0), 0.7651976865579665, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-0.5), 0.938469807240813, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-0.25), 0.9844359292958527, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-1.23), 0.656070571706025, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-4.56), -0.30620449017839674, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-10.11), -0.2492010643917988, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ0(-33.33), 0.05959635979399258, 1e-10)).isTrue();
+        assertThat(Maja.besselJ0(Double.NaN)).isNaN();
+        assertThat(Maja.besselJ0(Double.POSITIVE_INFINITY)).isEqualTo(0);
+        assertThat(Maja.besselJ0(Double.NEGATIVE_INFINITY)).isEqualTo(0);
     }
 }
