@@ -251,6 +251,9 @@ class Fresnel {
         double x2;
         double s;
 
+        if(x == Double.POSITIVE_INFINITY) return 0.5;
+        if(x == Double.NEGATIVE_INFINITY) return -0.5;
+
         if (Math.abs(x) < 0.5) return powerSeriesS(x);
 
         f = fresnelAuxiliaryCosineIntegral(Math.abs(x));
@@ -265,6 +268,9 @@ class Fresnel {
         double g;
         double x2;
         double c;
+
+        if(x == Double.POSITIVE_INFINITY) return 0.5;
+        if(x == Double.NEGATIVE_INFINITY) return -0.5;
 
         if (Math.abs(x) < 0.5) return powerSeriesC(x);
 
