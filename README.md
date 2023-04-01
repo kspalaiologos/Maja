@@ -59,7 +59,8 @@ Complex functions:
 - Zeta function family (Riemann Zeta, Hurwitz Zeta, Lerch Transcendent)
 - Trigonometric integral family (Si, si, Ci, Cin, Shi, Chi, ShiChi).
 - Polylogarithm family (dilog, Spence, polylog)
-- Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre).
+- Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre), contour integration.
+- Lambert W.
 
 Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
