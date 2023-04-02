@@ -751,7 +751,7 @@ public class Maja {
     }
 
     /**
-     * Copy thesign of the second argument to the first argument.
+     * Copy the sign of the second argument to the first argument.
      *
      * @param x
      * @param y
@@ -4000,5 +4000,36 @@ public class Maja {
         if(Math.abs(z.im() - Math.round(z.im())) < EPSILON)
             z = new Complex(z.re(), Math.round(z.im()));
         return z;
+    }
+
+    /**
+     * Compute the surface area of a solid of revolution created by rotating the function
+     * f(x) about the x-axis. The function f(x) must be continuous and differentiable
+     * on the interval [a, b]. The area is computed using the Gauss-Legendre quadrature
+     * as 2pi * integral of f(x) * sqrt(1 + df(x)^2) from a to b.
+     *
+     * @param f the function to rotate
+     * @param df the derivative of f
+     * @param a the lower bound of the interval
+     * @param b the upper bound of the interval
+     * @return the area of the solid of revolution
+     */
+    public static double solidArea(MonadicFunction f, MonadicFunction df, double a, double b) {
+        return TWO_PI * integrateGaussLegendre((MonadicFunction) x -> f.apply(x) * sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
+    }
+
+    /**
+     * Compute the volume of a solid of revolution created by rotating the function f(x)
+     * about the x-axis. The function f(x) must be continuous and differentiable on the
+     * interval [a, b]. The volume is computed using the Gauss-Legendre quadrature as
+     * pi * integral of f(x)^2 from a to b (the disk method).
+     *
+     * @param f the function to rotate
+     * @param a the lower bound of the interval
+     * @param b the upper bound of the interval
+     * @return the volume of the solid of revolution
+     */
+    public static double solidVolume(MonadicFunction f, double a, double b) {
+        return PI * integrateGaussLegendre((MonadicFunction) x -> pow(f.apply(x), 2), a, b, 10);
     }
 }
