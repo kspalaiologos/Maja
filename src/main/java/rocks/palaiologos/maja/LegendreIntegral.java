@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import static rocks.palaiologos.maja.Maja.*;
 
-public class LegendreIntegral {
+class LegendreIntegral {
     // The relative error in this approximation tends to be about 4.98535*10^-10%.
     public static double legendreF(double phi, double k) {
         return integrateTanhSinh((MonadicFunction) t ->
