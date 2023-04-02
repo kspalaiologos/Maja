@@ -60,6 +60,7 @@ Complex functions:
 - Zeta function family (Riemann Zeta, Hurwitz Zeta, Lerch Transcendent)
 - Trigonometric integral family (Si, si, Ci, Cin, Shi, Chi, ShiChi).
 - Polylogarithm family (dilog, Spence, polylog)
+- Legendre elliptic integrals (F, E, D, Pi)
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre), contour integration.
 - Lambert W.
 
