@@ -2918,6 +2918,24 @@ public class Maja {
     }
 
     /**
+     * Return the argument of a complex number.
+     * @param z
+     * @return Arg(z)
+     */
+    public static double arg(Complex z) {
+        return Math.atan2(z.im(), z.re());
+    }
+
+    /**
+     * Compute the value of the cis function of a number.
+     * @param x
+     * @return cos(x) + i * sin(x)
+     */
+    public static Complex cis(double x) {
+        return new Complex(Math.cos(x), Math.sin(x));
+    }
+
+    /**
      * Compare two numbers for equality.
      *
      * @param a
