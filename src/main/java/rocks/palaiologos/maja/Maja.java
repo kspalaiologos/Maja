@@ -4120,4 +4120,49 @@ public class Maja {
     public static double legendrePi(double phi, double alpha, double k) {
         return LegendreIntegral.legendrePi(phi, alpha, k);
     }
+
+    /**
+     * Compute the Legendre F elliptic integral defined by DLMF §19.2.4
+     *
+     * @param phi
+     * @param k
+     * @return legendreF(phi, k)
+     */
+    public static Complex legendreF(Complex phi, Complex k) {
+        return LegendreIntegral.legendreF(phi, k);
+    }
+
+    /**
+     * Compute the Legendre E elliptic integral defined by DLMF §19.2.5
+     *
+     * @param phi
+     * @param k
+     * @return legendreE(phi, k)
+     */
+    public static Complex legendreE(Complex phi, Complex k) {
+        return LegendreIntegral.legendreE(phi, k);
+    }
+
+    /**
+     * Compute the Legendre D elliptic integral defined by DLMF §19.2.6
+     *
+     * @param phi
+     * @param k
+     * @return legendreD(phi, k)
+     */
+    public static Complex legendreD(Complex phi, Complex k) {
+        return LegendreIntegral.legendreD(phi, k);
+    }
+
+    /**
+     * Compute the Legendre Pi elliptic integral defined by DLMF §19.2.7
+     *
+     * @param phi
+     * @param alpha
+     * @param k
+     * @return legendrePi(phi, alpha, k)
+     */
+    public static Complex legendrePi(Complex phi, Complex alpha, Complex k) {
+        return LegendreIntegral.legendrePi(phi, alpha, k);
+    }
 }
