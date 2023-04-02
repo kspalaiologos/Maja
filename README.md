@@ -46,6 +46,7 @@ Real Functions:
 - Lambert W (W0, W-1)
 - Hypergeometric function (2F1, 1F1, 1F2, 3F0, Struve).
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
+- Legendre elliptic integrals (F, E, D, Pi)
 - Root finding (Newton-Raphson method).
 
 Complex functions:

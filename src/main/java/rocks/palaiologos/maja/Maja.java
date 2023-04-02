@@ -4032,4 +4032,92 @@ public class Maja {
     public static double solidVolume(MonadicFunction f, double a, double b) {
         return PI * integrateGaussLegendre((MonadicFunction) x -> pow(f.apply(x), 2), a, b, 10);
     }
+
+    /**
+     * Integrate a C -&gt; C function using the Tanh-Sinh quadrature. Performs
+     * integration through a straight line contour from a to b.
+     *
+     * @param f the function to integrate
+     * @param a the lower bound of the interval
+     * @param b the upper bound of the interval
+     * @param n the quadrature degree
+     * @param eps the desired accuracy
+     * @return the integral of f from a to b
+     */
+    public static Complex[] integrateTanhSinh(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
+        return Integrator.finiteTanhSinh(f, a, b, n, eps);
+    }
+
+    /**
+     * Integrate a C -&gt; C function using the Gauss-Legendre quadrature. Performs
+     * integration through a straight line contour from a to b.
+     *
+     * @param f the function to integrate
+     * @param a the lower bound of the interval
+     * @param b the upper bound of the interval
+     * @param n the quadrature degree
+     * @return the integral of f from a to b
+     */
+    public static Complex integrateGaussLegendre(Function<Complex, Complex> f, Complex a, Complex b, int n) {
+        return Integrator.gaussLegendreIntegrate(f, a, b, n);
+    }
+
+    /**
+     * Compute the arc length of a curve defined by the function f(x) and its derivative
+     * df(x) on the interval [a, b]. The arc length is computed using the Gauss-Legendre
+     * quadrature as the integral of sqrt(1 + df(x)^2) from a to b.
+     *
+     * @param df the derivative of f
+     * @param a the lower bound of the interval
+     * @param b the upper bound of the interval
+     * @return the arc length of the curve
+     */
+    public static double arcLength(MonadicFunction df, double a, double b) {
+        return integrateGaussLegendre((MonadicFunction) x -> sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
+    }
+
+    /**
+     * Compute the Legendre F elliptic integral defined by DLMF §19.2.4
+     *
+     * @param phi
+     * @param k
+     * @return legendreF(phi, k)
+     */
+    public static double legendreF(double phi, double k) {
+        return LegendreIntegral.legendreF(phi, k);
+    }
+
+    /**
+     * Compute the Legendre E elliptic integral defined by DLMF §19.2.5
+     *
+     * @param phi
+     * @param k
+     * @return legendreE(phi, k)
+     */
+    public static double legendreE(double phi, double k) {
+        return LegendreIntegral.legendreE(phi, k);
+    }
+
+    /**
+     * Compute the Legendre D elliptic integral defined by DLMF §19.2.6
+     *
+     * @param phi
+     * @param k
+     * @return legendreD(phi, k)
+     */
+    public static double legendreD(double phi, double k) {
+        return LegendreIntegral.legendreD(phi, k);
+    }
+
+    /**
+     * Compute the Legendre Pi elliptic integral defined by DLMF §19.2.7
+     *
+     * @param phi
+     * @param alpha
+     * @param k
+     * @return legendrePi(phi, alpha, k)
+     */
+    public static double legendrePi(double phi, double alpha, double k) {
+        return LegendreIntegral.legendrePi(phi, alpha, k);
+    }
 }
