@@ -5,6 +5,7 @@
 [![Lines Of Code](https://tokei.rs/b1/github/kspalaiologos/Maja?category=code)](https://github.com/kspalaiologos/Maja)
 [![Maven Central](https://img.shields.io/maven-central/v/rocks.palaiologos/maja)](https://mvnrepository.com/artifact/rocks.palaiologos/maja)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7793154.svg)](https://doi.org/10.5281/zenodo.7793154)
+[![wakatime](https://wakatime.com/badge/user/c3a8c589-783c-4ab2-be05-93fa48bc9a94/project/4ced514f-b93b-4671-b37d-602677409fd0.svg)](https://wakatime.com/badge/user/c3a8c589-783c-4ab2-be05-93fa48bc9a94/project/4ced514f-b93b-4671-b37d-602677409fd0)
 
 A slick numerics-oriented Mathematical library for Java. Maja implements around 300 different functions for use in Java programs, including high-performance cached variants of the `Math` equivalents. [Javadoc](https://kspalaiologos.github.io/Maja/javadoc/rocks/palaiologos/maja/package-summary.html).
 
