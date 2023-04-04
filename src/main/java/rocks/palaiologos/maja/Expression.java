@@ -45,7 +45,7 @@ class Expression {
 
         private Token name() {
             int begin = pos;
-            while (pos < input.length() && Character.isLetterOrDigit(input.charAt(pos)) || input.charAt(pos) == '\'')
+            while (pos < input.length() && (Character.isLetterOrDigit(input.charAt(pos)) || input.charAt(pos) == '\''))
                 pos++;
             return new Token(TokenType.NAME, input.substring(begin, pos));
         }

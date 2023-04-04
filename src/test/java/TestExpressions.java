@@ -18,5 +18,7 @@ public class TestExpressions {
         assertThat(Maja.eval("sin(pi * 1.2e+5) ** 2").getDouble()).isLessThan(Maja.EPSILON);
         assertThat(Maja.eval("exp(4)-1").getDouble()).isEqualTo(53.598150033144236);
         assertThat(Maja.eval("2*2").getLong()).isEqualTo(4);
+        assertThat(Maja.eval("2 pi").getDouble()).isEqualTo(Maja.TWO_PI);
+        assertThat(Maja.eval("2pi").getDouble()).isEqualTo(Maja.TWO_PI);
     }
 }
