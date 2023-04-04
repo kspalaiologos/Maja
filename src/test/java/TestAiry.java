@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,5 +59,42 @@ public class TestAiry {
         assertThat(Maja.abs(Maja.airyBip(-5.6) + 0.177837595579460472064086640978407456618028224981)).isLessThan(1e-15);
         assertThat(Maja.abs(Maja.airyBip(5.6) - 5891.67408620813233496772479301623855645524466691141)).isLessThan(8.2e-12);
         assertThat(Maja.airyBip(Double.NaN)).isNaN();
+    }
+
+    @Test
+    public void testComplexAiry() {
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(0.0, 0.0)), new Complex(0.3550280538878172, 0.0)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(0.0, 0.0)), new Complex(0.6149266274460007, 0.0)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(0.0, 0.0)), new Complex(-0.2588194037928068, 0.0)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(0.0, 0.0)), new Complex(0.4482883573538264, 0.0)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(0.0, 1.0)), new Complex(0.33149330543214117, -0.3174498589684438)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(0.0, 1.0)), new Complex(0.648858208330395, 0.34495863476804844)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(0.0, 1.0)), new Complex(-0.4324926598418071, 0.09804785622924324)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(0.0, 1.0)), new Complex(0.13502664671081904, -0.1288373867812549)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(1.0, 2.0)), new Complex(-0.21938625498142755, -0.17538591140810944)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(1.0, 2.0)), new Complex(0.04882203245306118, 0.1332740579917484)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(1.0, 2.0)), new Complex(0.1704449781789149, 0.3876224394132951)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(1.0, 2.0)), new Complex(-0.857239258605362, 0.4955063363095674)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(2.0, 3.0)), new Complex(0.008104457809530716, 0.1311783826045662)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(2.0, 3.0)), new Complex(-0.39636825504039286, -0.5697309129559506)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(2.0, 3.0)), new Complex(0.09665817903311283, -0.2319871853854855)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(2.0, 3.0)), new Complex(0.3494576719294665, -1.105328588933856)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(3.14, 4.123)), new Complex(-0.003774997833930135, -0.041771631836508574)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(3.14, 4.123)), new Complex(0.6442857963384823, 1.5485619499613679)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(3.14, 4.123)), new Complex(-0.03287826949831132, 0.09016844477636717)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(3.14, 4.123)), new Complex(-0.5084782421439571, 3.724440496272063)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(-12.5, 3.0)), new Complex(-1.1476605668096626E10, 3.332393985724673E9)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(-12.5, 3.0)), new Complex(-3.332393988211891E9, -1.1476605654396492E10)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(-12.5, 3.0)), new Complex(1.332235505218332E10, 3.1537533412608437E10)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(-12.5, 3.0)), new Complex(-3.1537533452420063E10, 1.3322355049692102E10)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(0.0, -1.0)), new Complex(0.33149330543214117, 0.3174498589684438)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(0.0, -1.0)), new Complex(0.648858208330395, -0.34495863476804844)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(0.0, -1.0)), new Complex(-0.4324926598418071, -0.09804785622924324)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(0.0, -1.0)), new Complex(0.13502664671081904, 0.1288373867812549)))).isLessThan(2e-14);
+        // The real error in this approximation is under 1.5192e-103%!
+        assertThat(Maja.abs(Maja.sub(Maja.airyAi(new Complex(46.0, -0.66)), new Complex(-1.1867613952534584E-92, -5.013535780433795E-92)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBi(new Complex(46.0, -0.66)), new Complex(-1.0808670780287277E89, 4.4243448428565356E89)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyAip(new Complex(46.0, -0.66)), new Complex(8.299192743117375E-92, 3.397386724517858E-91)))).isLessThan(2e-14);
+        assertThat(Maja.abs(Maja.sub(Maja.airyBip(new Complex(46.0, -0.66)), new Complex(-7.109489567932175E89, 3.0036723875386964E90)))).isLessThan(2e-14);
     }
 }
