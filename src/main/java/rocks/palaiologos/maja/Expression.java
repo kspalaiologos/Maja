@@ -45,7 +45,7 @@ class Expression {
 
         private Token name() {
             int begin = pos;
-            while (pos < input.length() && Character.isLetterOrDigit(input.charAt(pos)) || input.charAt(pos) == '\'')
+            while (pos < input.length() && (Character.isLetterOrDigit(input.charAt(pos)) || input.charAt(pos) == '\''))
                 pos++;
             return new Token(TokenType.NAME, input.substring(begin, pos));
         }
@@ -241,7 +241,7 @@ class Expression {
                         } else if (result.isDouble() && exp.isDouble()) {
                             result = new Number(rem(result.getDouble(), exp.getDouble()));
                         } else if (result.isLong() && exp.isLong()) {
-                            result = new Number(rem(result.getLong(), exp.getLong()));
+                            result = new Number(result.getLong() % exp.getLong());
                         } else if (result.isComplex() || exp.isComplex()) {
                             // Promote to complex:
                             result = new Number(rem(result.getComplex(), exp.getComplex()));
@@ -333,6 +333,15 @@ class Expression {
             return x -> new Evaluator(text, Map.of(var, new Number(x))).expr().getComplex();
         }
 
+        private Function<Complex, Complex> complexWrap(String text, String arg) {
+            if (!arg.startsWith("d"))
+                throw new ArithmeticException("Expected the infinitesimal variable name starting with 'd', got: " + arg);
+            String var = arg.substring(1);
+            if (var.isEmpty())
+                throw new ArithmeticException("Expected the infinitesimal variable name, got: " + arg);
+            return x -> new Evaluator(text, Map.of(var, new Number(x))).expr().getComplex();
+        }
+
         private Number atom() {
             if (currentToken.type == TokenType.NUM) {
                 if (currentToken.value.matches("-?[0-9]+([eE][0-9]+)?")) {
@@ -376,12 +385,14 @@ class Expression {
                         case "gausslegendre": {
                             // gausslegendre([x ** 2], -1, 1, dx, 10)
                             String f = currentToken.value;
+                            eat(TokenType.QUOTING);
                             eat(TokenType.COMMA);
                             double a = expr().getDouble();
                             eat(TokenType.COMMA);
                             double b = expr().getDouble();
                             eat(TokenType.COMMA);
                             String d = currentToken.value;
+                            eat(TokenType.NAME);
                             eat(TokenType.COMMA);
                             int n = (int) expr().getLong();
                             eat(TokenType.RPAREN);
@@ -393,18 +404,58 @@ class Expression {
                         case "tanhsinh": {
                             // tanhsinh([x ** 2], -1, 1, dx, 10, 1e-7)
                             String f = currentToken.value;
+                            eat(TokenType.QUOTING);
                             eat(TokenType.COMMA);
                             double a = expr().getDouble();
                             eat(TokenType.COMMA);
                             double b = expr().getDouble();
                             eat(TokenType.COMMA);
                             String d = currentToken.value;
+                            eat(TokenType.NAME);
                             eat(TokenType.COMMA);
                             int n = (int) expr().getLong();
                             eat(TokenType.COMMA);
                             double eps = expr().getDouble();
                             eat(TokenType.RPAREN);
                             Complex result = Maja.integrateTanhSinh(wrap(f, d), a, b, n, eps)[0];
+                            if (result.im() != 0)
+                                return new Number(result);
+                            else return new Number(result.re());
+                        }
+                        case "linegausslegendre": {
+                            String f = currentToken.value;
+                            eat(TokenType.QUOTING);
+                            eat(TokenType.COMMA);
+                            Complex a = expr().getComplex();
+                            eat(TokenType.COMMA);
+                            Complex b = expr().getComplex();
+                            eat(TokenType.COMMA);
+                            String d = currentToken.value;
+                            eat(TokenType.NAME);
+                            eat(TokenType.COMMA);
+                            int n = (int) expr().getLong();
+                            eat(TokenType.RPAREN);
+                            Complex result = Maja.integrateGaussLegendre(complexWrap(f, d), a, b, n);
+                            if (result.im() != 0)
+                                return new Number(result);
+                            else return new Number(result.re());
+                        }
+                        case "linetanhsinh": {
+                            String f = currentToken.value;
+                            eat(TokenType.QUOTING);
+                            eat(TokenType.COMMA);
+                            Complex a = expr().getComplex();
+                            eat(TokenType.COMMA);
+                            Complex b = expr().getComplex();
+                            eat(TokenType.COMMA);
+                            String d = currentToken.value;
+                            eat(TokenType.NAME);
+                            eat(TokenType.COMMA);
+                            int n = (int) expr().getLong();
+                            eat(TokenType.COMMA);
+                            double eps = expr().getDouble();
+                            eat(TokenType.RPAREN);
+                            Complex result = Maja.integrateTanhSinh(complexWrap(f, d), a, b, n, eps)[0];
                             if (result.im() != 0)
                                 return new Number(result);
                             else return new Number(result.re());

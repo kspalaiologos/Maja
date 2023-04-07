@@ -3876,9 +3876,9 @@ public class Maja {
         } else if (a.isDouble() && b.isDouble()) {
             return new Number(mul(a.getDouble(), b.getDouble()));
         } else if (a.isLong() && b.isLong()) {
-            return new Number(a.getLong() - b.getLong());
+            return new Number(a.getLong() * b.getLong());
         } else {
-            throw new ArithmeticException("Cannot subtract " + a + " and " + b);
+            throw new ArithmeticException("Cannot multiply " + a + " and " + b);
         }
     }
 
