@@ -521,7 +521,6 @@ class Zeta {
                     return Complex.ZERO;
                 Complex z1 = div(mul(exp(sub(x, mul(fa, x))), pow(x, sub(s, 1))), sub(exp(x), 1));
                 Complex z2 = div(mul(exp(sub(div(1, x), div(fa, x))), pow(x, sub(negate(s), 1))), sub(exp(div(1, x)), 1));
-                System.out.println(x + " = " + add(z1, z2));
                 return add(z1, z2);
             }, 0, 1, 7, 1e-14);
             return add(result, div(r[0], gamma(s)));

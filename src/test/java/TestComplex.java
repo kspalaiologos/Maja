@@ -96,6 +96,11 @@ public class TestComplex {
         ).isLessThan(3.8e-5);
         assertThat(
                 Maja.abs(Maja.sub(
+                        Maja.hurwitzZeta(new Complex(5, 2), new Complex(1, 2)),
+                        new Complex(0.13723775153235927778, -0.11147445278404573)))
+        ).isLessThan(1e-13);
+        assertThat(
+                Maja.abs(Maja.sub(
                         Maja.lerchPhi(new Complex(-2, 2), new Complex(1, 2), new Complex(2, 2)),
                         new Complex(-0.539304744092355, -0.611340474677990)))
         ).isLessThan(3.411e-7);
