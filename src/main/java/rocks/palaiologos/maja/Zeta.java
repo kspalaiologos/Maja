@@ -338,13 +338,6 @@ class Zeta {
         return a.im() == 0 && a.re() < 0 && Math.floor(a.re()) == a.re();
     }
 
-    private static Complex gammainc(Complex z, Complex a) {
-        if (eq(a, 0))
-            return gamma(z);
-        else
-            return uiGamma(z, a);
-    }
-
     private static Complex recipGammaNoPole(Complex z) {
         if(isnpint(z))
             return Complex.ZERO;
