@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Test;
+import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 import rocks.palaiologos.maja.MonadicFunction;
+
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,5 +41,11 @@ public class TestQuadratures {
                 - Maja.PI_2)).isLessThan(1e-10);
         assertThat(Math.abs(Maja.integrateTanhSinh((MonadicFunction) x -> Maja.sqrt(1 - x * x), -1, 1, 6, 1e-16)[0]
                 - Maja.PI_2)).isLessThan(1.56e-15);
+    }
+
+    @Test
+    public void testComplexGaussLegendre() {
+        assertThat(Maja.integrateGaussLegendre(Maja::exp, new Complex(1,2), new Complex(3,4), 10))
+                .isEqualTo(new Complex(-11.997578697705027, -17.672511135071467));
     }
 }
