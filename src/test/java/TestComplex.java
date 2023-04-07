@@ -22,6 +22,10 @@ public class TestComplex {
         assertThat(Maja.div(new Complex(1, 2), new Complex(3, 4))).isEqualTo(new Complex(11.0 / 25, 2.0 / 25));
         assertThat(Maja.div(new Complex(1, 2), 3)).isEqualTo(new Complex(1.0 / 3, 2.0 / 3));
         assertThat(Maja.div(3, new Complex(1, 2))).isEqualTo(new Complex(0.6, -1.2));
+
+        assertThat(new Complex()).isEqualTo(new Complex(0, 0));
+        assertThat(new Complex(1.23, 4.56).toString()).isEqualTo("(1.23 + 4.56i)");
+        assertThat(new Complex(1.23, -4.56).toString()).isEqualTo("(1.23 - 4.56i)");
     }
 
     @Test
