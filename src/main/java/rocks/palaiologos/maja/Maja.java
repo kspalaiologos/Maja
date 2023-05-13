@@ -4165,4 +4165,25 @@ public class Maja {
     public static Complex legendrePi(Complex phi, Complex alpha, Complex k) {
         return LegendreIntegral.legendrePi(phi, alpha, k);
     }
+
+    /**
+     * Compute the Landau function with specified most probable value and sigma value.
+     * @param x the value to evaluate the function at
+     * @param mpv the most probable value
+     * @param sigma width of the distribution
+     * @param norm whether to normalize the result
+     * @return landau(x, mpv, sigma, norm)
+     */
+    public static double landau(double x, double mpv, double sigma, boolean norm) {
+        return Landau.landau(x, mpv, sigma, norm);
+    }
+
+    /**
+     * Compute the Landau distribution function.
+     * @param x the value to evaluate the function at
+     * @return landau(x)
+     */
+    public static double landau(double x) {
+        return Landau.landauI(x);
+    }
 }
