@@ -2,7 +2,7 @@ package rocks.palaiologos.maja;
 
 import static rocks.palaiologos.maja.Maja.*;
 
-public class Landau {
+class Landau {
     // Adapted from:
     // K. S. Kolbig and B. Schorr, "A program package for the Landau distribution", Computer Phys.Comm., 31(1984), 97-111
 
