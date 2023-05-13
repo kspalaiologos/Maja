@@ -195,11 +195,10 @@ class Hypergeometric {
             return Double.NaN;
         }
 
+        f1 = hys2f1(t, b, c, x, err);
+        loss.value += err.value;
         if (da < 0) {
             /* Recurse down */
-            f2 = 0;
-            f1 = hys2f1(t, b, c, x, err);
-            loss.value += err.value;
             f0 = hys2f1(t - 1, b, c, x, err);
             loss.value += err.value;
             t -= 1;
@@ -213,9 +212,6 @@ class Hypergeometric {
             }
         } else {
             /* Recurse up */
-            f2 = 0;
-            f1 = hys2f1(t, b, c, x, err);
-            loss.value += err.value;
             f0 = hys2f1(t + 1, b, c, x, err);
             loss.value += err.value;
             t += 1;
@@ -334,13 +330,13 @@ class Hypergeometric {
         if (x > 0.9 && !(neg_int_a != 0 || neg_int_b != 0)) {
             if (Math.abs(d - id) > Maja.EPSILON) {
                 /* test for integer c-a-b */
-                /* Try the Math.power series first */
+                /* Try the power series first */
                 y = hys2f1(a, b, c, x, err);
                 if (err.value < 1.0e-12) {
                     loss.value = err.value;
                     return y;
                 }
-                /* If Math.power series fails, then apply AMS55 #15.3.6 */
+                /* If power series fails, then apply AMS55 #15.3.6 */
                 q = hys2f1(a, b, 1.0 - d, s, err);
                 sign = 1;
                 double[] result;
