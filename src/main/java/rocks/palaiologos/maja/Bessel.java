@@ -324,14 +324,6 @@ class Bessel {
             }
             x = -x;
         }
-        if (n == 0) {
-            y = sg * bessel0(x);
-            return y;
-        }
-        if (n == 1) {
-            y = sg * bessel1(x);
-            return y;
-        }
         if (n == 2) {
             if (x == 0) {
                 y = 0;

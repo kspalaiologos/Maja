@@ -82,5 +82,9 @@ public class TestBessel {
         assertThat(Maja.besselJ1(Double.NaN)).isNaN();
         assertThat(Maja.besselJ1(Double.POSITIVE_INFINITY)).isEqualTo(0);
         assertThat(Maja.besselJ1(Double.NEGATIVE_INFINITY)).isEqualTo(0);
+
+        assertThat(inRange(Maja.besselJn(1, 1.0), 0.44005058574493351596, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJn(0, 1.0), 0.7651976865579665, 1e-10)).isTrue();
+
     }
 }
