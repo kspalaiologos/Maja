@@ -98,4 +98,4 @@ Software:
 
 Cite as:
 
-> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.7). Zenodo. https://doi.org/10.5281/zenodo.7793154
+> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.8). Zenodo. https://doi.org/10.5281/zenodo.7793154
