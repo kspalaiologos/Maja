@@ -85,7 +85,7 @@ Literature:
 - [Improving the Double Exponential Quadrature Tanh-Sinh, Sinh-Sinh and Exp-Sinh Formulas](https://www.genivia.com/files/qthsh.pdf) -  Dr. Robert A. van Engelen, Genivia Labs.
 - [GalSim: The modular galaxy image simulation toolkit](https://arxiv.org/abs/1407.7676) - B. Rowe, et al; Instrumentation and Methods for Astrophysics (astro-ph.IM); Cosmology and Nongalactic Astrophysics (astro-ph.CO)
 - [Computing the Lerch transcendent](https://fredrikj.net/blog/2022/02/computing-the-lerch-transcendent/) - Fredrik Johansson
-- Various other on numerical computing.
+- Various other papers and books on numerical computing.
 
 Software:
 - Many lookup tables (e.g. Chebyshev coefficients, Pade approximants) have been generated using Wolfram Mathematica or Dyalog APL one-liners.
