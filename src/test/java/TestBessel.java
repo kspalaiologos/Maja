@@ -41,6 +41,12 @@ public class TestBessel {
         assertThat(inRange(Maja.besselK0(1.23), 0.3057709895976339, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(12.34), 1.5451620707996024E-6, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(3.1415), 0.029511826011480266, 1e-10)).isTrue();
+
+        assertThat(inRange(Maja.besselK1(3.1415), 0.03391723759574595, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselK1(0.5), 1.656441120003301, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselKn(2, 0.5), 7.55018355124087, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselKn(-2, 0.5), 7.55018355124087, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselKn(-2, 20), 6.329543612292227e-10, 1e-15)).isTrue();
     }
 
     @Test

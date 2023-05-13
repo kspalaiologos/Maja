@@ -595,7 +595,11 @@ class Bessel {
             n = nn;
 
         if (n > MAXFAC) throw new ArithmeticException("Overflow");
-        if (x <= 0.0) throw new IllegalArgumentException();
+        if (x == 0) return Double.POSITIVE_INFINITY;
+        if (x < 0.0) {
+            // Is this correct?
+            x = -x;
+        }
 
         if (x <= 9.55) {
             ans = 0.0;
