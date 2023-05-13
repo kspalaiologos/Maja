@@ -174,22 +174,11 @@ class Gamma {
     }
 
     private static double gammastirf(double x) {
-        double p1, w, y, v;
-        w = 1 / x;
-        double[] pp = {7.87311395793093628397E-4, -2.29549961613378126380E-4, -2.68132617805781232825E-3, 3.47222221605458667310E-3, 8.33333333333482257126E-2};
-        p1 = pp[0];
-        for (int i = 1; i < 5; i++) {
-            p1 = pp[i] + p1 * x;
-        }
-        w = 1 + w * p1;
-        y = Math.exp(x);
-        if (x > 143.01608) {
-            v = Math.pow(x, 0.5 * x - 0.25);
-            y = v * (v / y);
-        } else {
-            y = Math.pow(x, x - 0.5) / y;
-        }
-        return 2.50662827463100050242 * y * w;
+        // Asymptotic expansion by Windschitl. for x=45, a = 2.6582715747884676E54, b = 2.658271574788449E54.
+        // \Gamma (z)\approx {\sqrt {\frac {2\pi }{z}}}\left({\frac {z}{e}}{\sqrt {z\sinh {\frac {1}{z}}+{\frac {1}{810z^{6}}}}}\right)^{z}
+        // Better than Nemes and Ramanujan.
+        final double sqrt2pi = 2.5066282746310005024157652848110452530069867406099383166299235763;
+        return sqrt2pi / sqrt(x) * Math.pow((x / Math.E) * sqrt(x*sinh(1/x)+1/(810*Math.pow(x,6))), x);
     }
 
     public static double digamma(double x) {

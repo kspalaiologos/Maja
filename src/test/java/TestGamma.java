@@ -9,7 +9,7 @@ public class TestGamma {
         if(Math.abs(a - b) < error)
             return true;
         else {
-            System.out.println("a = " + a + ", b = " + b);
+            System.out.println("a = " + a + ", b = " + b + ". abs error: " + Math.abs(a - b) + ", rel error: " + Math.abs(a - b) * 100 / Math.abs(a) + "%");
             return false;
         }
     }
@@ -56,5 +56,23 @@ public class TestGamma {
         assertThat(inRange(Maja.trigamma(1.2), 1.2673772054237791233024662150319078883898839908004093844566, 1e-13)).isTrue();
         assertThat(inRange(Maja.trigamma(-1.2), 27.993918581946144682948499926196889172435040166287452112090, 1e-13)).isTrue();
         assertThat(inRange(Maja.trigamma(12), 0.0869018728717683907503001804617749357046271228147559764290276587, 1e-13)).isTrue();
+    }
+
+    @Test
+    public void testDigamma() {
+        assertThat(inRange(Maja.digamma(4), 1.2561176684318007, 1e-13)).isTrue();
+        assertThat(inRange(Maja.digamma(1.2), -0.28903989659218654, 1e-13)).isTrue();
+        assertThat(inRange(Maja.digamma(-1.2), 4.868324766627196, 1e-13)).isTrue();
+        assertThat(inRange(Maja.digamma(12), 2.4426616799758127, 1e-13)).isTrue();
+    }
+
+    @Test
+    public void testGamma() {
+        assertThat(inRange(Maja.gamma(4.5), 11.631728396567448929144224109426265262108918305803165528903, 1e-13)).isTrue();
+        // a = 2.6582715747884676E54, b = 2.658271574788449E54.
+        // relative error 0.0000000000007%. absolute error 1.86E40.
+        assertThat(inRange(Maja.gamma(45), 2.658271574788448768043625811014615890319638528e54, 2e40)).isTrue();
+        assertThat(inRange(Maja.gamma(34), 8.68331761881188649551819440128e36, 1e23)).isTrue();
+        assertThat(inRange(Maja.gamma(32), 8.22283865417792281772556288e33, 1.2e18)).isTrue();
     }
 }
