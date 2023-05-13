@@ -5,6 +5,8 @@ import rocks.palaiologos.maja.Maja;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestBessel {
+    // TODO: Asymptotic behaviours.
+
     private static boolean inRange(double a, double b, double error) {
         if(Math.abs(a - b) < error)
             return true;
@@ -35,7 +37,7 @@ public class TestBessel {
     }
 
     @Test
-    public void testK0() {
+    public void testK() {
         assertThat(inRange(Maja.besselK0(1.0), 0.42102443824070823, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(2.0), 0.1138938727495334, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselK0(1.23), 0.3057709895976339, 1e-10)).isTrue();
@@ -47,6 +49,21 @@ public class TestBessel {
         assertThat(inRange(Maja.besselKn(2, 0.5), 7.55018355124087, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselKn(-2, 0.5), 7.55018355124087, 1e-10)).isTrue();
         assertThat(inRange(Maja.besselKn(-2, 20), 6.329543612292227e-10, 1e-15)).isTrue();
+    }
+
+    @Test
+    public void testY() {
+        assertThat(inRange(Maja.besselY0(1.0), 0.088256964215676957983, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselY0(2.0), 0.51037567264974511960, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselY0(1.23), 0.2463839282018762, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselY0(12.34), -0.1936854633574015, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselY0(3.1415), 0.328399558461145, 1e-8)).isTrue();
+
+        assertThat(inRange(Maja.besselY1(3.1415), 0.3588530748613185, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselY1(0.5), -1.471472392670243, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselYn(2, 0.5), -5.441370837174266, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselYn(-2, 0.5), -5.441370837174266, 1e-8)).isTrue();
+        assertThat(inRange(Maja.besselYn(-2, 20), -0.079191758245635960748, 1e-8)).isTrue();
     }
 
     @Test

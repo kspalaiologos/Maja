@@ -707,8 +707,8 @@ class Bessel {
         return ans;
     }
 
+    // TODO: Better precision of y0.
     static public double y0(double x) throws ArithmeticException {
-
         if (x < 8.0) {
             double y = x * x;
 
@@ -734,7 +734,6 @@ class Bessel {
     }
 
     static public double y1(double x) throws ArithmeticException {
-
         if (x < 8.0) {
             double y = x * x;
             double ans1 = x * (-0.4900604943e13 + y * (0.1275274390e13
@@ -759,6 +758,8 @@ class Bessel {
     }
 
     static public double yn(int n, double x) {
+        if(n < 0) n = -n;
+
         double by, bym, byp, tox;
 
         if (n == 0) return y0(x);
