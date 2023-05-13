@@ -74,5 +74,7 @@ public class TestGamma {
         assertThat(inRange(Maja.gamma(45), 2.658271574788448768043625811014615890319638528e54, 2e40)).isTrue();
         assertThat(inRange(Maja.gamma(34), 8.68331761881188649551819440128e36, 1e23)).isTrue();
         assertThat(inRange(Maja.gamma(32), 8.22283865417792281772556288e33, 1.2e18)).isTrue();
+        // relative error 2.908284008800696E-14%
+        assertThat(inRange(Maja.gamma(-50.5), -1.44995439390774792776732880246771382454334933433495e-65, 5e-81)).isTrue();
     }
 }
