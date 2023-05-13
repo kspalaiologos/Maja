@@ -2,7 +2,6 @@
 
 [![Maven Package](https://github.com/kspalaiologos/Maja/actions/workflows/maven.yml/badge.svg)](https://github.com/kspalaiologos/Maja/actions/workflows/maven.yml)
 [![codecov](https://codecov.io/gh/kspalaiologos/Maja/branch/trunk/graph/badge.svg?token=3MB6GY2GVV)](https://codecov.io/gh/kspalaiologos/Maja)
-[![Lines Of Code](https://tokei.rs/b1/github/kspalaiologos/Maja?category=code)](https://github.com/kspalaiologos/Maja)
 [![Maven Central](https://img.shields.io/maven-central/v/rocks.palaiologos/maja)](https://mvnrepository.com/artifact/rocks.palaiologos/maja)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7793154.svg)](https://doi.org/10.5281/zenodo.7793154)
 [![wakatime](https://wakatime.com/badge/user/c3a8c589-783c-4ab2-be05-93fa48bc9a94/project/4ced514f-b93b-4671-b37d-602677409fd0.svg)](https://wakatime.com/badge/user/c3a8c589-783c-4ab2-be05-93fa48bc9a94/project/4ced514f-b93b-4671-b37d-602677409fd0)
@@ -18,7 +17,7 @@ From Maven Central:
 <dependency>
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
 </dependency>
 ```
 
