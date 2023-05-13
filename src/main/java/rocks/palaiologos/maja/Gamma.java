@@ -338,13 +338,13 @@ class Gamma {
         return regularizedGammaQ(a, x) * gamma(a);
     }
 
-    private static double regularizedGammaQ(double a, double x) {
+    public static double regularizedGammaQ(double a, double x) {
         if (a <= 0.0)
             throw new IllegalArgumentException("Invalid arguments in routine gammq");
         return 1.0 - regularizedGammaP(a, x);
     }
 
-    private static double regularizedGammaP(double a, double x) {
+    public static double regularizedGammaP(double a, double x) {
         if (a <= 0.0)
             throw new IllegalArgumentException("Invalid arguments in routine gammp");
         if (x < a + 1.0) {

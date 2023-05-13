@@ -4186,4 +4186,45 @@ public class Maja {
     public static double landau(double x) {
         return Landau.landauI(x);
     }
+
+    /**
+     * Compute the regularized Gamma P function.
+     * @param a order
+     * @param x argument
+     * @return gammaP(a, x)
+     */
+    public static double gammaP(double a, double x) {
+        return Gamma.regularizedGammaP(a, x);
+    }
+
+    /**
+     * Compute the regularized Gamma Q function.
+     * @param a order
+     * @param x argument
+     * @return gammaQ(a, x)
+     */
+    public static double gammaQ(double a, double x) {
+        return Gamma.regularizedGammaQ(a, x);
+    }
+
+    /**
+     * Computes quantiles for standard normal distribution N(0, 1) at probability p.
+     *
+     * @param p probability between 0 and 1.
+     * @return quantile value
+     */
+    public static double normQuantile(double p) {
+        return Landau.normQuantile(p);
+    }
+
+    /**
+     * Computes quantiles for chi-squared probability distribution at probability p .
+     *
+     * @param p probability between 0 and 1.
+     * @param df degrees of freedom
+     * @return quantile value
+     */
+    public static double chiSquaredQuantile(double p, double df) {
+        return Landau.chisquareQuantile(p, df);
+    }
 }
