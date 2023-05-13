@@ -30,7 +30,7 @@ public class TestHypergeometric {
         assertThat(Maja.hypergeo2F1(2, 2.0, 3.01, 0.95)).isEqualTo(34.81013407640587);
         assertThat(Maja.hypergeo2F1(20, 2.0, 3.01, 0.95)).isEqualTo(5.513090059384266E23);
         assertThat(Maja.hypergeo2F1(0.123, 2.0, 3.01, 0.95)).isEqualTo(1.166719619920923);
-        assertThat(Maja.hypergeo2F1(-1, 2.0, 3.01, 0.95)).isEqualTo(1.166719619920923);
+        assertThat(Maja.hypergeo2F1(-1, 2.0, 3.01, 0.95)).isEqualTo(0.3687707641196013);
     }
 
     @Test
