@@ -18,7 +18,7 @@ From Maven Central:
 <dependency>
     <groupId>rocks.palaiologos</groupId>
     <artifactId>maja</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9</version>
 </dependency>
 ```
 
@@ -98,4 +98,4 @@ Software:
 
 Cite as:
 
-> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.8). Zenodo. https://doi.org/10.5281/zenodo.7793154
+> Kamila Szewczyk. (2023). Maja - A numerics-oriented Mathematical library for Java (v0.1.9). Zenodo. https://doi.org/10.5281/zenodo.7793154
