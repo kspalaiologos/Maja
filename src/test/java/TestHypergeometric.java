@@ -24,11 +24,27 @@ public class TestHypergeometric {
         assertThat(Maja.hypergeo2F1(-0.5, 1.0 / 4.0, -4.0 / 3.0, -1.5)).isEqualTo(0.8274559676019738);
         assertThat(Maja.hypergeo2F1(0.5, 1.0 / 3.0, 4.0 / 3.0, 1)).isEqualTo(1.4021821053254542);
         assertThat(Maja.hypergeo2F1(-5, 1.0 / 3.0, 4.0 / 3.0, 1)).isEqualTo(0.5006868131868132);
-        assertThat(Maja.hypergeo2F1(-5, 1.0 / 3.0, 1.0, 1)).isEqualTo(0.42249657064471885);
+        assertThat(Maja.hypergeo2F1(-0.5, 3.0, 1.0, 0.2)).isEqualTo(0.6638326808202499);
+        // Try to hit some obscure special case with psi.
+        assertThat(Maja.hypergeo2F1(2, 2.0, 3.0, 0.95)).isEqualTo(35.466521277442645);
+        assertThat(Maja.hypergeo2F1(2, 2.0, 3.01, 0.95)).isEqualTo(34.81013407640587);
+        assertThat(Maja.hypergeo2F1(20, 2.0, 3.01, 0.95)).isEqualTo(5.513090059384266E23);
+        assertThat(Maja.hypergeo2F1(0.123, 2.0, 3.01, 0.95)).isEqualTo(1.166719619920923);
+        assertThat(Maja.hypergeo2F1(-1, 2.0, 3.01, 0.95)).isEqualTo(1.166719619920923);
     }
 
     @Test
     public void test1f1() {
         assertThat(Maja.hypergeo1F1(-0.5, 1.0 / 3.0, -1)).isEqualTo(2.269314995817403);
+    }
+
+    @Test
+    public void test1f2() {
+        assertThat(Maja.hypergeo1F2(-5, 1.0 / 3.0, 1.0, 1)).isEqualTo(-4.29743131868132);
+    }
+
+    @Test
+    public void test3f0() {
+        assertThat(Maja.hypergeo3F0(-5, 1.0 / 3.0, 1.0, 1)).isEqualTo(-1436.7160493827155);
     }
 }

@@ -337,33 +337,22 @@ class Hypergeometric {
                     return y;
                 }
                 /* If power series fails, then apply AMS55 #15.3.6 */
-                q = hys2f1(a, b, 1.0 - d, s, err);
-                sign = 1;
+                /* There is a chance that this scenario never happens. */
                 double[] result;
-                result = Gamma.lgam(d);
-                w = result[0];
-                sign *= result[1];
-                result = Gamma.lgam(c - a);
-                w -= result[0];
-                sign *= result[1];
-                result = Gamma.lgam(c - b);
-                w -= result[0];
-                sign *= result[1];
-                q *= sign * Math.exp(w);
-                r = Math.pow(s, d) * hys2f1(c - a, c - b, d + 1.0, s, err1);
-                sign = 1;
-                result = Gamma.lgam(-d);
-                w = result[0];
-                sign *= result[1];
-                result = Gamma.lgam(a);
-                w -= result[0];
-                sign *= result[1];
-                result = Gamma.lgam(b);
-                w -= result[0];
-                sign *= result[1];
-                r *= sign * Math.exp(w);
-                y = q + r;
 
+                q = hys2f1(a, b, 1.0 - d, s, err); sign = 1;
+                result = Gamma.lgam(d); w = result[0]; sign *= result[1];
+                result = Gamma.lgam(c - a); w -= result[0]; sign *= result[1];
+                result = Gamma.lgam(c - b); w -= result[0]; sign *= result[1];
+                q *= sign * Math.exp(w);
+
+                r = Math.pow(s, d) * hys2f1(c - a, c - b, d + 1.0, s, err1); sign = 1;
+                result = Gamma.lgam(-d); w = result[0]; sign *= result[1];
+                result = Gamma.lgam(a); w -= result[0]; sign *= result[1];
+                result = Gamma.lgam(b); w -= result[0]; sign *= result[1];
+                r *= sign * Math.exp(w);
+
+                y = q + r;
                 q = Math.abs(q);    /* estimate cancellation error */
                 r = Math.abs(r);
                 if (q > r)
