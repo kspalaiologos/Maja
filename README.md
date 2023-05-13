@@ -45,12 +45,13 @@ Real Functions:
 - Fresnel integrals (fresnelC, fresnelS)
 - Zeta family (Hurwitz Zeta, Lerch Transcendent, Riemann Zeta)
 - Lambert W (W0, W-1)
-- Hypergeometric function (2F1, 1F1, 1F2, 3F0, Struve).
+- Hypergeometric function (2F1, 1F1, 1F2, 3F0).
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
 - Legendre elliptic integrals (F, E, D, Pi)
 - Root finding (Newton-Raphson method).
 - Landau functions.
 - Chi squared and Normal distribution quantiles.
+- Struve functions (H0, H1, Hx for double precision x, L0, L1)
 
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
