@@ -37,7 +37,7 @@ Real Functions:
 - High-performance trigonometry (fastSin, fastCos)
 - Airy Ai function (Ai, Ai', Bi, Bi')
 - Bessel functions (i0, i1, j0, j1, jn, k0, k1, kn, y0, y1, yn, jv, yv)
-- Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma)
+- Gamma function family (beta, digamma, factorial, gamma, lower incomplete gamma, logabsgamma, logbeta, loggamma, pochhammer, polygamma, trigamma, upper incomplete gamma, gammaP, gammaQ)
 - Trigonometric integrals (Chi, Ci, Cin, Shi, ShiChi, si, Si)
 - Exponential integral (expint, li)
 - Error function family (Dawson-, Dawson+, erf, erfc, erfi)
@@ -50,6 +50,7 @@ Real Functions:
 - Legendre elliptic integrals (F, E, D, Pi)
 - Root finding (Newton-Raphson method).
 - Landau functions.
+- Chi squared and Normal distribution quantiles.
 
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
