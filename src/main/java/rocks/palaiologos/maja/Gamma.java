@@ -91,23 +91,6 @@ class Gamma {
         return -tmp + Math.log(2.5066282746310005 * ser / x);
     }
 
-    public static Complex loggamma(Complex xx) {
-        Complex x, y, tmp, ser;
-
-        final double[] cof = {76.18009172947146, -86.50532032941677,
-                24.01409824083091, -1.231739572450155, 0.1208650973866179e-2,
-                -0.5395239384953e-5};
-        int j;
-        y = x = xx;
-        tmp = add(x, 5.5);
-        tmp = sub(tmp, mul(add(x, 0.5), log(tmp)));
-        ser = new Complex(1.000000000190015);
-        for (j = 0; j <= 5; j++)
-            ser = add(ser, div(cof[j], y = add(y, 1)));
-
-        return add(negate(tmp), log(div(mul(2.5066282746310005, ser), x)));
-    }
-
     public static double gamma(double x) {
         double sgngam, q, z, y, p1, q1;
         int ip, p;
@@ -494,5 +477,77 @@ class Gamma {
         else
             q += Spence.polevl(p, A, 4) / x;
         return new double[]{q, sgngam};
+    }
+
+    // Complex lgamma.
+    public static Complex loggamma(Complex n) {
+        final double TWOPI = 6.2831853071795864769252842; // 2*pi
+        final double LOGPI = 1.1447298858494001741434262; // log(pi)
+        final double SMALL_RE = 7;
+        final double SMALL_IM = 7;
+
+        final double REFLECTION = 0.1;
+
+        if (Double.isNaN(n.re()) || Double.isNaN(n.im())) {
+            return new Complex(Double.NaN, Double.NaN);
+        } else if (n.im() == 0) {
+            return new Complex(loggamma(n.re()), 0);
+        } else if (n.re() >= SMALL_RE || Math.abs(n.im()) >= SMALL_IM) {
+            return lgammaStirling(n);
+        } else if (n.re() <= REFLECTION) {
+            final double tmp = Math.copySign(TWOPI, n.im()) * Math.floor(0.5 * n.re() + 0.25);
+            final Complex a = Maja.log(Maja.sin(Maja.mul(n, Math.PI)));
+            final Complex b = loggamma(new Complex(1 - n.re(), -n.im()));
+            return Maja.sub(Maja.sub(new Complex(LOGPI, tmp), a), b);
+        } else if (n.im() >= 0) {
+            return lgammaRecurrence(n);
+        } else {
+            return Maja.conj(lgammaRecurrence(Maja.conj(n)));
+        }
+    }
+
+    private static Complex lgammaStirling (Complex z) {
+        final Complex leftPart = Maja.add(Maja.sub(Maja.mul(Maja.sub(z, 0.5), Maja.log(z)), z), 0.91893853320467274178);
+        final Complex rz = Maja.div(new Complex(1, 0), z);
+        final Complex rzz = Maja.div(rz, z);
+
+        final double[] coeffs = {
+                -2.955065359477124183e-2, 6.4102564102564102564e-3, -1.9175269175269175269e-3, 8.4175084175084175084e-4,
+                -5.952380952380952381e-4, 7.9365079365079365079e-4, -2.7777777777777777778e-3, 8.3333333333333333333e-2
+        };
+
+        double a = coeffs[0];
+        double b = coeffs[1];
+        double r = 2 * rzz.re();
+        double s = rzz.re() * rzz.re() + rzz.im() * rzz.im();
+
+        for (int i = 2; i < 8; i++) {
+            final double tmp = b;
+            b = -s * a + coeffs[i];
+            a = r * a + tmp;
+        }
+
+        final Complex rightPart = Maja.mul(rz, Maja.add(Maja.mul(rzz, a), b));
+
+        return Maja.add(leftPart, rightPart);
+    }
+
+    private static Complex lgammaRecurrence (Complex z) {
+        int signflips = 0;
+        int sb = 0;
+        Complex shiftprod = z;
+
+        z = Maja.add(z, 1);
+        while (z.re() <= 7) {
+            shiftprod = Maja.mul(shiftprod, z);
+
+            int nsb = shiftprod.im() < 0 ? 1 : 0;
+            if (nsb != 0 && sb == 0) signflips++;
+            sb = nsb;
+
+            z = Maja.add(z, 1);
+        }
+
+        return Maja.sub(Maja.sub(lgammaStirling(z), Maja.log(shiftprod)), new Complex(0, signflips * 2 * Math.PI * 1));
     }
 }
