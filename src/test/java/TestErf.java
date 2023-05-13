@@ -1,9 +1,19 @@
 import org.junit.jupiter.api.Test;
+import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestErf {
+    private static boolean inRange(Complex a, Complex b, double error) {
+        if(Maja.abs(Maja.sub(a, b)) < error)
+            return true;
+        else {
+            System.out.println("a = " + a + ", b = " + b);
+            return false;
+        }
+    }
+
     @Test
     public void testErf() {
         assertThat(Maja.erf(0)).isEqualTo(0);
@@ -31,6 +41,9 @@ public class TestErf {
         assertThat(Maja.erfc(12.34)).isEqualTo(0.0);
         assertThat(Maja.erfc(-2.0)).isEqualTo(1.9953222650189528);
         assertThat(Maja.erfc(0.111)).isEqualTo(0.8752624187419497);
+
+        assertThat(inRange(Maja.erfc(new Complex(2, 3)), new Complex(21.829461427614568389, -8.687318271470163144), 1e-10)).isTrue();
+        assertThat(inRange(Maja.erfc(new Complex(1.231, -4)), new Complex(28641.26781680778, -268147.7372583889), 1e-8)).isTrue();
     }
 
     @Test
@@ -45,6 +58,8 @@ public class TestErf {
         assertThat(Maja.erfi(12.34)).isEqualTo(6.223011839236671E64);
         assertThat(Maja.erfi(-2.0)).isEqualTo(-18.564802414575553);
         assertThat(Maja.erfi(0.111)).isEqualTo(0.1257663966329148);
+
+        assertThat(inRange(Maja.erfi(new Complex(1.231, -1.7)), new Complex(-0.06472769163592012, -0.999174392486214), 1e-8)).isTrue();
     }
 
     @Test
