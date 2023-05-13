@@ -63,5 +63,24 @@ public class TestBessel {
         assertThat(Maja.besselJ0(Double.NaN)).isNaN();
         assertThat(Maja.besselJ0(Double.POSITIVE_INFINITY)).isEqualTo(0);
         assertThat(Maja.besselJ0(Double.NEGATIVE_INFINITY)).isEqualTo(0);
+
+        assertThat(inRange(Maja.besselJ1(0.0), 0.0, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(1.0), 0.44005058574493351596, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(0.5), 0.2422684576748739, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(0.25), 0.1240259773227269, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(1.23), 0.5058005726280962, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(4.56), -0.2467025915990849, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(10.11), 0.01588737750866174, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(33.33), 0.1255939750222267, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-1.0), -0.4400505857449335, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-0.5), -0.2422684576748739, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-0.25), -0.1240259773227269, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-1.23), -0.5058005726280962, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-4.56), 0.2467025915990849, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-10.11), -0.01588737750866174, 1e-10)).isTrue();
+        assertThat(inRange(Maja.besselJ1(-33.33), -0.1255939750222267, 1e-10)).isTrue();
+        assertThat(Maja.besselJ1(Double.NaN)).isNaN();
+        assertThat(Maja.besselJ1(Double.POSITIVE_INFINITY)).isEqualTo(0);
+        assertThat(Maja.besselJ1(Double.NEGATIVE_INFINITY)).isEqualTo(0);
     }
 }
