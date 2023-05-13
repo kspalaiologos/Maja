@@ -48,6 +48,7 @@ Real Functions:
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre)
 - Legendre elliptic integrals (F, E, D, Pi)
 - Root finding (Newton-Raphson method).
+- Landau functions.
 
 Complex functions:
 - Elementary (add, sub, mul, div, conj, abs, sqrt, exp, log, eq, ne, cbrt, root)
