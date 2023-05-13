@@ -853,4 +853,234 @@ class Hypergeometric {
     static class DoublePtr {
         double value;
     }
+
+    /**
+     * Adapted from CERNLIB M342.
+     */
+    public static double struveH0(double x) {
+        final int n1 = 15;
+        final int n2 = 25;
+        final double[] c1 = { 1.00215845609911981, -1.63969292681309147, 1.50236939618292819, -.72485115302121872,
+                .18955327371093136, -.03067052022988, .00337561447375194, -2.6965014312602e-4, 1.637461692612e-5,
+                -7.8244408508e-7, 3.021593188e-8, -9.6326645e-10, 2.579337e-11, -5.8854e-13, 1.158e-14, -2e-16 };
+        final double[] c2 = { .99283727576423943, -.00696891281138625, 1.8205103787037e-4, -1.063258252844e-5,
+                9.8198294287e-7, -1.2250645445e-7, 1.894083312e-8, -3.44358226e-9, 7.1119102e-10, -1.6288744e-10,
+                4.065681e-11, -1.091505e-11, 3.12005e-12, -9.4202e-13, 2.9848e-13, -9.872e-14, 3.394e-14, -1.208e-14,
+                4.44e-15, -1.68e-15, 6.5e-16, -2.6e-16, 1.1e-16, -4e-17, 2e-17, -1e-17 };
+
+        final double c0 = 2 / Maja.PI;
+
+        int i;
+        final double alfa;
+        double h;
+        final double r;
+        final double y;
+        double b0;
+        double b1;
+        double b2;
+        double v;
+
+        v = Maja.abs(x);
+        if (v < 8) {
+            y = v / 8;
+            h = 2 * y * y - 1;
+            alfa = h + h;
+            b0 = 0;
+            b1 = 0;
+            b2 = 0;
+            for (i = n1; i >= 0; --i) {
+                b0 = c1[i] + alfa * b1 - b2;
+                b2 = b1;
+                b1 = b0;
+            }
+            h = y * (b0 - h * b2);
+        } else {
+            r = 1 / v;
+            h = 128 * r * r - 1;
+            alfa = h + h;
+            b0 = 0;
+            b1 = 0;
+            b2 = 0;
+            for (i = n2; i >= 0; --i) {
+                b0 = c2[i] + alfa * b1 - b2;
+                b2 = b1;
+                b1 = b0;
+            }
+            h = Maja.besselY0(v) + r * c0 * (b0 - h * b2);
+        }
+        if (x < 0) {
+            h = -h;
+        }
+        return h;
+    }
+
+    /**
+     * Adapted from CERNLIB M342.
+     */
+    public static double struveH1(double x) {
+        final int n3 = 16;
+        final int n4 = 22;
+        final double[] c3 = { .5578891446481605, -.11188325726569816, -.16337958125200939, .32256932072405902,
+                -.14581632367244242, .03292677399374035, -.00460372142093573, 4.434706163314e-4, -3.142099529341e-5,
+                1.7123719938e-6, -7.416987005e-8, 2.61837671e-9, -7.685839e-11, 1.9067e-12, -4.052e-14, 7.5e-16,
+                -1e-17 };
+        final double[] c4 = { 1.00757647293865641, .00750316051248257, -7.043933264519e-5, 2.66205393382e-6, -1.8841157753e-7,
+                1.949014958e-8, -2.6126199e-9, 4.236269e-10, -7.955156e-11, 1.679973e-11, -3.9072e-12, 9.8543e-13,
+                -2.6636e-13, 7.645e-14, -2.313e-14, 7.33e-15, -2.42e-15, 8.3e-16, -3e-16, 1.1e-16, -4e-17, 2e-17,
+                -1e-17 };
+
+        final double c0 = 2 / Maja.PI;
+        final double cc = 2 / (3 * Maja.PI);
+
+        int i;
+        final int i1;
+        final double alfa;
+        double h;
+        double r;
+        final double y;
+        double b0;
+        double b1;
+        double b2;
+        final double v = Maja.abs(x);
+
+        if (v == 0) {
+            h = 0;
+        } else if (v <= 0.3) {
+            y = v * v;
+            r = 1;
+            h = 1;
+            i1 = (int) (-8. / Maja.log10(v));
+            for (i = 1; i <= i1; ++i) {
+                h = -h * y / ((2 * i + 1) * (2 * i + 3));
+                r += h;
+            }
+            h = cc * y * r;
+        } else if (v < 8) {
+            h = v * v / 32 - 1;
+            alfa = h + h;
+            b0 = 0;
+            b1 = 0;
+            b2 = 0;
+            for (i = n3; i >= 0; --i) {
+                b0 = c3[i] + alfa * b1 - b2;
+                b2 = b1;
+                b1 = b0;
+            }
+            h = b0 - h * b2;
+        } else {
+            h = 128 / (v * v) - 1;
+            alfa = h + h;
+            b0 = 0;
+            b1 = 0;
+            b2 = 0;
+            for (i = n4; i >= 0; --i) {
+                b0 = c4[i] + alfa * b1 - b2;
+                b2 = b1;
+                b1 = b0;
+            }
+            h = Maja.besselY1(v) + c0 * (b0 - h * b2);
+        }
+        return h;
+    }
+
+    public static double struveL0(double x) {
+        final double pi = Maja.PI;
+
+        double s = 1.0;
+        double r = 1.0;
+
+        final double a0;
+        final double sl0;
+        final double a1;
+        double bi0;
+
+        int km;
+
+        if (x <= 20.) {
+            a0 = 2.0 * x / pi;
+            for (int i = 1; i <= 60; i++) {
+                r *= (x / (2 * i + 1)) * (x / (2 * i + 1));
+                s += r;
+                if (Maja.abs(r / s) < 1.e-12) {
+                    break;
+                }
+            }
+            sl0 = a0 * s;
+        } else {
+            km = (int) (5 * (x + 1.0));
+            if (x >= 50.0) {
+                km = 25;
+            }
+            for (int i = 1; i <= km; i++) {
+                r *= (2 * i - 1) * (2 * i - 1) / x / x;
+                s += r;
+                if (Maja.abs(r / s) < 1.0e-12) {
+                    break;
+                }
+            }
+            a1 = Maja.exp(x) / Maja.sqrt(2 * pi * x);
+            r = 1.0;
+            bi0 = 1.0;
+            for (int i = 1; i <= 16; i++) {
+                r = 0.125 * r * (2.0 * i - 1.0) * (2.0 * i - 1.0) / (i * x);
+                bi0 += r;
+                if (Maja.abs(r / bi0) < 1.0e-12) {
+                    break;
+                }
+            }
+
+            bi0 *= a1;
+            sl0 = -2.0 / (pi * x) * s + bi0;
+        }
+        return sl0;
+    }
+
+    public static double struveL1(double x) {
+        final double pi = Maja.PI;
+        final double a1;
+        double sl1;
+        double bi1;
+        double s;
+        double r = 1.0;
+        int km;
+        int i;
+
+        if (x <= 20.) {
+            s = 0.0;
+            for (i = 1; i <= 60; i++) {
+                r *= x * x / (4.0 * i * i - 1.0);
+                s += r;
+                if (Maja.abs(r) < Maja.abs(s) * 1.e-12) {
+                    break;
+                }
+            }
+            sl1 = 2.0 / pi * s;
+        } else {
+            s = 1.0;
+            km = (int) (0.5 * x);
+            if (x > 50.0) {
+                km = 25;
+            }
+            for (i = 1; i <= km; i++) {
+                r *= (2 * i + 3) * (2 * i + 1) / x / x;
+                s += r;
+                if (Maja.abs(r / s) < 1.0e-12) {
+                    break;
+                }
+            }
+            sl1 = 2.0 / pi * (-1.0 + 1.0 / (x * x) + 3.0 * s / (x * x * x * x));
+            a1 = Maja.exp(x) / Maja.sqrt(2 * pi * x);
+            r = 1.0;
+            bi1 = 1.0;
+            for (i = 1; i <= 16; i++) {
+                r = -0.125 * r * (4.0 - (2.0 * i - 1.0) * (2.0 * i - 1.0)) / (i * x);
+                bi1 += r;
+                if (Maja.abs(r / bi1) < 1.0e-12) {
+                    break;
+                }
+            }
+            sl1 += a1 * bi1;
+        }
+        return sl1;
+    }
 }

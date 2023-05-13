@@ -2485,7 +2485,29 @@ public class Maja {
      * @return Struve(v, x)
      */
     public static double struve(double v, double x) {
-        return Hypergeometric.struve(v, x);
+        if(v == 0.0) return Hypergeometric.struveH0(x);
+        else if(v == 1.0) return Hypergeometric.struveH1(x);
+        else return Hypergeometric.struve(v, x);
+    }
+
+    /**
+     * Computes the value of the modified Struve function of 0th order.
+     *
+     * @param x argument of the Struve function
+     * @return StruveL0(x)
+     */
+    public static double struveL0(double x) {
+        return Hypergeometric.struveL0(x);
+    }
+
+    /**
+     * Computes the value of the modified Struve function of 1st order.
+     *
+     * @param x argument of the Struve function
+     * @return StruveL1(x)
+     */
+    public static double struveL1(double x) {
+        return Hypergeometric.struveL1(x);
     }
 
     /**
