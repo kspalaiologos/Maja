@@ -68,6 +68,10 @@ Complex functions:
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre), contour integration.
 - Lambert W.
 
+Linear algebra:
+- Matrix operations: transposition, obtaining rows, columns, generalised dot product, leading/trailing axis reduction, cell mapping, ravelling, robust stringification.
+- Real LU and LUP decomposition, trace computation.
+
 Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
 ## License
