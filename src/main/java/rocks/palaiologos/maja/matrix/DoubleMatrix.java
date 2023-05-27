@@ -4,6 +4,7 @@ import rocks.palaiologos.maja.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
@@ -110,12 +111,8 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Computes the LU decomposition of a matrix using the Doolittle algorithm.
-     *
-     * @return A pair of matrices, the first being the lower triangular matrix and the second the upper triangular matrix.
-     * If the matrix is singular, the pair will contain null values.
-     * @throws IllegalArgumentException If the matrix is not square.
      */
-    public Pair<Matrix<Double>, Matrix<Double>> LU() {
+    public DoubleLUDecompositionResult LU() {
         Matrix<Double> lower = new DoubleMatrix(height(), width());
         Matrix<Double> upper = new DoubleMatrix(height(), width());
 
@@ -150,12 +147,12 @@ public class DoubleMatrix extends Matrix<Double> {
         for (int i = 0; i < height(); i++) {
             for (int j = 0; j < height(); j++) {
                 if (Double.isNaN(lower.get(i, j)) || Double.isNaN(lower.get(j, i))) {
-                    return new Pair<>(null, null);
+                    return new DoubleLUDecompositionResult(null, null, true);
                 }
             }
         }
 
-        return new Pair<>(lower, upper);
+        return new DoubleLUDecompositionResult(lower, upper, false);
     }
 
     /**
@@ -328,5 +325,30 @@ public class DoubleMatrix extends Matrix<Double> {
         }
 
         return new DoubleQRDecompositionResult(Q, R, H, isFullRank);
+    }
+
+    public DoubleCholeskyDecompositonResult cholesky() {
+        int n = height();
+        Matrix<Double> L = new DoubleMatrix(n, n);
+        boolean isspd = width() == n;
+        for (int j = 0; j < n; j++) {
+            List<Double> Lrowj = L.row(j);
+            double d = 0.0;
+            for (int k = 0; k < j; k++) {
+                List<Double> Lrowk = L.row(k);
+                double s = 0.0;
+                for (int i = 0; i < k; i++)
+                    s += Lrowk.get(i) * Lrowj.get(i);
+                Lrowj.set(k, s = (get(j, k) - s) / L.get(k, k));
+                d = d + s * s;
+                isspd = isspd & Objects.equals(get(k, j), get(j, k));
+            }
+            d = get(j, j) - d;
+            isspd = isspd & d > 0.0;
+            L.set(j, j, Math.sqrt(Math.max(d, 0.0)));
+            for (int k = j + 1; k < n; k++)
+                L.set(j, k, 0.0);
+        }
+        return new DoubleCholeskyDecompositonResult(L, isspd);
     }
 }
