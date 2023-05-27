@@ -378,6 +378,36 @@ public class DoubleMatrix extends Matrix<Double> {
         return new DoubleEigenvalueDecompositionResult(i.getD(), i.getV(), i.getEigenvalues());
     }
 
+    /**
+     * Invert the matrix.
+     */
+    public DoubleMatrix invert() {
+        return solve(DoubleMatrix.identity(height()));
+    }
+
+    /**
+     * Invert the matrix given the LUP decomposition of the current matrix.
+     */
+    public DoubleMatrix invert(DoubleLUPDecompositionResult r) {
+        return r.solve(DoubleMatrix.identity(height()));
+    }
+
+    /**
+     * Invert the matrix given the QR decomposition of the current matrix.
+     */
+    public DoubleMatrix invert(DoubleQRDecompositionResult r) {
+        return r.solve(DoubleMatrix.identity(height()));
+    }
+
+    /**
+     * Solve A * X = B
+     * @param B
+     * @return solution X if A is square, least squares solution otherwise
+     */
+    public DoubleMatrix solve(DoubleMatrix B) {
+        return height() == width() ? LUP().solve(B) : QR().solve(B);
+    }
+
     @Override
     public DoubleMatrix copy() {
         return new DoubleMatrix(data);
