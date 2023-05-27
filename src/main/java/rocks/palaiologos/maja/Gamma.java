@@ -178,7 +178,7 @@ class Gamma {
         // \Gamma (z)\approx {\sqrt {\frac {2\pi }{z}}}\left({\frac {z}{e}}{\sqrt {z\sinh {\frac {1}{z}}+{\frac {1}{810z^{6}}}}}\right)^{z}
         // Better than Nemes and Ramanujan.
         final double sqrt2pi = 2.5066282746310005024157652848110452530069867406099383166299235763;
-        return sqrt2pi / sqrt(x) * Math.pow((x / Math.E) * sqrt(x*sinh(1/x)+1/(810*Math.pow(x,6))), x);
+        return sqrt2pi / sqrt(x) * Math.pow(x / Math.E * sqrt(x * sinh(1 / x) + 1 / (810 * Math.pow(x, 6))), x);
     }
 
     public static double digamma(double x) {
@@ -495,7 +495,7 @@ class Gamma {
         }
     }
 
-    private static Complex lgammaStirling (Complex z) {
+    private static Complex lgammaStirling(Complex z) {
         final Complex leftPart = Maja.add(Maja.sub(Maja.mul(Maja.sub(z, 0.5), Maja.log(z)), z), 0.91893853320467274178);
         final Complex rz = Maja.div(new Complex(1, 0), z);
         final Complex rzz = Maja.div(rz, z);
@@ -521,7 +521,7 @@ class Gamma {
         return Maja.add(leftPart, rightPart);
     }
 
-    private static Complex lgammaRecurrence (Complex z) {
+    private static Complex lgammaRecurrence(Complex z) {
         int signflips = 0;
         int sb = 0;
         Complex shiftprod = z;

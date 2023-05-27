@@ -23,6 +23,7 @@ public class Matrix<T> {
      * Create a matrix out of a two-dimensional array.
      * The array itself is copied, but the elements are not, meaning that if the
      * elements are mutated, the change will be reflected in the matrix.
+     *
      * @param data
      */
     public Matrix(T[][] data) {
@@ -36,6 +37,7 @@ public class Matrix<T> {
 
     /**
      * Create an empty matrix with the specified dimensions.
+     *
      * @param rows
      * @param columns
      */
@@ -54,6 +56,7 @@ public class Matrix<T> {
      * Create a matrix out of a nested list.
      * The list itself is copied, but the elements are not, meaning that if the
      * elements are mutated, the change will be reflected in the matrix.
+     *
      * @param data
      */
     public Matrix(List<List<T>> data) {
@@ -67,6 +70,7 @@ public class Matrix<T> {
      * a view, meaning that if the matrix is mutated, the change will be
      * reflected in the list. If the view is mutated, the change will be
      * reflected in the matrix.
+     *
      * @return
      */
     public List<List<T>> columns() {
@@ -96,6 +100,7 @@ public class Matrix<T> {
      * view, meaning that if the matrix is mutated, the change will be reflected
      * in the list. If the view is mutated, the change will be reflected in the
      * matrix.
+     *
      * @param i
      * @return
      */
@@ -120,6 +125,7 @@ public class Matrix<T> {
 
     /**
      * Return the width of the matrix.
+     *
      * @return
      */
     public int width() {
@@ -128,6 +134,7 @@ public class Matrix<T> {
 
     /**
      * Return the height of the matrix.
+     *
      * @return
      */
     public int height() {
@@ -139,6 +146,7 @@ public class Matrix<T> {
      * is a view, meaning that if the matrix is mutated, the change will be
      * reflected in the list. If the view is mutated, the change will be
      * reflected in the matrix.
+     *
      * @return
      */
     public List<List<T>> rows() {
@@ -150,6 +158,7 @@ public class Matrix<T> {
      * meaning that if the matrix is mutated, the change will be reflected in
      * the list. If the view is mutated, the change will be reflected in the
      * matrix.
+     *
      * @param i
      * @return
      */
@@ -174,6 +183,7 @@ public class Matrix<T> {
 
     /**
      * Pick the element at the specified position in the matrix.
+     *
      * @param i The row index.
      * @param j The column index.
      * @return The element at the specified position.
@@ -185,8 +195,9 @@ public class Matrix<T> {
     /**
      * Set the element at the specified position in the matrix.
      * The old element is returned.
-     * @param i The row index.
-     * @param j The column index.
+     *
+     * @param i       The row index.
+     * @param j       The column index.
      * @param element The new element.
      * @return The old element.
      */
@@ -196,6 +207,7 @@ public class Matrix<T> {
 
     /**
      * Swap two elements in the matrix.
+     *
      * @param srcRow The row index of the first element.
      * @param srcCol The column index of the first element.
      * @param dstRow The row index of the second element.
@@ -209,6 +221,7 @@ public class Matrix<T> {
 
     /**
      * Transpose the matrix, i.e. swap its axes.
+     *
      * @return The transposed matrix.
      */
     public Matrix<T> transpose() {
@@ -221,6 +234,7 @@ public class Matrix<T> {
 
     /**
      * Reduce the matrix on the last axis with a specified reductor.
+     *
      * @param reductor
      * @return
      */
@@ -238,6 +252,7 @@ public class Matrix<T> {
 
     /**
      * Reduce the matrix on the first axis with a specified reductor.
+     *
      * @param reductor
      * @return
      */
@@ -255,6 +270,7 @@ public class Matrix<T> {
 
     /**
      * Map each cell of the matrix with a specified mapper.
+     *
      * @param mapper
      * @return
      */
@@ -269,6 +285,7 @@ public class Matrix<T> {
     /**
      * Zip two matrices together to produce a new matrix, using a specified
      * zipper function.
+     *
      * @param other
      * @param zipper
      * @return
@@ -283,6 +300,7 @@ public class Matrix<T> {
 
     /**
      * Reverse the matrix on the first axis.
+     *
      * @return
      */
     public Matrix<T> reverseFirst() {
@@ -295,6 +313,7 @@ public class Matrix<T> {
 
     /**
      * Reverse the matrix on the last axis.
+     *
      * @return
      */
     public Matrix<T> reverseLast() {
@@ -308,6 +327,7 @@ public class Matrix<T> {
     /**
      * Map each cell of the matrix with a specified mapper, which takes the
      * index of the cell as an additional argument.
+     *
      * @param mapper
      * @return
      */
@@ -322,6 +342,7 @@ public class Matrix<T> {
     /**
      * Compute the ravel of the matrix, i.e. a list of all elements in it.
      * The ravel follows a row-major order.
+     *
      * @return
      */
     public List<T> ravel() {
@@ -333,6 +354,7 @@ public class Matrix<T> {
 
     /**
      * Determine whether the matrix contains a specified element.
+     *
      * @param element
      * @return
      */
@@ -349,14 +371,15 @@ public class Matrix<T> {
      * <pre>
      *     (A o B) = sum_{i,j} (A_{i,j} o B_{i,j})
      * </pre>
-     *
+     * <p>
      * Where o is the *scalar* product and sum is the *vector* sum. For example, to multiply two matrices, one would use:
      * <pre>
      *     dot(A, B, (a, b) -> a * b, (a, b) -> a + b)
      * </pre>
+     *
      * @param another The other matrix.
-     * @param scalar The scalar product.
-     * @param vector The vector sum.
+     * @param scalar  The scalar product.
+     * @param vector  The vector sum.
      * @return The generalised dot product.
      */
     public Matrix<T> dot(Matrix<T> another, BiFunction<T, T, T> scalar, BiFunction<T, T, T> vector) {
@@ -365,12 +388,12 @@ public class Matrix<T> {
         if (a.size() != b.size())
             throw new IllegalArgumentException("Matrices are not aligned.");
         Matrix<T> result = new Matrix<>(a.size(), b.size());
-        for(int i = 0; i < a.size(); i++) {
-            for(int j = 0; j < b.size(); j++) {
+        for (int i = 0; i < a.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
                 List<T> row = a.get(i);
                 List<T> column = b.get(j);
                 T reduced = scalar.apply(row.get(0), column.get(0));
-                for(int k = 1; k < row.size(); k++)
+                for (int k = 1; k < row.size(); k++)
                     reduced = vector.apply(reduced, scalar.apply(row.get(k), column.get(k)));
                 result.set(i, j, reduced);
             }
@@ -380,6 +403,7 @@ public class Matrix<T> {
 
     /**
      * Copy the matrix.
+     *
      * @return
      */
     public Matrix<T> copy() {
@@ -393,7 +417,7 @@ public class Matrix<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Matrix)
+        if (obj instanceof Matrix)
             return data.equals(((Matrix<?>) obj).data);
         return false;
     }

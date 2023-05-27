@@ -366,7 +366,7 @@ class Bessel {
     }
 
     public static double bessel0(double x) {
-        if(Double.isInfinite(x)) return 0;
+        if (Double.isInfinite(x)) return 0;
         double nn, pzero, qzero, xsq, p1, q1, y;
         double[] zz;
         double[] p = {26857.86856980014981415848441, -40504123.71833132706360663322, 25071582855.36881945555156435, -8085222034853.793871199468171, 1434354939140344.111664316553, -136762035308817138.6865416609, 6382059341072356562.289432465, -117915762910761053603.8440800, 493378725179413356181.6813446};
@@ -395,7 +395,7 @@ class Bessel {
     }
 
     public static double bessel1(double x) {
-        if(Double.isInfinite(x)) return 0;
+        if (Double.isInfinite(x)) return 0;
         double s, pzero, qzero, nn, p1, q1, y, xsq;
         double[] zz;
         double[] p = {2701.122710892323414856790990, -4695753.530642995859767162166, 3413234182.301700539091292655, -1322983480332.126453125473247, 290879526383477.5409737601689, -35888175699101060.50743641413, 2316433580634002297.931815435, -66721065689249162980.20941484, 581199354001606143928.050809};
@@ -758,7 +758,7 @@ class Bessel {
     }
 
     static public double yn(int n, double x) {
-        if(n < 0) n = -n;
+        if (n < 0) n = -n;
 
         double by, bym, byp, tox;
 
@@ -968,7 +968,6 @@ class Bessel {
         else
             nflag = 0;
 
-        fstart:
         do {
 
             pkm2 = 0.0;

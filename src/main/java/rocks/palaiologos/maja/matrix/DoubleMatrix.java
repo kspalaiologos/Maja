@@ -2,7 +2,6 @@ package rocks.palaiologos.maja.matrix;
 
 import rocks.palaiologos.maja.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -91,6 +90,16 @@ public class DoubleMatrix extends Matrix<Double> {
                 sum = vector.apply(sum, scalar.apply(a.get(0, i), alt(minor(a, 0, i), vector, scalar)));
             return sum;
         }
+    }
+
+    /**
+     * Generate an identity matrix of the given order.
+     */
+    public static DoubleMatrix identity(int n) {
+        DoubleMatrix result = new DoubleMatrix(n, n);
+        for (int i = 0; i < n; i++)
+            result.set(i, i, 1.0);
+        return result;
     }
 
     /**
@@ -299,7 +308,7 @@ public class DoubleMatrix extends Matrix<Double> {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++)
                 if (i >= j) H.set(i, j, QR.get(i, j));
-                else        H.set(i, j, 0.0);
+                else H.set(i, j, 0.0);
         }
 
         DoubleMatrix R = new DoubleMatrix(n, n);
@@ -323,7 +332,7 @@ public class DoubleMatrix extends Matrix<Double> {
                     double s = 0.0;
                     for (int i = k; i < m; i++)
                         s += QR.get(i, k) * Q.get(i, j);
-                    s = -s/QR.get(k, k);
+                    s = -s / QR.get(k, k);
                     for (int i = k; i < m; i++)
                         Q.set(i, j, Q.get(i, j) + s * QR.get(i, k));
                 }
@@ -367,16 +376,6 @@ public class DoubleMatrix extends Matrix<Double> {
     public DoubleEigenvalueDecompositionResult eigen() {
         var i = new EigenvalueDecompositionImpl(this);
         return new DoubleEigenvalueDecompositionResult(i.getD(), i.getV(), i.getEigenvalues());
-    }
-
-    /**
-     * Generate an identity matrix of the given order.
-     */
-    public static DoubleMatrix identity(int n) {
-        DoubleMatrix result = new DoubleMatrix(n, n);
-        for (int i = 0; i < n; i++)
-            result.set(i, i, 1.0);
-        return result;
     }
 
     @Override
@@ -445,12 +444,12 @@ public class DoubleMatrix extends Matrix<Double> {
         if (a.size() != b.size())
             throw new IllegalArgumentException("Matrices are not aligned.");
         DoubleMatrix result = new DoubleMatrix(a.size(), b.size());
-        for(int i = 0; i < a.size(); i++) {
-            for(int j = 0; j < b.size(); j++) {
+        for (int i = 0; i < a.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
                 List<Double> row = a.get(i);
                 List<Double> column = b.get(j);
                 double reduced = scalar.apply(row.get(0), column.get(0));
-                for(int k = 1; k < row.size(); k++)
+                for (int k = 1; k < row.size(); k++)
                     reduced = vector.apply(reduced, scalar.apply(row.get(k), column.get(k)));
                 result.set(i, j, reduced);
             }

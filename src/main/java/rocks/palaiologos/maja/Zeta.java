@@ -339,7 +339,7 @@ class Zeta {
     }
 
     private static Complex recipGammaNoPole(Complex z) {
-        if(isnpint(z))
+        if (isnpint(z))
             return Complex.ZERO;
         return div(1, gamma(z));
     }
@@ -404,7 +404,7 @@ class Zeta {
         Complex w = pow(negate(Complex.ONE), sub(s, 1));
         Complex Int = Complex.ZERO;
 
-        if(isreal) {
+        if (isreal) {
             Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
                     g, right, add(right, mul(top, Maja.I)), degree, EPSILON)[0], w).im()));
             Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(

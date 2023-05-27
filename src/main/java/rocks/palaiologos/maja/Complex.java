@@ -11,6 +11,7 @@ public record Complex(double re, double im) {
     public static final Complex COMPLEX_INFINITY = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
     public static final Complex ZERO = new Complex(0, 0);
     public static final Complex ONE = new Complex(1, 0);
+
     /**
      * Construct a complex value with the given real part and zero imaginary part.
      *
@@ -19,6 +20,7 @@ public record Complex(double re, double im) {
     public Complex(double re) {
         this(re, 0);
     }
+
     /**
      * Construct a complex value with zero real and imaginary parts.
      */

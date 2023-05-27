@@ -1,7 +1,5 @@
 package rocks.palaiologos.maja;
 
-import java.util.function.Function;
-
 import static rocks.palaiologos.maja.Maja.*;
 
 class LegendreIntegral {

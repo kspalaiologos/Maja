@@ -124,43 +124,43 @@ class Lambert {
     }
 
     private static Complex lwPade0(Complex z) {
-        final double[] P1 = { 12.85106382978723404255, 12.34042553191489361902, 1.0 };
-        final double[] P2 = { 32.53191489361702127660, 14.34042553191489361702, 1.0 };
+        final double[] P1 = {12.85106382978723404255, 12.34042553191489361902, 1.0};
+        final double[] P2 = {32.53191489361702127660, 14.34042553191489361702, 1.0};
         return div(mul(z, pevl(P1, z)), pevl(P2, z));
     }
 
     private static Complex lwBpt(Complex z) {
-        final double[] coeffs = {-1.0/3.0, 1.0, -1.0};
-        Complex p = sqrt(mul(2,add(mul(E,z), 1)));
+        final double[] coeffs = {-1.0 / 3.0, 1.0, -1.0};
+        Complex p = sqrt(mul(2, add(mul(E, z), 1)));
         return pevl(coeffs, p);
     }
 
     public static Complex lambertW(Complex z, long k) {
-        if(Complex.isNaN(z))
+        if (Complex.isNaN(z))
             return z;
-        if(Complex.isInfinite(z))
+        if (Complex.isInfinite(z))
             return add(z, mul(TWO_PI * k, I));
-        if(eq(z, Complex.ZERO)) {
-            if(k == 0)
+        if (eq(z, Complex.ZERO)) {
+            if (k == 0)
                 return z;
             return Complex.COMPLEX_INFINITY;
-        } else if(eq(z, Complex.ONE) && k == 0) {
+        } else if (eq(z, Complex.ONE) && k == 0) {
             // Series expansion fails to converge.
             return new Complex(0.56714329040978387299997);
         }
 
         double absz = abs(z);
         Complex w;
-        if(k == 0) {
-            if(abs(add(z, 0.36787944117144232159553)) < 0.3) {
+        if (k == 0) {
+            if (abs(add(z, 0.36787944117144232159553)) < 0.3) {
                 w = lwBpt(z);
-            } else if(z.re() > -1 && z.re() < 1.5 && abs(z.im()) < 1 && -2.5 * abs(z.im()) - 0.2 < z.re()) {
+            } else if (z.re() > -1 && z.re() < 1.5 && abs(z.im()) < 1 && -2.5 * abs(z.im()) - 0.2 < z.re()) {
                 w = lwPade0(z);
             } else {
                 w = lwA(z, k);
             }
-        } else if(k == -1) {
-            if(absz <= 0.36787944117144232159553 && z.im() == 0 && z.re() < 0) {
+        } else if (k == -1) {
+            if (absz <= 0.36787944117144232159553 && z.im() == 0 && z.re() < 0) {
                 w = log(new Complex(-z.re()));
             } else {
                 w = lwA(z, k);
@@ -169,23 +169,23 @@ class Lambert {
             w = lwA(z, k);
         }
 
-        if(w.re() >= 0) {
-            for(int i = 0; i < 100; i++) {
+        if (w.re() >= 0) {
+            for (int i = 0; i < 100; i++) {
                 Complex ew = exp(negate(w));
                 Complex wewz = sub(w, mul(z, ew));
                 Complex wn = sub(w, div(wewz, add(w, sub(1, div(mul(add(w, 2), wewz), add(mul(2, w), 2))))));
-                if(abs(sub(wn, w)) <= EPSILON * abs(wn))
+                if (abs(sub(wn, w)) <= EPSILON * abs(wn))
                     return wn;
                 else
                     w = wn;
             }
         } else {
-            for(int i = 0; i < 100; i++) {
+            for (int i = 0; i < 100; i++) {
                 Complex ew = exp(w);
                 Complex wew = mul(w, ew);
                 Complex wewz = sub(wew, z);
                 Complex wn = sub(w, div(wewz, add(wew, sub(ew, div(mul(add(w, 2), wewz), add(mul(2, w), 2))))));
-                if(abs(sub(wn, w)) <= 1e-15 * abs(wn))
+                if (abs(sub(wn, w)) <= 1e-15 * abs(wn))
                     return wn;
                 else
                     w = wn;

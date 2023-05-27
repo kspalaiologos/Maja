@@ -1022,37 +1022,37 @@ class ExpressionFunctions {
             }
             case "legendre-f" -> {
                 assertArity(args, 2);
-                if(args.get(0).isDouble() && args.get(1).isDouble())
+                if (args.get(0).isDouble() && args.get(1).isDouble())
                     yield Maja.legendreF(args.get(0).getDouble(), args.get(1).getDouble());
                 else
                     yield Maja.legendreF(args.get(0).getComplex(), args.get(1).getComplex());
             }
             case "legendre-e" -> {
                 assertArity(args, 2);
-                if(args.get(0).isDouble() && args.get(1).isDouble())
+                if (args.get(0).isDouble() && args.get(1).isDouble())
                     yield Maja.legendreE(args.get(0).getDouble(), args.get(1).getDouble());
                 else
                     yield Maja.legendreE(args.get(0).getComplex(), args.get(1).getComplex());
             }
             case "legendre-d" -> {
                 assertArity(args, 2);
-                if(args.get(0).isDouble() && args.get(1).isDouble())
+                if (args.get(0).isDouble() && args.get(1).isDouble())
                     yield Maja.legendreD(args.get(0).getDouble(), args.get(1).getDouble());
                 else
                     yield Maja.legendreD(args.get(0).getComplex(), args.get(1).getComplex());
             }
             case "legendre-pi" -> {
                 assertArity(args, 3);
-                if(args.get(0).isDouble() && args.get(1).isDouble() && args.get(2).isDouble())
+                if (args.get(0).isDouble() && args.get(1).isDouble() && args.get(2).isDouble())
                     yield Maja.legendrePi(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble());
                 else
                     yield Maja.legendrePi(args.get(0).getComplex(), args.get(1).getComplex(), args.get(2).getComplex());
             }
             case "landau" -> {
-                if(args.size() != 1 && args.size() != 4) {
+                if (args.size() != 1 && args.size() != 4) {
                     throw new IllegalArgumentException("landau requires 1 or 4 arguments.");
                 }
-                if(args.size() == 1) {
+                if (args.size() == 1) {
                     yield Maja.landau(args.get(0).getDouble());
                 } else {
                     yield Maja.landau(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble(), args.get(3).getLong() != 0);

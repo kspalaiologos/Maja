@@ -2485,8 +2485,8 @@ public class Maja {
      * @return Struve(v, x)
      */
     public static double struve(double v, double x) {
-        if(v == 0.0) return Hypergeometric.struveH0(x);
-        else if(v == 1.0) return Hypergeometric.struveH1(x);
+        if (v == 0.0) return Hypergeometric.struveH0(x);
+        else if (v == 1.0) return Hypergeometric.struveH1(x);
         else return Hypergeometric.struve(v, x);
     }
 
@@ -2941,6 +2941,7 @@ public class Maja {
 
     /**
      * Return the argument of a complex number.
+     *
      * @param z
      * @return Arg(z)
      */
@@ -2950,6 +2951,7 @@ public class Maja {
 
     /**
      * Compute the value of the cis function of a number.
+     *
      * @param x
      * @return cos(x) + i * sin(x)
      */
@@ -3998,6 +4000,7 @@ public class Maja {
 
     /**
      * Compute the specified branch of the complex Lambert W function of z.
+     *
      * @param z
      * @param k
      * @return lambertw(z, k)
@@ -4009,17 +4012,18 @@ public class Maja {
     /**
      * Trim insignificant real/imaginary parts (below machine epsilon), round up numbers where
      * the real/imaginary part is very close to an integer.
+     *
      * @param z
      * @return iround(z)
      */
     public static Complex chop(Complex z) {
-        if(Math.abs(z.re()) < EPSILON)
+        if (Math.abs(z.re()) < EPSILON)
             z = new Complex(0, z.im());
-        if(Math.abs(z.im()) < EPSILON)
+        if (Math.abs(z.im()) < EPSILON)
             z = new Complex(z.re(), 0);
-        if(Math.abs(z.re() - Math.round(z.re())) < EPSILON)
+        if (Math.abs(z.re() - Math.round(z.re())) < EPSILON)
             z = new Complex(Math.round(z.re()), z.im());
-        if(Math.abs(z.im() - Math.round(z.im())) < EPSILON)
+        if (Math.abs(z.im() - Math.round(z.im())) < EPSILON)
             z = new Complex(z.re(), Math.round(z.im()));
         return z;
     }
@@ -4030,10 +4034,10 @@ public class Maja {
      * on the interval [a, b]. The area is computed using the Gauss-Legendre quadrature
      * as 2pi * integral of f(x) * sqrt(1 + df(x)^2) from a to b.
      *
-     * @param f the function to rotate
+     * @param f  the function to rotate
      * @param df the derivative of f
-     * @param a the lower bound of the interval
-     * @param b the upper bound of the interval
+     * @param a  the lower bound of the interval
+     * @param b  the upper bound of the interval
      * @return the area of the solid of revolution
      */
     public static double solidArea(MonadicFunction f, MonadicFunction df, double a, double b) {
@@ -4059,10 +4063,10 @@ public class Maja {
      * Integrate a C -&gt; C function using the Tanh-Sinh quadrature. Performs
      * integration through a straight line contour from a to b.
      *
-     * @param f the function to integrate
-     * @param a the lower bound of the interval
-     * @param b the upper bound of the interval
-     * @param n the quadrature degree
+     * @param f   the function to integrate
+     * @param a   the lower bound of the interval
+     * @param b   the upper bound of the interval
+     * @param n   the quadrature degree
      * @param eps the desired accuracy
      * @return the integral of f from a to b
      */
@@ -4090,8 +4094,8 @@ public class Maja {
      * quadrature as the integral of sqrt(1 + df(x)^2) from a to b.
      *
      * @param df the derivative of f
-     * @param a the lower bound of the interval
-     * @param b the upper bound of the interval
+     * @param a  the lower bound of the interval
+     * @param b  the upper bound of the interval
      * @return the arc length of the curve
      */
     public static double arcLength(MonadicFunction df, double a, double b) {
@@ -4190,10 +4194,11 @@ public class Maja {
 
     /**
      * Compute the Landau function with specified most probable value and sigma value.
-     * @param x the value to evaluate the function at
-     * @param mpv the most probable value
+     *
+     * @param x     the value to evaluate the function at
+     * @param mpv   the most probable value
      * @param sigma width of the distribution
-     * @param norm whether to normalize the result
+     * @param norm  whether to normalize the result
      * @return landau(x, mpv, sigma, norm)
      */
     public static double landau(double x, double mpv, double sigma, boolean norm) {
@@ -4202,6 +4207,7 @@ public class Maja {
 
     /**
      * Compute the Landau distribution function.
+     *
      * @param x the value to evaluate the function at
      * @return landau(x)
      */
@@ -4211,6 +4217,7 @@ public class Maja {
 
     /**
      * Compute the regularized Gamma P function.
+     *
      * @param a order
      * @param x argument
      * @return gammaP(a, x)
@@ -4221,6 +4228,7 @@ public class Maja {
 
     /**
      * Compute the regularized Gamma Q function.
+     *
      * @param a order
      * @param x argument
      * @return gammaQ(a, x)
@@ -4242,7 +4250,7 @@ public class Maja {
     /**
      * Computes quantiles for chi-squared probability distribution at probability p .
      *
-     * @param p probability between 0 and 1.
+     * @param p  probability between 0 and 1.
      * @param df degrees of freedom
      * @return quantile value
      */
