@@ -1,6 +1,7 @@
 
 import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Complex;
+import rocks.palaiologos.maja.matrix.DoubleMatrix;
 import rocks.palaiologos.maja.matrix.Matrix;
 import rocks.palaiologos.maja.Maja;
 
@@ -184,5 +185,79 @@ public class TestMatrix {
         });
 
         assertThat(a.transpose()).isEqualTo(expected);
+    }
+
+    @Test
+    public void testSum() {
+        DoubleMatrix a = new DoubleMatrix(new double[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
+        DoubleMatrix b = new DoubleMatrix(new double[][] {
+                { 5, 6 },
+                { 7, 8 }
+        });
+
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
+                { 6, 8 },
+                { 10, 12 }
+        });
+
+        assertThat(a.zipWith(b, Maja::add)).isEqualTo(expected);
+    }
+
+    @Test
+    public void testDet() {
+        DoubleMatrix a = new DoubleMatrix(new double[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
+        assertThat(a.det()).isEqualTo(-2);
+
+        DoubleMatrix b = new DoubleMatrix(new double[][] {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+        });
+
+        assertThat(b.det()).isEqualTo(0);
+    }
+
+    @Test
+    public void testPerm() {
+        DoubleMatrix a = new DoubleMatrix(new double[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
+        assertThat(a.perm()).isEqualTo(10);
+
+        DoubleMatrix b = new DoubleMatrix(new double[][] {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+        });
+
+        assertThat(b.perm()).isEqualTo(450);
+    }
+
+    @Test
+    public void testAlt() {
+        DoubleMatrix a = new DoubleMatrix(new double[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
+        assertThat(a.alt(Maja::sub, Maja::sub)).isEqualTo(-4);
+
+        DoubleMatrix b = new DoubleMatrix(new double[][] {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+        });
+
+        assertThat(b.alt(Maja::sub, Maja::sub)).isEqualTo(4);
     }
 }

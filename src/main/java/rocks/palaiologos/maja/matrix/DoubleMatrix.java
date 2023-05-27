@@ -2,6 +2,7 @@ package rocks.palaiologos.maja.matrix;
 
 import rocks.palaiologos.maja.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -85,10 +86,10 @@ public class DoubleMatrix extends Matrix<Double> {
         if (a.height() == 1) {
             return a.get(0, 0);
         } else {
-            double sum = scalar.apply(a.get(0, 0), alt(minor(a, 0, 0), vector, scalar));
-            for (int i = 1; i < a.height(); i++)
-                sum = vector.apply(sum, scalar.apply(a.get(0, i), alt(minor(a, 0, i), vector, scalar)));
-            return sum;
+            double acc = scalar.apply(a.get(a.height() - 1, 0), alt(minor(a, a.height() - 1, 0), vector, scalar));
+            for (int i = a.height() - 2; i >= 0; i--)
+                acc = vector.apply(scalar.apply(a.get(i, 0), alt(minor(a, i, 0), vector, scalar)), acc);
+            return acc;
         }
     }
 
