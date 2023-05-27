@@ -117,6 +117,22 @@ public class Matrix<T> {
     }
 
     /**
+     * Return the width of the matrix.
+     * @return
+     */
+    public int width() {
+        return data.get(0).size();
+    }
+
+    /**
+     * Return the height of the matrix.
+     * @return
+     */
+    public int height() {
+        return data.size();
+    }
+
+    /**
      * Create a nested list view of all columns in the matrix. The returned list
      * is a view, meaning that if the matrix is mutated, the change will be
      * reflected in the list. If the view is mutated, the change will be

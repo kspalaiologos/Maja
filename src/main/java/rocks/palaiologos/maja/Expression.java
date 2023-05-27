@@ -7,10 +7,6 @@ import java.util.function.Function;
 import static rocks.palaiologos.maja.Maja.*;
 
 class Expression {
-    private static final String[] operators = {
-            "+", "-", "*", "/", "rem", "mod", "!", "lcm", "gcd", "**", "|"
-    };
-
     public static Number evalExpression(String expr, Map<String, Number> variables) {
         return new Evaluator(expr, variables).expr();
     }
@@ -19,20 +15,13 @@ class Expression {
         NUM, OP, LPAREN, RPAREN, COMMA, NAME, QUOTING, EOF
     }
 
-    static class Token {
-        final TokenType type;
-        final String value;
-
-        Token(TokenType type, String value) {
-            this.type = type;
-            this.value = value;
-        }
-
+    record Token(TokenType type, String value) {
         @Override
         public String toString() {
-            return String.format("%s(%s)", type, value);
-        }
+                return String.format("%s(%s)", type, value);
+            }
     }
+
 
     static class Tokenizer {
         private final String input;
