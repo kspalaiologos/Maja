@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * A class representing a two-dimensional matrix of double precision floating point numbers.
@@ -248,7 +249,6 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Compute the trace of a matrix.
-     * @return
      */
     public double trace() {
         double trace = 0;
@@ -260,7 +260,6 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Perform the QR decomposition algorithm using the Householder transformation.
-     * @return
      */
     public DoubleQRDecompositionResult QR() {
         int m = height(), n = width();
@@ -334,6 +333,9 @@ public class DoubleMatrix extends Matrix<Double> {
         return new DoubleQRDecompositionResult(Q, R, H, isFullRank);
     }
 
+    /**
+     * Perform the Cholesky decomposition algorithm.
+     */
     public DoubleCholeskyDecompositonResult cholesky() {
         int n = height();
         DoubleMatrix L = new DoubleMatrix(n, n);
@@ -361,10 +363,98 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Perform eigenvalue decomposition.
-     * @return
      */
     public DoubleEigenvalueDecompositionResult eigen() {
         var i = new EigenvalueDecompositionImpl(this);
         return new DoubleEigenvalueDecompositionResult(i.getD(), i.getV(), i.getEigenvalues());
+    }
+
+    /**
+     * Generate an identity matrix of the given order.
+     */
+    public static DoubleMatrix identity(int n) {
+        DoubleMatrix result = new DoubleMatrix(n, n);
+        for (int i = 0; i < n; i++)
+            result.set(i, i, 1.0);
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix copy() {
+        return new DoubleMatrix(data);
+    }
+
+    @Override
+    public DoubleMatrix transpose() {
+        DoubleMatrix result = new DoubleMatrix(data.get(0).size(), data.size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(j, i, data.get(i).get(j));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix map(Function<Double, Double> mapper) {
+        DoubleMatrix result = new DoubleMatrix(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, mapper.apply(data.get(i).get(j)));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix zipWith(Matrix<Double> other, BiFunction<Double, Double, Double> zipper) {
+        DoubleMatrix result = new DoubleMatrix(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, zipper.apply(data.get(i).get(j), other.get(i, j)));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix reverseFirst() {
+        DoubleMatrix result = new DoubleMatrix(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, data.get(data.size() - i - 1).get(j));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix reverseLast() {
+        DoubleMatrix result = new DoubleMatrix(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, data.get(i).get(data.get(i).size() - j - 1));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix mapIdx(BiFunction<Pair<Integer, Integer>, Double, Double> mapper) {
+        DoubleMatrix result = new DoubleMatrix(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, mapper.apply(new Pair<>(i, j), data.get(i).get(j)));
+        return result;
+    }
+
+    @Override
+    public DoubleMatrix dot(Matrix<Double> another, BiFunction<Double, Double, Double> scalar, BiFunction<Double, Double, Double> vector) {
+        var a = rows();
+        var b = another.columns();
+        if (a.size() != b.size())
+            throw new IllegalArgumentException("Matrices are not aligned.");
+        DoubleMatrix result = new DoubleMatrix(a.size(), b.size());
+        for(int i = 0; i < a.size(); i++) {
+            for(int j = 0; j < b.size(); j++) {
+                List<Double> row = a.get(i);
+                List<Double> column = b.get(j);
+                double reduced = scalar.apply(row.get(0), column.get(0));
+                for(int k = 1; k < row.size(); k++)
+                    reduced = vector.apply(reduced, scalar.apply(row.get(k), column.get(k)));
+                result.set(i, j, reduced);
+            }
+        }
+        return result;
     }
 }
