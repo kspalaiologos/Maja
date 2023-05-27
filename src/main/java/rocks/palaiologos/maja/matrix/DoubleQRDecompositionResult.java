@@ -1,7 +1,5 @@
 package rocks.palaiologos.maja.matrix;
 
-import java.util.Objects;
-
 /**
  * The result of QR decomposition.
  */
@@ -13,11 +11,11 @@ public class DoubleQRDecompositionResult {
     private final int n;
     private final int m;
     private final DoubleMatrix QR;
-    private final int[] Rdiag;
+    private final double[] Rdiag;
 
     public DoubleQRDecompositionResult(DoubleMatrix q, DoubleMatrix r, DoubleMatrix h,
                                        boolean fullrank, int n, int m, DoubleMatrix QR,
-                                       int[] Rdiag) {
+                                       double[] Rdiag) {
         this.q = q;
         this.r = r;
         this.h = h;
