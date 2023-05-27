@@ -253,7 +253,7 @@ public class DoubleMatrix extends Matrix<Double> {
             d *= LU.get(j, j);
         }
 
-        return new DoubleLUPDecompositionResult(L, U, piv, nonsingular, d);
+        return new DoubleLUPDecompositionResult(L, U, piv, !nonsingular, d, this.height(), this.width(), LU);
     }
 
     /**
