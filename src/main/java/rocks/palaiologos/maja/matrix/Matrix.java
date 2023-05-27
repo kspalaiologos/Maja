@@ -1,4 +1,6 @@
-package rocks.palaiologos.maja;
+package rocks.palaiologos.maja.matrix;
+
+import rocks.palaiologos.maja.Pair;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -190,6 +192,19 @@ public class Matrix<T> {
      */
     public T set(int i, int j, T element) {
         return data.get(i).set(j, element);
+    }
+
+    /**
+     * Swap two elements in the matrix.
+     * @param srcRow The row index of the first element.
+     * @param srcCol The column index of the first element.
+     * @param dstRow The row index of the second element.
+     * @param dstCol The column index of the second element.
+     */
+    public void swap(int srcRow, int srcCol, int dstRow, int dstCol) {
+        T tmp = get(srcRow, srcCol);
+        set(srcRow, srcCol, get(dstRow, dstCol));
+        set(dstRow, dstCol, tmp);
     }
 
     /**

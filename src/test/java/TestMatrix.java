@@ -1,7 +1,7 @@
 
 import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Complex;
-import rocks.palaiologos.maja.Matrix;
+import rocks.palaiologos.maja.matrix.Matrix;
 import rocks.palaiologos.maja.Maja;
 
 import java.util.List;
