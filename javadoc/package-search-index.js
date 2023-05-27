@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"rocks.palaiologos.maja"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"rocks.palaiologos.maja"},{"l":"rocks.palaiologos.maja.matrix"}];updateSearchResults();
