@@ -267,6 +267,45 @@ public class Matrix<T> {
     }
 
     /**
+     * Zip two matrices together to produce a new matrix, using a specified
+     * zipper function.
+     * @param other
+     * @param zipper
+     * @return
+     */
+    public Matrix<T> zipWith(Matrix<T> other, BiFunction<T, T, T> zipper) {
+        Matrix<T> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, zipper.apply(data.get(i).get(j), other.get(i, j)));
+        return result;
+    }
+
+    /**
+     * Reverse the matrix on the first axis.
+     * @return
+     */
+    public Matrix<T> reverseFirst() {
+        Matrix<T> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, data.get(data.size() - i - 1).get(j));
+        return result;
+    }
+
+    /**
+     * Reverse the matrix on the last axis.
+     * @return
+     */
+    public Matrix<T> reverseLast() {
+        Matrix<T> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, data.get(i).get(data.get(i).size() - j - 1));
+        return result;
+    }
+
+    /**
      * Map each cell of the matrix with a specified mapper, which takes the
      * index of the cell as an additional argument.
      * @param mapper
