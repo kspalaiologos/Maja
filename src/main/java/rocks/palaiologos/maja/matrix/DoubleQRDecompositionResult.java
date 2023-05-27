@@ -7,6 +7,6 @@ package rocks.palaiologos.maja.matrix;
  * @param h The householder matrix; lower trapezoidal matrix whose columns define the reflections.
  * @param fullrank Whether the matrix is full rank.
  */
-public record DoubleQRDecompositionResult(Matrix<Double> q, Matrix<Double> r, Matrix<Double> h,
+public record DoubleQRDecompositionResult(DoubleMatrix q, DoubleMatrix r, DoubleMatrix h,
                                           boolean fullrank) {
 }

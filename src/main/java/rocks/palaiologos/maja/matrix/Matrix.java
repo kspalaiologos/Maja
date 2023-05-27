@@ -17,7 +17,7 @@ import java.util.function.Function;
  * @author Palaiologos
  */
 public class Matrix<T> {
-    private final List<List<T>> data;
+    final List<List<T>> data;
 
     /**
      * Create a matrix out of a two-dimensional array.

@@ -25,6 +25,13 @@ public class DoubleMatrix extends Matrix<Double> {
         super(data);
     }
 
+    public DoubleMatrix(double[][] data) {
+        super(data.length, data[0].length);
+        for (int i = 0; i < data.length; i++)
+            for (int j = 0; j < data[0].length; j++)
+                set(i, j, data[i][j]);
+    }
+
     private static Matrix<Double> minor(Matrix<Double> a, int x, int y) {
         int length = a.height() - 1;
         Matrix<Double> result = new Matrix<>(length, length);
@@ -113,8 +120,8 @@ public class DoubleMatrix extends Matrix<Double> {
      * Computes the LU decomposition of a matrix using the Doolittle algorithm.
      */
     public DoubleLUDecompositionResult LU() {
-        Matrix<Double> lower = new DoubleMatrix(height(), width());
-        Matrix<Double> upper = new DoubleMatrix(height(), width());
+        DoubleMatrix lower = new DoubleMatrix(height(), width());
+        DoubleMatrix upper = new DoubleMatrix(height(), width());
 
         if (height() != width())
             throw new IllegalArgumentException("Matrix must be square.");
@@ -166,7 +173,7 @@ public class DoubleMatrix extends Matrix<Double> {
         int[] piv = new int[m];
         for (int i = 0; i < m; i++)
             piv[i] = i;
-        Matrix<Double> LU = this.copy();
+        DoubleMatrix LU = new DoubleMatrix(data);
         List<Double> LUrowi;
         double[] LUcolj = new double[m];
         for (int j = 0; j < n; j++) {
@@ -209,8 +216,8 @@ public class DoubleMatrix extends Matrix<Double> {
             }
         }
 
-        Matrix<Double> L = new DoubleMatrix(m, n);
-        Matrix<Double> U = new DoubleMatrix(n, n);
+        DoubleMatrix L = new DoubleMatrix(m, n);
+        DoubleMatrix U = new DoubleMatrix(n, n);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (i > j) {
@@ -257,7 +264,7 @@ public class DoubleMatrix extends Matrix<Double> {
      */
     public DoubleQRDecompositionResult QR() {
         int m = height(), n = width();
-        Matrix<Double> QR = this.copy();
+        DoubleMatrix QR = new DoubleMatrix(data);
         double[] Rdiag = new double[n];
         for (int k = 0; k < n; k++) {
             double nrm = 0;
@@ -289,14 +296,14 @@ public class DoubleMatrix extends Matrix<Double> {
             }
         }
 
-        Matrix<Double> H = new DoubleMatrix(m, n);
+        DoubleMatrix H = new DoubleMatrix(m, n);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++)
                 if (i >= j) H.set(i, j, QR.get(i, j));
                 else        H.set(i, j, 0.0);
         }
 
-        Matrix<Double> R = new DoubleMatrix(n, n);
+        DoubleMatrix R = new DoubleMatrix(n, n);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++)
                 if (i < j)
@@ -307,7 +314,7 @@ public class DoubleMatrix extends Matrix<Double> {
                     R.set(i, j, 0.0);
         }
 
-        Matrix<Double> Q = new DoubleMatrix(m, n);
+        DoubleMatrix Q = new DoubleMatrix(m, n);
         for (int k = n - 1; k >= 0; k--) {
             for (int i = 0; i < m; i++)
                 Q.set(i, k, 0.0);
@@ -329,7 +336,7 @@ public class DoubleMatrix extends Matrix<Double> {
 
     public DoubleCholeskyDecompositonResult cholesky() {
         int n = height();
-        Matrix<Double> L = new DoubleMatrix(n, n);
+        DoubleMatrix L = new DoubleMatrix(n, n);
         boolean isspd = width() == n;
         for (int j = 0; j < n; j++) {
             List<Double> Lrowj = L.row(j);
@@ -350,5 +357,14 @@ public class DoubleMatrix extends Matrix<Double> {
                 L.set(j, k, 0.0);
         }
         return new DoubleCholeskyDecompositonResult(L, isspd);
+    }
+
+    /**
+     * Perform eigenvalue decomposition.
+     * @return
+     */
+    public DoubleEigenvalueDecompositionResult eigen() {
+        var i = new EigenvalueDecompositionImpl(this);
+        return new DoubleEigenvalueDecompositionResult(i.getD(), i.getV(), i.getEigenvalues());
     }
 }

@@ -8,5 +8,5 @@ package rocks.palaiologos.maja.matrix;
  *
  * If the matrix is singular, the upper and lower triangular matrices will be null.
  */
-public record DoubleLUDecompositionResult(Matrix<Double> lower, Matrix<Double> upper, boolean singular) {
+public record DoubleLUDecompositionResult(DoubleMatrix lower, DoubleMatrix upper, boolean singular) {
 }
