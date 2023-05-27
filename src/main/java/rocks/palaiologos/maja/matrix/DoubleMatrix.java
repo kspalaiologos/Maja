@@ -2,7 +2,9 @@ package rocks.palaiologos.maja.matrix;
 
 import rocks.palaiologos.maja.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * A class representing a two-dimensional matrix of double precision floating point numbers.
@@ -22,17 +24,102 @@ public class DoubleMatrix extends Matrix<Double> {
         super(data);
     }
 
+    private static Matrix<Double> minor(Matrix<Double> a, int x, int y) {
+        int length = a.height() - 1;
+        Matrix<Double> result = new Matrix<>(length, length);
+        for (int i = 0; i < length; i++)
+            for (int j = 0; j < length; j++) {
+                if (i < x && j < y) {
+                    result.set(i, j, a.get(i, j));
+                } else if (i >= x && j < y) {
+                    result.set(i, j, a.get(i + 1, j));
+                } else if (i < x) {
+                    result.set(i, j, a.get(i, j + 1));
+                } else {
+                    result.set(i, j, a.get(i + 1, j + 1));
+                }
+            }
+        return result;
+    }
+
+    private static double det(Matrix<Double> a) {
+        if (a.height() != a.width())
+            throw new IllegalArgumentException("Matrix must be square.");
+        if (a.height() == 1) {
+            return a.get(0, 0);
+        } else {
+            int sign = 1;
+            double sum = 0;
+            for (int i = 0; i < a.height(); i++) {
+                sum += sign * a.get(0, i) * det(minor(a, 0, i));
+                sign *= -1;
+            }
+            return sum;
+        }
+    }
+
+    private static double perm(Matrix<Double> a) {
+        if (a.height() != a.width())
+            throw new IllegalArgumentException("Matrix must be square.");
+        if (a.height() == 1) {
+            return a.get(0, 0);
+        } else {
+            double sum = 0;
+            for (int i = 0; i < a.height(); i++)
+                sum += a.get(0, i) * perm(minor(a, 0, i));
+            return sum;
+        }
+    }
+
+    private static double alt(Matrix<Double> a, BiFunction<Double, Double, Double> vector, BiFunction<Double, Double, Double> scalar) {
+        if (a.height() != a.width())
+            throw new IllegalArgumentException("Matrix must be square.");
+        if (a.height() == 1) {
+            return a.get(0, 0);
+        } else {
+            double sum = scalar.apply(a.get(0, 0), alt(minor(a, 0, 0), vector, scalar));
+            for (int i = 1; i < a.height(); i++)
+                sum = vector.apply(sum, scalar.apply(a.get(0, i), alt(minor(a, 0, i), vector, scalar)));
+            return sum;
+        }
+    }
+
+    /**
+     * Compute the determinant of the matrix.
+     */
+    public double det() {
+        return det(this);
+    }
+
+    /**
+     * Compute the permanent of the matrix.
+     */
+    public double perm() {
+        return perm(this);
+    }
+
+    /**
+     * The expressions <code>A.alt(Maja::sub, Maja::mul)</code> and <code>A.alt(Maja::add, Maja::mul)</code>
+     * are for square matrix arguments A, the determinant and the permanent of mathematics. The generalization
+     * to arguments other than plus, minus and times is based on construing the determinant as an alternating
+     * sum over products over the diagonals of tables obtained by permuting the major cells of A.
+     */
+    public double alt(BiFunction<Double, Double, Double> vector, BiFunction<Double, Double, Double> scalar) {
+        return alt(this, vector, scalar);
+    }
+
     /**
      * Computes the LU decomposition of a matrix using the Doolittle algorithm.
+     *
      * @return A pair of matrices, the first being the lower triangular matrix and the second the upper triangular matrix.
-     *         If the matrix is singular, the pair will contain null values.
+     * If the matrix is singular, the pair will contain null values.
      * @throws IllegalArgumentException If the matrix is not square.
      */
     public Pair<Matrix<Double>, Matrix<Double>> LU() {
         Matrix<Double> lower = new DoubleMatrix(height(), width());
         Matrix<Double> upper = new DoubleMatrix(height(), width());
 
-        if(height() != width())
+        if (height() != width())
             throw new IllegalArgumentException("Matrix must be square.");
 
         for (int i = 0; i < height(); i++) {
