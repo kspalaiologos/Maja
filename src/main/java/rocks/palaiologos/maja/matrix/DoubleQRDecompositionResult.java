@@ -2,6 +2,7 @@ package rocks.palaiologos.maja.matrix;
 
 /**
  * The result of QR decomposition.
+ * @author Palaiologos
  */
 public class DoubleQRDecompositionResult {
     private final DoubleMatrix q;

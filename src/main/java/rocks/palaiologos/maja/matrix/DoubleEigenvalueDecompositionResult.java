@@ -18,6 +18,7 @@ import rocks.palaiologos.maja.Complex;
  * conditioned, or even singular.
  * <p>
  * The complex eigenvalues are stored in a Complex array 'e'.
+ * @author Palaiologos
  */
 public record DoubleEigenvalueDecompositionResult(DoubleMatrix V, DoubleMatrix D, Complex[] e) {
 }

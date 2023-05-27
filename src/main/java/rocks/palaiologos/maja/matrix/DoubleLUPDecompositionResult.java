@@ -3,7 +3,7 @@ package rocks.palaiologos.maja.matrix;
 import java.util.Objects;
 
 /**
- * The result of LU decomposition.
+ * The result of LUP decomposition.
  */
 public class DoubleLUPDecompositionResult {
     private final DoubleMatrix lower;

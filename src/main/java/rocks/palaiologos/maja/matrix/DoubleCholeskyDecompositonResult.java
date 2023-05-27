@@ -5,6 +5,7 @@ package rocks.palaiologos.maja.matrix;
  *
  * @param l   The lower triangular matrix.
  * @param spd Whether the matrix is symmetric positive definite.
+ * @author Palaiologos
  */
 public record DoubleCholeskyDecompositonResult(DoubleMatrix l, boolean spd) {
     /**
