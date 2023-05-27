@@ -69,7 +69,8 @@ Complex functions:
 
 Linear algebra:
 - Matrix operations: transposition, obtaining rows, columns, generalised dot product, leading/trailing axis reduction, cell mapping, ravelling, robust stringification. Reversing alongside leading and trailing axis, zipping matrices.
-- Real QR, LU and LUP decomposition, trace, determinant, permanent, alternant computation.
+- Real Cholesky, Eigenvalue and Eigenvector, QR, LU and LUP decomposition, trace, determinant, permanent, alternant computation.
+- Solvers for linear systems using Cholesky, LUP and QR decompositions.
 
 Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
