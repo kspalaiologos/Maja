@@ -1,7 +1,7 @@
 package rocks.palaiologos.maja.matrix;
 
 /**
- * The result of LU composition.
+ * The result of LU decomposition.
  * @param lower The lower triangular matrix.
  * @param upper The upper triangular matrix.
  * @param permutation The permutation vector.

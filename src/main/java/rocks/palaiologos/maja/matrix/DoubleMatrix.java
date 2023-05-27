@@ -254,6 +254,10 @@ public class DoubleMatrix extends Matrix<Double> {
         return trace;
     }
 
+    /**
+     * Perform the QR decomposition algorithm using the Householder transformation.
+     * @return
+     */
     public DoubleQRDecompositionResult QR() {
         int m = height(), n = width();
         Matrix<Double> QR = this.copy();
