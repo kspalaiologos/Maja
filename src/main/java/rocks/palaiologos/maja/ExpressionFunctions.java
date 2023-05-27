@@ -759,16 +759,26 @@ class ExpressionFunctions {
             case "lambertw0" -> {
                 assertArity(args, 1);
                 if (args.get(0).isComplex())
-                    throw new IllegalArgumentException("lambertw0 not yet implemented for complex arguments.");
+                    yield Maja.lambertw(args.get(0).getComplex(), 0);
                 else
                     yield Maja.lambertW0(args.get(0).getDouble());
             }
             case "lambertwm1" -> {
                 assertArity(args, 1);
                 if (args.get(0).isComplex())
-                    throw new IllegalArgumentException("lambertwm1 not yet implemented for complex arguments.");
+                    yield Maja.lambertw(args.get(0).getComplex(), -1);
                 else
                     yield Maja.lambertWm1(args.get(0).getDouble());
+            }
+            case "lambertw" -> {
+                assertArity(args, 2);
+                if (args.get(0).isComplex() && args.get(1).isLong()) {
+                    yield Maja.lambertw(args.get(0).getComplex(), args.get(1).getLong());
+                } else if (args.get(0).isDouble() && args.get(1).isLong()) {
+                    yield Maja.chop(Maja.lambertw(new Complex(args.get(0).getDouble()), args.get(1).getLong()));
+                } else {
+                    throw new IllegalArgumentException("lambertw not defined for given arguments.");
+                }
             }
             case "dawsonp" -> {
                 assertArity(args, 1);
@@ -783,6 +793,13 @@ class ExpressionFunctions {
                     yield Maja.dawsonMinus(args.get(0).getComplex());
                 else
                     yield Maja.dawsonMinus(args.get(0).getDouble());
+            }
+            case "chop" -> {
+                assertArity(args, 1);
+                if (args.get(0).isComplex())
+                    yield Maja.chop(args.get(0).getComplex());
+                else
+                    throw new IllegalArgumentException("chop not defined for real arguments.");
             }
             case "erf" -> {
                 assertArity(args, 1);
@@ -1002,6 +1019,60 @@ class ExpressionFunctions {
             case "binomial" -> {
                 assertArity(args, 2);
                 yield Maja.binomial((int) args.get(0).getLong(), (int) args.get(1).getLong());
+            }
+            case "legendre-f" -> {
+                assertArity(args, 2);
+                if(args.get(0).isDouble() && args.get(1).isDouble())
+                    yield Maja.legendreF(args.get(0).getDouble(), args.get(1).getDouble());
+                else
+                    yield Maja.legendreF(args.get(0).getComplex(), args.get(1).getComplex());
+            }
+            case "legendre-e" -> {
+                assertArity(args, 2);
+                if(args.get(0).isDouble() && args.get(1).isDouble())
+                    yield Maja.legendreE(args.get(0).getDouble(), args.get(1).getDouble());
+                else
+                    yield Maja.legendreE(args.get(0).getComplex(), args.get(1).getComplex());
+            }
+            case "legendre-d" -> {
+                assertArity(args, 2);
+                if(args.get(0).isDouble() && args.get(1).isDouble())
+                    yield Maja.legendreD(args.get(0).getDouble(), args.get(1).getDouble());
+                else
+                    yield Maja.legendreD(args.get(0).getComplex(), args.get(1).getComplex());
+            }
+            case "legendre-pi" -> {
+                assertArity(args, 3);
+                if(args.get(0).isDouble() && args.get(1).isDouble() && args.get(2).isDouble())
+                    yield Maja.legendrePi(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble());
+                else
+                    yield Maja.legendrePi(args.get(0).getComplex(), args.get(1).getComplex(), args.get(2).getComplex());
+            }
+            case "landau" -> {
+                if(args.size() != 1 && args.size() != 4) {
+                    throw new IllegalArgumentException("landau requires 1 or 4 arguments.");
+                }
+                if(args.size() == 1) {
+                    yield Maja.landau(args.get(0).getDouble());
+                } else {
+                    yield Maja.landau(args.get(0).getDouble(), args.get(1).getDouble(), args.get(2).getDouble(), args.get(3).getLong() != 0);
+                }
+            }
+            case "gamma-p" -> {
+                assertArity(args, 2);
+                yield Maja.gammaP(args.get(0).getDouble(), args.get(1).getDouble());
+            }
+            case "gamma-q" -> {
+                assertArity(args, 2);
+                yield Maja.gammaQ(args.get(0).getDouble(), args.get(1).getDouble());
+            }
+            case "norm-quantile" -> {
+                assertArity(args, 1);
+                yield Maja.normQuantile(args.get(0).getDouble());
+            }
+            case "chi-squared-quantile" -> {
+                assertArity(args, 2);
+                yield Maja.chiSquaredQuantile(args.get(0).getDouble(), args.get(1).getDouble());
             }
             default -> throw new ArithmeticException("Unknown function: " + name);
         });
