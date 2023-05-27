@@ -253,4 +253,76 @@ public class DoubleMatrix extends Matrix<Double> {
             trace += get(i, i);
         return trace;
     }
+
+    public DoubleQRDecompositionResult QR() {
+        int m = height(), n = width();
+        Matrix<Double> QR = this.copy();
+        double[] Rdiag = new double[n];
+        for (int k = 0; k < n; k++) {
+            double nrm = 0;
+            for (int i = k; i < m; i++)
+                nrm = Math.hypot(nrm, QR.get(i, k));
+            if (nrm != 0.0) {
+                if (QR.get(k, k) < 0)
+                    nrm = -nrm;
+                for (int i = k; i < m; i++)
+                    QR.set(i, k, QR.get(i, k) / nrm);
+                QR.set(k, k, QR.get(k, k) + 1.0);
+                for (int j = k + 1; j < n; j++) {
+                    double s = 0.0;
+                    for (int i = k; i < m; i++)
+                        s += QR.get(i, k) * QR.get(i, j);
+                    s = -s / QR.get(k, k);
+                    for (int i = k; i < m; i++)
+                        QR.set(i, j, QR.get(i, j) + s * QR.get(i, k));
+                }
+            }
+            Rdiag[k] = -nrm;
+        }
+
+        boolean isFullRank = true;
+        for (double v : Rdiag) {
+            if (v == 0) {
+                isFullRank = false;
+                break;
+            }
+        }
+
+        Matrix<Double> H = new DoubleMatrix(m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++)
+                if (i >= j) H.set(i, j, QR.get(i, j));
+                else        H.set(i, j, 0.0);
+        }
+
+        Matrix<Double> R = new DoubleMatrix(n, n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
+                if (i < j)
+                    R.set(i, j, QR.get(i, j));
+                else if (i == j)
+                    R.set(i, j, Rdiag[i]);
+                else
+                    R.set(i, j, 0.0);
+        }
+
+        Matrix<Double> Q = new DoubleMatrix(m, n);
+        for (int k = n - 1; k >= 0; k--) {
+            for (int i = 0; i < m; i++)
+                Q.set(i, k, 0.0);
+            Q.set(k, k, 1.0);
+            for (int j = k; j < n; j++) {
+                if (QR.get(k, k) != 0) {
+                    double s = 0.0;
+                    for (int i = k; i < m; i++)
+                        s += QR.get(i, k) * Q.get(i, j);
+                    s = -s/QR.get(k, k);
+                    for (int i = k; i < m; i++)
+                        Q.set(i, j, Q.get(i, j) + s * QR.get(i, k));
+                }
+            }
+        }
+
+        return new DoubleQRDecompositionResult(Q, R, H, isFullRank);
+    }
 }
