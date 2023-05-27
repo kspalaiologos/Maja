@@ -12,7 +12,6 @@ public class DoubleLUPDecompositionResult {
     private final boolean nonsingular;
     private final double determinant;
     private final int n;
-    private final int m;
     private final DoubleMatrix LU;
 
     public DoubleLUPDecompositionResult(DoubleMatrix lower, DoubleMatrix upper, int[] permutation,
@@ -23,7 +22,6 @@ public class DoubleLUPDecompositionResult {
         this.nonsingular = nonsingular;
         this.determinant = determinant;
         this.n = n;
-        this.m = m;
         this.LU = LU;
     }
 

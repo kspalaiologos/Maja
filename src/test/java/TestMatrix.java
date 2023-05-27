@@ -260,4 +260,20 @@ public class TestMatrix {
 
         assertThat(b.alt(Maja::sub, Maja::sub)).isEqualTo(4);
     }
+
+    @Test
+    public void testInverse() {
+        DoubleMatrix a = new DoubleMatrix(new double[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
+        // I fucking hate floating point math.
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
+                { -1.9999999999999998, 1 },
+                { 1.4999999999999998, -0.49999999999999994 }
+        });
+
+        assertThat(a.invert()).isEqualTo(expected);
+    }
 }

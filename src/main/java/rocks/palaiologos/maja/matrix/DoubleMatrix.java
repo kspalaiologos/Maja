@@ -99,7 +99,8 @@ public class DoubleMatrix extends Matrix<Double> {
     public static DoubleMatrix identity(int n) {
         DoubleMatrix result = new DoubleMatrix(n, n);
         for (int i = 0; i < n; i++)
-            result.set(i, i, 1.0);
+            for (int j = 0; j < n; j++)
+                result.set(i, j, i == j ? 1.0 : 0.0);
         return result;
     }
 
