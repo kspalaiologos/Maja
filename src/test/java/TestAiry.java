@@ -50,6 +50,8 @@ public class TestAiry {
         assertThat(Maja.abs(Maja.airyBi(-100.6) - 0.071120276667991626826926966029165362298975)).isLessThan(2e-14);
         assertThat(Maja.abs(Maja.airyBi(100.6) - 2.4555381213245226172411883474564151744705065217434285e291)).isLessThan(1.1E278);
         assertThat(Maja.airyBi(Double.NaN)).isNaN();
+        assertThat(Maja.airyBi(Double.POSITIVE_INFINITY)).isEqualTo(Double.POSITIVE_INFINITY);
+        assertThat(Maja.airyBi(Double.NEGATIVE_INFINITY)).isEqualTo(0);
     }
 
     @Test
@@ -59,6 +61,8 @@ public class TestAiry {
         assertThat(Maja.abs(Maja.airyBip(-5.6) + 0.177837595579460472064086640978407456618028224981)).isLessThan(1e-15);
         assertThat(Maja.abs(Maja.airyBip(5.6) - 5891.67408620813233496772479301623855645524466691141)).isLessThan(8.2e-12);
         assertThat(Maja.airyBip(Double.NaN)).isNaN();
+        assertThat(Maja.airyBip(Double.POSITIVE_INFINITY)).isEqualTo(Double.POSITIVE_INFINITY);
+        assertThat(Maja.airyBip(Double.NEGATIVE_INFINITY)).isNaN();
     }
 
     @Test
