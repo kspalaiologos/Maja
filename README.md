@@ -70,7 +70,7 @@ Complex functions:
 
 Linear algebra:
 - Matrix operations: transposition, obtaining rows, columns, generalised dot product, leading/trailing axis reduction, cell mapping, ravelling, robust stringification.
-- Real LU and LUP decomposition, trace computation.
+- Real LU and LUP decomposition, trace, determinant, permanent, alternant computation.
 
 Also, a simple expression evaluator (with operator precedence, grouping, variables, special syntax, etc...).
 
