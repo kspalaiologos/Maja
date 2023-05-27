@@ -4,6 +4,11 @@ import rocks.palaiologos.maja.Pair;
 
 import java.util.List;
 
+/**
+ * A class representing a two-dimensional matrix of double precision floating point numbers.
+ *
+ * @author Palaiologos
+ */
 public class DoubleMatrix extends Matrix<Double> {
     public DoubleMatrix(Double[][] data) {
         super(data);
