@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * The result of LU decomposition.
  */
-public final class DoubleLUPDecompositionResult {
+public class DoubleLUPDecompositionResult {
     private final DoubleMatrix lower;
     private final DoubleMatrix upper;
     private final int[] permutation;
@@ -33,8 +33,8 @@ public final class DoubleLUPDecompositionResult {
             for (int i = 0; i < r.length; i++)
                 for (int j = j0; j <= j1; j++)
                     X.set(i, j - j0, input.get(r[i], j));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ArrayIndexOutOfBoundsException("Invalid permutation vector.");
+        } catch (IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException("Invalid permutation vector.");
         }
         return X;
     }

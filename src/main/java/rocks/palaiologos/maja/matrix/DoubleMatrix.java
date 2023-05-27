@@ -339,7 +339,7 @@ public class DoubleMatrix extends Matrix<Double> {
             }
         }
 
-        return new DoubleQRDecompositionResult(Q, R, H, isFullRank);
+        return new DoubleQRDecompositionResult(Q, R, H, isFullRank, this.height(), this.width(), QR, Rdiag);
     }
 
     /**
