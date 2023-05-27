@@ -154,4 +154,16 @@ public class DoubleMatrix extends Matrix<Double> {
 
         return new DoubleLUPDecompositionResult(L, U, piv, nonsingular, d);
     }
+
+    /**
+     * Compute the trace of a matrix.
+     * @return
+     */
+    public double trace() {
+        double trace = 0;
+        int max = Math.min(height(), width());
+        for (int i = 0; i < max; i++)
+            trace += get(i, i);
+        return trace;
+    }
 }
