@@ -294,7 +294,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
 
     @Override
     public Object visitExprIndex(ExpressionParser.ExprIndexContext ctx) {
-        throw new RuntimeException("TOOD");
+        Object a = visit(ctx.expression(0));
+        List b = ctx.expression().stream().skip(1).map(this::visit).collect(Collectors.toList());
+        boolean allLong = b.stream().allMatch(o -> o instanceof Long);
+        if (a instanceof DoubleMatrix dm && b.size() > 2 && allLong) {
+            return dm.get((int) b.get(0), (int) b.get(1));
+        } else if (a instanceof ComplexMatrix cm && b.size() > 2 && allLong) {
+            return cm.get((int) b.get(0), (int) b.get(1));
+        } else {
+            throw new RuntimeException("Invalid type for index.");
+        }
     }
 
     @Override
@@ -306,6 +315,10 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return -d;
         } else if (a instanceof Complex c) {
             return Maja.negate(c);
+        } else if (a instanceof DoubleMatrix dm) {
+            return dm.map(d -> -d);
+        } else if (a instanceof ComplexMatrix cm) {
+            return cm.map(Maja::negate);
         } else {
             throw new RuntimeException("Invalid type for -.");
         }
@@ -320,6 +333,10 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return (d == 0) ? 1 : 0;
         } else if (a instanceof Complex c) {
             return Maja.eq(c, Complex.ZERO) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm) {
+            return dm.map(d -> (d == 0) ? 1.0 : 0.0);
+        } else if (a instanceof ComplexMatrix cm) {
+            return cm.map(c -> Maja.eq(c, Complex.ZERO) ? Complex.ONE : Complex.ZERO);
         } else {
             throw new RuntimeException("Invalid type for ~.");
         }

@@ -49,7 +49,7 @@ expression
     | '-' expression # ExprNeg
     | '~' expression # ExprNot
     | '(' expression ')' # ExprParen
-    | '[' expression ']' # ExprIndex
+    | expression '[' (expression (',' expression)*) ']' # ExprIndex
     | '{' matrix* '}' # ExprMatrix
     | ID '(' (expression (',' expression)*)? ')' # ExprFunctionCall
     | ID # ExprVariable
