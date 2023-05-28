@@ -380,10 +380,130 @@ public class DoubleMatrix extends Matrix<Double> {
         return new DoubleEigenvalueDecompositionResult(i.getD(), i.getV(), i.getEigenvalues());
     }
 
+    private DoubleMatrix inv2x2() {
+        DoubleMatrix r = new DoubleMatrix(2, 2);
+        double a = get(0, 0), b = get(0, 1), c = get(1, 0), d = get(1, 1);
+        double det = a * d - b * c;
+        if(det == 0.0)
+            throw new IllegalArgumentException("Matrix is singular.");
+        double invdet = 1.0 / det;
+        r.set(0, 0, d * invdet);
+        r.set(0, 1, -b * invdet);
+        r.set(1, 0, -c * invdet);
+        r.set(1, 1, a * invdet);
+        return r;
+    }
+
+    private DoubleMatrix inv3x3() {
+        DoubleMatrix r = new DoubleMatrix(3, 3);
+        double a = get(0, 0), b = get(0, 1), c = get(0, 2);
+        double d = get(1, 0), e = get(1, 1), f = get(1, 2);
+        double g = get(2, 0), h = get(2, 1), i = get(2, 2);
+        double A = e * i - f * h, B = f * g - d * i, C = d * h - e * g;
+        double det = a * A + b * B + c * C;
+        if(det == 0.0)
+            throw new IllegalArgumentException("Matrix is singular");
+        double invdet = 1.0 / det;
+        r.set(0, 0, A * invdet);
+        r.set(0, 1, (c * h - b * i) * invdet);
+        r.set(0, 2, (b * f - c * e) * invdet);
+        r.set(1, 0, B * invdet);
+        r.set(1, 1, (a * i - c * g) * invdet);
+        r.set(1, 2, (c * d - a * f) * invdet);
+        r.set(2, 0, C * invdet);
+        r.set(2, 1, (b * g - a * h) * invdet);
+        r.set(2, 2, (a * e - b * d) * invdet);
+        return r;
+    }
+
+    private DoubleMatrix inv4x4() {
+        DoubleMatrix mat = new DoubleMatrix(4, 4);
+        double M11 = get(0, 0);
+        double M12 = get(0, 1);
+        double M13 = get(0, 2);
+        double M14 = get(0, 3);
+        double M21 = get(1, 0);
+        double M22 = get(1, 1);
+        double M23 = get(1, 2);
+        double M24 = get(1, 3);
+        double M31 = get(2, 0);
+        double M32 = get(2, 1);
+        double M33 = get(2, 2);
+        double M34 = get(2, 3);
+        double M41 = get(3, 0);
+        double M42 = get(3, 1);
+        double M43 = get(3, 2);
+        double M44 = get(3, 3);
+        double det;
+        double ans11, ans12, ans13, ans14, ans21, ans22, ans23, ans24, ans31, ans32, ans33, ans34, ans41, ans42, ans43, ans44;
+        det = (M11 * M22 * M33 * M44 ) + (M11 * M23 * M34 * M42 ) + (M11 * M24 * M32 * M43 )
+                - (M11 * M24 * M33 * M42 ) - (M11 * M23 * M32 * M44 ) - (M11 * M22 * M34 * M43 )
+                - (M12 * M21 * M33 * M44 ) - (M13 * M21 * M34 * M42 ) - (M14 * M21 * M32 * M43 )
+                + (M14 * M21 * M33 * M42 ) + (M13 * M21 * M32 * M44 ) + (M12 * M21 * M34 * M43 )
+                + (M12 * M23 * M31 * M44 ) + (M13 * M24 * M31 * M42 ) + (M14 * M22 * M31 * M43 )
+                - (M14 * M23 * M31 * M42 ) - (M13 * M22 * M31 * M44 ) - (M12 * M24 * M31 * M43 )
+                - (M12 * M23 * M34 * M41 ) - (M13 * M24 * M32 * M41 ) - (M14 * M22 * M33 * M41 )
+                + (M14 * M23 * M32 * M41 ) + (M13 * M22 * M34 * M41 ) + (M12 * M24 * M33 * M41 );
+        ans11 = (M22*M33*M44 + M23*M34*M42 + M24*M32*M43 - M24*M33*M42 - M23*M32*M44 - M22*M34*M43)/det;
+        ans12 = (-M12*M33*M44 - M13*M34*M42 - M14*M32*M43 + M14*M33*M42 + M13*M32*M44 + M12*M34*M43)/det;
+        ans13 = (M12*M23*M44 + M13*M24*M42 + M14*M22*M43 - M14*M23*M42 - M13*M22*M44 - M12*M24*M43)/det;
+
+        ans14 = (-M12*M23*M34 - M13*M24*M32 - M14*M22*M33 + M14*M23*M32 + M13*M22*M34 + M12*M24*M33)/det;
+
+        ans21 = (-M21*M33*M44 - M23*M34*M41 - M24*M31*M43 + M24*M33*M41 + M23*M31*M44 + M21*M34*M43)/det;
+        ans22 = (M11*M33*M44 + M13*M34*M41 + M14*M31*M43 - M14*M33*M41 - M13*M31*M44 - M11*M34*M43)/det;
+        ans23 = (-M11*M23*M44 - M13*M24*M41 - M14*M21*M43 + M14*M23*M41 + M13*M21*M44 + M11*M24*M43)/det;
+        ans24 = (M11*M23*M34 + M13*M24*M31 + M14*M21*M33 - M14*M23*M31 - M13*M21*M34 - M11*M24*M33)/det;
+        ans31 = (M21*M32*M44 + M22*M34*M41 + M24*M31*M42 - M24*M32*M41 - M22*M31*M44 - M21*M34*M42)/det;
+        ans32 = (-M11*M32*M44 - M12*M34*M41 - M14*M31*M42 + M14*M32*M41 + M12*M31*M44 + M11*M34*M42)/det;
+        ans33 = (M11*M22*M44 + M12*M24*M41 + M14*M21*M42 - M14*M22*M41 - M12*M21*M44 - M11*M24*M42)/det;
+        ans34 = (-M11*M22*M34 - M12*M24*M31 - M14*M21*M32 + M14*M22*M31 + M12*M21*M34 + M11*M24*M32)/det;
+        ans41 = (-M21*M32*M43 - M22*M33*M41 - M23*M31*M42 + M23*M32*M41 + M22*M31*M43 + M21*M33*M42)/det;
+        ans42 = (M11*M32*M43 + M12*M33*M41 + M13*M31*M42 - M13*M32*M41 - M12*M31*M43 - M11*M33*M42)/det;
+        ans43 = (-M11*M22*M43 - M12*M23*M41 - M13*M21*M42 + M13*M22*M41 + M12*M21*M43 + M11*M23*M42)/det;
+        ans44 = (M11*M22*M33 + M12*M23*M31 + M13*M21*M32 - M13*M22*M31 - M12*M21*M33 - M11*M23*M32)/det;
+        mat.set(0, 0, ans11);
+        mat.set(0, 1, ans12);
+        mat.set(0, 2, ans13);
+        mat.set(0, 3, ans14);
+        mat.set(1, 0, ans21);
+        mat.set(1, 1, ans22);
+        mat.set(1, 2, ans23);
+        mat.set(1, 3, ans24);
+        mat.set(2, 0, ans31);
+        mat.set(2, 1, ans32);
+        mat.set(2, 2, ans33);
+        mat.set(2, 3, ans34);
+        mat.set(3, 0, ans41);
+        mat.set(3, 1, ans42);
+        mat.set(3, 2, ans43);
+        mat.set(3, 3, ans44);
+        return mat;
+    }
+
+    private DoubleMatrix smallMatrixInvert() {
+        int h = height(), w = width();
+        if(h == 1 && w == 1) {
+            DoubleMatrix r = new DoubleMatrix(1, 1);
+            r.set(0, 0, 1.0 / get(0, 0));
+            return r;
+        } else if(h == 2 && w == 2) {
+            return inv2x2();
+        } else if(h == 3 && w == 3) {
+            return inv3x3();
+        } else if(h == 4 && w == 4) {
+            return inv4x4();
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Invert the matrix.
      */
     public DoubleMatrix invert() {
+        DoubleMatrix r = smallMatrixInvert();
+        if (r != null) return r;
         return solve(DoubleMatrix.identity(height()));
     }
 
@@ -391,6 +511,8 @@ public class DoubleMatrix extends Matrix<Double> {
      * Invert the matrix given the LUP decomposition of the current matrix.
      */
     public DoubleMatrix invert(DoubleLUPDecompositionResult r) {
+        DoubleMatrix x = smallMatrixInvert();
+        if (x != null) return x;
         return r.solve(DoubleMatrix.identity(height()));
     }
 
@@ -398,6 +520,8 @@ public class DoubleMatrix extends Matrix<Double> {
      * Invert the matrix given the QR decomposition of the current matrix.
      */
     public DoubleMatrix invert(DoubleQRDecompositionResult r) {
+        DoubleMatrix x = smallMatrixInvert();
+        if (x != null) return x;
         return r.solve(DoubleMatrix.identity(height()));
     }
 

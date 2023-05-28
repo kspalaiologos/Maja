@@ -50,7 +50,7 @@ public class DoubleQRDecompositionResult {
             throw new IllegalArgumentException("Matrix row dimensions must agree.");
         }
         if (!this.fullrank()) {
-            throw new RuntimeException("Matrix is rank deficient.");
+            throw new IllegalArgumentException("Matrix is rank deficient.");
         }
 
         int nx = B.width();

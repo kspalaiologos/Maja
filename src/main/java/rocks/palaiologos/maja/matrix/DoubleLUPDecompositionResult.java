@@ -47,7 +47,7 @@ public class DoubleLUPDecompositionResult {
             throw new IllegalArgumentException("Matrix row dimensions must agree.");
         }
         if (nonsingular) {
-            throw new RuntimeException("Matrix is singular.");
+            throw new IllegalArgumentException("Matrix is singular.");
         }
 
         int nx = B.width();
