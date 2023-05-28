@@ -259,6 +259,25 @@ public class TestMatrix {
         });
 
         assertThat(b.perm()).isEqualTo(450);
+
+        DoubleMatrix c = new DoubleMatrix(new double[][]{
+                {1, 2, 33, 4},
+                {5, 6, 7, 8},
+                {12, 0, 1, 2},
+                {3, 4, 5, 6}
+        });
+
+        assertThat(c.perm()).isEqualTo(34816);
+
+        DoubleMatrix d = new DoubleMatrix(new double[][]{
+                {1, 2, 33, 4, 5},
+                {5, 6, 7, 8, 9},
+                {12, 0, 1, 2, 3},
+                {3, 44, 5, 6, 7},
+                {1, 2, 3, 4, 5}
+        });
+
+        assertThat(d.perm()).isEqualTo(2212552);
     }
 
     @Test
