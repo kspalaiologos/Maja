@@ -408,6 +408,14 @@ public class Matrix<T> {
         return result;
     }
 
+    public <R> Matrix<R> retype(Function<T, R> mapper) {
+        Matrix<R> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, mapper.apply(data.get(i).get(j)));
+        return result;
+    }
+
     /**
      * Copy the matrix.
      *
