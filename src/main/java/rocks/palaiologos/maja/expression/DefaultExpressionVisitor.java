@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implements ExpressionVisitor<Object> {
     private Environment env;
 
+    private Environment getEnv() {
+        return env;
+    }
+
     public DefaultExpressionVisitor(Environment env) {
         this.env = env;
 
@@ -29,16 +33,20 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
 
             @Override
             public Object eval() {
-                Object x = env.get("x");
+                Object x = getEnv().get("x");
                 if (x instanceof Complex c) {
                     return Maja.sin(c);
                 } else if (x instanceof Double d) {
                     return Maja.sin(d);
                 } else if (x instanceof Long l) {
                     return Maja.sin(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sin);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sin);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sin(x).");
                 }
-
-                throw new RuntimeException("Invalid argument type for sin(x).");
             }
         });
     }
