@@ -104,10 +104,71 @@ public class DoubleMatrix extends Matrix<Double> {
         return result;
     }
 
+    private double det2x2() {
+        return get(0, 0) * get(1, 1) - get(0, 1) * get(1, 0);
+    }
+
+    private double det3x3() {
+        return get(0, 0) * get(1, 1) * get(2, 2) +
+               get(0, 1) * get(1, 2) * get(2, 0) +
+               get(0, 2) * get(1, 0) * get(2, 1) -
+               get(0, 2) * get(1, 1) * get(2, 0) -
+               get(0, 1) * get(1, 0) * get(2, 2) -
+               get(0, 0) * get(1, 2) * get(2, 1);
+    }
+
+    private double det4x4() {
+        double M11 = get(0, 0);
+        double M12 = get(0, 1);
+        double M13 = get(0, 2);
+        double M14 = get(0, 3);
+        double M21 = get(1, 0);
+        double M22 = get(1, 1);
+        double M23 = get(1, 2);
+        double M24 = get(1, 3);
+        double M31 = get(2, 0);
+        double M32 = get(2, 1);
+        double M33 = get(2, 2);
+        double M34 = get(2, 3);
+        double M41 = get(3, 0);
+        double M42 = get(3, 1);
+        double M43 = get(3, 2);
+        double M44 = get(3, 3);
+        return (M11 * M22 * M33 * M44 ) + (M11 * M23 * M34 * M42 ) + (M11 * M24 * M32 * M43 )
+                - (M11 * M24 * M33 * M42 ) - (M11 * M23 * M32 * M44 ) - (M11 * M22 * M34 * M43 )
+                - (M12 * M21 * M33 * M44 ) - (M13 * M21 * M34 * M42 ) - (M14 * M21 * M32 * M43 )
+                + (M14 * M21 * M33 * M42 ) + (M13 * M21 * M32 * M44 ) + (M12 * M21 * M34 * M43 )
+                + (M12 * M23 * M31 * M44 ) + (M13 * M24 * M31 * M42 ) + (M14 * M22 * M31 * M43 )
+                - (M14 * M23 * M31 * M42 ) - (M13 * M22 * M31 * M44 ) - (M12 * M24 * M31 * M43 )
+                - (M12 * M23 * M34 * M41 ) - (M13 * M24 * M32 * M41 ) - (M14 * M22 * M33 * M41 )
+                + (M14 * M23 * M32 * M41 ) + (M13 * M22 * M34 * M41 ) + (M12 * M24 * M33 * M41 );
+    }
+
+    private double smalldet() {
+        int w = width();
+        int h = height();
+        if(w != h || w == 0)
+            throw new IllegalArgumentException("Matrix must be square.");
+        if(w == 1) {
+            // 1x1 determinant.
+            return get(0, 0);
+        } else if(w == 2) {
+            return det2x2();
+        } else if(w == 3) {
+            return det3x3();
+        } else if(w == 4) {
+            return det4x4();
+        } else {
+            return Double.NaN;
+        }
+    }
+
     /**
      * Compute the determinant of the matrix.
      */
     public double det() {
+        if(width() <= 4 || height() <= 4)
+            return smalldet();
         return det(this);
     }
 

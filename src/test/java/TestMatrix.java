@@ -222,6 +222,25 @@ public class TestMatrix {
         });
 
         assertThat(b.det()).isEqualTo(0);
+
+        DoubleMatrix c = new DoubleMatrix(new double[][]{
+                {1, 2, 33, 4},
+                {5, 6, 7, 8},
+                {12, 0, 1, 2},
+                {3, 4, 5, 6}
+        });
+
+        assertThat(c.det()).isEqualTo(-1560);
+
+        DoubleMatrix d = new DoubleMatrix(new double[][]{
+                {1, 2, 33, 4, 5},
+                {5, 6, 7, 8, 9},
+                {12, 0, 1, 2, 3},
+                {3, 44, 5, 6, 7},
+                {1, 2, 3, 4, 5}
+        });
+
+        assertThat(d.det()).isEqualTo(62400);
     }
 
     @Test
