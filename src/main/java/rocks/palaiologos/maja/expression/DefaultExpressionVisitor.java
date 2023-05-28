@@ -561,6 +561,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.ge(l1, d2) ? 1 : 0;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
             return Maja.ge(d1, l2) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (d1, d2) -> Maja.ge(d1, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.ge(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.ge(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Long d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.ge(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long d2) {
+            return dm1.map(d -> Maja.ge(d, d2) ? 1.0 : 0.0);
         } else {
             throw new RuntimeException("Invalid type for >=.");
         }
@@ -577,6 +587,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.mod(l1, d2);
         } else if (a instanceof Double d1 && b instanceof Long l2) {
             return Maja.mod(d1, l2);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::mod);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.mod(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.mod(d, d2));
+        } else if (a instanceof Long d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.mod(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long d2) {
+            return dm1.map(d -> Maja.mod(d, d2));
         } else {
             throw new RuntimeException("Invalid type for mod.");
         }
@@ -593,6 +613,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.le(l1, d2) ? 1 : 0;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
             return Maja.le(d1, l2) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (d1, d2) -> Maja.le(d1, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.le(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.le(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Long d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.le(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long d2) {
+            return dm1.map(d -> Maja.le(d, d2) ? 1.0 : 0.0);
         } else {
             throw new RuntimeException("Invalid type for <=.");
         }
@@ -637,6 +667,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.gt(l1, d2) ? 1 : 0;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
             return Maja.gt(d1, l2) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (d1, d2) -> Maja.gt(d1, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.gt(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.gt(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Long d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.gt(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long d2) {
+            return dm1.map(d -> Maja.gt(d, d2) ? 1.0 : 0.0);
         } else {
             throw new RuntimeException("Invalid type for >.");
         }
@@ -663,6 +703,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.eq(new Complex(d1), c2) ? 1 : 0;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.eq(c1, new Complex(d2)) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.eq(d, l2) ? 1.0 : 0.0);
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.eq(l1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> Maja.eq(x, y) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.eq(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.eq(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.eq(c2, d) ? 1.0 : 0.0);
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.eq(c1, d) ? 1.0 : 0.0);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.eq(d, cl2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.eq(cl1, d) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> Maja.eq(x, y) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.eq(d, cd2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.eq(cd1, d) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.eq(d, c2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.eq(c1, d) ? Complex.ONE : Complex.ZERO);
         } else {
             throw new RuntimeException("Invalid type for ==.");
         }
@@ -689,6 +761,34 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return (Maja.ne(new Complex(d1), Complex.ZERO) && Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return (Maja.ne(c1, Complex.ZERO) && Maja.ne(new Complex(d2), Complex.ZERO)) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> (d != 0 && l2 != 0) ? 1.0 : 0.0);
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> (l1 != 0 && d != 0) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> (x != 0 && y != 0) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> (d != 0 && d2 != 0) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> (d1 != 0 && d != 0) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> (Maja.ne(c2, Complex.ZERO) && d != 0) ? 1.0 : 0.0);
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> (Maja.ne(c1, Complex.ZERO) && d != 0) ? 1.0 : 0.0);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> (Maja.ne(d, Complex.ZERO) && l2 != 0) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> (Maja.ne(d, Complex.ZERO) && l1 != 0) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> (Maja.ne(x, Complex.ZERO) && Maja.ne(y, Complex.ZERO)) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> (Maja.ne(d, Complex.ZERO) && d2 != 0) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> (Maja.ne(d, Complex.ZERO) && d1 != 0) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> (Maja.ne(d, Complex.ZERO) && Maja.ne(c2, Complex.ZERO)) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> (Maja.ne(d, Complex.ZERO) && Maja.ne(c1, Complex.ZERO)) ? Complex.ONE : Complex.ZERO);
         } else {
             throw new RuntimeException("Invalid type for &&.");
         }
@@ -715,6 +815,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.pow(new Complex(d1), c2);
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.pow(c1, new Complex(d2));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.pow(d, l2));
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.pow(l1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::pow);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.pow(d, d2));
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.pow(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return ComplexMatrix.into(dm1.retype(Complex::new).map(c -> Maja.pow(c, c2)));
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return ComplexMatrix.into(dm2.retype(Complex::new).map(c -> Maja.pow(c1, c)));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.pow(d, cl2));
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.pow(cl1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::pow);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.pow(d, cd2));
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.pow(cd1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.pow(d, c2));
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.pow(c1, d));
         } else {
             throw new RuntimeException("Invalid type for **.");
         }
@@ -760,6 +892,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.lcm(new Complex(d1), c2);
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.lcm(c1, new Complex(d2));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.lcm(d, l2));
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.lcm(l1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::lcm);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.lcm(d, d2));
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.lcm(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return ComplexMatrix.into(dm1.retype(Complex::new).map(c -> Maja.lcm(c, c2)));
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return ComplexMatrix.into(dm2.retype(Complex::new).map(c -> Maja.lcm(c1, c)));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.lcm(d, cl2));
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.lcm(cl1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::lcm);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.lcm(d, cd2));
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.lcm(cd1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.lcm(d, c2));
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.lcm(c1, d));
         } else {
             throw new RuntimeException("Invalid type for lcm.");
         }
@@ -776,6 +940,16 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.lt(l1, d2) ? 1 : 0;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
             return Maja.lt(d1, l2) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (d1, d2) -> Maja.lt(d1, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.lt(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.lt(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Long d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.lt(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long d2) {
+            return dm1.map(d -> Maja.lt(d, d2) ? 1.0 : 0.0);
         } else {
             throw new RuntimeException("Invalid type for <.");
         }
@@ -802,6 +976,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.rem(new Complex(d1), c2);
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.rem(c1, new Complex(d2));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.rem(d, l2));
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.rem(l1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::rem);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.rem(d, d2));
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.rem(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return ComplexMatrix.into(dm1.retype(Complex::new).map(c -> Maja.rem(c, c2)));
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return ComplexMatrix.into(dm2.retype(Complex::new).map(c -> Maja.rem(c1, c)));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.rem(d, cl2));
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.rem(cl1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::rem);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.rem(d, cd2));
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.rem(cd1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.rem(d, c2));
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.rem(c1, d));
         } else {
             throw new RuntimeException("Invalid type for rem.");
         }
@@ -828,6 +1034,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.ne(new Complex(d1), c2) ? 1 : 0;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.ne(c1, new Complex(d2)) ? 1 : 0;
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.ne(d, l2) ? 1.0 : 0.0);
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.ne(l1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> Maja.ne(x, y) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.ne(d, d2) ? 1.0 : 0.0);
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.ne(d1, d) ? 1.0 : 0.0);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.ne(c2, d) ? 1.0 : 0.0);
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.ne(c1, d) ? 1.0 : 0.0);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.ne(d, cl2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.ne(cl1, d) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, (x, y) -> Maja.ne(x, y) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.ne(d, cd2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.ne(cd1, d) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.ne(d, c2) ? Complex.ONE : Complex.ZERO);
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.ne(c1, d) ? Complex.ONE : Complex.ZERO);
         } else {
             throw new RuntimeException("Invalid type for !=.");
         }
@@ -864,6 +1102,38 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             return Maja.add(new Complex(d1), c2);
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
             return Maja.add(c1, new Complex(d2));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+            return dm1.map(d -> Maja.add(d, l2));
+        } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.add(l1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::add);
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+            return dm1.map(d -> Maja.add(d, d2));
+        } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+            return dm2.map(d -> Maja.add(d1, d));
+        } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+            return ComplexMatrix.into(dm1.retype(Complex::new).map(c -> Maja.add(c, c2)));
+        } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+            return ComplexMatrix.into(dm2.retype(Complex::new).map(c -> Maja.add(c1, c)));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+            Complex cl2 = new Complex(l2);
+            return dm1.map(d -> Maja.add(d, cl2));
+        } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+            Complex cl1 = new Complex(l1);
+            return dm2.map(d -> Maja.add(cl1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+            return dm1.zipWith(dm2, Maja::add);
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+            Complex cd2 = new Complex(d2);
+            return dm1.map(d -> Maja.add(d, cd2));
+        } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+            Complex cd1 = new Complex(d1);
+            return dm2.map(d -> Maja.add(cd1, d));
+        } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+            return dm1.map(d -> Maja.add(d, c2));
+        } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+            return dm2.map(d -> Maja.add(c1, d));
         } else {
             throw new RuntimeException("Invalid type for +.");
         }
