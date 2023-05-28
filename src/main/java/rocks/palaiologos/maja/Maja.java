@@ -1,6 +1,5 @@
 package rocks.palaiologos.maja;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -2721,27 +2720,6 @@ public class Maja {
     }
 
     /**
-     * Evaluate an expression stored inside a string.
-     *
-     * @param expression the expression to evaluate
-     * @param variables  a map containing the variables and their values
-     * @return the value of the expression
-     */
-    public static Number eval(String expression, Map<String, Number> variables) {
-        return Expression.evalExpression(expression, variables);
-    }
-
-    /**
-     * Evaluate an expression stored inside a string.
-     *
-     * @param expression the expression to evaluate
-     * @return the value of the expression
-     */
-    public static Number eval(String expression) {
-        return Expression.evalExpression(expression, Map.of());
-    }
-
-    /**
      * Add two complex numbers together.
      *
      * @param a
@@ -3811,130 +3789,6 @@ public class Maja {
     public static Complex en(Complex n, Complex z) {
         // z^(n-1) * uiGamma(1-n, z)
         return mul(pow(z, sub(n, 1)), uiGamma(sub(1, n), z));
-    }
-
-    /**
-     * Add two numbers of any types together.
-     *
-     * @param a
-     * @param b
-     * @return a + b
-     */
-    public static Number add(Number a, Number b) {
-        if (a.isComplex() && b.isComplex()) {
-            return new Number(add(a.getComplex(), b.getComplex()));
-        } else if (a.isComplex() && b.isDouble()) {
-            return new Number(add(a.getComplex(), b.getDouble()));
-        } else if (a.isDouble() && b.isComplex()) {
-            return new Number(add(a.getDouble(), b.getComplex()));
-        } else if (a.isLong() && b.isComplex()) {
-            return new Number(add(a.getLong(), b.getComplex()));
-        } else if (a.isComplex() && b.isLong()) {
-            return new Number(add(a.getComplex(), b.getLong()));
-        } else if (a.isLong() && b.isDouble()) {
-            return new Number(add(a.getLong(), b.getDouble()));
-        } else if (a.isDouble() && b.isLong()) {
-            return new Number(add(a.getDouble(), b.getLong()));
-        } else if (a.isDouble() && b.isDouble()) {
-            return new Number(add(a.getDouble(), b.getDouble()));
-        } else if (a.isLong() && b.isLong()) {
-            return new Number(a.getLong() + b.getLong());
-        } else {
-            throw new ArithmeticException("Cannot add " + a + " and " + b);
-        }
-    }
-
-    /**
-     * Subtract two numbers of any types from each other.
-     *
-     * @param a
-     * @param b
-     * @return a - b
-     */
-    public static Number sub(Number a, Number b) {
-        if (a.isComplex() && b.isComplex()) {
-            return new Number(sub(a.getComplex(), b.getComplex()));
-        } else if (a.isComplex() && b.isDouble()) {
-            return new Number(sub(a.getComplex(), b.getDouble()));
-        } else if (a.isDouble() && b.isComplex()) {
-            return new Number(sub(a.getDouble(), b.getComplex()));
-        } else if (a.isLong() && b.isComplex()) {
-            return new Number(sub(a.getLong(), b.getComplex()));
-        } else if (a.isComplex() && b.isLong()) {
-            return new Number(sub(a.getComplex(), b.getLong()));
-        } else if (a.isLong() && b.isDouble()) {
-            return new Number(sub(a.getLong(), b.getDouble()));
-        } else if (a.isDouble() && b.isLong()) {
-            return new Number(sub(a.getDouble(), b.getLong()));
-        } else if (a.isDouble() && b.isDouble()) {
-            return new Number(sub(a.getDouble(), b.getDouble()));
-        } else if (a.isLong() && b.isLong()) {
-            return new Number(a.getLong() - b.getLong());
-        } else {
-            throw new ArithmeticException("Cannot subtract " + a + " and " + b);
-        }
-    }
-
-    /**
-     * Multiply two numbers of any types together.
-     *
-     * @param a
-     * @param b
-     * @return a * b
-     */
-    public static Number mul(Number a, Number b) {
-        if (a.isComplex() && b.isComplex()) {
-            return new Number(mul(a.getComplex(), b.getComplex()));
-        } else if (a.isComplex() && b.isDouble()) {
-            return new Number(mul(a.getComplex(), b.getDouble()));
-        } else if (a.isDouble() && b.isComplex()) {
-            return new Number(mul(a.getDouble(), b.getComplex()));
-        } else if (a.isLong() && b.isComplex()) {
-            return new Number(mul(a.getLong(), b.getComplex()));
-        } else if (a.isComplex() && b.isLong()) {
-            return new Number(mul(a.getComplex(), b.getLong()));
-        } else if (a.isLong() && b.isDouble()) {
-            return new Number(mul(a.getLong(), b.getDouble()));
-        } else if (a.isDouble() && b.isLong()) {
-            return new Number(mul(a.getDouble(), b.getLong()));
-        } else if (a.isDouble() && b.isDouble()) {
-            return new Number(mul(a.getDouble(), b.getDouble()));
-        } else if (a.isLong() && b.isLong()) {
-            return new Number(a.getLong() * b.getLong());
-        } else {
-            throw new ArithmeticException("Cannot multiply " + a + " and " + b);
-        }
-    }
-
-    /**
-     * Multiply two numbers by each other.
-     *
-     * @param a
-     * @param b
-     * @return a / b
-     */
-    public static Number div(Number a, Number b) {
-        if (a.isComplex() && b.isComplex()) {
-            return new Number(div(a.getComplex(), b.getComplex()));
-        } else if (a.isComplex() && b.isDouble()) {
-            return new Number(div(a.getComplex(), b.getDouble()));
-        } else if (a.isDouble() && b.isComplex()) {
-            return new Number(div(a.getDouble(), b.getComplex()));
-        } else if (a.isLong() && b.isComplex()) {
-            return new Number(div(a.getLong(), b.getComplex()));
-        } else if (a.isComplex() && b.isLong()) {
-            return new Number(div(a.getComplex(), b.getLong()));
-        } else if (a.isLong() && b.isDouble()) {
-            return new Number(div(a.getLong(), b.getDouble()));
-        } else if (a.isDouble() && b.isLong()) {
-            return new Number(div(a.getDouble(), b.getLong()));
-        } else if (a.isDouble() && b.isDouble()) {
-            return new Number(div(a.getDouble(), b.getDouble()));
-        } else if (a.isLong() && b.isLong()) {
-            return new Number(a.getLong() / b.getLong());
-        } else {
-            throw new ArithmeticException("Cannot divide " + a + " and " + b);
-        }
     }
 
     /**
