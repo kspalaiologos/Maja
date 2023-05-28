@@ -26,6 +26,10 @@ public class DoubleMatrix extends Matrix<Double> {
         super(data);
     }
 
+    private DoubleMatrix(Matrix<Double> m) {
+        super(m.data);
+    }
+
     public DoubleMatrix(double[][] data) {
         super(data.length, data[0].length);
         for (int i = 0; i < data.length; i++)
@@ -512,6 +516,12 @@ public class DoubleMatrix extends Matrix<Double> {
         r.set(1, 0, -c * invdet);
         r.set(1, 1, a * invdet);
         return r;
+    }
+
+    public static DoubleMatrix into(Matrix<Double> mat) {
+        if(mat instanceof DoubleMatrix)
+            return (DoubleMatrix) mat;
+        return new DoubleMatrix(mat);
     }
 
     private DoubleMatrix inv3x3() {

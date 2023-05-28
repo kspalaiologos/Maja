@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -29,6 +29,16 @@ public interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitToplevel(ExpressionParser.ToplevelContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ExpressionParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(ExpressionParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(ExpressionParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code SimpleAssignment}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
@@ -114,6 +124,18 @@ public interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitFor(ExpressionParser.ForContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Return}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturn(ExpressionParser.ReturnContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Return}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturn(ExpressionParser.ReturnContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ExprGcd}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
@@ -125,6 +147,18 @@ public interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExprGcd(ExpressionParser.ExprGcdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExprIndex}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprIndex(ExpressionParser.ExprIndexContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExprIndex}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprIndex(ExpressionParser.ExprIndexContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExprNeg}
 	 * labeled alternative in {@link ExpressionParser#expression}.
@@ -294,18 +328,6 @@ public interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitExprGt(ExpressionParser.ExprGtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExprBlock}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExprBlock(ExpressionParser.ExprBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExprBlock}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExprBlock(ExpressionParser.ExprBlockContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ExprEq}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
@@ -437,4 +459,14 @@ public interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExprAdd(ExpressionParser.ExprAddContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ExpressionParser#matrix}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrix(ExpressionParser.MatrixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParser#matrix}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrix(ExpressionParser.MatrixContext ctx);
 }

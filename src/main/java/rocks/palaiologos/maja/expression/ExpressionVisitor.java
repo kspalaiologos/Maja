@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -24,6 +24,12 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitToplevel(ExpressionParser.ToplevelContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(ExpressionParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SimpleAssignment}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
@@ -74,12 +80,26 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFor(ExpressionParser.ForContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Return}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturn(ExpressionParser.ReturnContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExprGcd}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExprGcd(ExpressionParser.ExprGcdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprIndex}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprIndex(ExpressionParser.ExprIndexContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExprNeg}
 	 * labeled alternative in {@link ExpressionParser#expression}.
@@ -179,13 +199,6 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprGt(ExpressionParser.ExprGtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExprBlock}
-	 * labeled alternative in {@link ExpressionParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExprBlock(ExpressionParser.ExprBlockContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ExprEq}
 	 * labeled alternative in {@link ExpressionParser#expression}.
 	 * @param ctx the parse tree
@@ -262,4 +275,10 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExprAdd(ExpressionParser.ExprAddContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#matrix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrix(ExpressionParser.MatrixContext ctx);
 }

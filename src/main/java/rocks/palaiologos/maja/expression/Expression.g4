@@ -12,14 +12,19 @@ toplevel
     | expression
     ;
 
+block:
+    '{' toplevel* '}'
+    ;
+
 declaration
     : ID '=' expression ';' # SimpleAssignment
     | ID '(' (ID (',' ID)*)? ')' '=' expression ';' # SimpleFunctionDeclaration
-    | ID '(' (ID (',' ID)*)? ')' '{' toplevel* '}' # FunctionDeclaration
-    | 'if' expression '{' toplevel* '}' ('else' '{' toplevel* '}')? # If
+    | ID '(' (ID (',' ID)*)? ')' block # FunctionDeclaration
+    | 'if' expression block ('else' block)? # If
     | 'if' expression 'then' expression 'else' expression # SimpleIf
-    | 'while' expression '{' toplevel* '}' # While
-    | 'for' ID '=' expression 'to' expression '{' toplevel* '}' # For
+    | 'while' expression block # While
+    | 'for' ID '=' expression 'to' expression ('step' expression)? block # For
+    | 'return' expression ';' # Return
     ;
 
 expression
@@ -42,14 +47,18 @@ expression
     | expression '||' expression # ExprOr
     | '+' expression # ExprPos
     | '-' expression # ExprNeg
-    | '!' expression # ExprNot
+    | '~' expression # ExprNot
     | '(' expression ')' # ExprParen
-    | '{' expression '}' # ExprBlock
-    | '[' expression ']' # ExprMatrix
+    | '[' expression ']' # ExprIndex
+    | '{' matrix* '}' # ExprMatrix
     | ID '(' (expression (',' expression)*)? ')' # ExprFunctionCall
     | ID # ExprVariable
     | INT # ExprInt
     | REAL # ExprReal
+    ;
+
+matrix
+    : '{' expression (',' expression)* '}'
     ;
 
 ID : [A-Za-z_][A-Za-z0-9_]* ;

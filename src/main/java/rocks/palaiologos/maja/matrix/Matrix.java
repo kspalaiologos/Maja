@@ -35,6 +35,13 @@ public class Matrix<T> {
         }
     }
 
+    Matrix(boolean copyless, List<List<T>> data) {
+        if(copyless)
+            this.data = data;
+        else
+            this.data = new ArrayList<>(data);
+    }
+
     /**
      * Create an empty matrix with the specified dimensions.
      *

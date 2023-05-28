@@ -8,35 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
-public class Environment {
+class Environment {
     private final HashMap<String, Object> variables = new HashMap<>();
     private final Environment parent;
 
     public Environment() {
         this.parent = null;
-
-        variables.put("i", Maja.I);
-
-        variables.put("sin", new ExpressionFunction() {
-            @Override
-            public List<String> params() {
-                return List.of("x");
-            }
-
-            @Override
-            public Object eval(Environment env) {
-                Object x = env.get("x");
-                if (x instanceof Complex c) {
-                    return Maja.sin(c);
-                } else if (x instanceof Double d) {
-                    return Maja.sin(d);
-                } else if (x instanceof Long l) {
-                    return Maja.sin(l);
-                }
-
-                throw new RuntimeException("Invalid argument type for sin(x).");
-            }
-        });
     }
 
     public Environment(Environment parent) {
