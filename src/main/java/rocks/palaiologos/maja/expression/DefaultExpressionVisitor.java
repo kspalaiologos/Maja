@@ -3620,6 +3620,174 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 return Maja.binomial(Math.toIntExact((Long) x), Math.toIntExact((Long) y));
             }
         });
+
+        this.env.set("legendreE", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.legendreE(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.legendreE(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.legendreE(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.legendreE(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for legendreE(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("legendreF", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.legendreF(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.legendreF(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.legendreF(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.legendreF(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for legendreF(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("legendrePi", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.legendrePi(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.legendrePi(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for legendrePi(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("legendreD", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.legendreD(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.legendreD(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.legendreD(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.legendreD(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for legendreD(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
