@@ -1584,6 +1584,84 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        // Integer functions.
+        this.env.set("isqrt", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof Long l) {
+                    return (long) Maja.isqrt(l);
+                } else if(x instanceof Double d) {
+                    return (long) Maja.isqrt(d.longValue());
+                } else if(x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.isqrt(z.longValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for isqrt(x).");
+                }
+            }
+        });
+
+        this.env.set("ilog10", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof Long l) {
+                    return (long) Maja.ilog10(Math.toIntExact(l));
+                } else if(x instanceof Double d) {
+                    return (long) Maja.ilog10(d.intValue());
+                } else if(x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.ilog10(z.intValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for ilog10(x).");
+                }
+            }
+        });
+        this.env.set("iexp", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                long ix, iy;
+                if (x instanceof Long l) ix = l; else if (x instanceof Double d) ix = d.longValue(); else throw new RuntimeException("Invalid argument type for iexp(x, y).");
+                if (y instanceof Long l) iy = l; else if (y instanceof Double d) iy = d.longValue(); else throw new RuntimeException("Invalid argument type for iexp(x, y).");
+                return Maja.ipow(ix, iy);
+            }
+        });
+        this.env.set("icbrt", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof Long l) {
+                    return Maja.icbrt(l);
+                } else if(x instanceof Double d) {
+                    return Maja.icbrt(d.longValue());
+                } else if(x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.icbrt(z.longValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for icbrt(x).");
+                }
+            }
+        });
     }
 
     private static double coerceDouble(Object obj) {
