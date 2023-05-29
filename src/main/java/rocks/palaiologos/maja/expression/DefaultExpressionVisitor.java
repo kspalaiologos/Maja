@@ -681,6 +681,10 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return Math.min(a, b);
                 } else if (x instanceof Double a && y instanceof Double b) {
                     return Math.min(a, b);
+                } else if (x instanceof Double a && y instanceof Long b) {
+                    return Math.min(a, b);
+                } else if (x instanceof Long a && y instanceof Double b) {
+                    return Math.min(a, b);
                 } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
                     return a.zipWith(b, Math::min);
                 } else if (x instanceof DoubleMatrix a && y instanceof Long b) {
@@ -709,6 +713,10 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 if (x instanceof Long a && y instanceof Long b) {
                     return Math.max(a, b);
                 } else if (x instanceof Double a && y instanceof Double b) {
+                    return Math.max(a, b);
+                } else if (x instanceof Double a && y instanceof Long b) {
+                    return Math.max(a, b);
+                } else if (x instanceof Long a && y instanceof Double b) {
                     return Math.max(a, b);
                 } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
                     return a.zipWith(b, Math::max);
@@ -768,6 +776,228 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return dm.map(Maja::signum);
                 } else {
                     throw new RuntimeException("Invalid argument type for signum(x).");
+                }
+            }
+        });
+
+        // Exp, log
+        env.set("exp", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.exp(c);
+                } else if (x instanceof Double d) {
+                    return Maja.exp(d);
+                } else if (x instanceof Long l) {
+                    return Maja.exp(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::exp);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::exp);
+                } else {
+                    throw new RuntimeException("Invalid argument type for exp(x).");
+                }
+            }
+        });
+
+        env.set("log", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.log(c);
+                } else if (x instanceof Double d) {
+                    return Maja.log(d);
+                } else if (x instanceof Long l) {
+                    return Maja.log(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::log);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::log);
+                } else {
+                    throw new RuntimeException("Invalid argument type for log(x).");
+                }
+            }
+        });
+
+        env.set("log10", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.log10(d);
+                } else if (x instanceof Long l) {
+                    return Maja.log10(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::log10);
+                } else {
+                    throw new RuntimeException("Invalid argument type for log10(x).");
+                }
+            }
+        });
+
+        env.set("log2", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.log2(d);
+                } else if (x instanceof Long l) {
+                    return Maja.log2(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::log2);
+                } else {
+                    throw new RuntimeException("Invalid argument type for log2(x).");
+                }
+            }
+        });
+
+        env.set("log1p", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.log1p(d);
+                } else if (x instanceof Long l) {
+                    return Maja.log1p(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::log1p);
+                } else {
+                    throw new RuntimeException("Invalid argument type for log1p(x).");
+                }
+            }
+        });
+
+        env.set("expm1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sub(Maja.exp(c), 1);
+                } else if (x instanceof Double d) {
+                    return Maja.expm1(d);
+                } else if (x instanceof Long l) {
+                    return Maja.expm1(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::expm1);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> Maja.sub(Maja.exp(z), 1));
+                } else {
+                    throw new RuntimeException("Invalid argument type for expm1(x).");
+                }
+            }
+        });
+
+        env.set("sqrt", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sqrt(c);
+                } else if (x instanceof Double d) {
+                    return Maja.sqrt(d);
+                } else if (x instanceof Long l) {
+                    return Maja.sqrt(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sqrt);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sqrt);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sqrt(x).");
+                }
+            }
+        });
+
+        env.set("cbrt", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.cbrt(c);
+                } else if (x instanceof Double d) {
+                    return Maja.cbrt(d);
+                } else if (x instanceof Long l) {
+                    return Maja.cbrt(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::cbrt);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::cbrt);
+                } else {
+                    throw new RuntimeException("Invalid argument type for cbrt(x).");
+                }
+            }
+        });
+
+        env.set("hypot", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Long lx && y instanceof Long ly) {
+                    return Maja.hypot(lx, ly);
+                } else if (x instanceof Double dx && y instanceof Double dy) {
+                    return Maja.hypot(dx, dy);
+                } else if (x instanceof DoubleMatrix dxm && y instanceof DoubleMatrix dym) {
+                    return dxm.zipWith(dym, Maja::hypot);
+                } else if (x instanceof Long a && y instanceof Double b) {
+                    return Maja.hypot(a, b);
+                } else if (x instanceof Double a && y instanceof Long b) {
+                    return Maja.hypot(a, b);
+                } else if (x instanceof DoubleMatrix dxm && y instanceof Double d) {
+                    return dxm.map(a -> Maja.hypot(a, d));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix dym) {
+                    return dym.map(b -> Maja.hypot(a, b));
+                } else if (x instanceof DoubleMatrix dxm && y instanceof Long d) {
+                    return dxm.map(a -> Maja.hypot(a, d));
+                } else if (x instanceof Long a && y instanceof DoubleMatrix dym) {
+                    return dym.map(b -> Maja.hypot(a, b));
+                } else {
+                    throw new RuntimeException("Invalid argument type for hypot(x, y).");
                 }
             }
         });
