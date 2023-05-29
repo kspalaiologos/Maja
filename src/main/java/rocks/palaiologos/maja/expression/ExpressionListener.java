@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * This interface defines a complete listener for a parse tree produced by
  * {@link ExpressionParser}.
  */
-interface ExpressionListener extends ParseTreeListener {
+public interface ExpressionListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by {@link ExpressionParser#main}.
 	 * @param ctx the parse tree
@@ -51,6 +51,18 @@ interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleAssignment(ExpressionParser.SimpleAssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MatrixAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrixAssignment(ExpressionParser.MatrixAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MatrixAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrixAssignment(ExpressionParser.MatrixAssignmentContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code SimpleFunctionDeclaration}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
@@ -255,6 +267,18 @@ interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExprGe(ExpressionParser.ExprGeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExprLambda}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprLambda(ExpressionParser.ExprLambdaContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExprLambda}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprLambda(ExpressionParser.ExprLambdaContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExprMod}
 	 * labeled alternative in {@link ExpressionParser#expression}.

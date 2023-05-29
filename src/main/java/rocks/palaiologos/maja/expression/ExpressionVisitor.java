@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
+public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#main}.
 	 * @param ctx the parse tree
@@ -37,6 +37,13 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSimpleAssignment(ExpressionParser.SimpleAssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MatrixAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrixAssignment(ExpressionParser.MatrixAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SimpleFunctionDeclaration}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
@@ -156,6 +163,13 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExprGe(ExpressionParser.ExprGeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprLambda}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprLambda(ExpressionParser.ExprLambdaContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExprMod}
 	 * labeled alternative in {@link ExpressionParser#expression}.

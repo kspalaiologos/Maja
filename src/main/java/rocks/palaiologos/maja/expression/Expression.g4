@@ -18,6 +18,7 @@ block:
 
 declaration
     : ID '=' expression ';' # SimpleAssignment
+    | ID '[' (expression ',' expression)? ']' '=' expression ';' # MatrixAssignment
     | ID '(' (ID (',' ID)*)? ')' '=' expression ';' # SimpleFunctionDeclaration
     | ID '(' (ID (',' ID)*)? ')' block # FunctionDeclaration
     | 'if' expression block ('else' block)? # If
@@ -49,6 +50,7 @@ expression
     | '-' expression # ExprNeg
     | '~' expression # ExprNot
     | '(' expression ')' # ExprParen
+    | ID* '->' expression # ExprLambda
     | expression '[' (expression (',' expression)*) ']' # ExprIndex
     | '{' matrix* '}' # ExprMatrix
     | ID '(' (expression (',' expression)*)? ')' # ExprFunctionCall

@@ -17,6 +17,9 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
     private Environment getEnv() {
         return env;
     }
+    private void setEnv(Environment env) {
+        this.env = env;
+    }
 
     public DefaultExpressionVisitor(Environment env) {
         this.env = env;
@@ -2618,7 +2621,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         env.set("lambertW", new ExpressionFunction() {
             @Override
             public List<String> params() {
-                return null;
+                return List.of("x", "y");
             }
 
             private Object transform(Object x, Object y) {
@@ -3880,6 +3883,31 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         });
 
         // Matrix functions would go here.
+        this.env.set("map", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "f");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x"), f = getEnv().get("f");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for map(x, f).");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for map(x, f).");
+                return ((Matrix) mat).map(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'map'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return result;
+                });
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
@@ -3956,6 +3984,23 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         Object value = visit(ctx.expression());
         env.set(ctx.ID().getText(), value);
         return value;
+    }
+
+    @Override
+    public Object visitMatrixAssignment(ExpressionParser.MatrixAssignmentContext ctx) {
+        Object var = visit(ctx.ID());
+        Object lastExpression = visit(ctx.expression(2));
+        Object pos1 = visit(ctx.expression(0)), pos2 = visit(ctx.expression(1));
+        if (!(var instanceof Matrix)) {
+            throw new RuntimeException("Cannot assign to a non-matrix.");
+        }
+        if (!(pos1 instanceof Long l1) || !(pos2 instanceof Long l2)) {
+            throw new RuntimeException("Invalid index type.");
+        }
+        if (!(lastExpression instanceof Double) && !(lastExpression instanceof Long) && !(lastExpression instanceof Complex)) {
+            throw new RuntimeException("Invalid value type.");
+        }
+        return ((Matrix) var).set(l1.intValue(), l2.intValue(), coerceDouble(lastExpression));
     }
 
     @Override
@@ -4474,6 +4519,21 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         } else {
             throw new RuntimeException("Invalid type for >=.");
         }
+    }
+
+    @Override
+    public Object visitExprLambda(ExpressionParser.ExprLambdaContext ctx) {
+        return new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return ctx.ID().stream().map(ParseTree::getText).collect(Collectors.toList());
+            }
+
+            @Override
+            public Object eval() {
+                return visit(ctx.expression());
+            }
+        };
     }
 
     @Override
@@ -5095,4 +5155,6 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
     public Object visit(ParseTree tree) {
         return simplify(tree.accept(this), false);
     }
+
+
 }
