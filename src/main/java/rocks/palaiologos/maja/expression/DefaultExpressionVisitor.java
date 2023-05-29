@@ -3215,6 +3215,230 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("y0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselY0(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselY0);
+                } else {
+                    throw new RuntimeException("Invalid argument type for y0(x).");
+                }
+            }
+        });
+
+        this.env.set("y1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselY1(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselY1);
+                } else {
+                    throw new RuntimeException("Invalid argument type for y1(x).");
+                }
+            }
+        });
+
+        this.env.set("yn", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("n", "x");
+            }
+
+            @Override
+            public Object eval() {
+                Object n = getEnv().get("n");
+                Object x = getEnv().get("x");
+                if (!(n instanceof Long)) {
+                    throw new RuntimeException("Invalid argument type for yn(n: int, x).");
+                }
+                int order = ((Long) n).intValue();
+                if (x instanceof Double d) {
+                    return Maja.besselYn(order, d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(a -> Maja.besselYn(order, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for yn(n: int, x).");
+                }
+            }
+        });
+
+        this.env.set("j0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselJ0(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselJ0);
+                } else {
+                    throw new RuntimeException("Invalid argument type for j0(x).");
+                }
+            }
+        });
+
+        this.env.set("j1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselJ1(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselJ1);
+                } else {
+                    throw new RuntimeException("Invalid argument type for j1(x).");
+                }
+            }
+        });
+
+        this.env.set("jn", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("n", "x");
+            }
+
+            @Override
+            public Object eval() {
+                Object n = getEnv().get("n");
+                Object x = getEnv().get("x");
+                if (!(n instanceof Long)) {
+                    throw new RuntimeException("Invalid argument type for jn(n: int, x).");
+                }
+                int order = ((Long) n).intValue();
+                if (x instanceof Double d) {
+                    return Maja.besselJn(order, d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(a -> Maja.besselJn(order, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for jn(n: int, x).");
+                }
+            }
+        });
+
+        this.env.set("i0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselI0(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselI0);
+                } else {
+                    throw new RuntimeException("Invalid argument type for i0(x).");
+                }
+            }
+        });
+
+        this.env.set("i1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselI1(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselI1);
+                } else {
+                    throw new RuntimeException("Invalid argument type for i1(x).");
+                }
+            }
+        });
+
+        this.env.set("k0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselK0(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselK0);
+                } else {
+                    throw new RuntimeException("Invalid argument type for k0(x).");
+                }
+            }
+        });
+
+        this.env.set("k1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.besselK1(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::besselK1);
+                } else {
+                    throw new RuntimeException("Invalid argument type for k1(x).");
+                }
+            }
+        });
+
+        this.env.set("kn", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("n", "x");
+            }
+
+            @Override
+            public Object eval() {
+                Object n = getEnv().get("n");
+                Object x = getEnv().get("x");
+                if (!(n instanceof Long)) {
+                    throw new RuntimeException("Invalid argument type for kn(n: int, x).");
+                }
+                int order = ((Long) n).intValue();
+                if (x instanceof Double d) {
+                    return Maja.besselKn(order, d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(a -> Maja.besselKn(order, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for kn(n: int, x).");
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
