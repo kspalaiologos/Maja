@@ -63,6 +63,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         this.env.set("zetta", Maja.ZETTA);
         this.env.set("yotta", Maja.YOTTA);
 
+        // Regular trigonometric functions.
         this.env.set("sin", new ExpressionFunction() {
             @Override
             public List<String> params() {
@@ -84,6 +85,584 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return cm.map(Maja::sin);
                 } else {
                     throw new RuntimeException("Invalid argument type for sin(x).");
+                }
+            }
+        });
+
+        this.env.set("cos", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.cos(c);
+                } else if (x instanceof Double d) {
+                    return Maja.cos(d);
+                } else if (x instanceof Long l) {
+                    return Maja.cos(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::cos);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::cos);
+                } else {
+                    throw new RuntimeException("Invalid argument type for cos(x).");
+                }
+            }
+        });
+
+        env.set("tan", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.tan(c);
+                } else if (x instanceof Double d) {
+                    return Maja.tan(d);
+                } else if (x instanceof Long l) {
+                    return Maja.tan(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::tan);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::tan);
+                } else {
+                    throw new RuntimeException("Invalid argument type for tan(x).");
+                }
+            }
+        });
+
+        env.set("cot", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.cot(c);
+                } else if (x instanceof Double d) {
+                    return Maja.cot(d);
+                } else if (x instanceof Long l) {
+                    return Maja.cot(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::cot);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::cot);
+                } else {
+                    throw new RuntimeException("Invalid argument type for cot(x).");
+                }
+            }
+        });
+
+        env.set("sec", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sec(c);
+                } else if (x instanceof Double d) {
+                    return Maja.sec(d);
+                } else if (x instanceof Long l) {
+                    return Maja.sec(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sec);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sec);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sec(x).");
+                }
+            }
+        });
+
+        env.set("csc", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.csc(c);
+                } else if (x instanceof Double d) {
+                    return Maja.csc(d);
+                } else if (x instanceof Long l) {
+                    return Maja.csc(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::csc);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::csc);
+                } else {
+                    throw new RuntimeException("Invalid argument type for csc(x).");
+                }
+            }
+        });
+
+        // Inverse ("cyclometric") functions.
+        this.env.set("asin", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.asin(c);
+                } else if (x instanceof Double d) {
+                    return Maja.asin(d);
+                } else if (x instanceof Long l) {
+                    return Maja.asin(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::asin);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::asin);
+                } else {
+                    throw new RuntimeException("Invalid argument type for asin(x).");
+                }
+            }
+        });
+
+        this.env.set("acos", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acos(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acos(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acos(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acos);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acos);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acos(x).");
+                }
+            }
+        });
+
+        env.set("atan", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.atan(c);
+                } else if (x instanceof Double d) {
+                    return Maja.atan(d);
+                } else if (x instanceof Long l) {
+                    return Maja.atan(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::atan);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::atan);
+                } else {
+                    throw new RuntimeException("Invalid argument type for atan(x).");
+                }
+            }
+        });
+
+        env.set("acot", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acot(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acot(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acot(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acot);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acot);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acot(x).");
+                }
+            }
+        });
+
+        env.set("asec", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.asec(c);
+                } else if (x instanceof Double d) {
+                    return Maja.asec(d);
+                } else if (x instanceof Long l) {
+                    return Maja.asec(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::asec);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::asec);
+                } else {
+                    throw new RuntimeException("Invalid argument type for asec(x).");
+                }
+            }
+        });
+
+        env.set("acsc", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acsc(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acsc(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acsc(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acsc);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acsc);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acsc(x).");
+                }
+            }
+        });
+
+        // Hyperbolic functions
+        this.env.set("sinh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sinh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.sinh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.sinh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sinh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sinh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sinh(x).");
+                }
+            }
+        });
+
+        this.env.set("cosh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.cosh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.cosh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.cosh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::cosh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::cosh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for cosh(x).");
+                }
+            }
+        });
+
+        env.set("tanh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.tanh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.tanh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.tanh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::tanh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::tanh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for tanh(x).");
+                }
+            }
+        });
+
+        env.set("coth", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.coth(c);
+                } else if (x instanceof Double d) {
+                    return Maja.coth(d);
+                } else if (x instanceof Long l) {
+                    return Maja.coth(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::coth);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::coth);
+                } else {
+                    throw new RuntimeException("Invalid argument type for coth(x).");
+                }
+            }
+        });
+
+        env.set("sech", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sech(c);
+                } else if (x instanceof Double d) {
+                    return Maja.sech(d);
+                } else if (x instanceof Long l) {
+                    return Maja.sech(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sech);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sech);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sech(x).");
+                }
+            }
+        });
+
+        env.set("csch", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.csch(c);
+                } else if (x instanceof Double d) {
+                    return Maja.csch(d);
+                } else if (x instanceof Long l) {
+                    return Maja.csch(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::csch);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::csch);
+                } else {
+                    throw new RuntimeException("Invalid argument type for csch(x).");
+                }
+            }
+        });
+
+        // Inverse hyperbolic functions
+        this.env.set("asinh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.asinh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.asinh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.asinh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::asinh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::asinh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for asinh(x).");
+                }
+            }
+        });
+
+        this.env.set("acosh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acosh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acosh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acosh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acosh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acosh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acosh(x).");
+                }
+            }
+        });
+
+        env.set("atanh", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.atanh(c);
+                } else if (x instanceof Double d) {
+                    return Maja.atanh(d);
+                } else if (x instanceof Long l) {
+                    return Maja.atanh(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::atanh);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::atanh);
+                } else {
+                    throw new RuntimeException("Invalid argument type for atanh(x).");
+                }
+            }
+        });
+
+        env.set("acoth", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acoth(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acoth(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acoth(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acoth);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acoth);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acoth(x).");
+                }
+            }
+        });
+
+        env.set("asech", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.asech(c);
+                } else if (x instanceof Double d) {
+                    return Maja.asech(d);
+                } else if (x instanceof Long l) {
+                    return Maja.asech(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::asech);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::asech);
+                } else {
+                    throw new RuntimeException("Invalid argument type for asech(x).");
+                }
+            }
+        });
+
+        env.set("acsch", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.acsch(c);
+                } else if (x instanceof Double d) {
+                    return Maja.acsch(d);
+                } else if (x instanceof Long l) {
+                    return Maja.acsch(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::acsch);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::acsch);
+                } else {
+                    throw new RuntimeException("Invalid argument type for acsch(x).");
                 }
             }
         });

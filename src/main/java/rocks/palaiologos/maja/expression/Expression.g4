@@ -5,7 +5,7 @@ grammar Expression;
     package rocks.palaiologos.maja.expression;
 }
 
-main : toplevel* EOF;
+main : toplevel? (';' toplevel)* EOF ;
 
 toplevel
     : declaration
@@ -33,7 +33,7 @@ expression
     | expression 'mod' expression # ExprMod
     | expression 'gcd' expression # ExprGcd
     | expression 'lcm' expression # ExprLcm
-    | expression '*' expression # ExprMul
+    | expression '*'? expression # ExprMul
     | expression '/' expression # ExprDiv
     | expression '+' expression # ExprAdd
     | expression '-' expression # ExprSub

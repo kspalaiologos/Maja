@@ -1,13 +1,15 @@
-// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATN;
-import org.antlr.v4.runtime.atn.ATNDeserializer;
-import org.antlr.v4.runtime.atn.LexerATNSimulator;
-import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 class ExpressionLexer extends Lexer {
@@ -43,7 +45,7 @@ class ExpressionLexer extends Lexer {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'{'", "'}'", "'='", "';'", "'('", "','", "')'", "'if'", "'else'", 
+			null, "';'", "'{'", "'}'", "'='", "'('", "','", "')'", "'if'", "'else'", 
 			"'then'", "'while'", "'for'", "'to'", "'step'", "'return'", "'**'", "'rem'", 
 			"'mod'", "'gcd'", "'lcm'", "'*'", "'/'", "'+'", "'-'", "'=='", "'!='", 
 			"'<'", "'<='", "'>'", "'>='", "'&&'", "'||'", "'~'", "'['", "']'"
@@ -193,9 +195,9 @@ class ExpressionLexer extends Lexer {
 		"\u0001\u0000\u0000\u0000G\u00c0\u0001\u0000\u0000\u0000I\u00c7\u0001\u0000"+
 		"\u0000\u0000K\u00c9\u0001\u0000\u0000\u0000M\u00d2\u0001\u0000\u0000\u0000"+
 		"O\u00d5\u0001\u0000\u0000\u0000Q\u00e6\u0001\u0000\u0000\u0000S\u00ee"+
-		"\u0001\u0000\u0000\u0000UV\u0005{\u0000\u0000V\u0002\u0001\u0000\u0000"+
-		"\u0000WX\u0005}\u0000\u0000X\u0004\u0001\u0000\u0000\u0000YZ\u0005=\u0000"+
-		"\u0000Z\u0006\u0001\u0000\u0000\u0000[\\\u0005;\u0000\u0000\\\b\u0001"+
+		"\u0001\u0000\u0000\u0000UV\u0005;\u0000\u0000V\u0002\u0001\u0000\u0000"+
+		"\u0000WX\u0005{\u0000\u0000X\u0004\u0001\u0000\u0000\u0000YZ\u0005}\u0000"+
+		"\u0000Z\u0006\u0001\u0000\u0000\u0000[\\\u0005=\u0000\u0000\\\b\u0001"+
 		"\u0000\u0000\u0000]^\u0005(\u0000\u0000^\n\u0001\u0000\u0000\u0000_`\u0005"+
 		",\u0000\u0000`\f\u0001\u0000\u0000\u0000ab\u0005)\u0000\u0000b\u000e\u0001"+
 		"\u0000\u0000\u0000cd\u0005i\u0000\u0000de\u0005f\u0000\u0000e\u0010\u0001"+
