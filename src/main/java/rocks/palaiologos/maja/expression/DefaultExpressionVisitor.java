@@ -3641,7 +3641,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                         return Maja.legendreE(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
                     }
                 } else {
-                    throw new RuntimeException("Invalid argument type for legendreE(x).");
+                    throw new RuntimeException("Invalid argument type for legendreE(x, y).");
                 }
             }
 
@@ -3683,7 +3683,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                         return Maja.legendreF(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
                     }
                 } else {
-                    throw new RuntimeException("Invalid argument type for legendreF(x).");
+                    throw new RuntimeException("Invalid argument type for legendreF(x, y).");
                 }
             }
 
@@ -3708,42 +3708,31 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         this.env.set("legendrePi", new ExpressionFunction() {
             @Override
             public List<String> params() {
-                return List.of("x", "y");
+                return List.of("x", "y", "k");
             }
 
-            private Object transform(Object x, Object y) {
-                if(anyComplex(x, y))
-                    return Maja.legendrePi(forceComplex(x), forceComplex(y));
-                else if(allDouble(x, y)) {
+            private Object transform(Object x, Object y, Object z) {
+                if(anyComplex(x, y, z))
+                    return Maja.legendrePi(forceComplex(x), forceComplex(y), forceComplex(z));
+                else if(allDouble(x, y, z)) {
                     try {
-                        double r = Maja.legendrePi(coerceDouble(x), coerceDouble(y));
+                        double r = Maja.legendrePi(coerceDouble(x), coerceDouble(y), coerceDouble(z));
                         if (isPathologic(r))
-                            return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                            return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)), new Complex(coerceDouble(z)));
                         else
                             return r;
                     } catch (ArithmeticException e) {
-                        return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        return Maja.legendrePi(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)), new Complex(coerceDouble(z)));
                     }
                 } else {
-                    throw new RuntimeException("Invalid argument type for legendrePi(x).");
+                    throw new RuntimeException("Invalid argument type for legendrePi(x, y, k).");
                 }
             }
 
             @Override
             public Object eval() {
-                Object x = getEnv().get("x"), y = getEnv().get("y");
-                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
-                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
-                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
-                    // Note: Will be transformed into an uniform matrix upon simplification.
-                    return dm.zipWithRetype(dm2, this::transform);
-                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
-                    return dm.zipWithRetype(cm, this::transform);
-                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
-                    return cm.zipWithRetype(dm, this::transform);
-                } else {
-                    return transform(x, y);
-                }
+                Object x = getEnv().get("x"), y = getEnv().get("y"), z = getEnv().get("k");
+                return transform(x, y, z);
             }
         });
 
@@ -3834,6 +3823,44 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("landau1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.landau(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::landau);
+                } else {
+                    throw new RuntimeException("Invalid argument type for landau1(x).");
+                }
+            }
+        });
+
+        this.env.set("landau4", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y", "z", "f");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y"), z = getEnv().get("z"), f = getEnv().get("f");
+                if(!allDouble(x, y, z, f)) {
+                    throw new RuntimeException("Invalid argument type for landau4(x, y, z, f).");
+                }
+
+                return Maja.landau(coerceDouble(x), coerceDouble(y), coerceDouble(z), coerceDouble(f) != 0);
+            }
+        });
+
+        // Matrix functions would go here.
     }
 
     private static Complex forceComplex(Object d) {
