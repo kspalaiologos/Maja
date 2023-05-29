@@ -1828,6 +1828,158 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("gamma", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.gamma((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.gamma(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.gamma(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.gamma(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for gamma(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("loggamma", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.loggamma((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.loggamma(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.loggamma(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.loggamma(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for loggamma(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("digamma", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.digamma((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.digamma(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.digamma(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.digamma(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for digamma(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("trigamma", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.trigamma((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.trigamma(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.trigamma(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.trigamma(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for trigamma(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
