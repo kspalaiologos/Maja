@@ -2175,8 +2175,8 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
     @Override
     public Object visitExprMatrix(ExpressionParser.ExprMatrixContext ctx) {
         List constructor = ctx.matrix().stream().map(this::visit).map(List.class::cast).collect(Collectors.toList());
-        if (constructor.stream().allMatch(l -> ((List) l).stream().allMatch(o -> o instanceof Double))) {
-            return new DoubleMatrix((List<List<Double>>) constructor);
+        if (constructor.stream().allMatch(l -> ((List) l).stream().allMatch(o -> o instanceof Double || o instanceof Long))) {
+            return DoubleMatrix.into(new Matrix(constructor).retype(x -> x instanceof Long ? ((Long) x).doubleValue() : x));
         } else if (constructor.stream().allMatch(l -> ((List) l).stream().allMatch(o -> o instanceof Complex))) {
             return new ComplexMatrix((List<List<Complex>>) constructor);
         } else {
