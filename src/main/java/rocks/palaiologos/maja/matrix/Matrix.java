@@ -418,6 +418,22 @@ public class Matrix<T> {
     }
 
     /**
+     * Zip two matrices together to produce a new matrix, using a specified
+     * zipper function. The zipper function may change the type of the matrix.
+     *
+     * @param other
+     * @param zipper
+     * @return
+     */
+    public <R, U> Matrix<R> zipWithRetype(Matrix<U> other, BiFunction<T, U, R> zipper) {
+        Matrix<R> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, zipper.apply(data.get(i).get(j), other.get(i, j)));
+        return result;
+    }
+
+    /**
      * Copy the matrix.
      *
      * @return
