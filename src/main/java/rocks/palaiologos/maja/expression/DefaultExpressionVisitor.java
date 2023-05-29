@@ -22,6 +22,46 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         this.env = env;
 
         this.env.set("i", Maja.I);
+        this.env.set("pi", Maja.PI);
+        this.env.set("e", Maja.E);
+        this.env.set("glaisher", Maja.GLAISHER_CONSTANT);
+        this.env.set("catalan", Maja.CATALAN_CONSTANT);
+        this.env.set("khinchin", Maja.KHINCHIN_CONSTANT);
+        this.env.set("apery", Maja.APERY_CONSTANT);
+        this.env.set("golden", Maja.GOLDEN_RATIO);
+        this.env.set("euler_gamma", Maja.EULER_GAMMA);
+        this.env.set("feigenbaum", Maja.FEIGENBAUM_CONSTANT);
+        this.env.set("epsilon", Maja.EPSILON);
+        this.env.set("pi2", Maja.PI_2);
+        this.env.set("pi4", Maja.PI_4);
+        this.env.set("tau", Maja.TWO_PI);
+        this.env.set("invpi", Maja.ONE_OVER_PI);
+        this.env.set("inve", Maja.ONE_OVER_E);
+        this.env.set("ln2", Maja.LN2);
+        this.env.set("ln10", Maja.LN10);
+        this.env.set("log2e", Maja.LOG2E);
+        this.env.set("mills", Maja.MILLS_CONSTANT);
+        this.env.set("golomb_dickman", Maja.GOLOMB_DICKMAN_CONSTANT);
+        this.env.set("deci", Maja.DECI);
+        this.env.set("centi", Maja.CENTI);
+        this.env.set("milli", Maja.MILLI);
+        this.env.set("micro", Maja.MICRO);
+        this.env.set("nano", Maja.NANO);
+        this.env.set("pico", Maja.PICO);
+        this.env.set("femto", Maja.FEMTO);
+        this.env.set("atto", Maja.ATTO);
+        this.env.set("zepto", Maja.ZEPTO);
+        this.env.set("yocto", Maja.YOCTO);
+        this.env.set("deca", Maja.DECA);
+        this.env.set("hecto", Maja.HECTO);
+        this.env.set("kilo", Maja.KILO);
+        this.env.set("mega", Maja.MEGA);
+        this.env.set("giga", Maja.GIGA);
+        this.env.set("tera", Maja.TERA);
+        this.env.set("peta", Maja.PETA);
+        this.env.set("exa", Maja.EXA);
+        this.env.set("zetta", Maja.ZETTA);
+        this.env.set("yotta", Maja.YOTTA);
 
         this.env.set("sin", new ExpressionFunction() {
             @Override
