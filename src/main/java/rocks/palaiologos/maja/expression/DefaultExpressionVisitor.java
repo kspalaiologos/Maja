@@ -2538,6 +2538,131 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("lambertW0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.lambertw((Complex) x, 0);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.lambertW0(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.lambertw(new Complex(coerceDouble(x)), 0);
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.lambertw(new Complex(coerceDouble(x)), 0);
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for lambertW0(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("lambertWM1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.lambertw((Complex) x, -1);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.lambertWm1(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.lambertw(new Complex(coerceDouble(x)), -1);
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.lambertw(new Complex(coerceDouble(x)), -1);
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for lambertWM1(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        env.set("lambertW", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return null;
+            }
+
+            private Object transform(Object x, Object y) {
+                if(!(y instanceof Long))
+                    throw new RuntimeException("Invalid argument type for lambertW(x, y: int).");
+                return Maja.lambertw(forceComplex(x), (Long) y);
+            }
+
+            @Override
+            public Object eval() {
+                // Cases: Any + Double Matrix,
+                //        DoubleMatrix + Any,
+                //        DoubleMatrix + DoubleMatrix,
+                //        ComplexMatrix + ComplexMatrix,
+                //        ComplexMatrix + DoubleMatrix,
+                //        DoubleMatrix + ComplexMatrix,
+                //        Any + ComplexMatrix
+                //        ComplexMatrix + Any
+
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z, y)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(z -> transform(z, y));
+                } else if(y instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(x, z)));
+                } else if(y instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(z -> transform(x, z));
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
