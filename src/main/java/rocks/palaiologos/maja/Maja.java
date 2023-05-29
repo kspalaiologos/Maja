@@ -1397,106 +1397,6 @@ public class Maja {
     }
 
     /**
-     * Map the specified monadic function over an array.
-     *
-     * @param f
-     * @param tab
-     * @return the result of the mapping
-     */
-    public static double[] map(MonadicFunction f, double[] tab) {
-        double[] res = new double[tab.length];
-        for (int i = 0; i < tab.length; i++) {
-            res[i] = f.apply(tab[i]);
-        }
-        return res;
-    }
-
-    /**
-     * Map the specified monadic function over an array, specifying the output array,
-     * which may be the same as the input to perform an in-place operation.
-     *
-     * @param f
-     * @param tab
-     * @param res
-     * @return the result of the mapping
-     */
-    public static double[] map(MonadicFunction f, double[] tab, double[] res) {
-        for (int i = 0; i < tab.length; i++) {
-            res[i] = f.apply(tab[i]);
-        }
-        return res;
-    }
-
-    /**
-     * Reduce the specified array using the specified dyadic function.
-     * The array must have at least one element.
-     *
-     * @param f
-     * @param tab
-     * @return the result of the reduction
-     */
-    public static double reduce(DyadicFunction f, double[] tab) {
-        double res = tab[0];
-        for (int i = 1; i < tab.length; i++) {
-            res = f.apply(res, tab[i]);
-        }
-        return res;
-    }
-
-    /**
-     * Reduce the specified array using the specified dyadic function.
-     *
-     * @param f
-     * @param id  identity element
-     * @param tab
-     * @return the result of the reduction
-     */
-    public static double reduce(DyadicFunction f, double id, double[] tab) {
-        double res = id;
-        for (double v : tab) {
-            res = f.apply(res, v);
-        }
-        return res;
-    }
-
-    /**
-     * Map the specified dyadic function over two arrays.
-     * If the arrays are of differing lengths, the result length is the same as
-     * of the shroter array.
-     *
-     * @param f
-     * @param tab
-     * @return the result of the mapping
-     */
-    public static double[] map(DyadicFunction f, double[] tab, double[] tab1) {
-        int len = Math.min(tab.length, tab1.length);
-        double[] res = new double[len];
-        for (int i = 0; i < len; i++) {
-            res[i] = f.apply(tab[i], tab1[i]);
-        }
-        return res;
-    }
-
-    /**
-     * Map the specified dyadic function over two arrays specifying the output array,
-     * which may be the same as the input to perform an in-place operation.
-     * If the arrays are of differing lengths, the resultant array is filled up to
-     * the length of the shorter array.
-     *
-     * @param f
-     * @param tab
-     * @param res
-     * @return the result of the mapping
-     */
-    public static double[] map(DyadicFunction f, double[] tab, double[] tab1, double[] res) {
-        int len = Math.min(tab.length, tab1.length);
-        for (int i = 0; i < len; i++) {
-            res[i] = f.apply(tab[i], tab1[i]);
-        }
-        return res;
-    }
-
-    /**
      * Compute the value of the Airy Ai function at the specified point.
      *
      * @param x
@@ -2553,14 +2453,14 @@ public class Maja {
      * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
      * @return integral of f over [a,b]
      */
-    public static double integrateSimpson(MonadicFunction f, double a, double b, int N) {
+    public static double integrateSimpsonReal(Function<Double, Double> f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
         if (a < b)
-            return Integrator.finiteSimpson(f, a, b, N);
+            return Integrator.finiteSimpsonRR(f, a, b, N);
         else if (a == b)
             return 0.0;
         else
-            return -Integrator.finiteSimpson(f, b, a, N);
+            return -Integrator.finiteSimpsonRR(f, b, a, N);
     }
 
     /**
@@ -2579,13 +2479,13 @@ public class Maja {
      *          N must be between 1 and 30.
      * @return integral of f over [a,b]
      */
-    public static double integrateGaussLegendre(MonadicFunction f, double a, double b, int N) {
+    public static double integrateGaussLegendreReal(Function<Double, Double> f, double a, double b, int N) {
         if (a < b)
-            return Integrator.gaussLegendreIntegrate(f, a, b, N);
+            return Integrator.gaussLegendreIntegrateRR(f, a, b, N);
         else if (a == b)
             return 0.0;
         else
-            return -Integrator.gaussLegendreIntegrate(f, b, a, N);
+            return -Integrator.gaussLegendreIntegrateRR(f, b, a, N);
     }
 
     /**
@@ -2602,13 +2502,13 @@ public class Maja {
      * @return an array of double values, first of which is the integral of f over [a,b],
      * while the second is the estimated error.
      */
-    public static double[] integrateTanhSinh(MonadicFunction f, double a, double b, int N, double eps) {
+    public static double[] integrateTanhSinhReal(Function<Double, Double> f, double a, double b, int N, double eps) {
         if (a < b)
-            return Integrator.finiteTanhSinh(f, a, b, N, eps);
+            return Integrator.finiteTanhSinhRR(f, a, b, N, eps);
         else if (a == b)
             return new double[]{0.0, 0.0};
         else {
-            double[] res = Integrator.finiteTanhSinh(f, b, a, N, eps);
+            double[] res = Integrator.finiteTanhSinhRR(f, b, a, N, eps);
             res[0] = -res[0];
             return res;
         }
@@ -2625,14 +2525,14 @@ public class Maja {
      * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
      * @return integral of f over [a,b]
      */
-    public static Complex integrateSimpson(Function<Double, Complex> f, double a, double b, int N) {
+    public static Complex integrateSimpsonRC(Function<Double, Complex> f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
         if (a < b)
-            return Integrator.finiteSimpson(f, a, b, N);
+            return Integrator.finiteSimpsonRC(f, a, b, N);
         else if (a == b)
             return Complex.ZERO;
         else
-            return negate(Integrator.finiteSimpson(f, b, a, N));
+            return negate(Integrator.finiteSimpsonRC(f, b, a, N));
     }
 
     /**
@@ -2651,13 +2551,13 @@ public class Maja {
      *          N must be between 1 and 30.
      * @return integral of f over [a,b]
      */
-    public static Complex integrateGaussLegendre(Function<Double, Complex> f, double a, double b, int N) {
+    public static Complex integrateGaussLegendreRC(Function<Double, Complex> f, double a, double b, int N) {
         if (a < b)
-            return Integrator.gaussLegendreIntegrate(f, a, b, N);
+            return Integrator.gaussLegendreIntegrateRC(f, a, b, N);
         else if (a == b)
             return Complex.ZERO;
         else
-            return negate(Integrator.gaussLegendreIntegrate(f, b, a, N));
+            return negate(Integrator.gaussLegendreIntegrateRC(f, b, a, N));
     }
 
     /**
@@ -2674,13 +2574,13 @@ public class Maja {
      * @return an array of double values, first of which is the integral of f over [a,b],
      * while the second is the estimated error.
      */
-    public static Complex[] integrateTanhSinh(Function<Double, Complex> f, double a, double b, int N, double eps) {
+    public static Complex[] integrateTanhSinhRC(Function<Double, Complex> f, double a, double b, int N, double eps) {
         if (a < b)
-            return Integrator.finiteTanhSinh(f, a, b, N, eps);
+            return Integrator.finiteTanhSinhRC(f, a, b, N, eps);
         else if (a == b)
             return new Complex[]{Complex.ZERO, Complex.ZERO};
         else {
-            Complex[] result = Integrator.finiteTanhSinh(f, b, a, N, eps);
+            Complex[] result = Integrator.finiteTanhSinhRC(f, b, a, N, eps);
             result[0] = negate(result[0]);
             return result;
         }
@@ -2715,7 +2615,7 @@ public class Maja {
      * @return a root of the function f within the desired precision
      * unless the iteration limit is exceeded.
      */
-    public static double newtonRaphson(MonadicFunction f, MonadicFunction df, double x0, double eps) {
+    public static double newtonRaphson(Function<Double, Double> f, Function<Double, Double> df, double x0, double eps) {
         return Root.newtonRaphson(f, df, x0, eps);
     }
 
@@ -3894,8 +3794,8 @@ public class Maja {
      * @param b  the upper bound of the interval
      * @return the area of the solid of revolution
      */
-    public static double solidArea(MonadicFunction f, MonadicFunction df, double a, double b) {
-        return TWO_PI * integrateGaussLegendre((MonadicFunction) x -> f.apply(x) * sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
+    public static double solidArea(Function<Double, Double> f, Function<Double, Double> df, double a, double b) {
+        return TWO_PI * integrateGaussLegendreReal(x -> f.apply(x) * sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
     }
 
     /**
@@ -3909,8 +3809,8 @@ public class Maja {
      * @param b the upper bound of the interval
      * @return the volume of the solid of revolution
      */
-    public static double solidVolume(MonadicFunction f, double a, double b) {
-        return PI * integrateGaussLegendre((MonadicFunction) x -> pow(f.apply(x), 2), a, b, 10);
+    public static double solidVolume(Function<Double, Double> f, double a, double b) {
+        return PI * integrateGaussLegendreReal(x -> pow(f.apply(x), 2), a, b, 10);
     }
 
     /**
@@ -3924,8 +3824,8 @@ public class Maja {
      * @param eps the desired accuracy
      * @return the integral of f from a to b
      */
-    public static Complex[] integrateTanhSinh(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
-        return Integrator.finiteTanhSinh(f, a, b, n, eps);
+    public static Complex[] integrateTanhSinhComplex(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
+        return Integrator.finiteTanhSinhCC(f, a, b, n, eps);
     }
 
     /**
@@ -3938,8 +3838,8 @@ public class Maja {
      * @param n the quadrature degree
      * @return the integral of f from a to b
      */
-    public static Complex integrateGaussLegendre(Function<Complex, Complex> f, Complex a, Complex b, int n) {
-        return Integrator.gaussLegendreIntegrate(f, a, b, n);
+    public static Complex integrateGaussLegendreComplex(Function<Complex, Complex> f, Complex a, Complex b, int n) {
+        return Integrator.gaussLegendreIntegrateCC(f, a, b, n);
     }
 
     /**
@@ -3952,8 +3852,8 @@ public class Maja {
      * @param b  the upper bound of the interval
      * @return the arc length of the curve
      */
-    public static double arcLength(MonadicFunction df, double a, double b) {
-        return integrateGaussLegendre((MonadicFunction) x -> sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
+    public static double arcLength(Function<Double, Double> df, double a, double b) {
+        return integrateGaussLegendreReal(x -> sqrt(1 + pow(df.apply(x), 2)), a, b, 10);
     }
 
     /**

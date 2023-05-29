@@ -1,12 +1,6 @@
 package rocks.palaiologos.maja.expression;
 
-import rocks.palaiologos.maja.Complex;
-import rocks.palaiologos.maja.Maja;
-import rocks.palaiologos.maja.MonadicFunction;
-
 import java.util.HashMap;
-import java.util.List;
-import java.util.function.Function;
 
 class Environment {
     private final HashMap<String, Object> variables = new HashMap<>();

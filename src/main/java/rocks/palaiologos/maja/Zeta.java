@@ -370,17 +370,17 @@ class Zeta {
             Complex I = Complex.ZERO;
             if (Math.abs(L.im()) < 0.25 && L.re() >= 0) {
                 if (z.im() <= 0.0) {
-                    I = add(I, Integrator.finiteTanhSinh(g, Complex.ZERO, new Complex(0, 1), degree, EPSILON)[0]);
-                    I = add(I, Integrator.finiteTanhSinh(g, new Complex(0, 1), add(new Complex(1, 1), abs(L)), degree, EPSILON)[0]);
-                    I = add(I, Integrator.finiteTanhSinh(g, add(new Complex(1, 1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, Complex.ZERO, new Complex(0, 1), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, new Complex(0, 1), add(new Complex(1, 1), abs(L)), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, add(new Complex(1, 1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
                 } else {
-                    I = add(I, Integrator.finiteTanhSinh(g, Complex.ZERO, new Complex(0, -1), degree, EPSILON)[0]);
-                    I = add(I, Integrator.finiteTanhSinh(g, new Complex(0, -1), add(new Complex(1, -1), abs(L)), degree, EPSILON)[0]);
-                    I = add(I, Integrator.finiteTanhSinh(g, add(new Complex(1, -1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, Complex.ZERO, new Complex(0, -1), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, new Complex(0, -1), add(new Complex(1, -1), abs(L)), degree, EPSILON)[0]);
+                    I = add(I, Integrator.finiteTanhSinhCC(g, add(new Complex(1, -1), abs(L)), add(abs(L), Complex.ONE), degree, EPSILON)[0]);
                 }
-                I = add(I, Integrator.finiteTanhSinh(g, add(abs(L), Complex.ONE), intmax, degree, EPSILON)[0]);
+                I = add(I, Integrator.finiteTanhSinhCC(g, add(abs(L), Complex.ONE), intmax, degree, EPSILON)[0]);
             } else {
-                I = Integrator.finiteTanhSinh(g, Complex.ZERO, intmax, degree, EPSILON)[0];
+                I = Integrator.finiteTanhSinhCC(g, Complex.ZERO, intmax, degree, EPSILON)[0];
             }
             return mul(recipGammaNoPole(s), I);
         }
@@ -405,25 +405,25 @@ class Zeta {
         Complex Int = Complex.ZERO;
 
         if (isreal) {
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinhCC(
                     g, right, add(right, mul(top, Maja.I)), degree, EPSILON)[0], w).im()));
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinhCC(
                     g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), degree, EPSILON)[0], w).im()));
-            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinh(
+            Int = add(Int, mul(new Complex(0, 2), div(Integrator.finiteTanhSinhCC(
                     h, add(negate(left), mul(top, Maja.I)), negate(left), degree, EPSILON)[0], w).im()));
         } else {
-            Int = add(Int, div(Integrator.finiteTanhSinh(
+            Int = add(Int, div(Integrator.finiteTanhSinhCC(
                     g, right, add(right, mul(top, Maja.I)), degree, EPSILON)[0], w));
-            Int = add(Int, div(Integrator.finiteTanhSinh(
+            Int = add(Int, div(Integrator.finiteTanhSinhCC(
                     g, add(right, mul(top, Maja.I)), add(negate(left), mul(top, Maja.I)), degree, EPSILON)[0], w));
-            Int = add(Int, Integrator.finiteTanhSinh(
+            Int = add(Int, Integrator.finiteTanhSinhCC(
                     h, add(negate(left), mul(top, Maja.I)), add(negate(left), mul(negate(top), Maja.I)), degree, EPSILON)[0]);
-            Int = add(Int, mul(w, Integrator.finiteTanhSinh(
+            Int = add(Int, mul(w, Integrator.finiteTanhSinhCC(
                     g, add(negate(left), mul(negate(top), Maja.I)), add(right, mul(negate(top), Maja.I)), degree, EPSILON)[0]));
-            Int = add(Int, mul(w, Integrator.finiteTanhSinh(
+            Int = add(Int, mul(w, Integrator.finiteTanhSinhCC(
                     g, add(right, mul(negate(top), Maja.I)), right, degree, EPSILON)[0]));
         }
-        Int = add(Int, mul(sub(w, div(Complex.ONE, w)), Integrator.finiteTanhSinh(
+        Int = add(Int, mul(sub(w, div(Complex.ONE, w)), Integrator.finiteTanhSinhCC(
                 g, right, intmax, degree, EPSILON)[0]));
         Int = add(div(Int, mul(TWO_PI, Maja.I)), residue);
         Int = mul(negate(gamma(sub(Complex.ONE, s))), Int);
@@ -515,7 +515,7 @@ class Zeta {
         }
         if (s.re() > 1) {
             Complex fa = a;
-            Complex[] r = Integrator.finiteTanhSinh((Function<Double, Complex>) x -> {
+            Complex[] r = Integrator.finiteTanhSinhRC((Function<Double, Complex>) x -> {
                 // (e^(x-ax)x^(s-1))/(e^x-1) + (e^(1/x-a/x)x^(-s-1))/(e^(1/x)-1)
                 if (x <= EPSILON)
                     return Complex.ZERO;
@@ -539,7 +539,7 @@ class Zeta {
                 Complex z2 = mul(pow(add(pow(fa, 2), pow(x, 2)), div(s, 2)), sub(exp(mul(TWO_PI, x)), 1));
                 return div(z1, z2);
             };
-            Complex[] r = Integrator.finiteTanhSinh(integrand, 0, abs(a), 8, 1e-15);
+            Complex[] r = Integrator.finiteTanhSinhRC(integrand, 0, abs(a), 8, 1e-15);
             result = add(result, mul(0.5, pow(a, negate(s))));
             result = add(result, div(pow(a, sub(1, s)), sub(s, 1)));
             result = add(result, mul(2, r[0]));

@@ -109,8 +109,8 @@ class Spence {
 
     public static Complex dilog(Complex x) {
         // Integrate ln(1-zt)/t dt from 0 to 1.
-        return Maja.negate(Integrator.finiteTanhSinh(
-                (Function<Double, Complex>) t -> Maja.div(Maja.log(Maja.sub(1, Maja.mul(x, t))), t),
+        return Maja.negate(Integrator.finiteTanhSinhRC(
+                t -> Maja.div(Maja.log(Maja.sub(1, Maja.mul(x, t))), t),
                 0, 1, 6, 1e-15)[0]);
     }
 

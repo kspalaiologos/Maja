@@ -1,10 +1,12 @@
 package rocks.palaiologos.maja;
 
+import java.util.function.Function;
+
 class Root {
     private Root() {
     }
 
-    public static double newtonRaphson(MonadicFunction f, MonadicFunction df, double x, double eps) {
+    public static double newtonRaphson(Function<Double, Double> f, Function<Double, Double> df, double x, double eps) {
         double h = f.apply(x) / df.apply(x);
         int maxIter = 100;
         x -= h;
