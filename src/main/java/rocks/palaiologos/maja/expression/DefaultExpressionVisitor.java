@@ -810,7 +810,8 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
-        env.set("log", new ExpressionFunction() {
+        // TODO: catch domain errors, cast to complex.
+        env.set("ln", new ExpressionFunction() {
             @Override
             public List<String> params() {
                 return List.of("x");
@@ -834,6 +835,8 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        // TODO: arbitrary base logarithm goes here.
 
         env.set("log10", new ExpressionFunction() {
             @Override
@@ -898,6 +901,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
+        // TODO: catch domain errors, cast to complex.
         env.set("expm1", new ExpressionFunction() {
             @Override
             public List<String> params() {
@@ -907,22 +911,19 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             @Override
             public Object eval() {
                 Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return Maja.sub(Maja.exp(c), 1);
-                } else if (x instanceof Double d) {
+                if (x instanceof Double d) {
                     return Maja.expm1(d);
                 } else if (x instanceof Long l) {
                     return Maja.expm1(l);
                 } else if (x instanceof DoubleMatrix dm) {
                     return dm.map(Maja::expm1);
-                } else if (x instanceof ComplexMatrix cm) {
-                    return cm.map(z -> Maja.sub(Maja.exp(z), 1));
                 } else {
                     throw new RuntimeException("Invalid argument type for expm1(x).");
                 }
             }
         });
 
+        // TODO: catch domain errors, cast to complex.
         env.set("sqrt", new ExpressionFunction() {
             @Override
             public List<String> params() {
@@ -948,6 +949,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
+        // TODO: catch domain errors, cast to complex.
         env.set("cbrt", new ExpressionFunction() {
             @Override
             public List<String> params() {
@@ -1002,78 +1004,6 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return dym.map(b -> Maja.hypot(a, b));
                 } else {
                     throw new RuntimeException("Invalid argument type for hypot(x, y).");
-                }
-            }
-        });
-
-        // Type casts.
-        env.set("C", new ExpressionFunction() {
-            @Override
-            public List<String> params() {
-                return List.of("x");
-            }
-
-            @Override
-            public Object eval() {
-                Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return c;
-                } else if (x instanceof Double d) {
-                    return new Complex(d);
-                } else if (x instanceof Long l) {
-                    return new Complex((double) l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return ComplexMatrix.into(dm.retype(Complex::new));
-                } else if (x instanceof ComplexMatrix cm) {
-                    return cm;
-                } else {
-                    throw new RuntimeException("Invalid argument type for C(x).");
-                }
-            }
-        });
-
-        env.set("R", new ExpressionFunction() {
-            @Override
-            public List<String> params() {
-                return List.of("x");
-            }
-
-            @Override
-            public Object eval() {
-                Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return c.re();
-                } else if (x instanceof Double d) {
-                    return d;
-                } else if (x instanceof Long l) {
-                    return Double.valueOf(l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return dm;
-                } else if (x instanceof ComplexMatrix cm) {
-                    return DoubleMatrix.into(cm.retype(Complex::re));
-                } else {
-                    throw new RuntimeException("Invalid argument type for R(x).");
-                }
-            }
-        });
-
-        env.set("Z", new ExpressionFunction() {
-            @Override
-            public List<String> params() {
-                return List.of("x");
-            }
-
-            @Override
-            public Object eval() {
-                Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return (long) c.re();
-                } else if (x instanceof Double d) {
-                    return d.longValue();
-                } else if (x instanceof Long l) {
-                    return l;
-                } else {
-                    throw new RuntimeException("Invalid argument type for Z(x).");
                 }
             }
         });
@@ -2625,5 +2555,49 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         } else {
             throw new RuntimeException("Invalid type for +.");
         }
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static Object simplify(Object input, boolean recurrent) {
+        // As a rule of thumb:
+        //  - If we have a generic matrix that is not a double or a complex matrix, see if we can cast it.
+        //  - If we have a complex value, if it has im=0 then cast it to a double, otherwise leave it as a complex.
+        //  - If we have a double value, if it has no fractional part then cast it to a long, otherwise leave it as a double.
+        //  - If we have a long value, leave it as a long.
+
+        // This generally breaks cases like log(-5). These functions need to be adjusted to call the complex overload in case
+        // the function returns a value that is not normal (NaN, +Infinity, -Infinity) or throws an exception.
+
+        if (!(input instanceof DoubleMatrix) && !(input instanceof ComplexMatrix) && input instanceof Matrix mat) {
+            if(mat.ravel().stream().allMatch(e -> e instanceof Double)) {
+                return DoubleMatrix.into(mat);
+            } else if(mat.ravel().stream().allMatch(e -> e instanceof Complex)) {
+                return DoubleMatrix.into(mat);
+            } else {
+                if(!recurrent)
+                    return simplify(mat.map(x -> simplify(x, false)), true);
+                else
+                    return mat;
+            }
+        } else if (input instanceof Complex c) {
+            if (c.im() == 0) {
+                return c.re();
+            } else {
+                return c;
+            }
+        } else if (input instanceof Double d) {
+            if (d == Math.floor(d)) {
+                return (long) d.doubleValue();
+            } else {
+                return d;
+            }
+        } else {
+            return input;
+        }
+    }
+
+    @Override
+    public Object visit(ParseTree tree) {
+        return simplify(tree.accept(this), false);
     }
 }
