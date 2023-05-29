@@ -3788,6 +3788,52 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("gammaP", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Maja.gammaP(d, e);
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::gammaP);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double e) {
+                    return dm.map(a -> Maja.gammaP(a, e));
+                } else if (x instanceof Double d && y instanceof DoubleMatrix em) {
+                    return em.map(a -> Maja.gammaP(d, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for gammaP(x, y).");
+                }
+            }
+        });
+
+        this.env.set("gammaQ", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Maja.gammaQ(d, e);
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::gammaQ);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double e) {
+                    return dm.map(a -> Maja.gammaQ(a, e));
+                } else if (x instanceof Double d && y instanceof DoubleMatrix em) {
+                    return em.map(a -> Maja.gammaQ(d, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for gammaQ(x, y).");
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
