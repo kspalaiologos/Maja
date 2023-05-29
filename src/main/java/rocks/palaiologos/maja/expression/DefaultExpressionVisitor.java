@@ -1542,6 +1542,48 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("fast_sin", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return (double) Maja.fastSin((float) d.doubleValue());
+                } else if (x instanceof Long l) {
+                    return (double) Maja.fastSin((float) l.doubleValue());
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.fastSin((float) z.doubleValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for fast_sin(x).");
+                }
+            }
+        });
+
+        this.env.set("fast_cos", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return (double) Maja.fastCos((float) d.doubleValue());
+                } else if (x instanceof Long l) {
+                    return (double) Maja.fastCos((float) l.doubleValue());
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.fastCos((float) z.doubleValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for fast_cos(x).");
+                }
+            }
+        });
     }
 
     private static double coerceDouble(Object obj) {
