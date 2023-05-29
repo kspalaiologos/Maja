@@ -159,7 +159,7 @@
                     <excludes>
                         <!-- Exclude the expression function registry from code coverage tests.
                              It is not particularly beneficial nor interesting to test these. -->
-                        <exclude>rocks/palaiologos/maja/ExpressionFunctions.class</exclude>
+                        <exclude>rocks/palaiologos/maja/expression/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
