@@ -2758,6 +2758,463 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("erf", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.erf((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.erf(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.erf(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.erf(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for erf(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("erfi", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.erfi((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.erfi(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.erfi(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.erfi(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for erfi(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("erfc", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.erfc((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.erfc(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.erfc(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.erfc(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for erfc(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        // Sigmoid functions.
+        this.env.set("stretch", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.stretch(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::stretch);
+                } else {
+                    throw new RuntimeException("Invalid argument type for stretch(x).");
+                }
+            }
+        });
+
+        this.env.set("squash", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.squash(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::squash);
+                } else {
+                    throw new RuntimeException("Invalid argument type for squash(x).");
+                }
+            }
+        });
+
+        this.env.set("Si", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.Si((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.Si(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.Si(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.Si(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for Si(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("Ci", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.Ci((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.Ci(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.Ci(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.Ci(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for Ci(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("si", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.si((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.si(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.si(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.si(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for si(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("Cin", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.Cin((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.Cin(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.Cin(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.Cin(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for Cin(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("Shi", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.Shi((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.Shi(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.Shi(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.Shi(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for Shi(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("Chi", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.Chi((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.Chi(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.Chi(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.Chi(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for Chi(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("fresnelC", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.fresnelC((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.fresnelC(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.fresnelC(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.fresnelC(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for fresnelC(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("fresnelS", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.fresnelS((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.fresnelS(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.fresnelS(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.fresnelS(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for fresnelS(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
