@@ -1001,6 +1001,154 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        // Type casts.
+        env.set("C", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return c;
+                } else if (x instanceof Double d) {
+                    return new Complex(d);
+                } else if (x instanceof Long l) {
+                    return new Complex((double) l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return ComplexMatrix.into(dm.retype(Complex::new));
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm;
+                } else {
+                    throw new RuntimeException("Invalid argument type for C(x).");
+                }
+            }
+        });
+
+        env.set("R", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return c.re();
+                } else if (x instanceof Double d) {
+                    return d;
+                } else if (x instanceof Long l) {
+                    return Double.valueOf(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm;
+                } else if (x instanceof ComplexMatrix cm) {
+                    return DoubleMatrix.into(cm.retype(Complex::re));
+                } else {
+                    throw new RuntimeException("Invalid argument type for R(x).");
+                }
+            }
+        });
+
+        env.set("Z", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return (long) c.re();
+                } else if (x instanceof Double d) {
+                    return d.longValue();
+                } else if (x instanceof Long l) {
+                    return l;
+                } else {
+                    throw new RuntimeException("Invalid argument type for Z(x).");
+                }
+            }
+        });
+
+        // Rounding.
+        env.set("ceil", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.ceil(c);
+                } else if (x instanceof Double d) {
+                    return Maja.ceil(d);
+                } else if (x instanceof Long l) {
+                    return Maja.ceil(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::ceil);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::ceil);
+                } else {
+                    throw new RuntimeException("Invalid argument type for ceil(x).");
+                }
+            }
+        });
+
+        env.set("floor", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.floor(c);
+                } else if (x instanceof Double d) {
+                    return Maja.floor(d);
+                } else if (x instanceof Long l) {
+                    return Maja.floor(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::floor);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::floor);
+                } else {
+                    throw new RuntimeException("Invalid argument type for floor(x).");
+                }
+            }
+        });
+
+        env.set("round", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.round(c);
+                } else if (x instanceof Double d) {
+                    return Maja.round(d);
+                } else if (x instanceof Long l) {
+                    return Maja.round(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.round(z));
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::round);
+                } else {
+                    throw new RuntimeException("Invalid argument type for round(x).");
+                }
+            }
+        });
     }
 
     @Override
@@ -1169,7 +1317,7 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
         String objname = ctx.ID().getText();
         Object initial = visit(ctx.expression(0));
         Object end = visit(ctx.expression(1));
-        Object step = ctx.expression().size() > 2 ? visit(ctx.expression(2)) : (determineStep(initial, end));
+        Object step = ctx.expression().size() > 2 ? visit(ctx.expression(2)) : determineStep(initial, end);
         Environment old = env; env = env.createChild();
         env.set(objname, initial);
         Object r = null;
