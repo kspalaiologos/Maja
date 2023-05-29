@@ -1495,6 +1495,23 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        env.set("is_perfect_square", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("n");
+            }
+
+            @Override
+            public Object eval() {
+                Object n = getEnv().get("n");
+                if (n instanceof Long l) {
+                    return Maja.isPerfectSquare(l) ? 1 : 0;
+                } else {
+                    throw new RuntimeException("Invalid type for is_perfect_square(n).");
+                }
+            }
+        });
     }
 
     @Override
