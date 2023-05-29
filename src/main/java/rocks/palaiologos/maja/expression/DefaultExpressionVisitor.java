@@ -3439,6 +3439,187 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("fib", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (!(x instanceof Long)) {
+                    throw new RuntimeException("Invalid argument type for fib(x: int).");
+                }
+                int order = ((Long) x).intValue();
+                return Maja.fib(order);
+            }
+        });
+
+        this.env.set("factorial", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (!(x instanceof Long))
+                    throw new RuntimeException("Invalid argument type for factorial(x: int).");
+                return Maja.factorial((Long) x);
+            }
+        });
+
+        this.env.set("hypergeo2F1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "c", "z");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), c = getEnv().get("c"), z = getEnv().get("z");
+                if(!allDouble(a, b, c, z)) {
+                    throw new RuntimeException("Invalid argument type for hypergeo2F1(a: double, b: double, c: double, z: double).");
+                }
+                return Maja.hypergeo2F1(coerceDouble(a), coerceDouble(b), coerceDouble(c), coerceDouble(z));
+            }
+        });
+
+        this.env.set("hypergeo1F1", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "z");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), z = getEnv().get("z");
+                if(!allDouble(a, b, z)) {
+                    throw new RuntimeException("Invalid argument type for hypergeo1F1(a: double, b: double, z: double).");
+                }
+                return Maja.hypergeo1F1(coerceDouble(a), coerceDouble(b), coerceDouble(z));
+            }
+        });
+
+        this.env.set("hypergeo3F0", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "c", "z");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), c = getEnv().get("c"), z = getEnv().get("z");
+                if(!allDouble(a, b, c, z)) {
+                    throw new RuntimeException("Invalid argument type for hypergeo3F0(a: double, b: double, c: double, z: double).");
+                }
+                return Maja.hypergeo3F0(coerceDouble(a), coerceDouble(b), coerceDouble(c), coerceDouble(z));
+            }
+        });
+
+        this.env.set("hypergeo1F2", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "c", "z");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), c = getEnv().get("c"), z = getEnv().get("z");
+                if(!allDouble(a, b, c, z)) {
+                    throw new RuntimeException("Invalid argument type for hypergeo1F2(a: double, b: double, c: double, z: double).");
+                }
+                return Maja.hypergeo1F2(coerceDouble(a), coerceDouble(b), coerceDouble(c), coerceDouble(z));
+            }
+        });
+
+        this.env.set("struve", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Maja.struve(d, e);
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::struve);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double e) {
+                    return dm.map(a -> Maja.struve(a, e));
+                } else if (x instanceof Double d && y instanceof DoubleMatrix em) {
+                    return em.map(a -> Maja.struve(d, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for struve(x, y).");
+                }
+            }
+        });
+
+        this.env.set("jv", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Maja.besselJv(d, e);
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::besselJv);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double e) {
+                    return dm.map(a -> Maja.besselJv(a, e));
+                } else if (x instanceof Double d && y instanceof DoubleMatrix em) {
+                    return em.map(a -> Maja.besselJv(d, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for jv(x, y).");
+                }
+            }
+        });
+
+        this.env.set("yv", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Maja.besselYv(d, e);
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::besselYv);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double e) {
+                    return dm.map(a -> Maja.besselYv(a, e));
+                } else if (x instanceof Double d && y instanceof DoubleMatrix em) {
+                    return em.map(a -> Maja.besselYv(d, a));
+                } else {
+                    throw new RuntimeException("Invalid argument type for yv(x, y).");
+                }
+            }
+        });
+
+        this.env.set("binomial", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("n", "k");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("n");
+                Object y = getEnv().get("k");
+                if (!(x instanceof Long) || !(y instanceof Long))
+                    throw new RuntimeException("Invalid argument type for binomial(n: int, k: int).");
+                return Maja.binomial(Math.toIntExact((Long) x), Math.toIntExact((Long) y));
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
