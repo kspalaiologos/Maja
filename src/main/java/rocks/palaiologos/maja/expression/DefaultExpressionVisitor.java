@@ -1442,6 +1442,116 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        env.set("linear_map", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a_begin", "a_end", "b_begin", "b_end", "value");
+            }
+
+            @Override
+            public Object eval() {
+                double a_begin = coerceDouble(getEnv().get("a_begin"));
+                double a_end = coerceDouble(getEnv().get("a_end"));
+                double b_begin = coerceDouble(getEnv().get("b_begin"));
+                double b_end = coerceDouble(getEnv().get("b_end"));
+                double value = coerceDouble(getEnv().get("value"));
+                return Maja.linearMap(a_begin, a_end, b_begin, b_end, value);
+            }
+        });
+
+        env.set("linear_norm", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("begin", "end", "value");
+            }
+
+            @Override
+            public Object eval() {
+                double begin = coerceDouble(getEnv().get("begin"));
+                double end = coerceDouble(getEnv().get("end"));
+                double value = coerceDouble(getEnv().get("value"));
+                return Maja.linearNorm(begin, end, value);
+            }
+        });
+
+        env.set("linear_interpolate", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("begin", "end", "value");
+            }
+
+            @Override
+            public Object eval() {
+                double begin = coerceDouble(getEnv().get("begin"));
+                double end = coerceDouble(getEnv().get("end"));
+                double value = coerceDouble(getEnv().get("value"));
+                return Maja.linearInterpolate(begin, end, value);
+            }
+        });
+
+        env.set("clamp", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("begin", "end", "value");
+            }
+
+            @Override
+            public Object eval() {
+                Object begin = getEnv().get("begin");
+                Object end = getEnv().get("end");
+                Object value = getEnv().get("value");
+                if(begin instanceof Long a && end instanceof Long b && value instanceof Long c) {
+                    return Maja.clamp(a, b, c);
+                } else {
+                    return Maja.clamp(coerceDouble(begin), coerceDouble(end), coerceDouble(value));
+                }
+            }
+        });
+
+        env.set("is_power_of_2", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof Long l) {
+                    return Maja.isPowerOfTwo(l);
+                } else {
+                    throw new RuntimeException("Invalid type for is_power_of_2(x).");
+                }
+            }
+        });
+
+        env.set("next_power_of_2", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof Long l) {
+                    return Maja.isPowerOfTwo(l);
+                } else {
+                    throw new RuntimeException("Invalid type for next_power_of_2(x).");
+                }
+            }
+        });
+    }
+
+    private static double coerceDouble(Object obj) {
+        if (obj instanceof Double d) {
+            return d;
+        } else if (obj instanceof Long l) {
+            return l;
+        } else {
+            return Double.NaN;
+        }
     }
 
     @Override
