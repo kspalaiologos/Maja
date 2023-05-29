@@ -92,7 +92,7 @@ class Integrator {
     public static GaussLegendreParameters getParameters(int n) {
         synchronized (gaussLegendreParameters) {
             if (!gaussLegendreParameters.containsKey(n)) {
-                throw new IllegalArgumentException("Gauss-Legendre parameters for n = " + n + " not found.");
+                throw new ArithmeticException("Gauss-Legendre parameters for n = " + n + " not found.");
             }
             return gaussLegendreParameters.get(n);
         }

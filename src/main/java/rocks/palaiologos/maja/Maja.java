@@ -1362,6 +1362,7 @@ public class Maja {
      * @param x
      * @param z
      * @return x^z.
+     * @throws ArithmeticException in case of overflow.
      */
     public static double pow(double x, int z) {
         int n, e, sign, asign, lx;
@@ -1688,6 +1689,7 @@ public class Maja {
      *
      * @param n
      * @return n!
+     * @throws ArithmeticException if n is negative
      */
     public static double factorial(long n) {
         return Gamma.factorial(n);
@@ -1936,6 +1938,7 @@ public class Maja {
      * @param s
      * @param a
      * @return Lerch(z, s, a)
+     * @throws ArithmeticException if the computation fails unexpectedly due to exceeding the amount of allowed iterations.
      */
     public static double lerchPhi(double z, double s, double a) {
         return Zeta.lerch_phi(z, s, a);
@@ -2483,6 +2486,7 @@ public class Maja {
      * @param b upper bound
      * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
      * @return integral of f over [a,b]
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static double integrateSimpsonReal(Function<Double, Double> f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
@@ -2509,6 +2513,7 @@ public class Maja {
      * @param N number of intervals, N=6 tends to give a good approximation in most scenarios.
      *          N must be between 1 and 30.
      * @return integral of f over [a,b]
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static double integrateGaussLegendreReal(Function<Double, Double> f, double a, double b, int N) {
         if (a < b)
@@ -2532,6 +2537,7 @@ public class Maja {
      * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
      * @return an array of double values, first of which is the integral of f over [a,b],
      * while the second is the estimated error.
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static double[] integrateTanhSinhReal(Function<Double, Double> f, double a, double b, int N, double eps) {
         if (a < b)
@@ -2555,6 +2561,7 @@ public class Maja {
      * @param b upper bound
      * @param N number of intervals, N=10000 tends to give a good approximation in most scenarios.
      * @return integral of f over [a,b]
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static Complex integrateSimpsonRC(Function<Double, Complex> f, double a, double b, int N) {
         // Properly handle the configurations of a and b.
@@ -2581,6 +2588,7 @@ public class Maja {
      * @param N number of intervals, N=6 tends to give a good approximation in most scenarios.
      *          N must be between 1 and 30.
      * @return integral of f over [a,b]
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static Complex integrateGaussLegendreRC(Function<Double, Complex> f, double a, double b, int N) {
         if (a < b)
@@ -2604,6 +2612,7 @@ public class Maja {
      * @param eps desired precision of the result (usually 1.0e-9 is sufficient)
      * @return an array of double values, first of which is the integral of f over [a,b],
      * while the second is the estimated error.
+     * @throws IllegalArgumentException if N is not a positive integer
      */
     public static Complex[] integrateTanhSinhRC(Function<Double, Complex> f, double a, double b, int N, double eps) {
         if (a < b)
@@ -2623,6 +2632,7 @@ public class Maja {
      * @param n the number of elements, n &gt; 0.
      * @param k the number of elements to choose, 0 &lt; k &lt;= n.
      * @return n! / (k! * (n-k)!)
+     * @throws IllegalArgumentException if n &lt;= 0 or k &lt; 0 or k &gt; n.
      */
     public static long binomial(int n, int k) {
         if (n <= 0 || k < 0 || k > n)
@@ -3759,6 +3769,7 @@ public class Maja {
      * @param s
      * @param z
      * @return polylog(s, z)
+     * @throws ArithmeticException if the amount of numerical algorithm iterations is exceeded
      */
     public static Complex polylog(Complex s, Complex z) {
         return Spence.polylog(s, z);
@@ -4006,6 +4017,7 @@ public class Maja {
      * @param a order
      * @param x argument
      * @return gammaP(a, x)
+     * @throws ArithmeticException if arguments are outside of the domain or the iteration count is exceeded.
      */
     public static double gammaP(double a, double x) {
         return Gamma.regularizedGammaP(a, x);
@@ -4017,6 +4029,7 @@ public class Maja {
      * @param a order
      * @param x argument
      * @return gammaQ(a, x)
+     * @throws ArithmeticException if arguments are outside of the domain or the iteration count is exceeded.
      */
     public static double gammaQ(double a, double x) {
         return Gamma.regularizedGammaQ(a, x);
@@ -4027,6 +4040,7 @@ public class Maja {
      *
      * @param p probability between 0 and 1.
      * @return quantile value
+     * @throws IllegalArgumentException if p is not between 0 and 1
      */
     public static double normQuantile(double p) {
         return Landau.normQuantile(p);
@@ -4038,6 +4052,7 @@ public class Maja {
      * @param p  probability between 0 and 1.
      * @param df degrees of freedom
      * @return quantile value
+     * @throws IllegalArgumentException if p is not between 0 and 1
      */
     public static double chiSquaredQuantile(double p, double df) {
         return Landau.chisquareQuantile(p, df);

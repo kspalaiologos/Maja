@@ -820,11 +820,15 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 if(anyComplex(x))
                     return Maja.log((Complex) x);
                 else if(allDouble(x)) {
-                    double r = Maja.log(coerceDouble(x));
-                    if(isPathologic(r))
+                    try {
+                        double r = Maja.log(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.log(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
                         return Maja.log(new Complex(coerceDouble(x)));
-                    else
-                        return r;
+                    }
                 } else {
                     throw new RuntimeException("Invalid argument type for ln(x).");
                 }
@@ -919,11 +923,15 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 if(anyComplex(x))
                     return Maja.sqrt((Complex) x);
                 else if(allDouble(x)) {
-                    double r = Maja.sqrt(coerceDouble(x));
-                    if(isPathologic(r))
+                    try {
+                        double r = Maja.sqrt(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.sqrt(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
                         return Maja.sqrt(new Complex(coerceDouble(x)));
-                    else
-                        return r;
+                    }
                 } else {
                     throw new RuntimeException("Invalid argument type for sqrt(x).");
                 }
@@ -953,11 +961,15 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 if(anyComplex(x))
                     return Maja.cbrt((Complex) x);
                 else if(allDouble(x)) {
-                    double r = Maja.cbrt(coerceDouble(x));
-                    if(isPathologic(r))
+                    try {
+                        double r = Maja.cbrt(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.cbrt(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
                         return Maja.cbrt(new Complex(coerceDouble(x)));
-                    else
-                        return r;
+                    }
                 } else {
                     throw new RuntimeException("Invalid argument type for cbrt(x).");
                 }
@@ -1675,11 +1687,15 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 if(anyComplex(x))
                     return Maja.airyAi((Complex) x);
                 else if(allDouble(x)) {
-                    double r = Maja.airyAi(coerceDouble(x));
-                    if(isPathologic(r))
+                    try {
+                        double r = Maja.airyAi(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.airyAi(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
                         return Maja.airyAi(new Complex(coerceDouble(x)));
-                    else
-                        return r;
+                    }
                 } else {
                     throw new RuntimeException("Invalid argument type for airy_ai(x).");
                 }

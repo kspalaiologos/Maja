@@ -59,7 +59,7 @@ class Ei {
                 return __h * Math.exp(-__x);
             }
         }
-        throw new RuntimeException("Continued fraction failed in __expint_En_cont_frac.");
+        throw new ArithmeticException("Continued fraction failed in __expint_En_cont_frac.");
     }
 
     private static double __expint_Ei_series(double __x) {

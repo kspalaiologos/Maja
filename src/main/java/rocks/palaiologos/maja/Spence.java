@@ -126,7 +126,7 @@ class Spence {
         if (x == Double.NEGATIVE_INFINITY || x == Double.POSITIVE_INFINITY)
             return Double.NEGATIVE_INFINITY;
         if (x < 0.0)
-            throw new ArithmeticException("Domain error");
+            return Double.NaN;
         if (x == 1.0)
             return 0.0;
         if (x == 0.0)
@@ -176,7 +176,7 @@ class Spence {
         }
 
         if (x > 1.0 || n < -1) {
-            throw new ArithmeticException("Domain error");
+            return Double.NaN;
         }
 
         if (n == 1) {

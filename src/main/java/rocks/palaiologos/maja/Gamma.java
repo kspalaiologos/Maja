@@ -312,13 +312,13 @@ class Gamma {
 
     public static double regularizedGammaQ(double a, double x) {
         if (a <= 0.0)
-            throw new IllegalArgumentException("Invalid arguments in routine gammq");
+            throw new ArithmeticException("Invalid arguments in routine gammq");
         return 1.0 - regularizedGammaP(a, x);
     }
 
     public static double regularizedGammaP(double a, double x) {
         if (a <= 0.0)
-            throw new IllegalArgumentException("Invalid arguments in routine gammp");
+            throw new ArithmeticException("Invalid arguments in routine gammp");
         if (x < a + 1.0) {
             return gser(a, x);
         } else {
@@ -330,7 +330,7 @@ class Gamma {
         double gln = loggamma(a);
         if (x <= 0.0) {
             if (x < 0.0)
-                throw new IllegalArgumentException("x < 0 in routine gser");
+                throw new ArithmeticException("x < 0 in routine gser");
             return 0.0;
         } else {
             double ap = a;
@@ -344,7 +344,7 @@ class Gamma {
                     return sum * Math.exp(-x + a * Math.log(x) - gln);
                 }
             }
-            throw new IllegalArgumentException("a too large, ITMAX too small in routine gser");
+            throw new ArithmeticException("a too large, ITMAX too small in routine gser");
         }
     }
 
@@ -371,7 +371,7 @@ class Gamma {
                 break;
         }
         if (i > 100)
-            throw new IllegalArgumentException("a too large, ITMAX too small in gcf");
+            throw new ArithmeticException("a too large, ITMAX too small in gcf");
         double gln = loggamma(a);
         return Math.exp(-x + a * Math.log(x) - gln) * h;
     }

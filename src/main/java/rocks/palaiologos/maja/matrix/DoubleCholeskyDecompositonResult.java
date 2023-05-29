@@ -12,6 +12,7 @@ public record DoubleCholeskyDecompositonResult(DoubleMatrix l, boolean spd) {
      * Solve A * X = B.
      *
      * @return X s.t. L * L' * X = B
+     * @throws IllegalArgumentException If matrix row dimensions do not agree or the matrix is not symmetric positive definite.
      */
     public DoubleMatrix solve(DoubleMatrix B) {
         if (B.height() != l.height()) {

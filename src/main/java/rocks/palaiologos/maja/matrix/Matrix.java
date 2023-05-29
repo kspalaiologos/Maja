@@ -388,6 +388,7 @@ public class Matrix<T> {
      * @param scalar  The scalar product.
      * @param vector  The vector sum.
      * @return The generalised dot product.
+     * @throws IllegalArgumentException If the matrices are not aligned.
      */
     public Matrix<T> dot(Matrix<T> another, BiFunction<T, T, T> scalar, BiFunction<T, T, T> vector) {
         var a = rows();

@@ -188,7 +188,7 @@ class Zeta {
         }
 
         if (Math.abs(Math.floor(v) - v) <= Maja.EPSILON * Math.abs(v) && v <= 0.0) {
-            throw new ArithmeticException("lerchphi: v divergence");
+            return Double.NaN;
         }
 
         double v1 = v, sum1 = 0, result;
