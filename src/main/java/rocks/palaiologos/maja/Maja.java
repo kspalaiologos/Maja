@@ -523,6 +523,16 @@ public class Maja {
     }
 
     /**
+     * Returns the sign of a complex number.
+     *
+     * @param x
+     * @return A complex number where the real and imaginary parts correspond to the sign of the real and imaginary parts of x.
+     */
+    public static Complex signum(Complex x) {
+        return new Complex(signum(x.re()), signum(x.im()));
+    }
+
+    /**
      * Returns the value of the sine of a double precision number.
      *
      * @param x
@@ -758,6 +768,27 @@ public class Maja {
      */
     public static long copySign(long x, long y) {
         return signum(y) * abs(x);
+    }
+
+    /**
+     * Copy the sign of the second argument to the first argument.
+     *
+     * @param x
+     * @param y
+     * @return copySign(x, y)
+     */
+    public static Complex copySign(Complex x, Complex y) {
+        return mul(signum(y), absparts(x));
+    }
+
+    /**
+     * Compute the absolute values of parts of a complex number.
+     *
+     * @param x
+     * @return |re(x)| + i|im(x)|
+     */
+    public static Complex absparts(Complex x) {
+        return new Complex(abs(x.re()), abs(x.im()));
     }
 
     /**

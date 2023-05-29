@@ -772,7 +772,11 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return Maja.signum(d);
                 } else if (x instanceof Long l) {
                     return Maja.signum(l);
+                } else if (x instanceof Complex c) {
+                    return Maja.signum(c);
                 } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::signum);
+                } else if (x instanceof ComplexMatrix dm) {
                     return dm.map(Maja::signum);
                 } else {
                     throw new RuntimeException("Invalid argument type for signum(x).");
@@ -1243,6 +1247,162 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                     return dm.map(Maja::toDegrees);
                 } else {
                     throw new RuntimeException("Invalid argument type for deg(x).");
+                }
+            }
+        });
+
+        env.set("ulp", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Math.ulp(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Math::ulp);
+                } else {
+                    throw new RuntimeException("Invalid argument type for deg(x).");
+                }
+            }
+        });
+
+        env.set("scalb", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double a && y instanceof Long b) {
+                    return Maja.scalb(a, b.intValue());
+                } else if (x instanceof DoubleMatrix dm && y instanceof Long b) {
+                    return dm.map(z -> Math.scalb(z, b.intValue()));
+                } else {
+                    throw new RuntimeException("Invalid argument type for scalb(x, y).");
+                }
+            }
+        });
+
+        env.set("copysign", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double a && y instanceof Long b) {
+                    return Maja.copySign(a, b);
+                } else if (x instanceof Long a && y instanceof Double b) {
+                    return Maja.copySign(a, b);
+                } else if (x instanceof Long a && y instanceof Long b) {
+                    return Maja.copySign(a, b);
+                } else if (x instanceof Double a && y instanceof Double b) {
+                    return Maja.copySign(a, b);
+                } else if (x instanceof Complex a && y instanceof Complex b) {
+                    return Maja.copySign(a, b);
+                } else if (x instanceof ComplexMatrix a && y instanceof ComplexMatrix b) {
+                    return a.zipWith(b, Maja::copySign);
+                } else if (x instanceof ComplexMatrix a && y instanceof Complex b) {
+                    return a.map(z -> Maja.copySign(z, b));
+                } else if (x instanceof Complex a && y instanceof ComplexMatrix b) {
+                    return b.map(z -> Maja.copySign(a, z));
+                } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
+                    return a.zipWith(b, Maja::copySign);
+                } else if (x instanceof DoubleMatrix a && y instanceof Double b) {
+                    return a.map(z -> Maja.copySign(z, b));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix b) {
+                    return b.map(z -> Maja.copySign(a, z));
+                } else if (x instanceof DoubleMatrix a && y instanceof Long b) {
+                    return a.map(z -> Maja.copySign(z, b));
+                } else if (x instanceof Long a && y instanceof DoubleMatrix b) {
+                    return b.map(z -> Maja.copySign(a, z));
+                } else {
+                    throw new RuntimeException("Invalid argument type for copysign(x, y).");
+                }
+            }
+        });
+
+        env.set("getexp", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.getExponent(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(z -> (double) Maja.getExponent(z));
+                } else {
+                    throw new RuntimeException("Invalid argument type for getexp(x).");
+                }
+            }
+        });
+
+        env.set("rand", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("begin", "end");
+            }
+
+            @Override
+            public Object eval() {
+                Object begin = getEnv().get("begin"), end = getEnv().get("end");
+                if (begin instanceof Double a && end instanceof Double b) {
+                    return Maja.random(a, b);
+                } else if (begin instanceof DoubleMatrix a && end instanceof DoubleMatrix b) {
+                    return a.zipWith(b, Maja::random);
+                } else if (begin instanceof DoubleMatrix a && end instanceof Double b) {
+                    return a.map(z -> Maja.random(z, b));
+                } else if (begin instanceof Double a && end instanceof DoubleMatrix b) {
+                    return b.map(z -> Maja.random(a, z));
+                } else if (begin instanceof DoubleMatrix a && end instanceof Long b) {
+                    return a.map(z -> Maja.random(z, b));
+                } else if (begin instanceof Long a && end instanceof DoubleMatrix b) {
+                    return b.map(z -> Maja.random(a, z));
+                } else if (begin instanceof Long a && end instanceof Long b) {
+                    return Maja.random(a, b);
+                } else {
+                    throw new RuntimeException("Invalid argument type for rand(begin, end).");
+                }
+            }
+        });
+
+        env.set("compare", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double a && y instanceof Double b) {
+                    return Maja.compare(a, b);
+                } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
+                    return a.zipWith(b, (i, j) -> (double) Maja.compare(i, j));
+                } else if (x instanceof DoubleMatrix a && y instanceof Double b) {
+                    return a.map(z -> (double) Maja.compare(z, b));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix b) {
+                    return b.map(z -> (double) Maja.compare(a, z));
+                } else if (x instanceof DoubleMatrix a && y instanceof Long b) {
+                    return a.map(z -> (double) Maja.compare(z, b));
+                } else if (x instanceof Long a && y instanceof DoubleMatrix b) {
+                    return b.map(z -> (double) Maja.compare(a, z));
+                } else if (x instanceof Long a && y instanceof Long b) {
+                    return Maja.compare(a, b);
+                } else {
+                    throw new RuntimeException("Invalid argument type for compare(x, y).");
                 }
             }
         });
