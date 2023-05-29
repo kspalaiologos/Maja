@@ -1406,6 +1406,95 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        env.set("approx_eq", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y", "tol");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("x"), b = getEnv().get("y"), tol = getEnv().get("tol");
+                double dtol = tol instanceof Double d ? d : (tol instanceof Long l ? l : Double.NaN);
+                if (Double.isNaN(dtol))
+                    throw new RuntimeException("Invalid argument type for approx_eq(x, y, tol). Tolerance is NaN.");
+
+                if (a instanceof Long l1 && b instanceof Long l2) {
+                    return Maja.eq(l1, l2, dtol) ? 1 : 0;
+                } else if (a instanceof Double d1 && b instanceof Double d2) {
+                    return Maja.eq(d1, d2, dtol) ? 1 : 0;
+                } else if (a instanceof Complex c1 && b instanceof Complex c2) {
+                    return Maja.eq(c1, c2, dtol) ? 1 : 0;
+                } else if (a instanceof Long l1 && b instanceof Double d2) {
+                    return Maja.eq(l1, d2, dtol) ? 1 : 0;
+                } else if (a instanceof Double d1 && b instanceof Long l2) {
+                    return Maja.eq(d1, l2, dtol) ? 1 : 0;
+                } else if (a instanceof Long l1 && b instanceof Complex c2) {
+                    return Maja.eq(new Complex(l1), c2, dtol) ? 1 : 0;
+                } else if (a instanceof Complex c1 && b instanceof Long l2) {
+                    return Maja.eq(c1, new Complex(l2), dtol) ? 1 : 0;
+                } else if (a instanceof Double d1 && b instanceof Complex c2) {
+                    return Maja.eq(new Complex(d1), c2, dtol) ? 1 : 0;
+                } else if (a instanceof Complex c1 && b instanceof Double d2) {
+                    return Maja.eq(c1, new Complex(d2), dtol) ? 1 : 0;
+                } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
+                    return dm1.map(d -> Maja.eq(d, l2, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
+                    return dm2.map(d -> Maja.eq(l1, d, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
+                    return dm1.zipWith(dm2, (x, y) -> Maja.eq(x, y, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof DoubleMatrix dm1 && b instanceof Double d2) {
+                    return dm1.map(d -> Maja.eq(d, d2, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
+                    return dm2.map(d -> Maja.eq(d1, d, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof DoubleMatrix dm1 && b instanceof Complex c2) {
+                    if(c2.im() != 0) {
+                        DoubleMatrix result = new DoubleMatrix(dm1.height(), dm1.width());
+                        for(int i = 0; i < dm1.height(); i++) {
+                            for(int j = 0; j < dm1.width(); j++) {
+                                result.set(i, j, 0.0);
+                            }
+                        }
+                        return result;
+                    }
+                    double c2re = c2.re();
+                    return dm1.map(d -> Maja.eq(c2re, d, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof Complex c1 && b instanceof DoubleMatrix dm2) {
+                    if(c1.im() != 0) {
+                        DoubleMatrix result = new DoubleMatrix(dm2.height(), dm2.width());
+                        for(int i = 0; i < dm2.height(); i++) {
+                            for(int j = 0; j < dm2.width(); j++) {
+                                result.set(i, j, 0.0);
+                            }
+                        }
+                        return result;
+                    }
+                    double c1re = c1.re();
+                    return dm2.map(d -> Maja.eq(c1re, d, dtol) ? 1.0 : 0.0);
+                } else if (a instanceof ComplexMatrix dm1 && b instanceof Long l2) {
+                    Complex cl2 = new Complex(l2);
+                    return dm1.map(d -> Maja.eq(d, cl2, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof Long l1 && b instanceof ComplexMatrix dm2) {
+                    Complex cl1 = new Complex(l1);
+                    return dm2.map(d -> Maja.eq(cl1, d, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof ComplexMatrix dm1 && b instanceof ComplexMatrix dm2) {
+                    return dm1.zipWith(dm2, (x, y) -> Maja.eq(x, y, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof ComplexMatrix dm1 && b instanceof Double d2) {
+                    Complex cd2 = new Complex(d2);
+                    return dm1.map(d -> Maja.eq(d, cd2, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof Double d1 && b instanceof ComplexMatrix dm2) {
+                    Complex cd1 = new Complex(d1);
+                    return dm2.map(d -> Maja.eq(cd1, d, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof ComplexMatrix dm1 && b instanceof Complex c2) {
+                    return dm1.map(d -> Maja.eq(d, c2, dtol) ? Complex.ONE : Complex.ZERO);
+                } else if (a instanceof Complex c1 && b instanceof ComplexMatrix dm2) {
+                    return dm2.map(d -> Maja.eq(c1, d, dtol) ? Complex.ONE : Complex.ZERO);
+                } else {
+                    throw new RuntimeException("Invalid type for approx_eq(a, b, tol: double).");
+                }
+            }
+        });
     }
 
     @Override
