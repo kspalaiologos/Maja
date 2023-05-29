@@ -2663,6 +2663,101 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("dawson_plus", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.dawsonPlus((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.dawsonPlus(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.dawsonPlus(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.dawsonPlus(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for dawson_plus(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("dawson_minus", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.dawsonMinus((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.dawsonMinus(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.dawsonMinus(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.dawsonMinus(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for dawson_minus(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("chop", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(Maja.chop(z)));
+                } else if(x instanceof Complex c) {
+                    return Maja.chop(c);
+                } else {
+                    throw new RuntimeException("Invalid argument type for chop(x).");
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
