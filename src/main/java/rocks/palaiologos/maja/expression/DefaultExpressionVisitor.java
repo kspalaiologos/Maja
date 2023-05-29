@@ -810,28 +810,36 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
-        // TODO: catch domain errors, cast to complex.
-        env.set("ln", new ExpressionFunction() {
+        this.env.set("ln", new ExpressionFunction() {
             @Override
             public List<String> params() {
                 return List.of("x");
             }
 
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.log((Complex) x);
+                else if(allDouble(x)) {
+                    double r = Maja.log(coerceDouble(x));
+                    if(isPathologic(r))
+                        return Maja.log(new Complex(coerceDouble(x)));
+                    else
+                        return r;
+                } else {
+                    throw new RuntimeException("Invalid argument type for ln(x).");
+                }
+            }
+
             @Override
             public Object eval() {
                 Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return Maja.log(c);
-                } else if (x instanceof Double d) {
-                    return Maja.log(d);
-                } else if (x instanceof Long l) {
-                    return Maja.log(l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return dm.map(Maja::log);
-                } else if (x instanceof ComplexMatrix cm) {
-                    return cm.map(Maja::log);
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
                 } else {
-                    throw new RuntimeException("Invalid argument type for log(x).");
+                    return transform(x);
                 }
             }
         });
@@ -901,76 +909,70 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
-        // TODO: catch domain errors, cast to complex.
-        env.set("expm1", new ExpressionFunction() {
+        this.env.set("sqrt", new ExpressionFunction() {
             @Override
             public List<String> params() {
                 return List.of("x");
             }
 
-            @Override
-            public Object eval() {
-                Object x = getEnv().get("x");
-                if (x instanceof Double d) {
-                    return Maja.expm1(d);
-                } else if (x instanceof Long l) {
-                    return Maja.expm1(l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return dm.map(Maja::expm1);
-                } else {
-                    throw new RuntimeException("Invalid argument type for expm1(x).");
-                }
-            }
-        });
-
-        // TODO: catch domain errors, cast to complex.
-        env.set("sqrt", new ExpressionFunction() {
-            @Override
-            public List<String> params() {
-                return List.of("x");
-            }
-
-            @Override
-            public Object eval() {
-                Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return Maja.sqrt(c);
-                } else if (x instanceof Double d) {
-                    return Maja.sqrt(d);
-                } else if (x instanceof Long l) {
-                    return Maja.sqrt(l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return dm.map(Maja::sqrt);
-                } else if (x instanceof ComplexMatrix cm) {
-                    return cm.map(Maja::sqrt);
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.sqrt((Complex) x);
+                else if(allDouble(x)) {
+                    double r = Maja.sqrt(coerceDouble(x));
+                    if(isPathologic(r))
+                        return Maja.sqrt(new Complex(coerceDouble(x)));
+                    else
+                        return r;
                 } else {
                     throw new RuntimeException("Invalid argument type for sqrt(x).");
                 }
             }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
         });
 
-        // TODO: catch domain errors, cast to complex.
-        env.set("cbrt", new ExpressionFunction() {
+        this.env.set("cbrt", new ExpressionFunction() {
             @Override
             public List<String> params() {
                 return List.of("x");
             }
 
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.cbrt((Complex) x);
+                else if(allDouble(x)) {
+                    double r = Maja.cbrt(coerceDouble(x));
+                    if(isPathologic(r))
+                        return Maja.cbrt(new Complex(coerceDouble(x)));
+                    else
+                        return r;
+                } else {
+                    throw new RuntimeException("Invalid argument type for cbrt(x).");
+                }
+            }
+
             @Override
             public Object eval() {
                 Object x = getEnv().get("x");
-                if (x instanceof Complex c) {
-                    return Maja.cbrt(c);
-                } else if (x instanceof Double d) {
-                    return Maja.cbrt(d);
-                } else if (x instanceof Long l) {
-                    return Maja.cbrt(l);
-                } else if (x instanceof DoubleMatrix dm) {
-                    return dm.map(Maja::cbrt);
-                } else if (x instanceof ComplexMatrix cm) {
-                    return cm.map(Maja::cbrt);
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
                 } else {
-                    throw new RuntimeException("Invalid argument type for cbrt(x).");
+                    return transform(x);
                 }
             }
         });
@@ -1662,6 +1664,74 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("airy_ai", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.airyAi((Complex) x);
+                else if(allDouble(x)) {
+                    double r = Maja.airyAi(coerceDouble(x));
+                    if(isPathologic(r))
+                        return Maja.airyAi(new Complex(coerceDouble(x)));
+                    else
+                        return r;
+                } else {
+                    throw new RuntimeException("Invalid argument type for airy_ai(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+    }
+
+    private static Complex forceComplex(Object d) {
+        if (d instanceof Complex c) {
+            return c;
+        } else if (d instanceof Double) {
+            return new Complex((double) d);
+        } else if (d instanceof Long) {
+            return new Complex((long) d);
+        } else {
+            throw new RuntimeException("Could not coerce the value to a complex number.");
+        }
+    }
+
+    private static boolean isPathologic(double d) {
+        return Double.isNaN(d) || Double.isInfinite(d);
+    }
+
+    private static boolean anyComplex(Object... objs) {
+        for (Object obj : objs) {
+            if (obj instanceof Complex) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean allDouble(Object... objs) {
+        for (Object obj : objs) {
+            if (!(obj instanceof Double) && !(obj instanceof Long)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static double coerceDouble(Object obj) {
@@ -2803,6 +2873,19 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 return DoubleMatrix.into(mat);
             } else if(mat.ravel().stream().allMatch(e -> e instanceof Complex)) {
                 return DoubleMatrix.into(mat);
+            } else if(mat.ravel().stream().anyMatch(e -> e instanceof Complex)
+                    && mat.ravel().stream().allMatch(e -> e instanceof Complex || e instanceof Double || e instanceof Long)) {
+                return ComplexMatrix.into(mat.retype(x -> {
+                    if (x instanceof Complex) return x;
+                    else if (x instanceof Double d) return new Complex(d);
+                    else return new Complex(((Long) x).doubleValue());
+                }));
+            } else if(mat.ravel().stream().anyMatch(e -> e instanceof Double)
+                    && mat.ravel().stream().allMatch(e -> e instanceof Double || e instanceof Long)) {
+                return DoubleMatrix.into(mat.retype(x -> {
+                    if (x instanceof Double) return x;
+                    else return ((Long) x).doubleValue();
+                }));
             } else {
                 if(!recurrent)
                     return simplify(mat.map(x -> simplify(x, false)), true);
