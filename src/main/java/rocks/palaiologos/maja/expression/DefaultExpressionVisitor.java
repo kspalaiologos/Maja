@@ -2420,6 +2420,124 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("dilog", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.dilog((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.dilog(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.dilog(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.dilog(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for dilog(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("spence", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.spence((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.spence(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.spence(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.spence(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for spence(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("polylog", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.polylog(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y) && x instanceof Long l) {
+                    try {
+                        double r = Maja.polylog(l.intValue(), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.polylog(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.polylog(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for polylog(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
