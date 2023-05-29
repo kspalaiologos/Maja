@@ -3843,6 +3843,25 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
             }
         });
 
+        this.env.set("norm_quantile", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.normQuantile(d);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::normQuantile);
+                } else {
+                    throw new RuntimeException("Invalid argument type for norm_quantile(x).");
+                }
+            }
+        });
+
         this.env.set("landau4", new ExpressionFunction() {
             @Override
             public List<String> params() {
