@@ -1,16 +1,14 @@
 package rocks.palaiologos.maja.expression;
 
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.antlr.v4.runtime.tree.ParseTree;
 import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 import rocks.palaiologos.maja.matrix.ComplexMatrix;
 import rocks.palaiologos.maja.matrix.DoubleMatrix;
 import rocks.palaiologos.maja.matrix.Matrix;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implements ExpressionVisitor<Object> {

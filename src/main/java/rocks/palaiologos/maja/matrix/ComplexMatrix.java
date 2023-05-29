@@ -4,7 +4,6 @@ import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Pair;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 

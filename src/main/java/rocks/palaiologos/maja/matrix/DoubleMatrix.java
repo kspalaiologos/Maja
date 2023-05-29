@@ -2,7 +2,6 @@ package rocks.palaiologos.maja.matrix;
 
 import rocks.palaiologos.maja.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
