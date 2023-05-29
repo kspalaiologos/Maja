@@ -1149,6 +1149,103 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        // Angle functions.
+        env.set("atan2", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Double d && y instanceof Double e) {
+                    return Math.atan2(d, e);
+                } else if (x instanceof Long c && y instanceof Long d) {
+                    return Maja.atan2(c, d);
+                } else if (x instanceof Long a && y instanceof Double b) {
+                    return Maja.atan2(a, b);
+                } else if (x instanceof Double a && y instanceof Long b) {
+                    return Maja.atan2(a, b);
+                } else if (x instanceof DoubleMatrix dm && y instanceof Double b) {
+                    return dm.map(z -> Maja.atan2(z, b));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix dm) {
+                    return dm.map(z -> Maja.atan2(a, z));
+                } else if (x instanceof DoubleMatrix dm && y instanceof DoubleMatrix em) {
+                    return dm.zipWith(em, Maja::atan2);
+                } else {
+                    throw new RuntimeException("Invalid argument type for atan2(x, y).");
+                }
+            }
+        });
+
+        env.set("sinc", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.sinc(c);
+                } else if (x instanceof Double d) {
+                    return Maja.sinc(d);
+                } else if (x instanceof Long l) {
+                    return Maja.sinc(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::sinc);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return cm.map(Maja::sinc);
+                } else {
+                    throw new RuntimeException("Invalid argument type for sinc(x).");
+                }
+            }
+        });
+
+        env.set("rad", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.toRadians(d);
+                } else if (x instanceof Long l) {
+                    return Maja.toRadians(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::toRadians);
+                } else {
+                    throw new RuntimeException("Invalid argument type for rad(x).");
+                }
+            }
+        });
+
+        env.set("deg", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.toDegrees(d);
+                } else if (x instanceof Long l) {
+                    return Maja.toDegrees(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::toDegrees);
+                } else {
+                    throw new RuntimeException("Invalid argument type for deg(x).");
+                }
+            }
+        });
     }
 
     @Override
