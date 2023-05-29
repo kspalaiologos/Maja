@@ -2187,6 +2187,239 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        this.env.set("zeta", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            private Object transform(Object x) {
+                if(anyComplex(x))
+                    return Maja.zeta((Complex) x);
+                else if(allDouble(x)) {
+                    try {
+                        double r = Maja.zeta(coerceDouble(x));
+                        if (isPathologic(r))
+                            return Maja.zeta(new Complex(coerceDouble(x)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.zeta(new Complex(coerceDouble(x)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for zeta(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if(x instanceof ComplexMatrix cm) {
+                    return cm.map(z -> forceComplex(transform(z)));
+                } else if(x instanceof DoubleMatrix dm) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.retype(this::transform);
+                } else {
+                    return transform(x);
+                }
+            }
+        });
+
+        this.env.set("hurwitz_zeta", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.hurwitzZeta(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.hurwitzZeta(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.hurwitzZeta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.hurwitzZeta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for hurwitz_zeta(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("lerch_phi", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("z", "s", "a");
+            }
+
+            @Override
+            public Object eval() {
+                Object z = getEnv().get("z"), s = getEnv().get("s"), a = getEnv().get("a");
+                if(anyComplex(z, s, a)) {
+                    return Maja.lerchPhi(forceComplex(z), forceComplex(s), forceComplex(a));
+                } else if(allDouble(z, s, a)) {
+                    try {
+                        double r = Maja.lerchPhi(coerceDouble(z), coerceDouble(s), coerceDouble(a));
+                        if (isPathologic(r))
+                            return Maja.lerchPhi(new Complex(coerceDouble(z)), new Complex(coerceDouble(s)), new Complex(coerceDouble(a)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.lerchPhi(new Complex(coerceDouble(z)), new Complex(coerceDouble(s)), new Complex(coerceDouble(a)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for lerch_phi(z, s, a).");
+                }
+            }
+        });
+
+        this.env.set("polygamma", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.polygamma(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.polygamma(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.polygamma(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.polygamma(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for polygamma(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("beta", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.beta(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.beta(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.beta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.beta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for beta(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
+
+        this.env.set("logbeta", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            private Object transform(Object x, Object y) {
+                if(anyComplex(x, y))
+                    return Maja.logbeta(forceComplex(x), forceComplex(y));
+                else if(allDouble(x, y)) {
+                    try {
+                        double r = Maja.logbeta(coerceDouble(x), coerceDouble(y));
+                        if (isPathologic(r))
+                            return Maja.logbeta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                        else
+                            return r;
+                    } catch (ArithmeticException e) {
+                        return Maja.logbeta(new Complex(coerceDouble(x)), new Complex(coerceDouble(y)));
+                    }
+                } else {
+                    throw new RuntimeException("Invalid argument type for logbeta(x).");
+                }
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if(x instanceof ComplexMatrix cm && y instanceof ComplexMatrix cm2) {
+                    return cm.zipWith(cm2, (z1, z2) -> forceComplex(transform(z1, z2)));
+                } else if(x instanceof DoubleMatrix dm && y instanceof DoubleMatrix dm2) {
+                    // Note: Will be transformed into an uniform matrix upon simplification.
+                    return dm.zipWithRetype(dm2, this::transform);
+                } else if(x instanceof DoubleMatrix dm && y instanceof ComplexMatrix cm) {
+                    return dm.zipWithRetype(cm, this::transform);
+                } else if(x instanceof ComplexMatrix cm && y instanceof DoubleMatrix dm) {
+                    return cm.zipWithRetype(dm, this::transform);
+                } else {
+                    return transform(x, y);
+                }
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
