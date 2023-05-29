@@ -666,6 +666,111 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }
             }
         });
+
+        // Min, max, abs, signum
+        env.set("min", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Long a && y instanceof Long b) {
+                    return Math.min(a, b);
+                } else if (x instanceof Double a && y instanceof Double b) {
+                    return Math.min(a, b);
+                } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
+                    return a.zipWith(b, Math::min);
+                } else if (x instanceof DoubleMatrix a && y instanceof Long b) {
+                    return a.map(e -> Math.min(e, b));
+                } else if (x instanceof Long a && y instanceof DoubleMatrix b) {
+                    return b.map(e -> Math.min(a, e));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix b) {
+                    return b.map(e -> Math.min(a, e));
+                } else if (x instanceof DoubleMatrix a && y instanceof Double b) {
+                    return a.map(e -> Math.min(e, b));
+                } else {
+                    throw new RuntimeException("Invalid argument types for min(x, y).");
+                }
+            }
+        });
+
+        env.set("max", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x", "y");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x"), y = getEnv().get("y");
+                if (x instanceof Long a && y instanceof Long b) {
+                    return Math.max(a, b);
+                } else if (x instanceof Double a && y instanceof Double b) {
+                    return Math.max(a, b);
+                } else if (x instanceof DoubleMatrix a && y instanceof DoubleMatrix b) {
+                    return a.zipWith(b, Math::max);
+                } else if (x instanceof DoubleMatrix a && y instanceof Long b) {
+                    return a.map(e -> Math.max(e, b));
+                } else if (x instanceof Long a && y instanceof DoubleMatrix b) {
+                    return b.map(e -> Math.max(a, e));
+                } else if (x instanceof Double a && y instanceof DoubleMatrix b) {
+                    return b.map(e -> Math.max(a, e));
+                } else if (x instanceof DoubleMatrix a && y instanceof Double b) {
+                    return a.map(e -> Math.max(e, b));
+                } else {
+                    throw new RuntimeException("Invalid argument types for max(x, y).");
+                }
+            }
+        });
+
+        env.set("abs", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Complex c) {
+                    return Maja.abs(c);
+                } else if (x instanceof Double d) {
+                    return Maja.abs(d);
+                } else if (x instanceof Long l) {
+                    return Maja.abs(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::abs);
+                } else if (x instanceof ComplexMatrix cm) {
+                    return DoubleMatrix.into(cm.retype(Maja::abs));
+                } else {
+                    throw new RuntimeException("Invalid argument type for abs(x).");
+                }
+            }
+        });
+
+        env.set("signum", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object x = getEnv().get("x");
+                if (x instanceof Double d) {
+                    return Maja.signum(d);
+                } else if (x instanceof Long l) {
+                    return Maja.signum(l);
+                } else if (x instanceof DoubleMatrix dm) {
+                    return dm.map(Maja::signum);
+                } else {
+                    throw new RuntimeException("Invalid argument type for signum(x).");
+                }
+            }
+        });
     }
 
     @Override
