@@ -1,3 +1,2 @@
 
-QR decomposition, Cholesky decomposition, solving sets of linear equations, matrix inverse, matrix division,
-eigenvalues and eigenvectors, singular value decomposition, matrix exponential, faddeev leverrier algorithm.
+Faddeev leverrier algorithm. Vector support.

@@ -2,7 +2,6 @@ package rocks.palaiologos.maja.matrix;
 
 import rocks.palaiologos.maja.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -24,6 +23,10 @@ public class DoubleMatrix extends Matrix<Double> {
 
     public DoubleMatrix(List<List<Double>> data) {
         super(data);
+    }
+
+    private DoubleMatrix(Matrix<Double> m) {
+        super(m.data);
     }
 
     public DoubleMatrix(double[][] data) {
@@ -222,19 +225,25 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Compute the determinant of the matrix.
+     * @throws IllegalArgumentException if the matrix is not square.
      */
     public double det() {
         if(width() <= 4 || height() <= 4)
             return smalldet();
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         return det(this);
     }
 
     /**
      * Compute the permanent of the matrix.
+     * @throws IllegalArgumentException if the matrix is not square.
      */
     public double perm() {
         if(width() <= 4 || height() <= 4)
             return smallperm();
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         return perm(this);
     }
 
@@ -243,13 +252,17 @@ public class DoubleMatrix extends Matrix<Double> {
      * are for square matrix arguments A, the determinant and the permanent of mathematics. The generalization
      * to arguments other than plus, minus and times is based on construing the determinant as an alternating
      * sum over products over the diagonals of tables obtained by permuting the major cells of A.
+     * @throws IllegalArgumentException if the matrix is not square.
      */
     public double alt(BiFunction<Double, Double, Double> vector, BiFunction<Double, Double, Double> scalar) {
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         return alt(this, vector, scalar);
     }
 
     /**
      * Computes the LU decomposition of a matrix using the Doolittle algorithm.
+     * @throws IllegalArgumentException if the matrix is not square.
      */
     public DoubleLUDecompositionResult LU() {
         DoubleMatrix lower = new DoubleMatrix(height(), width());
@@ -514,6 +527,12 @@ public class DoubleMatrix extends Matrix<Double> {
         return r;
     }
 
+    public static DoubleMatrix into(Matrix<Double> mat) {
+        if(mat instanceof DoubleMatrix)
+            return (DoubleMatrix) mat;
+        return new DoubleMatrix(mat);
+    }
+
     private DoubleMatrix inv3x3() {
         DoubleMatrix r = new DoubleMatrix(3, 3);
         double a = get(0, 0), b = get(0, 1), c = get(0, 2);
@@ -564,6 +583,8 @@ public class DoubleMatrix extends Matrix<Double> {
                 - (M14 * M23 * M31 * M42 ) - (M13 * M22 * M31 * M44 ) - (M12 * M24 * M31 * M43 )
                 - (M12 * M23 * M34 * M41 ) - (M13 * M24 * M32 * M41 ) - (M14 * M22 * M33 * M41 )
                 + (M14 * M23 * M32 * M41 ) + (M13 * M22 * M34 * M41 ) + (M12 * M24 * M33 * M41 );
+        if(det == 0.0)
+            throw new IllegalArgumentException("Matrix is singular");
         ans11 = (M22*M33*M44 + M23*M34*M42 + M24*M32*M43 - M24*M33*M42 - M23*M32*M44 - M22*M34*M43)/det;
         ans12 = (-M12*M33*M44 - M13*M34*M42 - M14*M32*M43 + M14*M33*M42 + M13*M32*M44 + M12*M34*M43)/det;
         ans13 = (M12*M23*M44 + M13*M24*M42 + M14*M22*M43 - M14*M23*M42 - M13*M22*M44 - M12*M24*M43)/det;
@@ -619,9 +640,21 @@ public class DoubleMatrix extends Matrix<Double> {
     }
 
     /**
+     * Compute the compact singular value decomposition of the matrix.
+     */
+    public DoubleSVDResult svd() {
+        SVDImpl svd = new SVDImpl(this);
+        return new DoubleSVDResult(svd.getRank(), svd.getNorm(), svd.getConditionNumber(), svd.getInverseConditionNumber(),
+                svd.getSingularValues(), svd.getU(), svd.getV());
+    }
+
+    /**
      * Invert the matrix.
+     * @throws IllegalArgumentException if the matrix is singular or not square.
      */
     public DoubleMatrix invert() {
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         DoubleMatrix r = smallMatrixInvert();
         if (r != null) return r;
         return solve(DoubleMatrix.identity(height()));
@@ -629,8 +662,11 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Invert the matrix given the LUP decomposition of the current matrix.
+     * @throws IllegalArgumentException if the matrix is singular or not square.
      */
     public DoubleMatrix invert(DoubleLUPDecompositionResult r) {
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         DoubleMatrix x = smallMatrixInvert();
         if (x != null) return x;
         return r.solve(DoubleMatrix.identity(height()));
@@ -638,8 +674,11 @@ public class DoubleMatrix extends Matrix<Double> {
 
     /**
      * Invert the matrix given the QR decomposition of the current matrix.
+     * @throws IllegalArgumentException if the matrix is singular or not square.
      */
     public DoubleMatrix invert(DoubleQRDecompositionResult r) {
+        if(width() != height())
+            throw new IllegalArgumentException("Matrix must be square.");
         DoubleMatrix x = smallMatrixInvert();
         if (x != null) return x;
         return r.solve(DoubleMatrix.identity(height()));

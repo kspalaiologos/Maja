@@ -45,7 +45,7 @@ class Integrator {
     }
 
     // N = 10000
-    public static double finiteSimpson(MonadicFunction f, double a, double b, int N) {
+    public static double finiteSimpsonRR(Function<Double, Double> f, double a, double b, int N) {
         if (N < 0) throw new ArithmeticException("N must be positive");
         double h = (b - a) / (N - 1);
 
@@ -67,7 +67,7 @@ class Integrator {
         return sum * h;
     }
 
-    public static Complex finiteSimpson(Function<Double, Complex> f, double a, double b, int N) {
+    public static Complex finiteSimpsonRC(Function<Double, Complex> f, double a, double b, int N) {
         if (N < 0) throw new ArithmeticException("N must be positive");
         double h = (b - a) / (N - 1);
 
@@ -92,14 +92,14 @@ class Integrator {
     public static GaussLegendreParameters getParameters(int n) {
         synchronized (gaussLegendreParameters) {
             if (!gaussLegendreParameters.containsKey(n)) {
-                throw new IllegalArgumentException("Gauss-Legendre parameters for n = " + n + " not found.");
+                throw new ArithmeticException("Gauss-Legendre parameters for n = " + n + " not found.");
             }
             return gaussLegendreParameters.get(n);
         }
     }
 
     // N = 5
-    public static double gaussLegendreIntegrate(MonadicFunction f, double a, double b, int N) {
+    public static double gaussLegendreIntegrateRR(Function<Double, Double> f, double a, double b, int N) {
         if (N < 0) throw new ArithmeticException("N must be positive");
         GaussLegendreParameters parameters = getParameters(N);
         double c1 = (b - a) / 2, c2 = (b + a) / 2, sum = 0;
@@ -108,7 +108,7 @@ class Integrator {
         return c1 * sum;
     }
 
-    public static Complex gaussLegendreIntegrate(Function<Double, Complex> f, double a, double b, int N) {
+    public static Complex gaussLegendreIntegrateRC(Function<Double, Complex> f, double a, double b, int N) {
         if (N < 0) throw new ArithmeticException("N must be positive");
         GaussLegendreParameters parameters = getParameters(N);
         double c1 = (b - a) / 2, c2 = (b + a) / 2;
@@ -118,7 +118,7 @@ class Integrator {
         return mul(c1, sum);
     }
 
-    public static Complex gaussLegendreIntegrate(Function<Complex, Complex> f, Complex a, Complex b, int N) {
+    public static Complex gaussLegendreIntegrateCC(Function<Complex, Complex> f, Complex a, Complex b, int N) {
         if (N < 0) throw new ArithmeticException("N must be positive");
         GaussLegendreParameters parameters = getParameters(N);
         Complex c1 = div(sub(b, a), 2), c2 = div(add(b, a), 2);
@@ -130,7 +130,7 @@ class Integrator {
 
     // https://www.genivia.com/files/qthsh.pdf.
     // returns a two element double array of the result and the estimated error.
-    public static double[] finiteTanhSinh(MonadicFunction f, double a, double b, int n, double eps) {
+    public static double[] finiteTanhSinhRR(Function<Double, Double> f, double a, double b, int n, double eps) {
         final double tol = 10 * eps;
         double c = (a + b) / 2;
         double d = (b - a) / 2;
@@ -174,7 +174,7 @@ class Integrator {
         return new double[]{d * s * h, e};
     }
 
-    public static Complex[] finiteTanhSinh(Function<Double, Complex> f, double a, double b, int n, double eps) {
+    public static Complex[] finiteTanhSinhRC(Function<Double, Complex> f, double a, double b, int n, double eps) {
         final double tol = 10 * eps;
         double c = (a + b) / 2;
         double d = (b - a) / 2;
@@ -219,7 +219,7 @@ class Integrator {
         return new Complex[]{mul(d, mul(s, h)), new Complex(e)};
     }
 
-    public static Complex[] finiteTanhSinh(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
+    public static Complex[] finiteTanhSinhCC(Function<Complex, Complex> f, Complex a, Complex b, int n, double eps) {
         final double tol = 10 * eps;
         Complex c = div(add(a, b), 2);
         Complex d = div(sub(b, a), 2);

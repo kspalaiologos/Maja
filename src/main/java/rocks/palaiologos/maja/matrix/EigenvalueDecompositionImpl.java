@@ -8,7 +8,6 @@ import java.util.Objects;
 
 class EigenvalueDecompositionImpl {
     private final int n;
-    private boolean issymmetric;
     private final double[] d;
     private final double[] e;
     private final double[][] V;
@@ -22,7 +21,7 @@ class EigenvalueDecompositionImpl {
         d = new double[n];
         e = new double[n];
 
-        issymmetric = true;
+        boolean issymmetric = true;
         for (int j = 0; j < n & issymmetric; j++) {
             for (int i = 0; i < n & issymmetric; i++) {
                 issymmetric = Objects.equals(Arg.get(i, j), Arg.get(j, i));

@@ -34,7 +34,7 @@ public class DoubleQRDecompositionResult {
                 for (int j = j0; j <= j1; j++)
                     X.set(i-i0, j-j0, m.get(i, j));
         } catch(IndexOutOfBoundsException e) {
-            throw new IndexOutOfBoundsException("Invalid matrix slice.");
+            throw new IllegalArgumentException("Invalid matrix slice.");
         }
         return X;
     }
@@ -44,6 +44,7 @@ public class DoubleQRDecompositionResult {
      *
      * @param B
      * @return X that minimizes the two norm of Q*R*X-B.
+     * @throws IllegalArgumentException If matrix row dimensions don't agree or the matrix is rank deficient.
      */
     public DoubleMatrix solve(DoubleMatrix B) {
         if (B.height() != m) {

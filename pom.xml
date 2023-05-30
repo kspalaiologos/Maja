@@ -16,6 +16,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.2</version>
@@ -153,7 +159,7 @@
                     <excludes>
                         <!-- Exclude the expression function registry from code coverage tests.
                              It is not particularly beneficial nor interesting to test these. -->
-                        <exclude>rocks/palaiologos/maja/ExpressionFunctions.class</exclude>
+                        <exclude>rocks/palaiologos/maja/expression/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

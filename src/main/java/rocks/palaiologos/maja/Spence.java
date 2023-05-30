@@ -1,7 +1,5 @@
 package rocks.palaiologos.maja;
 
-import java.util.function.Function;
-
 import static rocks.palaiologos.maja.Maja.*;
 
 class Spence {
@@ -109,8 +107,8 @@ class Spence {
 
     public static Complex dilog(Complex x) {
         // Integrate ln(1-zt)/t dt from 0 to 1.
-        return Maja.negate(Integrator.finiteTanhSinh(
-                (Function<Double, Complex>) t -> Maja.div(Maja.log(Maja.sub(1, Maja.mul(x, t))), t),
+        return Maja.negate(Integrator.finiteTanhSinhRC(
+                t -> Maja.div(Maja.log(Maja.sub(1, Maja.mul(x, t))), t),
                 0, 1, 6, 1e-15)[0]);
     }
 
@@ -128,7 +126,7 @@ class Spence {
         if (x == Double.NEGATIVE_INFINITY || x == Double.POSITIVE_INFINITY)
             return Double.NEGATIVE_INFINITY;
         if (x < 0.0)
-            throw new ArithmeticException("Domain error");
+            return Double.NaN;
         if (x == 1.0)
             return 0.0;
         if (x == 0.0)
@@ -178,7 +176,7 @@ class Spence {
         }
 
         if (x > 1.0 || n < -1) {
-            throw new ArithmeticException("Domain error");
+            return Double.NaN;
         }
 
         if (n == 1) {

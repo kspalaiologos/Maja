@@ -35,6 +35,13 @@ public class Matrix<T> {
         }
     }
 
+    Matrix(boolean copyless, List<List<T>> data) {
+        if(copyless)
+            this.data = data;
+        else
+            this.data = new ArrayList<>(data);
+    }
+
     /**
      * Create an empty matrix with the specified dimensions.
      *
@@ -381,6 +388,7 @@ public class Matrix<T> {
      * @param scalar  The scalar product.
      * @param vector  The vector sum.
      * @return The generalised dot product.
+     * @throws IllegalArgumentException If the matrices are not aligned.
      */
     public Matrix<T> dot(Matrix<T> another, BiFunction<T, T, T> scalar, BiFunction<T, T, T> vector) {
         var a = rows();
@@ -398,6 +406,30 @@ public class Matrix<T> {
                 result.set(i, j, reduced);
             }
         }
+        return result;
+    }
+
+    public <R> Matrix<R> retype(Function<T, R> mapper) {
+        Matrix<R> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, mapper.apply(data.get(i).get(j)));
+        return result;
+    }
+
+    /**
+     * Zip two matrices together to produce a new matrix, using a specified
+     * zipper function. The zipper function may change the type of the matrix.
+     *
+     * @param other
+     * @param zipper
+     * @return
+     */
+    public <R, U> Matrix<R> zipWithRetype(Matrix<U> other, BiFunction<T, U, R> zipper) {
+        Matrix<R> result = new Matrix<>(data.size(), data.get(0).size());
+        for (int i = 0; i < data.size(); i++)
+            for (int j = 0; j < data.get(i).size(); j++)
+                result.set(i, j, zipper.apply(data.get(i).get(j), other.get(i, j)));
         return result;
     }
 
