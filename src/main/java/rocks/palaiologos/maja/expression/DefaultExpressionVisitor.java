@@ -4112,6 +4112,83 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 }, coerceDouble(a), coerceDouble(b), (int) coerceDouble(N));
             }
         });
+
+        // Tanh-Sinh
+        this.env.set("integrate_rts", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N", "eps");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N"), eps = getEnv().get("eps");
+                if(!allDouble(a, b, N, eps))
+                    throw new RuntimeException("Invalid argument type for integrate_rts(a, b, f, N, eps).");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_rts(a, b, f, N, eps).");
+                return Maja.integrateTanhSinhReal(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_rts'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return coerceDouble(result);
+                }, coerceDouble(a), coerceDouble(b), (int) coerceDouble(N), coerceDouble(eps));
+            }
+        });
+
+        this.env.set("integrate_rcts", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N", "eps");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N"), eps = getEnv().get("eps");
+                if(!allDouble(a, b, N, eps))
+                    throw new RuntimeException("Invalid argument type for integrate_rcts(a, b, f, N, eps).");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_rcts(a, b, f, N, eps).");
+                return Maja.integrateTanhSinhRC(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_rcts'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return forceComplex(result);
+                }, coerceDouble(a), coerceDouble(b), (int) coerceDouble(N), coerceDouble(eps));
+            }
+        });
+
+        this.env.set("integrate_cts", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N", "eps");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N"), eps = getEnv().get("eps");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_cts(a, b, f, N, eps).");
+                return Maja.integrateTanhSinhComplex(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_cts'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return forceComplex(result);
+                }, forceComplex(a), forceComplex(b), (int) coerceDouble(N), coerceDouble(eps));
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
