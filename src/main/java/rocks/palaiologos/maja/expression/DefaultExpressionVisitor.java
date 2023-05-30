@@ -4236,8 +4236,11 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     }
 
     @Override
-    public List<Object> visitMain(ExpressionParser.MainContext ctx) {
-        return ctx.toplevel().stream().map(this::visit).toList();
+    public Object visitMain(ExpressionParser.MainContext ctx) {
+        Object last = null;
+        for (int i = 0; i < ctx.toplevel().size(); i++)
+            last = visit(ctx.toplevel(i));
+        return last;
     }
 
     @Override

@@ -5,7 +5,7 @@ grammar Expression;
     package rocks.palaiologos.maja.expression;
 }
 
-main : toplevel? (';' toplevel)* EOF ;
+main : (toplevel ';')* EOF ;
 
 toplevel
     : declaration
@@ -17,15 +17,15 @@ block:
     ;
 
 declaration
-    : ID '=' expression ';' # SimpleAssignment
-    | ID '[' (expression ',' expression)? ']' '=' expression ';' # MatrixAssignment
-    | ID '(' (ID (',' ID)*)? ')' '=' expression ';' # SimpleFunctionDeclaration
+    : ID '=' expression # SimpleAssignment
+    | ID '[' (expression ',' expression)? ']' '=' expression # MatrixAssignment
+    | ID '(' (ID (',' ID)*)? ')' '=' expression # SimpleFunctionDeclaration
     | ID '(' (ID (',' ID)*)? ')' block # FunctionDeclaration
     | 'if' expression block ('else' block)? # If
     | 'if' expression 'then' expression 'else' expression # SimpleIf
     | 'while' expression block # While
     | 'for' ID '=' expression 'to' expression ('step' expression)? block # For
-    | 'return' expression ';' # Return
+    | 'return' expression # Return
     ;
 
 expression
@@ -34,8 +34,8 @@ expression
     | expression 'mod' expression # ExprMod
     | expression 'gcd' expression # ExprGcd
     | expression 'lcm' expression # ExprLcm
-    | expression '*'? expression # ExprMul
     | expression '/' expression # ExprDiv
+    | expression '*' expression # ExprMul
     | expression '+' expression # ExprAdd
     | expression '-' expression # ExprSub
     | expression '==' expression # ExprEq
@@ -46,6 +46,7 @@ expression
     | expression '>=' expression # ExprGe
     | expression '&&' expression # ExprAnd
     | expression '||' expression # ExprOr
+    | expression expression # ExprMul
     | '+' expression # ExprPos
     | '-' expression # ExprNeg
     | '~' expression # ExprNot
@@ -54,6 +55,7 @@ expression
     | expression '[' (expression (',' expression)*) ']' # ExprIndex
     | '{' matrix* '}' # ExprMatrix
     | ID '(' (expression (',' expression)*)? ')' # ExprFunctionCall
+    | expression '*' expression # ExprMul
     | ID # ExprVariable
     | INT # ExprInt
     | REAL # ExprReal
