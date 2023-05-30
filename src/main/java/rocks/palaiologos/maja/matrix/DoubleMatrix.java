@@ -640,6 +640,15 @@ public class DoubleMatrix extends Matrix<Double> {
     }
 
     /**
+     * Compute the compact singular value decomposition of the matrix.
+     */
+    public DoubleSVDResult svd() {
+        SVDImpl svd = new SVDImpl(this);
+        return new DoubleSVDResult(svd.getRank(), svd.getNorm(), svd.getConditionNumber(), svd.getInverseConditionNumber(),
+                svd.getSingularValues(), svd.getU(), svd.getV());
+    }
+
+    /**
      * Invert the matrix.
      * @throws IllegalArgumentException if the matrix is singular or not square.
      */
