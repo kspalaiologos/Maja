@@ -3908,6 +3908,81 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 });
             }
         });
+
+        this.env.set("reverse_first", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for reverse_first(x: mat).");
+                return ((Matrix) mat).reverseFirst();
+            }
+        });
+
+        this.env.set("reverse_last", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for reverse_last(x: mat).");
+                return ((Matrix) mat).reverseLast();
+            }
+        });
+
+        this.env.set("width", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for width(x: mat).");
+                return (long) ((Matrix) mat).width();
+            }
+        });
+
+        this.env.set("height", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for height(x: mat).");
+                return (long) ((Matrix) mat).height();
+            }
+        });
+
+        this.env.set("transpose", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("x");
+            }
+
+            @Override
+            public Object eval() {
+                Object mat = getEnv().get("x");
+                if(!(mat instanceof Matrix))
+                    throw new RuntimeException("Invalid argument type for transpose(x: mat).");
+                return ((Matrix) mat).transpose();
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
