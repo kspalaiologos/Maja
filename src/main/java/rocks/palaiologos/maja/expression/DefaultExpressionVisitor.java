@@ -3983,6 +3983,82 @@ public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> i
                 return ((Matrix) mat).transpose();
             }
         });
+
+        this.env.set("integrate_rgl", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N");
+                if(!allDouble(a, b, N))
+                    throw new RuntimeException("Invalid argument type for integrate_rgl(a, b, f, N).");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_rgl(a, b, f, N).");
+                return Maja.integrateGaussLegendreReal(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_rgl'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return coerceDouble(result);
+                }, coerceDouble(a), coerceDouble(b), (int) coerceDouble(N));
+            }
+        });
+
+        this.env.set("integrate_rcgl", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N");
+                if(!allDouble(a, b, N))
+                    throw new RuntimeException("Invalid argument type for integrate_rcgl(a, b, f, N).");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_rcgl(a, b, f, N).");
+                return Maja.integrateGaussLegendreRC(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_rcgl'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return forceComplex(result);
+                }, coerceDouble(a), coerceDouble(b), (int) coerceDouble(N));
+            }
+        });
+
+        this.env.set("integrate_cgl", new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return List.of("a", "b", "f", "N");
+            }
+
+            @Override
+            public Object eval() {
+                Object a = getEnv().get("a"), b = getEnv().get("b"), f = getEnv().get("f"), N = getEnv().get("N");
+                if(!(f instanceof ExpressionFunction fun))
+                    throw new RuntimeException("Invalid argument type for integrate_rcgl(a, b, f, N).");
+                return Maja.integrateGaussLegendreComplex(x -> {
+                    if(fun.params().size() != 1)
+                        throw new RuntimeException("Invalid number of arguments for function in 'integrate_rcgl'.");
+                    Environment old = getEnv();
+                    setEnv(getEnv().createChild());
+                    getEnv().set(fun.params().get(0), x);
+                    Object result = fun.eval();
+                    setEnv(old);
+                    return forceComplex(result);
+                }, forceComplex(a), forceComplex(b), (int) coerceDouble(N));
+            }
+        });
     }
 
     private static Complex forceComplex(Object d) {
