@@ -11,7 +11,7 @@ import rocks.palaiologos.maja.matrix.Matrix;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implements ExpressionVisitor<Object> {
+class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implements ExpressionVisitor<Object> {
     private Environment env;
 
     private Environment getEnv() {
