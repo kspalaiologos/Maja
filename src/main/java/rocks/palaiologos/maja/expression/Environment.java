@@ -2,7 +2,7 @@ package rocks.palaiologos.maja.expression;
 
 import java.util.HashMap;
 
-class Environment {
+public final class Environment {
     private final HashMap<String, Object> variables = new HashMap<>();
     private final Environment parent;
 

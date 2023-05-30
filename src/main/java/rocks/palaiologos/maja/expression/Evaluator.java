@@ -4,8 +4,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class Evaluator {
-    public static class ThrowingErrorListener extends BaseErrorListener {
+public final class Evaluator {
+    static class ThrowingErrorListener extends BaseErrorListener {
         private final int lineNumberOffset;
 
         public ThrowingErrorListener(int lineNumberOffset) {
@@ -19,8 +19,7 @@ public class Evaluator {
         }
     }
 
-    public static void main(String[] args) {
-        String input = "sin({{1, 2, 3} {4, 5, 6} {7, 8, 9}})";
+    public static Object evaluate(String input, Environment env) {
         ExpressionLexer lex = new ExpressionLexer(CharStreams.fromString(input)) {
             @Override
             public void skip() {
@@ -34,7 +33,7 @@ public class Evaluator {
         parser.removeErrorListeners();
         parser.addErrorListener(new ThrowingErrorListener(0));
         ParseTree tree = parser.main();
-        DefaultExpressionVisitor visitor = new DefaultExpressionVisitor(new Environment());
-        System.out.println(visitor.visit(tree));
+        DefaultExpressionVisitor visitor = new DefaultExpressionVisitor(env);
+        return visitor.visit(tree);
     }
 }
