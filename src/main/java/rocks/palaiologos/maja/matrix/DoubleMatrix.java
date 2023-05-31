@@ -685,6 +685,21 @@ public class DoubleMatrix extends Matrix<Double> {
     }
 
     /**
+     * Compute the standard matrix product.
+     * @throws IllegalArgumentException if the matrices' dimensions do not match.
+     */
+    public DoubleMatrix product(DoubleMatrix other) {
+        if (width() != other.height())
+            throw new IllegalArgumentException("Matrix inner dimensions must agree.");
+        DoubleMatrix result = new DoubleMatrix(height(), other.width());
+        for (int i = 0; i < height(); i++)
+            for (int j = 0; j < other.width(); j++)
+                for (int k = 0; k < width(); k++)
+                    result.set(i, j, result.get(i, j) + get(i, k) * other.get(k, j));
+        return result;
+    }
+
+    /**
      * Solve A * X = B
      * @param B
      * @return solution X if A is square, least squares solution otherwise
