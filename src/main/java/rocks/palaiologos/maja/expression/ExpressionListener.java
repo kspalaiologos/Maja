@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -100,18 +100,6 @@ interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitIf(ExpressionParser.IfContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code SimpleIf}
-	 * labeled alternative in {@link ExpressionParser#declaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterSimpleIf(ExpressionParser.SimpleIfContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SimpleIf}
-	 * labeled alternative in {@link ExpressionParser#declaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitSimpleIf(ExpressionParser.SimpleIfContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code While}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
 	 * @param ctx the parse tree
@@ -159,6 +147,18 @@ interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExprGcd(ExpressionParser.ExprGcdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SimpleIf}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleIf(ExpressionParser.SimpleIfContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SimpleIf}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleIf(ExpressionParser.SimpleIfContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExprIndex}
 	 * labeled alternative in {@link ExpressionParser#expression}.

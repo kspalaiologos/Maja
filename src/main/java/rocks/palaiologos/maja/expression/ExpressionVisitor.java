@@ -1,4 +1,4 @@
-// Generated from /home/palaiologos/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
+// Generated from /home/palaiologos/Desktop/workspace/Maja/src/main/java/rocks/palaiologos/maja/expression/Expression.g4 by ANTLR 4.12.0
 
     package rocks.palaiologos.maja.expression;
 
@@ -66,13 +66,6 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf(ExpressionParser.IfContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code SimpleIf}
-	 * labeled alternative in {@link ExpressionParser#declaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSimpleIf(ExpressionParser.SimpleIfContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code While}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
 	 * @param ctx the parse tree
@@ -100,6 +93,13 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExprGcd(ExpressionParser.ExprGcdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SimpleIf}
+	 * labeled alternative in {@link ExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleIf(ExpressionParser.SimpleIfContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExprIndex}
 	 * labeled alternative in {@link ExpressionParser#expression}.

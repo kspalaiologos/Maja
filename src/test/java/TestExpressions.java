@@ -19,5 +19,22 @@ public class TestExpressions {
         two = 6 - four;
         fourty_two = four * 10 + two;
         """, new Environment())).isEqualTo(42L);
+
+        assertThat(Evaluator.evaluate("""
+        2 + 2 * 2;
+        """, new Environment())).isEqualTo(6L);
+    }
+
+    @Test
+    public void testFunctionCalls() {
+        assertThat(Evaluator.evaluate("""
+        add(a, b) = a + b;
+        add(2, 2);
+        """, new Environment())).isEqualTo(4L);
+
+        assertThat(Evaluator.evaluate("""
+        signum(x) = if x > 0 then 1 else if x < 0 then -1 else 0;
+        signum(2);
+        """, new Environment())).isEqualTo(1L);
     }
 }

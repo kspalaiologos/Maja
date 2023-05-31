@@ -22,7 +22,6 @@ declaration
     | ID '(' (ID (',' ID)*)? ')' '=' expression # SimpleFunctionDeclaration
     | ID '(' (ID (',' ID)*)? ')' block # FunctionDeclaration
     | 'if' expression block ('else' block)? # If
-    | 'if' expression 'then' expression 'else' expression # SimpleIf
     | 'while' expression block # While
     | 'for' ID '=' expression 'to' expression ('step' expression)? block # For
     | 'return' expression # Return
@@ -55,7 +54,8 @@ expression
     | expression '[' (expression (',' expression)*) ']' # ExprIndex
     | '{' matrix* '}' # ExprMatrix
     | ID '(' (expression (',' expression)*)? ')' # ExprFunctionCall
-    | expression '*' expression # ExprMul
+    | expression expression # ExprMul
+    | 'if' expression 'then' expression 'else' expression # SimpleIf
     | ID # ExprVariable
     | INT # ExprInt
     | REAL # ExprReal

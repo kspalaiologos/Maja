@@ -1368,23 +1368,23 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
                     throw new RuntimeException("Invalid argument type for approx_eq(x, y, tol). Tolerance is NaN.");
 
                 if (a instanceof Long l1 && b instanceof Long l2) {
-                    return Maja.eq(l1, l2, dtol) ? 1 : 0;
+                    return Maja.eq(l1, l2, dtol)? 1L : 0L;
                 } else if (a instanceof Double d1 && b instanceof Double d2) {
-                    return Maja.eq(d1, d2, dtol) ? 1 : 0;
+                    return Maja.eq(d1, d2, dtol)? 1L : 0L;
                 } else if (a instanceof Complex c1 && b instanceof Complex c2) {
-                    return Maja.eq(c1, c2, dtol) ? 1 : 0;
+                    return Maja.eq(c1, c2, dtol)? 1L : 0L;
                 } else if (a instanceof Long l1 && b instanceof Double d2) {
-                    return Maja.eq(l1, d2, dtol) ? 1 : 0;
+                    return Maja.eq(l1, d2, dtol)? 1L : 0L;
                 } else if (a instanceof Double d1 && b instanceof Long l2) {
-                    return Maja.eq(d1, l2, dtol) ? 1 : 0;
+                    return Maja.eq(d1, l2, dtol)? 1L : 0L;
                 } else if (a instanceof Long l1 && b instanceof Complex c2) {
-                    return Maja.eq(new Complex(l1), c2, dtol) ? 1 : 0;
+                    return Maja.eq(new Complex(l1), c2, dtol)? 1L : 0L;
                 } else if (a instanceof Complex c1 && b instanceof Long l2) {
-                    return Maja.eq(c1, new Complex(l2), dtol) ? 1 : 0;
+                    return Maja.eq(c1, new Complex(l2), dtol)? 1L : 0L;
                 } else if (a instanceof Double d1 && b instanceof Complex c2) {
-                    return Maja.eq(new Complex(d1), c2, dtol) ? 1 : 0;
+                    return Maja.eq(new Complex(d1), c2, dtol)? 1L : 0L;
                 } else if (a instanceof Complex c1 && b instanceof Double d2) {
-                    return Maja.eq(c1, new Complex(d2), dtol) ? 1 : 0;
+                    return Maja.eq(c1, new Complex(d2), dtol)? 1L : 0L;
                 } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
                     return dm1.map(d -> Maja.eq(d, l2, dtol) ? 1.0 : 0.0);
                 } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
@@ -1453,7 +1453,7 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
             public Object eval() {
                 Object n = getEnv().get("n");
                 if (n instanceof Long l) {
-                    return Maja.isPerfectSquare(l) ? 1 : 0;
+                    return Maja.isPerfectSquare(l)? 1L : 0L;
                 } else {
                     throw new RuntimeException("Invalid type for is_perfect_square(n).");
                 }
@@ -4532,11 +4532,11 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprNot(ExpressionParser.ExprNotContext ctx) {
         Object a = visit(ctx.expression());
         if (a instanceof Long l) {
-            return (l == 0) ? 1 : 0;
+            return (l == 0)? 1L : 0L;
         } else if (a instanceof Double d) {
-            return (d == 0) ? 1 : 0;
+            return (d == 0)? 1L : 0L;
         } else if (a instanceof Complex c) {
-            return Maja.eq(c, Complex.ZERO) ? 1 : 0;
+            return Maja.eq(c, Complex.ZERO)? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm) {
             return dm.map(d -> (d == 0) ? 1.0 : 0.0);
         } else if (a instanceof ComplexMatrix cm) {
@@ -4613,23 +4613,23 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprOr(ExpressionParser.ExprOrContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return (l1 != 0 || l2 != 0) ? 1 : 0;
+            return (l1 != 0 || l2 != 0)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return (d1 != 0 || d2 != 0) ? 1 : 0;
+            return (d1 != 0 || d2 != 0)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Complex c2) {
-            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return (l1 != 0 || d2 != 0) ? 1 : 0;
+            return (l1 != 0 || d2 != 0)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return (d1 != 0 || l2 != 0) ? 1 : 0;
+            return (d1 != 0 || l2 != 0)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Complex c2) {
-            return (Maja.ne(new Complex(l1), Complex.ZERO) || Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(new Complex(l1), Complex.ZERO) || Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Long l2) {
-            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(new Complex(l2), Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(new Complex(l2), Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Complex c2) {
-            return (Maja.ne(new Complex(d1), Complex.ZERO) || Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(new Complex(d1), Complex.ZERO) || Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
-            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(new Complex(d2), Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) || Maja.ne(new Complex(d2), Complex.ZERO))? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
             return dm1.map(d -> (d != 0 || l2 != 0) ? 1.0 : 0.0);
         } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
@@ -4783,13 +4783,13 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprGe(ExpressionParser.ExprGeContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.ge(l1, l2) ? 1 : 0;
+            return Maja.ge(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.ge(d1, d2) ? 1 : 0;
+            return Maja.ge(d1, d2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.ge(l1, d2) ? 1 : 0;
+            return Maja.ge(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.ge(d1, l2) ? 1 : 0;
+            return Maja.ge(d1, l2)? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
             return dm1.zipWith(dm2, (d1, d2) -> Maja.ge(d1, d2) ? 1.0 : 0.0);
         } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
@@ -4850,13 +4850,13 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprLe(ExpressionParser.ExprLeContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.le(l1, l2) ? 1 : 0;
+            return Maja.le(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.le(d1, d2) ? 1 : 0;
+            return Maja.le(d1, d2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.le(l1, d2) ? 1 : 0;
+            return Maja.le(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.le(d1, l2) ? 1 : 0;
+            return Maja.le(d1, l2)? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
             return dm1.zipWith(dm2, (d1, d2) -> Maja.le(d1, d2) ? 1.0 : 0.0);
         } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
@@ -4904,13 +4904,13 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprGt(ExpressionParser.ExprGtContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.gt(l1, l2) ? 1 : 0;
+            return Maja.gt(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.gt(d1, d2) ? 1 : 0;
+            return Maja.gt(d1, d2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.gt(l1, d2) ? 1 : 0;
+            return Maja.gt(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.gt(d1, l2) ? 1 : 0;
+            return Maja.gt(d1, l2)? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
             return dm1.zipWith(dm2, (d1, d2) -> Maja.gt(d1, d2) ? 1.0 : 0.0);
         } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
@@ -4930,23 +4930,23 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprEq(ExpressionParser.ExprEqContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.eq(l1, l2) ? 1 : 0;
+            return Maja.eq(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.eq(d1, d2) ? 1 : 0;
+            return Maja.eq(d1, d2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Complex c2) {
-            return Maja.eq(c1, c2) ? 1 : 0;
+            return Maja.eq(c1, c2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.eq(l1, d2) ? 1 : 0;
+            return Maja.eq(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.eq(d1, l2) ? 1 : 0;
+            return Maja.eq(d1, l2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Complex c2) {
-            return Maja.eq(new Complex(l1), c2) ? 1 : 0;
+            return Maja.eq(new Complex(l1), c2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Long l2) {
-            return Maja.eq(c1, new Complex(l2)) ? 1 : 0;
+            return Maja.eq(c1, new Complex(l2))? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Complex c2) {
-            return Maja.eq(new Complex(d1), c2) ? 1 : 0;
+            return Maja.eq(new Complex(d1), c2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
-            return Maja.eq(c1, new Complex(d2)) ? 1 : 0;
+            return Maja.eq(c1, new Complex(d2))? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
             return dm1.map(d -> Maja.eq(d, l2) ? 1.0 : 0.0);
         } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
@@ -4988,23 +4988,23 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprAnd(ExpressionParser.ExprAndContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return (l1 != 0 && l2 != 0) ? 1 : 0;
+            return (l1 != 0 && l2 != 0)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return (d1 != 0 && d2 != 0) ? 1 : 0;
+            return (d1 != 0 && d2 != 0)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Complex c2) {
-            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return (l1 != 0 && d2 != 0) ? 1 : 0;
+            return (l1 != 0 && d2 != 0)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return (d1 != 0 && l2 != 0) ? 1 : 0;
+            return (d1 != 0 && l2 != 0)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Complex c2) {
-            return (Maja.ne(new Complex(l1), Complex.ZERO) && Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(new Complex(l1), Complex.ZERO) && Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Long l2) {
-            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(new Complex(l2), Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(new Complex(l2), Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Complex c2) {
-            return (Maja.ne(new Complex(d1), Complex.ZERO) && Maja.ne(c2, Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(new Complex(d1), Complex.ZERO) && Maja.ne(c2, Complex.ZERO))? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
-            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(new Complex(d2), Complex.ZERO)) ? 1 : 0;
+            return (Maja.ne(c1, Complex.ZERO) && Maja.ne(new Complex(d2), Complex.ZERO))? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
             return dm1.map(d -> (d != 0 && l2 != 0) ? 1.0 : 0.0);
         } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
@@ -5177,13 +5177,13 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprLt(ExpressionParser.ExprLtContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.lt(l1, l2) ? 1 : 0;
+            return Maja.lt(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.lt(d1, d2) ? 1 : 0;
+            return Maja.lt(d1, d2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.lt(l1, d2) ? 1 : 0;
+            return Maja.lt(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.lt(d1, l2) ? 1 : 0;
+            return Maja.lt(d1, l2)? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof DoubleMatrix dm2) {
             return dm1.zipWith(dm2, (d1, d2) -> Maja.lt(d1, d2) ? 1.0 : 0.0);
         } else if (a instanceof Double d1 && b instanceof DoubleMatrix dm2) {
@@ -5261,23 +5261,23 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     public Object visitExprNeq(ExpressionParser.ExprNeqContext ctx) {
         Object a = visit(ctx.expression(0)), b = visit(ctx.expression(1));
         if (a instanceof Long l1 && b instanceof Long l2) {
-            return Maja.ne(l1, l2) ? 1 : 0;
+            return Maja.ne(l1, l2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Double d2) {
-            return Maja.ne(d1, d2) ? 1 : 0;
+            return Maja.ne(d1, d2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Complex c2) {
-            return Maja.ne(c1, c2) ? 1 : 0;
+            return Maja.ne(c1, c2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Double d2) {
-            return Maja.ne(l1, d2) ? 1 : 0;
+            return Maja.ne(l1, d2)? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Long l2) {
-            return Maja.ne(d1, l2) ? 1 : 0;
+            return Maja.ne(d1, l2)? 1L : 0L;
         } else if (a instanceof Long l1 && b instanceof Complex c2) {
-            return Maja.ne(new Complex(l1), c2) ? 1 : 0;
+            return Maja.ne(new Complex(l1), c2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Long l2) {
-            return Maja.ne(c1, new Complex(l2)) ? 1 : 0;
+            return Maja.ne(c1, new Complex(l2))? 1L : 0L;
         } else if (a instanceof Double d1 && b instanceof Complex c2) {
-            return Maja.ne(new Complex(d1), c2) ? 1 : 0;
+            return Maja.ne(new Complex(d1), c2)? 1L : 0L;
         } else if (a instanceof Complex c1 && b instanceof Double d2) {
-            return Maja.ne(c1, new Complex(d2)) ? 1 : 0;
+            return Maja.ne(c1, new Complex(d2))? 1L : 0L;
         } else if (a instanceof DoubleMatrix dm1 && b instanceof Long l2) {
             return dm1.map(d -> Maja.ne(d, l2) ? 1.0 : 0.0);
         } else if (a instanceof Long l1 && b instanceof DoubleMatrix dm2) {
