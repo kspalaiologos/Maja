@@ -38,6 +38,13 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleAssignment(ExpressionParser.SimpleAssignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code SimpleLocalAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleLocalAssignment(ExpressionParser.SimpleLocalAssignmentContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MatrixAssignment}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
 	 * @param ctx the parse tree
@@ -58,6 +65,20 @@ interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionDeclaration(ExpressionParser.FunctionDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SimpleLocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleLocalFunctionDeclaration(ExpressionParser.SimpleLocalFunctionDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLocalFunctionDeclaration(ExpressionParser.LocalFunctionDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code If}
 	 * labeled alternative in {@link ExpressionParser#declaration}.

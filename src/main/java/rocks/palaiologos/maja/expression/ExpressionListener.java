@@ -52,6 +52,18 @@ interface ExpressionListener extends ParseTreeListener {
 	 */
 	void exitSimpleAssignment(ExpressionParser.SimpleAssignmentContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code SimpleLocalAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleLocalAssignment(ExpressionParser.SimpleLocalAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SimpleLocalAssignment}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleLocalAssignment(ExpressionParser.SimpleLocalAssignmentContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code MatrixAssignment}
 	 * labeled alternative in {@link ExpressionParser#declaration}.
 	 * @param ctx the parse tree
@@ -87,6 +99,30 @@ interface ExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionDeclaration(ExpressionParser.FunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SimpleLocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleLocalFunctionDeclaration(ExpressionParser.SimpleLocalFunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SimpleLocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleLocalFunctionDeclaration(ExpressionParser.SimpleLocalFunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code LocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterLocalFunctionDeclaration(ExpressionParser.LocalFunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code LocalFunctionDeclaration}
+	 * labeled alternative in {@link ExpressionParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitLocalFunctionDeclaration(ExpressionParser.LocalFunctionDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code If}
 	 * labeled alternative in {@link ExpressionParser#declaration}.

@@ -4271,6 +4271,13 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
     }
 
     @Override
+    public Object visitSimpleLocalAssignment(ExpressionParser.SimpleLocalAssignmentContext ctx) {
+        Object value = visit(ctx.expression());
+        env.setLocal(ctx.ID().getText(), value);
+        return value;
+    }
+
+    @Override
     public Object visitMatrixAssignment(ExpressionParser.MatrixAssignmentContext ctx) {
         Object var = visit(ctx.ID());
         Object lastExpression = visit(ctx.expression(2));
@@ -4327,6 +4334,49 @@ class DefaultExpressionVisitor extends AbstractParseTreeVisitor<Object> implemen
             }
         };
         env.set(ctx.ID(0).getText(), f);
+        return f;
+    }
+
+    @Override
+    public Object visitSimpleLocalFunctionDeclaration(ExpressionParser.SimpleLocalFunctionDeclarationContext ctx) {
+        List<String> args = ctx.ID().stream().skip(1).map(ParseTree::getText).toList();
+        var f = new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return args;
+            }
+
+            @Override
+            public Object eval() {
+                return visit(ctx.expression());
+            }
+        };
+        env.setLocal(ctx.ID(0).getText(), f);
+        return f;
+    }
+
+    @Override
+    public Object visitLocalFunctionDeclaration(ExpressionParser.LocalFunctionDeclarationContext ctx) {
+        List<String> args = ctx.ID().stream().skip(1).map(ParseTree::getText).toList();
+        var f = new ExpressionFunction() {
+            @Override
+            public List<String> params() {
+                return args;
+            }
+
+            @Override
+            public Object eval() {
+                try {
+                    Object res = visit(ctx.block());
+                    if (res == null)
+                        throw new RuntimeException("Function " + ctx.ID(0).getText() + " did not return a value.");
+                    return res;
+                } catch (ReturnError err) {
+                    return err.value;
+                }
+            }
+        };
+        env.setLocal(ctx.ID(0).getText(), f);
         return f;
     }
 

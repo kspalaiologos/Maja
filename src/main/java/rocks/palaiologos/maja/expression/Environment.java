@@ -15,6 +15,15 @@ public final class Environment {
     }
 
     public void set(String name, Object value) {
+        // Find the scope in which the variable is defined
+        Environment scope = this;
+        while (scope.parent != null && !scope.variables.containsKey(name)) {
+            scope = scope.parent;
+        }
+        scope.setLocal(name, value);
+    }
+
+    public void setLocal(String name, Object value) {
         variables.put(name, value);
     }
 

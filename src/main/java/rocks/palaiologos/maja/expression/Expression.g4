@@ -13,14 +13,17 @@ toplevel
     ;
 
 block:
-    '{' toplevel* '}'
+    '{' (toplevel ';')* '}'
     ;
 
 declaration
     : ID '=' expression # SimpleAssignment
+    | 'local' ID '=' expression # SimpleLocalAssignment
     | ID '[' (expression ',' expression)? ']' '=' expression # MatrixAssignment
     | ID '(' (ID (',' ID)*)? ')' '=' expression # SimpleFunctionDeclaration
     | ID '(' (ID (',' ID)*)? ')' block # FunctionDeclaration
+    | 'local' ID '(' (ID (',' ID)*)? ')' '=' expression # SimpleLocalFunctionDeclaration
+    | 'local' ID '(' (ID (',' ID)*)? ')' block # LocalFunctionDeclaration
     | 'if' expression block ('else' block)? # If
     | 'while' expression block # While
     | 'for' ID '=' expression 'to' expression ('step' expression)? block # For

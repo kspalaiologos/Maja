@@ -36,5 +36,32 @@ public class TestExpressions {
         signum(x) = if x > 0 then 1 else if x < 0 then -1 else 0;
         signum(2);
         """, new Environment())).isEqualTo(1L);
+
+        assertThat(Evaluator.evaluate("""
+        signum(x) = if x > 0 then 1 else if x < 0 then -1 else 0;
+        signum(-2);
+        """, new Environment())).isEqualTo(-1L);
+
+        assertThat(Evaluator.evaluate("""
+        a = -1;
+        a = a + 1;
+        a;
+        """, new Environment())).isEqualTo(0L);
+
+        assertThat(Evaluator.evaluate("""
+        fib(x) {
+            local a = 0;
+            local b = 1;
+            while x > 0 {
+                c = a + b;
+                a = b;
+                b = c;
+                x = x - 1;
+            };
+            return a;
+        };
+        
+        fib(10);
+        """, new Environment())).isEqualTo(55L);
     }
 }
