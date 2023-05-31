@@ -399,7 +399,7 @@ public class TestMatrix {
         Complex[] expected2 = new Complex[]{
                 new Complex(16.116843969807057, 0),
                 new Complex(-1.1168439698070447, 0),
-                new Complex(-8.046297179356069E-16, 0)
+                new Complex(-8.046297179356069E-16, 0) // slightly above machep. should be 0.
         };
 
         assertThat(b.eigen().e()).isEqualTo(expected2);
