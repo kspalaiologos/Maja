@@ -375,4 +375,33 @@ public class TestMatrix {
 
         assertThat(e.invert()).isEqualTo(expected5);
     }
+
+    @Test
+    public void testEigenvalues() {
+        DoubleMatrix a = new DoubleMatrix(new double[][]{
+                {1, 2},
+                {3, 4}
+        });
+
+        Complex[] expected = new Complex[]{
+                new Complex(-0.3722813232690143, 0),
+                new Complex(5.372281323269014, 0)
+        };
+
+        assertThat(a.eigen().e()).isEqualTo(expected);
+
+        DoubleMatrix b = new DoubleMatrix(new double[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        });
+
+        Complex[] expected2 = new Complex[]{
+                new Complex(16.116843969807057, 0),
+                new Complex(-1.1168439698070447, 0),
+                new Complex(-8.046297179356069E-16, 0)
+        };
+
+        assertThat(b.eigen().e()).isEqualTo(expected2);
+    }
 }
