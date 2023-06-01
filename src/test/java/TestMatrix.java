@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 import rocks.palaiologos.maja.matrix.DoubleMatrix;
+import rocks.palaiologos.maja.matrix.DoubleSVDResult;
 import rocks.palaiologos.maja.matrix.Matrix;
 
 import java.util.List;
@@ -403,5 +404,17 @@ public class TestMatrix {
         };
 
         assertThat(b.eigen().e()).isEqualTo(expected2);
+    }
+
+    @Test
+    public void testSVD() {
+        DoubleSVDResult a = new DoubleMatrix(new double[][]{
+                {1, 2},
+                {3, 4}
+        }).svd();
+        assertThat(a.rank()).isEqualTo(2);
+        assertThat(a.norm()).isEqualTo(5.464985704219043);
+        assertThat(a.conditionNumber()).isEqualTo(14.93303437365927);
+        assertThat(a.singularValues()).isEqualTo(new double[]{5.464985704219043, 0.3659661906262574});
     }
 }
