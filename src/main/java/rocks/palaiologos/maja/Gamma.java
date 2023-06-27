@@ -215,35 +215,37 @@ class Gamma {
     }
 
     public static Complex digamma(Complex x) {
-        final double GAMMA = 0.577215664901532860606512090082;
-        final double C_LIMIT = 49;
-        final double S_LIMIT = 1e-5;
-        final double F_M1_12 = -1d / 12;
-        final double F_1_120 = 1d / 120;
-        final double F_M1_252 = -1d / 252;
-
-        if (!Double.isFinite(x.re())) {
-            return x;
+        if (x.im() == 0 && x.re() <= 0 && x.re() == Math.floor(x.re())) return Complex.NaN;
+        if (x.re() < 0.5) return Maja.sub(digamma(Maja.sub(1, x)), Maja.div(Math.PI, Maja.tan(Maja.mul(Math.PI, x))));
+        final double[] lut = {
+                0.99999999999999709182,
+                57.156235665862923517,
+                -59.597960355475491248,
+                14.136097974741747174,
+                -0.49191381609762019978,
+                .33994649984811888699e-4,
+                .46523628927048575665e-4,
+                -.98374475304879564677e-4,
+                .15808870322491248884e-3,
+                -.21026444172410488319e-3,
+                .21743961811521264320e-3,
+                -.16431810653676389022e-3,
+                .84418223983852743293e-4,
+                -.26190838401581408670e-4,
+                .36899182659531622704e-5
+        };
+        final double polygammaG = 607. / 128.;
+        final double polygammaH = 0.5;
+        Complex d = Complex.ZERO, n = Complex.ZERO;
+        for (int k = 14; k > 0; --k) {
+            Complex dz = Maja.div(1, Maja.add(x, k - 1));
+            Complex dd = Maja.mul(lut[k], dz);
+            d = Maja.add(d, dd);
+            n = Maja.sub(n, Maja.mul(dd, dz));
         }
-
-        Complex digamma = Complex.ZERO;
-        if (x.re() < 0) {
-            digamma = sub(digamma, div(Math.PI, tan(mul(Math.PI, x))));
-            x = new Complex(1 - x.re(), x.im());
-        }
-
-        if (x.re() > 0 && x.re() <= S_LIMIT) {
-            return sub(sub(digamma, GAMMA), div(1, x));
-        }
-
-        while (x.re() < C_LIMIT) {
-            digamma = sub(digamma, div(1, x));
-            x = new Complex(x.re() + 1, x.im());
-        }
-
-        final Complex inv = div(1, mul(x, x));
-        digamma = add(digamma, add(sub(log(x), div(0.5, x)), mul(inv, add(F_M1_12, mul(inv, add(F_1_120, mul(F_M1_252, inv)))))));
-        return digamma;
+        d = Maja.add(d, lut[0]);
+        Complex zp = Maja.add(x, polygammaG - polygammaH);
+        return Maja.add(Maja.log(zp), Maja.sub(Maja.div(n, d), Maja.div(polygammaG, zp)));
     }
 
     public static double trigamma(double x) {

@@ -3,9 +3,13 @@ import rocks.palaiologos.maja.matrix.*;
 import rocks.palaiologos.maja.expression.*;
 import rocks.palaiologos.maja.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static rocks.palaiologos.maja.Maja.*;
 
 public class TestExpressions {
     @Test
@@ -53,7 +57,7 @@ public class TestExpressions {
             local a = 0;
             local b = 1;
             while x > 0 {
-                c = a + b;
+                local c = a + b;
                 a = b;
                 b = c;
                 x = x - 1;
