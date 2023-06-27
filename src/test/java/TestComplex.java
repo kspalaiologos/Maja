@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Test;
 import rocks.palaiologos.maja.Complex;
 import rocks.palaiologos.maja.Maja;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestComplex {
@@ -75,6 +77,24 @@ public class TestComplex {
         assertThat(Maja.liGamma(new Complex(2, 5), new Complex(3, 6))).isEqualTo(new Complex(0.003951212582048221, -0.007307084423671122));
         assertThat(Maja.liGamma(new Complex(10, 10), new Complex(10, 10))).isEqualTo(new Complex(711.1040308344138, -1881.5622609709533));
         assertThat(Maja.digamma(new Complex(4, 4))).isEqualTo(new Complex(1.6703598173334107, 0.8505022091860445));
+
+        Complex[] poly = new Complex[] {
+                new Complex(3, 0),
+                new Complex(-4, 0),
+                new Complex(0, 0),
+                new Complex(8, 0),
+                new Complex(-10, 0)
+        };
+        boolean[] err = Maja.aberth(poly);
+        assertThat(err[0]).isFalse();
+        assertThat(poly[0]).isEqualTo(new Complex(-0.7286839684871557));
+        assertThat(err[1]).isFalse();
+        assertThat(poly[1]).isEqualTo(new Complex(0.3758484858246309, -0.6233832239396144));
+        assertThat(err[2]).isFalse();
+        assertThat(poly[2]).isEqualTo(new Complex(0.3758484858246309, 0.6233832239396144));
+        assertThat(err[3]).isFalse();
+        assertThat(poly[3]).isEqualTo(new Complex(0.776986996837894));
+        assertThat(err[4]).isTrue();
     }
 
     @Test

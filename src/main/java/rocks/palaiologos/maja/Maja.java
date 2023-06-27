@@ -2672,7 +2672,7 @@ public class Maja {
      */
     public static boolean[] aberth(Complex[] coefficients) {
         double[] re, im;
-        int n = coefficients.length - 1;
+        int n = coefficients.length;
         if (n < 1)
             throw new IllegalArgumentException("Invalid number of coefficients: " + n);
         if(n == 2) {
@@ -2696,7 +2696,7 @@ public class Maja {
                 return new boolean[]{ false, false };
             }
         }
-        if (coefficients[n].equals(Complex.ZERO))
+        if (coefficients[n - 1].equals(Complex.ZERO))
             throw new IllegalArgumentException("Leading coefficient must not be zero: " + coefficients[n]);
         re = new double[n];
         im = new double[n];
@@ -2707,8 +2707,12 @@ public class Maja {
         boolean[] err = new boolean[n];
         Arrays.fill(err, true);
         Pzeros.aberth(re, im, err);
-        for (int i = 0; i < n; i++)
-            coefficients[i] = new Complex(re[i], im[i]);
+        for (int i = 0; i < n; i++) {
+            if(abs(im[i]) > EPSILON)
+                coefficients[i] = new Complex(re[i], im[i]);
+            else
+                coefficients[i] = new Complex(re[i], 0);
+        }
         return err;
     }
 
