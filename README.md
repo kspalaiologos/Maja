@@ -66,6 +66,7 @@ Complex functions:
 - Legendre elliptic integrals (F, E, D, Pi)
 - Numerical integration (Simpson, Tanh-Sinh, Gauss-Legendre), contour integration.
 - Lambert W.
+- Abreth method for polynomial equation solving.
 
 Linear algebra:
 - Matrix operations: transposition, obtaining rows, columns, generalised dot product, leading/trailing axis reduction, cell mapping, ravelling, robust stringification. Reversing alongside leading and trailing axis, zipping matrices.
