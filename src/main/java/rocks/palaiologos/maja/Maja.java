@@ -1,5 +1,6 @@
 package rocks.palaiologos.maja;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -2658,6 +2659,57 @@ public class Maja {
      */
     public static double newtonRaphson(Function<Double, Double> f, Function<Double, Double> df, double x0, double eps) {
         return Root.newtonRaphson(f, df, x0, eps);
+    }
+
+    /**
+     * Numerically finds all roots of a polynomial equation P(z) = 0.
+     * There are (n+1) coefficients and n roots. The leading coefficient
+     * must not be zero. Errors are returned in a boolean array for
+     * each root. Success is indicated by false, i.e. no error. On return
+     * each root should be checked against its flag.
+     * @param coefficients
+     * @return
+     */
+    public static boolean[] aberth(Complex[] coefficients) {
+        double[] re, im;
+        int n = coefficients.length - 1;
+        if (n < 1)
+            throw new IllegalArgumentException("Invalid number of coefficients: " + n);
+        if(n == 2) {
+            // Quadratic case.
+            Complex a = coefficients[2];
+            Complex b = coefficients[1];
+            Complex c = coefficients[0];
+            // Discriminant.
+            Complex d = sqrt(sub(mul(b, b), mul(a, mul(c, 4))));
+            if (eq(d, Complex.ZERO)) {
+                // One root.
+                Complex x = div(negate(b), mul(a, 2));
+                coefficients[0] = x;
+                return new boolean[]{ false, true };
+            } else {
+                // Two roots.
+                Complex x1 = div(add(negate(b), d), mul(a, 2));
+                Complex x2 = div(sub(negate(b), d), mul(a, 2));
+                coefficients[0] = x1;
+                coefficients[1] = x2;
+                return new boolean[]{ false, false };
+            }
+        }
+        if (coefficients[n].equals(Complex.ZERO))
+            throw new IllegalArgumentException("Leading coefficient must not be zero: " + coefficients[n]);
+        re = new double[n];
+        im = new double[n];
+        for (int i = 0; i < n; i++) {
+            re[i] = coefficients[i].re();
+            im[i] = coefficients[i].im();
+        }
+        boolean[] err = new boolean[n];
+        Arrays.fill(err, true);
+        Pzeros.aberth(re, im, err);
+        for (int i = 0; i < n; i++)
+            coefficients[i] = new Complex(re[i], im[i]);
+        return err;
     }
 
     /**
